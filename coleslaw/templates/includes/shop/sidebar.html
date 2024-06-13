@@ -1,0 +1,15 @@
+ <!-- ======= Sidebar ======= -->
+ <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'shop_manage:home' shop.id %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-heading">Master Data</li>
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'shop_manage:goods_manage' shop.id %}"> <i class="bi bi-upc-scan"></i> <span>상품 관리</span> </a>
+      </li>
+    </ul>
+</aside><!-- End Sidebar-->

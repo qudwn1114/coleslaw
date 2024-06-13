@@ -1,4 +1,4 @@
-{% extends "layouts/system_base.html" %}
+{% extends "layouts/shop_base.html" %}
 {% load static %}
 
 
@@ -13,7 +13,7 @@
 
               <div class="d-flex justify-content-center py-4">
                 <a href="#" class="logo d-flex align-items-center w-auto">
-                  <span class="d-none d-lg-block">{{global_site_name}} Admin</span>
+                  <span class="d-none d-lg-block">{{global_site_name}} Shop Admin</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -39,17 +39,15 @@
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="password" required onkeyup="enterkey()">
                     </div>
-
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="button" id="btn-login">Login</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Not an System Admin? <a class="ms-1" href="{% url 'shop_manage:login' %}">Shop Admin</a></p>
+                      <p class="small mb-0">Not an Admin? <a class="ms-1" href="#">...</a></p>
                     </div>
                   </form>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -61,5 +59,5 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'system/js/system_manage/script_login.js' %}"></script>
+<script src="{% static 'shop/js/shop_manage/script_login.js' %}"></script>
 {% endblock javascripts %}

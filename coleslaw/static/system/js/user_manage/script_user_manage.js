@@ -77,6 +77,7 @@ function changeActive(id, checkbox){
 
 function setAdmin(id, elem){
     if (!confirm("관리자 지정을 수정하시겠습니까?")) {
+        location.reload();
         return;
     }
     let data = {

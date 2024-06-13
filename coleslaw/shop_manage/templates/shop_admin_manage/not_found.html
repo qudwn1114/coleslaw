@@ -1,4 +1,4 @@
-{% extends "layouts/system_base.html" %}
+{% extends "layouts/shop_base.html" %}
 {% load static %}
 
 {% block body %}
@@ -7,16 +7,13 @@
     <div class="container">
 
       <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
-        <h1>Access Denied</h1>
+        <h1>404</h1>
         <br>
         <br>
-        <h2>{{user.username}}, you don't currently have permission to access this page.</h2>
+        <h2>Not Found</h2>
         <div class="row">
           <div class="col">
-            <a class="btn" href="{% url 'system_manage:home' %}">Home</a>
-          </div>
-          <div class="col">
-            <a class="btn" href="{% url 'system_manage:logout' %}">Logout</a>
+            <a class="btn" href="#" onclick="history.back()">Return</a>
           </div>
         </div>
         <img src="{% static 'system/assets/img/not-found.svg' %}" class="img-fluid py-5" alt="Page Not Found">

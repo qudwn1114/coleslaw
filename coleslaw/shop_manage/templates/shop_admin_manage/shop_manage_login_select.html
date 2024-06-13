@@ -1,0 +1,73 @@
+{% extends "layouts/shop_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+<style>
+    .list-group{
+        max-height: 500px;
+        overflow:scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
+{% endblock stylesheets %}
+
+
+{% block body %}
+<main>
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+              <div class="d-flex justify-content-center py-4">
+                <a href="#" class="logo d-flex align-items-center w-auto">
+                  <span class="d-none d-lg-block">{{global_site_name}} Shop Admin</span>
+                </a>
+              </div><!-- End Logo -->
+
+
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">가맹점 선택</h5>
+                    <p class="text-center small">관리할 가맹점을 선택해주세요.</p>
+                  </div>
+                  <div class="row g-3" style="width:450px;">
+                    <ul class="list-group">
+                        {% if shop_list %}
+                        {% for i in shop_list %}
+                            <a href="{% url 'shop_manage:home' i.shop_id %}" class="list-group-item list-group-item-action text-center">
+                                {{ i.name }}
+                            </a>
+                        {% endfor %}
+                        {% else %}
+                            <p class="text-center">권한이 없습니다. 관리자에게 권한을 요청하세요.</p>
+                        {% endif %}
+                    </ul>
+                    <div class="col-12">
+                    <div class="row justify-content-between">
+                      <div class="col">
+                        <p class="small mb-0">System Admin? <a class="ms-1" href="{% url 'system_manage:home' %}">System</a></p>
+                      </div>
+                      <div class="col-auto">
+                        <p class="small mb-0"><a class="ms-1" href="{% url 'shop_manage:logout' %}">Logout</a></p>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main><!-- End #main -->
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

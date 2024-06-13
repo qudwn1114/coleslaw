@@ -1,0 +1,98 @@
+{% extends "layouts/system_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>상품 상세</h1>
+        <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
+              <li class="breadcrumb-item">Goods Manage</li>
+              <li class="breadcrumb-item active">Goods Detail</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">상품 상세</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a href="{% url 'shop_manage:goods_manage' shop.id %}"><i class="bi bi-list"></i> 목록</a></div>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
+                </div>
+            </div>
+            <form id="data-form" method="post" onsubmit="return false">
+                <div class="row mb-3">
+                  <label for="category" class="col-sm-2 col-form-label">카테고리 분류</label>
+                  <div class="col-sm-5">
+                      <select  class="selectpicker form-control" id="main_category" name="main_category" disabled>
+                        <option>{{goods.sub_category.main_category.name}}</option>
+                      </select>
+                  </div>
+                  <div class="col-sm-5">
+                    <select  class="selectpicker form-control" id="sub_category" name="sub_category" disabled>
+                        <option>{{goods.sub_category.name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <label for="goods_name" class="col-sm-2 col-form-label">상품명</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="goods_name" name="goods_name" class="form-control" placeholder="상품명" disabled value="{{goods.name}}">
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                  <label for="price" class="col-sm-2 col-form-label">상품 가격</label>
+                  <div class="col-sm-10">
+                      <input type="number" id="price" name="price" class="form-control" placeholder="상품 가격" min="0" oninput="validity.valid||(value='');" value="{{goods.price}}" disabled>
+                  </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                  <label for="image" class="col-sm-2 col-form-label">상품 이미지</label>
+                  <div class="col-sm-10">
+                    {% if goods.image_thumbnail %}
+                        <img src="{{goods.image_thumbnail.url}}" width="150px" class="img-fluid" alt="...">
+                    {% else %}
+                        이미지 없음
+                    {% endif %}                  
+                  </div>
+                </div>
+                <div class="row mt-3 mb-3 mx-2">
+                  <div class="form-check col-sm-3">
+                    {% if goods.status %}
+                    <input class="form-check-input" type="checkbox" value="1" id="status" name="status" checked disabled>
+                    {% else %}
+                    <input class="form-check-input" type="checkbox" value="0" id="status" name="status" disabled>
+                    {% endif %}
+                    <label class="form-check-label" for="status">
+                    판매 여부
+                    </label>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-12 text-center">
+                        <a class="btn btn-warning" href="{% url 'shop_manage:goods_edit' shop.id goods.id %}">Edit</a>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'shop/js/goods_manage/script_goods_detail.js' %}"></script>
+{% endblock javascripts %}
+

@@ -1,25 +1,23 @@
-function setAdmin(id, elem){
-    if (!confirm("관리자 지정을 수정하시겠습니까?")) {
-        location.reload();
+const btn_delete = document.getElementById("btn-delete");
+
+btn_delete.addEventListener("click", () => {
+    if (!confirm("삭제 하시겠습니까?")) {
         return;
     }
-    let data = {
-        id : id
-    };
-    elem.disabled=true;
+    btn_delete.disabled=true;
     $.ajax({
-        type: "POST",
+        type: "DELETE",
         url: "",
         headers: {
             'X-CSRFToken': csrftoken
         },
-        data: data,
         datatype: "JSON",
         success: function(data) {
-            location.reload();
+            alert(data.message);
+            location.href=data.url;
         },
         error: function(error) {
-            elem.disabled=false;
+            btn_delete.disabled=false;
             if(error.status == 401){
                 alert('로그인 해주세요.');
             }
@@ -27,9 +25,8 @@ function setAdmin(id, elem){
                 alert('권한이 없습니다!');
             }
             else{
-                location.reload();
                 alert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
-}
+})

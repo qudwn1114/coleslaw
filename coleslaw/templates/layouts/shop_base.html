@@ -7,7 +7,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   {% block title %}
-  <title>{{global_site_name}} Admin</title>
+  <title>{{global_site_name}} Shop Admin</title>
   {% endblock %}
 
   <meta content="" name="description">
@@ -48,18 +48,18 @@
 <body>
     {% block body %}
         {% block header %}
-          {% include 'includes/system/header.html' %}
+          {% include 'includes/shop/header.html' %}
         {% endblock %}
 
         {% block sidebar %}
-          {% include 'includes/system/sidebar.html' %}
+          {% include 'includes/shop/sidebar.html' %}
         {% endblock %}
 
         {% block main %}
 
         {% endblock %}
 
-        {% include 'includes/system/footer.html' %}
+        {% include 'includes/shop/footer.html' %}
     {% endblock %}
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

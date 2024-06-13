@@ -1,4 +1,4 @@
-{% extends "layouts/system_base.html" %}
+{% extends "layouts/shop_base.html" %}
 {% load static %}
 
 {% block body %}
@@ -13,10 +13,10 @@
         <h2>{{user.username}}, you don't currently have permission to access this page.</h2>
         <div class="row">
           <div class="col">
-            <a class="btn" href="{% url 'system_manage:home' %}">Home</a>
+            <a class="btn" href="{% url 'shop_manage:login' %}">Home</a>
           </div>
           <div class="col">
-            <a class="btn" href="{% url 'system_manage:logout' %}">Logout</a>
+            <a class="btn" href="{% url 'shop_manage:logout' %}">Logout</a>
           </div>
         </div>
         <img src="{% static 'system/assets/img/not-found.svg' %}" class="img-fluid py-5" alt="Page Not Found">

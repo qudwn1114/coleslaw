@@ -92,7 +92,7 @@ class Goods(models.Model):
     price = models.PositiveIntegerField(verbose_name='제품가격', default=0)
     image = models.ImageField(max_length=300, upload_to="image/goods/%Y/%m/%d/", verbose_name='상품이미지')
     image_thumbnail = models.ImageField(max_length=300, upload_to="image/goods/%Y/%m/%d/", verbose_name='상품이미지 썸네일 정사각형')
-    sold_out = models.BooleanField(default=False, verbose_name='품절관리')
+    status = models.BooleanField(default=True, verbose_name='판매상태') #True:판매중 False:판매중단
     delete_flag = models.BooleanField(default=False, verbose_name='삭제처리')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')

@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, resolve_url
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.http import HttpResponse
-from system_manage.models import ShopAdmin
+from system_manage.models import ShopAdmin, Shop
 
 # 권한 체크
 def permission_required(redirect_url=None, raise_exception=False):
@@ -30,6 +30,11 @@ def permission_required(redirect_url=None, raise_exception=False):
                     else:
                         return redirect(resolve_url('shop_manage:login'))
                 shop_id = kwargs.get('shop_id')
+                if not Shop.objects.filter(pk=shop_id).exists():
+                    if raise_exception:
+                        return ObjectDoesNotExist()
+                    else:
+                        return redirect(resolve_url('shop_manage:notfound'))
                 if user.is_superuser or ShopAdmin.objects.filter(shop_id=shop_id, user=user).exists():
                     pass
                 else:
