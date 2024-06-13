@@ -1,0 +1,88 @@
+{% extends "layouts/system_base.html" %}
+{% load static %}
+
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Shop Detail</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+                <li class="breadcrumb-item">Shop Manage</li>
+                <li class="breadcrumb-item active">Shop Detail</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">Shop Detail</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a href="{% url 'system_manage:shop_manage' %}"><i class="bi bi-list"></i> 목록</a></div>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
+                </div>
+            </div>
+            <form id="data-form" method="post" onsubmit="return false">
+                <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="shop_name">가맹점명</label>
+                        <input type="text" name="shop_name" class="form-control" id="shop_name" placeholder="가맹점명" value="{{data.name}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="description">가맹점 설명</label>
+                        <input type="text" name="description" class="form-control" id="description" placeholder="가맹점 설명" value="{{data.description}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="representative">대표자명</label>
+                        <input type="text" name="representative" class="form-control" id="representative" placeholder="대표자명" value="{{data.representative}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="phone">연락처</label>
+                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="연락처" value="{{data.phone}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="registration_no">사업자번호</label>
+                        <input type="text" name="registration_no" class="form-control" id="registration_no" placeholder="사업자번호" value="{{data.registration_no}}" readonly>
+                      </div>
+                      <div class="col-md-10">
+                        <label for="address">주소</label>
+                        <input type="text" class="form-control" name="address" id="address" value="{{data.address}}" readonly>
+                      </div>
+                      <div class="col-md-2">
+                        <input type="text" class="form-control readmore mt-4" value="{{data.zipcode}}" id="zipcode" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <input type="text" class="form-control" name="address_detail" id="address_detail" value="{{data.address_detail}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="image">가맹점 이미지</label>
+                        <br>
+                        {% if data.image %}
+                            <img src="{{data.image.url}}"  style="width:200px;">
+                        {% else %}
+                            없음
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <a href="{% url 'system_manage:shop_edit' data.id %}" class="btn btn-warning">Edit</a>
+                  </div>
+            </form>
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+{% block javascripts %}
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_detail.js' %}"></script>
+{% endblock javascripts %}

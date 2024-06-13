@@ -1,0 +1,32 @@
+{% extends "layouts/system_base.html" %}
+{% load static %}
+
+{% block body %}
+
+<main>
+    <div class="container">
+
+      <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
+        <h1>404</h1>
+        <br>
+        <br>
+        <h2>Not Found</h2>
+        <div class="row">
+          <div class="col">
+            <a class="btn" href="#" onclick="history.back()">Return</a>
+          </div>
+        </div>
+        <img src="{% static 'system/assets/img/not-found.svg' %}" class="img-fluid py-5" alt="Page Not Found">
+        <div class="credits">
+        </div>
+      </section>
+
+    </div>
+  </main><!-- End #main -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

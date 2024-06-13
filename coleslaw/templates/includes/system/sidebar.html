@@ -1,0 +1,24 @@
+ <!-- ======= Sidebar ======= -->
+ <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'system_manage:home' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-heading">User</li>
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'system_manage:user_manage' %}"> <i class="bi bi-person-fill"></i> <span>회원 관리</span> </a>
+      </li>
+      <li class="nav-heading">Master Data</li>
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'system_manage:category_manage' %}"> <i class="bi bi-tags"></i> <span>카테고리 관리</span> </a>
+      </li>
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'system_manage:shop_manage' %}"> <i class="bi bi-shop-window"></i> <span>가맹점 관리</span> </a>
+      </li>
+    </ul>
+  </aside><!-- End Sidebar-->
