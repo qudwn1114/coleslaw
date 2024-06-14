@@ -37,7 +37,8 @@ INSTALLED_APPS = [
 
     #app
     'system_manage',
-    'shop_manage'
+    'shop_manage',
+    'entry',
 ]
 
 MIDDLEWARE = [

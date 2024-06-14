@@ -12,4 +12,5 @@ urlpatterns = [
 
     path('system-manage/', include('system_manage.urls')),
     path('shop-manage/', include('shop_manage.urls')),
+    path('entry/', include('entry.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
