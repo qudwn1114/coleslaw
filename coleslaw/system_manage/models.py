@@ -116,10 +116,11 @@ class ShopEntryGoods(models.Model):
 class EntryQueue(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     order = models.PositiveIntegerField()
-    date = models.DateField(auto_now_add=True, verbose_name='날짜')
     membername = models.CharField(max_length=20, verbose_name='예약자명')
     phone = models.CharField(max_length=20, verbose_name='전화번호')
     car_plate_no = models.CharField(max_length=20, verbose_name='차량번호', default='')
+    status = models.CharField(max_length=10, verbose_name='상태', default='0') #0:대기 1:입장 2:취소
+    date = models.DateField(auto_now_add=True, verbose_name='날짜')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
@@ -138,3 +139,63 @@ class EntryQueueDetail(models.Model):
 
     class Meta : 
         db_table = 'entry_queue_detail'
+
+#상품주문
+class Checkout(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    code = models.CharField(max_length=100, unique=True)
+    final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제금액')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+
+    class Meta:
+        db_table='checkout'
+
+#상품상세
+class CheckoutDetail(models.Model):
+    checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE, related_name="checkout_detail")
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1, verbose_name='수량')
+    price = models.PositiveIntegerField(verbose_name='가격')
+    total_price = models.PositiveIntegerField(verbose_name='총가격')
+    
+    class Meta:
+        db_table='checkout_detail'
+
+#주문
+class Order(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+
+    order_name = models.CharField(max_length=255, verbose_name='주문명', null=True)
+    order_code = models.CharField(max_length=20, verbose_name='주문번호')
+    order_phone = models.CharField(max_length=20, default='', verbose_name='주문자번호')
+
+    status = models.CharField(max_length=10, verbose_name='결제상태', default='0') #'0':주문요청 '1':결제완료 '2':취소
+
+    final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제요청금액')
+
+    payment_price = models.PositiveIntegerField(default=0, verbose_name='실제결제금액')
+    payment_method = models.CharField(max_length=10, verbose_name='결제수단', default='')
+    cancelled_at = models.DateTimeField(null=True, verbose_name='취소일')
+
+    date = models.DateField(auto_now_add=True, verbose_name='날짜')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+    delete_flag = models.BooleanField(default=False, verbose_name='삭제여부')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['shop', 'order_code'], name='shop_order_code_unique')
+        ]
+        db_table='order'
+
+#주문상품
+class OrderGoods(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_goods')    
+    goods = models.ForeignKey(Goods, on_delete=models.PROTECT, related_name='order_goods')
+    name = models.CharField(null=True, max_length=255, verbose_name='제품명')
+    price = models.PositiveIntegerField(default=0, verbose_name='가격')
+    total_price = models.PositiveIntegerField(default=0, verbose_name='총가격')
+    quantity = models.PositiveIntegerField(default=1, verbose_name='주문수량')
+
+    class Meta:
+        db_table='order_goods'
