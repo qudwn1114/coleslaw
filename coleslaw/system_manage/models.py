@@ -99,3 +99,42 @@ class Goods(models.Model):
     
     class Meta : 
         db_table = 'goods'
+
+class ShopEntryGoods(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    goods = models.OneToOneField(Goods, on_delete=models.CASCADE, related_name='entry_goods')
+    sequence = models.IntegerField(verbose_name='순서')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta : 
+        constraints = [
+            models.UniqueConstraint(fields=['shop', 'sequence'], name='shop_sequence_unique')
+        ]
+        db_table = 'shop_entry_goods'
+        
+class EntryQueue(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    order = models.PositiveIntegerField()
+    date = models.DateField(auto_now_add=True, verbose_name='날짜')
+    membername = models.CharField(max_length=20, verbose_name='예약자명')
+    phone = models.CharField(max_length=20, verbose_name='전화번호')
+    car_plate_no = models.CharField(max_length=20, verbose_name='차량번호', default='')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta :
+        constraints = [
+            models.UniqueConstraint(fields=['shop', 'order', 'date'], name='shop_order_date_unique')
+        ]
+        db_table = 'entry_queue'
+
+class EntryQueueDetail(models.Model):
+    entry_queue = models.ForeignKey(EntryQueue, on_delete=models.CASCADE)
+    goods = models.ForeignKey(Goods, on_delete=models.PROTECT)
+    quantity = models.PositiveIntegerField(default=1, verbose_name='수량')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta : 
+        db_table = 'entry_queue_detail'

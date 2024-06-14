@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse
-from django.db.models import CharField, F, Value as V, Func, Sum, When, Case, Q, FloatField, Count
+from django.db.models import CharField, F, Value as V, Func, Sum, When, Case, Q, FloatField, Count, Exists, OuterRef
 from django.db.models.functions import Cast, Concat
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.conf import settings
@@ -12,12 +12,13 @@ from django.utils.decorators import method_decorator
 from django.core.files.base import ContentFile
 from system_manage.utils import resize_with_padding
 from system_manage.decorators import  permission_required
-from system_manage.models import Shop, ShopAdmin, SubCategory, Goods, MainCategory
+from system_manage.models import Shop, ShopAdmin, SubCategory, Goods, MainCategory, ShopEntryGoods
 
 from shop_manage.views.shop_manage_views.auth_views import check_shop
 
 from PIL import Image
 from io import BytesIO
+import json
 
 # Create your views here.
 class GoodsManageView(View):
@@ -34,6 +35,40 @@ class GoodsManageView(View):
         context['shop'] = shop
         
         return render(request, 'goods_manage/goods_manage.html', context)
+    
+    @method_decorator(permission_required(raise_exception=True))
+    def put(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        shop = check_shop(pk=shop_id)
+        if not shop:
+            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+        
+        request.PUT = json.loads(request.body)
+        rq_type = request.PUT['type']
+        goods_id = request.PUT['goods_id']
+        try:
+            goods = Goods.objects.get(pk=goods_id, shop=shop)
+        except:
+            return JsonResponse({"message": "데이터 오류"},status=400)
+        
+        if rq_type == 'ENTRYGOODS':
+            entry_goods =ShopEntryGoods.objects.filter(goods=goods, shop=shop)
+            if entry_goods.exists():
+                entry_goods.delete()
+            else:
+                entry_goods_list = ShopEntryGoods.objects.filter(shop=shop).order_by('-sequence')
+                if entry_goods_list.count() < 4:
+                    if entry_goods_list.exists():
+                        sequence = entry_goods_list.first().sequence + 1
+                    else:
+                        sequence = 1
+                    ShopEntryGoods.objects.create(goods=goods, shop=shop, sequence=sequence)
+                else:
+                    return JsonResponse({"message": "입장 상품은 최대 3개까지만 등록 가능합니다."},status=400)
+        else:
+            return JsonResponse({"message": "타입 오류"},status=400)
+        
+        return JsonResponse({'message' : '변경되었습니다.'}, status = 201)
     
 
 class GoodsCreateView(View):
@@ -246,8 +281,10 @@ def goods(request: HttpRequest, *args, **kwargs):
         filter_dict['status'] = True
     elif goods_status == '3':
         filter_dict['status'] = False
-    
+
+    entry_goods = ShopEntryGoods.objects.filter(goods=OuterRef('pk'), shop=shop)    
     queryset=Goods.objects.filter(**filter_dict).annotate(
+        isEntryGoods=Exists(entry_goods),
         imageThumbnailUrl=Case(
             When(image_thumbnail='', then=Concat(V(request._current_scheme_host), V(settings.MEDIA_URL), V('image/goods/default.jpg'))),
             When(image_thumbnail=None, then=Concat(V(request._current_scheme_host), V(settings.MEDIA_URL), V('image/goods/default.jpg'))),
@@ -261,7 +298,7 @@ def goods(request: HttpRequest, *args, **kwargs):
         subCategoryName = F('sub_category__name'),
         createdAt=Func(
             F('created_at'),
-            V('%Y.%m.%d'),
+            V('%y.%m.%d %H:%i'),
             function='DATE_FORMAT',
             output_field=CharField()
         )
@@ -274,6 +311,7 @@ def goods(request: HttpRequest, *args, **kwargs):
         'subCategoryName',
         'status',
         'goodsStatus',
+        'isEntryGoods',
         'createdAt'
     ).order_by(order_col_name)
 

@@ -133,7 +133,7 @@ $(document).ready(function () {
         search: {
             return: true,
         },
-        order: [[1, 'asc']],
+        order: [[6, 'desc']],
         searching : false,
         processing: true,
         serverSide: true,
@@ -157,6 +157,16 @@ $(document).ready(function () {
             },
             { "data": "price", orderable: false },
             { "data": "goodsStatus", orderable: false },
+            { "data": function(data, type, row){
+                    if(data.isEntryGoods){
+                        return `<input class="form-check-input" type="checkbox" checked onclick="setEntryGoods(${data.id}, this)"/>`;
+                    }
+                    else{
+                        return `<input class="form-check-input" type="checkbox" onclick="setEntryGoods(${data.id}, this)"/>`;
+                    }
+                },
+                orderable: true 
+            },
             { "data": "createdAt", orderable: true },
         ],
         columnDefs:
@@ -184,4 +194,41 @@ $(document).ready(function () {
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function setEntryGoods(id, elem){
+    if (!confirm("입장 상품을 수정하시겠습니까?")) {
+        location.reload();
+        return;
+    }
+    let data = {
+        goods_id : id,
+        type : "ENTRYGOODS"
+    };
+    elem.disabled=true;
+    $.ajax({
+        type: "PUT",
+        url: "",
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        data: JSON.stringify(data),
+        datatype: "JSON",
+        success: function(data) {
+            location.reload();
+        },
+        error: function(error) {
+            elem.disabled=false;
+            if(error.status == 401){
+                alert('로그인 해주세요.');
+            }
+            else if(error.status == 403){
+                alert('권한이 없습니다!');
+            }
+            else{
+                location.reload();
+                alert(error.status + JSON.stringify(error.responseJSON));
+            }
+        },
+    });
 }
