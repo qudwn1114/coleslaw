@@ -139,3 +139,4 @@ logs/
 coleslaw/media/
 conf.yaml
 celerybeat-schedule.db
+coleslaw/dump.rdb
