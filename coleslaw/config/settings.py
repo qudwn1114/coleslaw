@@ -34,12 +34,26 @@ INSTALLED_APPS = [
     
     #cors
     'corsheaders',
+    #channels
+    'channels',
 
     #app
     'system_manage',
     'shop_manage',
     'entry',
+    'notification'
 ]
+
+ASGI_APPLICATION = 'config.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('localhost', 6379)],
+        },
+    },
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
