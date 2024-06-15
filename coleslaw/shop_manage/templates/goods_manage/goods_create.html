@@ -49,7 +49,13 @@
                 <div class="row mt-3 mb-3">
                   <label for="price" class="col-sm-2 col-form-label">상품가격 *</label>
                   <div class="col-sm-10">
-                      <input type="number" id="price" name="price" class="form-control" placeholder="상품가격" min="0" oninput="validity.valid||(value='');">
+                      <input type="number" id="price" name="price" class="form-control" placeholder="상품가격" min="0" oninput="validity.valid||(value='');" value="0">
+                  </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                  <label for="stock" class="col-sm-2 col-form-label">재고수량</label>
+                  <div class="col-sm-10">
+                      <input type="number" id="stock" name="stock" class="form-control" placeholder="재고수량" min="0" oninput="validity.valid||(value='');" value="0">
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
@@ -60,10 +66,22 @@
                   </div>
                 </div>
                 <div class="row mt-3 mb-3 mx-2">
-                  <div class="form-check col-sm-12">
+                  <div class="form-check col-sm-3">
                     <input class="form-check-input" type="checkbox" value="1" id="status" name="status" checked>
                     <label class="form-check-label" for="status">
                       판매 여부
+                    </label>
+                  </div>
+                  <div class="form-check col-sm-3">
+                    <input class="form-check-input" type="checkbox" value="0" id="soldout" name="soldout">
+                    <label class="form-check-label" for="soldout">
+                    품절 여부
+                    </label>
+                  </div>
+                  <div class="form-check col-sm-3">
+                    <input class="form-check-input" type="checkbox" value="0" id="stock_flag" name="stock_flag">
+                    <label class="form-check-label" for="stock_flag">
+                    재고 관리 사용 여부
                     </label>
                   </div>
                 </div>

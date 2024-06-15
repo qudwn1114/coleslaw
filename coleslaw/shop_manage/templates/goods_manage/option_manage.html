@@ -1,0 +1,117 @@
+{% extends "layouts/shop_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>상품 옵션 관리</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
+            <li class="breadcrumb-item">Goods Manage</li>
+            <li class="breadcrumb-item active">Option</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">{{goods.name}} 상품 옵션 관리</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a href="{% url 'shop_manage:goods_detail' shop.id goods.id %}"><i class="bi bi-list"></i> 상품상세</a></div>
+                </div>
+            </div>
+            <form id="data-form" method="post" onsubmit="return false">
+                <span>옵션 내용을 , 로 구분지어 등록해주세요. 옵션은 최대 5개 까지 등록 가능합니다. 옵션 내용 최대 20개</span><br>
+                <div class="row mt-3 mb-3">
+                  <label for="option_detail" class="col-sm-2 col-form-label">옵션 명</label>
+                  <div class="col-sm-10">
+                      <input type="text" id="option_name" name="option_name" class="form-control" placeholder="옵션 명">
+                  </div>
+                </div>
+                  <div class="row mt-3 mb-3">
+                      <label for="option_detail" class="col-sm-2 col-form-label">옵션 내용</label>
+                      <div class="col-sm-10">
+                          <input type="text" id="option_detail" name="option_detail" class="form-control" placeholder="옵션 내용">
+                      </div>
+                  </div>
+                  <div class="col-sm-12 text-center">
+                      <button type="button" id="btn-submit" class="btn btn-primary">등록</button>
+                  </div>
+            </form>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+              <div class="col">
+                  <h5 class="card-title">옵션</h5>
+              </div>
+            </div>
+            {% if goods.option %}
+                {% for i in goods.option.all %}
+                <div class="border border-3 p-3">
+                    <h6>{{i.name}}{% if i.required %} (필수){% endif %}</h6>
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>내용</th>
+                            <th>옵션비용</th>
+                            <th>재고</th>
+                            <th class="text-end"><button type="button" class="btn btn-primary" onclick="createOptionDetail('{{i.id}}')">추가</button></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% if i.option_detail %}
+                                {% for j in i.option_detail.all %}
+                                <tr>
+                                    <td>
+                                        <input type="text" id="option_name_{{j.id}}" class="form-control" placeholder="옵션 내용" value="{{j.name}}">
+                                    </td>
+                                    <td>
+                                        <input type="number" id="option_price_{{j.id}}" class="form-control" placeholder="옵션 가격" value="{{j.price}}">
+                                    </td>
+                                    <td>
+                                      <input type="number" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock}}">
+                                    </td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-danger" onclick="deleteOptionDetail('{{j.id}}')">삭제</button>
+                                        <button type="button" class="btn btn-success" onclick="saveOptionDetail('{{j.id}}')">저장</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="3">데이터가 없습니다</td>
+                            </tr>
+                            {% endif %}
+                          </tbody>
+                      </table>
+                      <div class="text-center">
+                        <a id="btn-delete" href="javascript:;" onclick="deleteOption('{{i.id}}')"><i class="bi bi-trash-fill"></i> 삭제</a>
+                      </div>
+                </div>
+                {% endfor %}                
+            {% else %}
+                <span>옵션을 등록해주세요.</span>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+  const shop_id = {{shop.id}};
+</script>
+<script src="{% static 'shop/js/goods_manage/script_option_manage.js' %}"></script>
+{% endblock javascripts %}
+

@@ -93,6 +93,10 @@ class Goods(models.Model):
     image = models.ImageField(max_length=300, upload_to="image/goods/%Y/%m/%d/", verbose_name='상품이미지')
     image_thumbnail = models.ImageField(max_length=300, upload_to="image/goods/%Y/%m/%d/", verbose_name='상품이미지 썸네일 정사각형')
     status = models.BooleanField(default=True, verbose_name='판매상태') #True:판매중 False:판매중단
+    stock = models.IntegerField(verbose_name='재고수량', default=0)
+    stock_flag = models.BooleanField(default=False, verbose_name='재고관리사용여부') #재고 관리 사용 여부
+    option_flag = models.BooleanField(default=False, verbose_name='옵션사용여부') #옵션 사용 여부에 따라 옵션재고 수량을수 있음.
+    soldout = models.BooleanField(default=False, verbose_name='품절') #True:품절
     delete_flag = models.BooleanField(default=False, verbose_name='삭제처리')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
@@ -100,18 +104,27 @@ class Goods(models.Model):
     class Meta : 
         db_table = 'goods'
 
-class ShopEntryGoods(models.Model):
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    goods = models.OneToOneField(Goods, on_delete=models.CASCADE, related_name='entry_goods')
-    sequence = models.IntegerField(verbose_name='순서')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+#상품옵션
+class GoodsOption(models.Model):
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='option')
+    required = models.BooleanField(default=True, verbose_name='필수여부')
+    name = models.CharField(max_length=100, verbose_name='옵션명')
 
-    class Meta : 
+    class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['shop', 'sequence'], name='shop_sequence_unique')
+            models.UniqueConstraint(fields=['goods', 'name'], name='goods_name_unique')
         ]
-        db_table = 'shop_entry_goods'
+        db_table='goods_option'
+
+#상품옵션상세
+class GoodsOptionDetail(models.Model):
+    goods_option = models.ForeignKey(GoodsOption, on_delete=models.CASCADE, related_name='option_detail')
+    name = models.CharField(max_length=100, verbose_name='옵션명')
+    price = models.PositiveIntegerField(default=0, verbose_name='옵션가격')
+    stock = models.IntegerField(default=0, verbose_name='재고수량')
+    
+    class Meta:
+        db_table='goods_option_detail'
         
 class EntryQueue(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)

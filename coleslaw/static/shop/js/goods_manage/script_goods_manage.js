@@ -133,7 +133,7 @@ $(document).ready(function () {
         search: {
             return: true,
         },
-        order: [[6, 'desc']],
+        order: [[9, 'desc']],
         searching : false,
         processing: true,
         serverSide: true,
@@ -156,17 +156,59 @@ $(document).ready(function () {
                 orderable:false 
             },
             { "data": "price", orderable: false },
-            { "data": "goodsStatus", orderable: false },
             { "data": function(data, type, row){
-                    if(data.isEntryGoods){
-                        return `<input class="form-check-input" type="checkbox" checked onclick="setEntryGoods(${data.id}, this)"/>`;
+                    if(data.status){
+                        return `<input class="form-check-input" type="checkbox" checked onclick="setStatus(${data.id}, 'STATUS', this)"/>`;
                     }
                     else{
-                        return `<input class="form-check-input" type="checkbox" onclick="setEntryGoods(${data.id}, this)"/>`;
+                        return `<input class="form-check-input" type="checkbox" onclick="setStatus(${data.id}, 'STATUS', this)"/>`;
                     }
                 },
-                orderable: true 
+                orderable: false 
             },
+            { "data": function(data, type, row){
+                    if(data.soldout){
+                        return `<input class="form-check-input" type="checkbox" checked onclick="setStatus(${data.id}, 'SOLDOUT', this)"/>`;
+                    }
+                    else{
+                        return `<input class="form-check-input" type="checkbox" onclick="setStatus(${data.id}, 'SOLDOUT', this)"/>`;
+                    }
+                },
+                orderable: false 
+            },
+            { "data": function(data, type, row){
+                    if(data.stock_flag && !data.option_flag){
+                        return `<div class="input-group"><input class="form-control" type="number" value="${data.stock}" id="STOCK_${data.id}" onkeyup="enterkey(${data.id}, 'STOCK')"/><button class="btn btn-outline-secondary" type="button" id="btn_STOCK_${data.id}" onclick="setValue(${data.id}, 'STOCK', this)">저장</button></div>`;
+                    }
+                    else if(data.stock_flag && data.option_flag){
+                        return '<span>옵션별재고</span>';
+                    }
+                    else{
+                        return '<span>x</span>';
+                    }
+                },
+                orderable: false 
+            },
+            { "data": function(data, type, row){
+                    if(data.stock_flag){
+                        return `<input class="form-check-input" type="checkbox" checked onclick="setStatus(${data.id}, 'STOCK_FLAG', this)"/>`;
+                    }
+                    else{
+                        return `<input class="form-check-input" type="checkbox" onclick="setStatus(${data.id}, 'STOCK_FLAG', this)"/>`;
+                    }
+                },
+                orderable: false 
+            },
+            { "data": function(data, type, row){
+                    if(data.option_flag){
+                        return `<input class="form-check-input" type="checkbox" checked onclick="setStatus(${data.id}, 'OPTION_FLAG', this)"/>`;
+                    }
+                    else{
+                        return `<input class="form-check-input" type="checkbox" onclick="setStatus(${data.id}, 'OPTION_FLAG', this)"/>`;
+                    }
+                },
+                orderable: false 
+            },            
             { "data": "createdAt", orderable: true },
         ],
         columnDefs:
@@ -183,9 +225,14 @@ $(document).ready(function () {
             },
             {
                 targets: 3,
-                render: function ( data, type, row ) {
-                    return numberWithCommas(data);
-                }
+                render: function (data, type, row) {
+                    return `<div class="input-group"><input class="form-control" type="number" value="${data}" id="PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_PRICE_${row.id}" onclick="setValue(${row.id}, 'PRICE', this)">저장</button></div>`;
+                },
+                width: 200,
+            },
+            {
+                targets: 6,
+                width: 200,
             },
 
         ],  
@@ -196,14 +243,14 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function setEntryGoods(id, elem){
-    if (!confirm("입장 상품을 수정하시겠습니까?")) {
+function setStatus(id, type, elem){
+    if (!confirm("상태를 변경하시겠습니까?")) {
         location.reload();
         return;
     }
     let data = {
         goods_id : id,
-        type : "ENTRYGOODS"
+        type : type
     };
     elem.disabled=true;
     $.ajax({
@@ -215,7 +262,7 @@ function setEntryGoods(id, elem){
         data: JSON.stringify(data),
         datatype: "JSON",
         success: function(data) {
-            location.reload();
+            location.reload(true);
         },
         error: function(error) {
             elem.disabled=false;
@@ -231,4 +278,54 @@ function setEntryGoods(id, elem){
             }
         },
     });
+}
+
+function setValue(id, type, elem){
+    if (!confirm("변경하시겠습니까?")) {
+        location.reload();
+        return;
+    }
+    let input = document.getElementById(`${type}_${id}`);
+    if (input.value == ''){
+        input.focus();
+        return;
+    }
+    let data = {
+        goods_id : id,
+        value : input.value,
+        type : type
+    };
+    elem.disabled=true;
+    $.ajax({
+        type: "PUT",
+        url: "",
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        data: JSON.stringify(data),
+        datatype: "JSON",
+        success: function(data) {
+            location.reload(true);
+        },
+        error: function(error) {
+            elem.disabled=false;
+            if(error.status == 401){
+                alert('로그인 해주세요.');
+            }
+            else if(error.status == 403){
+                alert('권한이 없습니다!');
+            }
+            else{
+                location.reload();
+                alert(error.status + JSON.stringify(error.responseJSON));
+            }
+        },
+    });
+}
+
+function enterkey(id, type) {
+    if (window.event.keyCode == 13) {
+        let btn = document.getElementById(`btn_${type}_${id}`);
+        setValue(id, type, btn);
+    }
 }

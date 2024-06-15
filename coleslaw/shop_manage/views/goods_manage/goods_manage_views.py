@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 from django.core.files.base import ContentFile
 from system_manage.utils import resize_with_padding
 from system_manage.decorators import  permission_required
-from system_manage.models import Shop, ShopAdmin, SubCategory, Goods, MainCategory, ShopEntryGoods
+from system_manage.models import Shop, ShopAdmin, SubCategory, Goods, MainCategory
 
 from shop_manage.views.shop_manage_views.auth_views import check_shop
 
@@ -50,21 +50,30 @@ class GoodsManageView(View):
             goods = Goods.objects.get(pk=goods_id, shop=shop)
         except:
             return JsonResponse({"message": "데이터 오류"},status=400)
-        
-        if rq_type == 'ENTRYGOODS':
-            entry_goods =ShopEntryGoods.objects.filter(goods=goods, shop=shop)
-            if entry_goods.exists():
-                entry_goods.delete()
-            else:
-                entry_goods_list = ShopEntryGoods.objects.filter(shop=shop).order_by('-sequence')
-                if entry_goods_list.count() < 4:
-                    if entry_goods_list.exists():
-                        sequence = entry_goods_list.first().sequence + 1
-                    else:
-                        sequence = 1
-                    ShopEntryGoods.objects.create(goods=goods, shop=shop, sequence=sequence)
-                else:
-                    return JsonResponse({"message": "입장 상품은 최대 3개까지만 등록 가능합니다."},status=400)
+        if rq_type == 'STATUS':
+            goods.status = not goods.status
+            goods.save()
+        elif rq_type == 'SOLDOUT':
+            goods.soldout = not goods.soldout
+            goods.save()
+        elif rq_type == 'PRICE':
+            value = request.PUT['value']
+            goods.price = value
+            goods.save()
+        elif rq_type == 'STOCK':
+            value = request.PUT['value']
+            goods.stock = value
+            goods.save()
+        elif rq_type == 'STOCK_FLAG':
+            goods.stock_flag = not goods.stock_flag
+            goods.save()
+        elif rq_type == 'OPTION_FLAG':
+            if not goods.option_flag:
+                if not goods.option.all().exists():
+                    return JsonResponse({'message' : '옵션사용을 하시려면 옵션등록이 되어있어야합니다.'},status = 400)
+                
+            goods.option_flag = not goods.option_flag
+            goods.save()
         else:
             return JsonResponse({"message": "타입 오류"},status=400)
         
@@ -96,7 +105,10 @@ class GoodsCreateView(View):
         sub_category_id = request.POST['sub_category']
         name = request.POST['goods_name'].strip()
         price = request.POST['price'] 
+        stock = request.POST['stock']
         status = bool(request.POST.get('status', None))
+        soldout = bool(request.POST.get('soldout', None))
+        stock_flag = bool(request.POST.get('stock_flag', None))
         image = request.FILES.get('image', None)
 
         try:
@@ -118,9 +130,12 @@ class GoodsCreateView(View):
                     sub_category=sub_category,
                     name=name,
                     price=price,
+                    stock=stock,
                     image=image,
                     image_thumbnail=image_thumbnail,
-                    status=status
+                    status=status,
+                    soldout=soldout,
+                    stock_flag=stock_flag
                 )     
         except:
             return JsonResponse({'message' : '등록오류'},status = 400)
@@ -209,15 +224,27 @@ class GoodsEditView(View):
         price = request.POST['price']
         image = request.FILES.get('image', None)
         status = bool(request.POST.get('status', None))
+        soldout = bool(request.POST.get('soldout', None))
+        stock_flag = bool(request.POST.get('stock_flag', None))
+        option_flag = bool(request.POST.get('option_flag', None))
+
         try:
             sub_category = SubCategory.objects.get(pk=sub_category_id)
         except:
             return JsonResponse({'message' : '소분류 카테고리 데이터 오류'},status = 400)
+        
+        if option_flag:
+            if not goods.option.all().exists():
+                return JsonResponse({'message' : '옵션사용을 하시려면 옵션등록이 되어있어야합니다.'},status = 400)
+
         try:
             goods.sub_category  = sub_category
             goods.name = name
             goods.price = price
             goods.status = status
+            goods.soldout = soldout
+            goods.stock_flag = stock_flag
+            goods.option_flag = option_flag
             if image:
                 crop_img = resize_with_padding(img=Image.open(image), expected_size=(800, 800), fill=(255,255,255))
                 img_io = BytesIO()
@@ -282,17 +309,11 @@ def goods(request: HttpRequest, *args, **kwargs):
     elif goods_status == '3':
         filter_dict['status'] = False
 
-    entry_goods = ShopEntryGoods.objects.filter(goods=OuterRef('pk'), shop=shop)    
     queryset=Goods.objects.filter(**filter_dict).annotate(
-        isEntryGoods=Exists(entry_goods),
         imageThumbnailUrl=Case(
             When(image_thumbnail='', then=Concat(V(request._current_scheme_host), V(settings.MEDIA_URL), V('image/goods/default.jpg'))),
             When(image_thumbnail=None, then=Concat(V(request._current_scheme_host), V(settings.MEDIA_URL), V('image/goods/default.jpg'))),
             default=Concat(V(request._current_scheme_host), V(settings.MEDIA_URL), 'image_thumbnail', output_field=CharField())
-        ),
-        goodsStatus=Case(
-            When(status='0', then=V('판매중단')),
-            When(status='1', then=V('판매중')),
         ),
         mainCategoryName = F('sub_category__main_category__name'),
         subCategoryName = F('sub_category__name'),
@@ -307,11 +328,13 @@ def goods(request: HttpRequest, *args, **kwargs):
         'imageThumbnailUrl',
         'name',
         'price',
+        'stock',
         'mainCategoryName',
         'subCategoryName',
         'status',
-        'goodsStatus',
-        'isEntryGoods',
+        'soldout',
+        'stock_flag',
+        'option_flag',
         'createdAt'
     ).order_by(order_col_name)
 

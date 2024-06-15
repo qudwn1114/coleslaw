@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.contrib.auth.views import LogoutView
 from shop_manage.views.shop_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView
 from shop_manage.views.goods_manage.goods_manage_views import GoodsManageView, GoodsCreateView, GoodsDetailView, GoodsEditView, goods
+from shop_manage.views.goods_manage.option_manage_views import OptionManageView, OptionDetailManageView
 
 
 app_name='shop_manage'
@@ -19,4 +20,6 @@ urlpatterns = [
     path('<int:shop_id>/goods-edit/<int:pk>/', GoodsEditView.as_view(), name='goods_edit'),
     path('<int:shop_id>/goods/', goods),
 
+    path('<int:shop_id>/option-manage/<int:pk>/', OptionManageView.as_view(), name='option_manage'),
+    path('<int:shop_id>/option-detail-manage/', OptionDetailManageView.as_view(), name='option_detail_manage'),
 ]
