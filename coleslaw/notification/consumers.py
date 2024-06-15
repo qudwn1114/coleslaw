@@ -37,6 +37,16 @@ class OrderConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.group_name,
             {
+                'type' : 'chat_message',
                 'message': message,
             }
         )
+
+    # Receive message from group
+    async def chat_message(self, event):
+        message = event['message']
+        
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'message': message,
+        }))
