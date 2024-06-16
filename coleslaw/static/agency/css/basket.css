@@ -1,0 +1,196 @@
+.__app {
+    padding-top: 4.2rem;
+}
+.main section {
+    width: 100%;
+    height: calc(100vh - 4.2rem);
+    padding: 2.6rem 0 0;
+    display: flex;
+    flex-direction: column;
+}
+.main section .basket {
+    flex: 1;
+    overflow: auto;
+    padding: 0 1.8rem 6.3rem;
+}
+.main section .basket .title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 0.1rem solid #f1f1f1;
+}
+.main section .basket .title img {
+    display: block;
+    width: 2.2rem;
+    height: 2.2rem;
+}
+.main section .basket .title h4 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--black4E4E56);
+}
+.menu {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+    padding: 1.6rem 0 2rem;
+}
+.menu li {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 1.6rem;
+    border-bottom: 0.1rem solid #f1f1f1;
+    height: 100%;
+}
+.menu li > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 100%;
+}
+.menu li > div .thumbnail {
+    position: relative;
+    width: 35%;
+    height: 0;
+    padding-bottom: calc(108 / 86 * 35%);
+    background-color: #eee;
+    border-radius: 0.3rem;
+    overflow: hidden;
+}
+.menu li > div .thumbnail .menu_thumbnail {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 0;
+    padding-bottom: calc(80 / 47 * 50%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.menu li > div .menu_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 1rem;
+}
+.menu li > div .menu_info .menu_detail_info {
+    width: 11rem;
+    display: flex;
+    flex-direction: column;
+}
+.menu li > div .menu_info .menu_detail_info h6 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: -0.05rem;
+    color: var(--black6D6E71);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+}
+.menu li > div .menu_info .menu_detail_info p {
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.05rem;
+    color: var(--blackB4B5BA);
+    margin: 0.3rem 0 0.6rem;
+}
+.menu li > div .menu_info .menu_detail_info b {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e98989;
+    text-decoration: line-through;
+    margin-bottom: 0.15rem;
+}
+.menu li > div .menu_info .menu_detail_info span {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02rem;
+    color: var(--black2A2C33);
+}
+.menu li > div .menu_info .menu__ {
+    display: flex;
+    align-items: center;
+}
+.menu li > div .menu_info .menu__ button img {
+    display: block;
+    width: 2.8rem;
+    height: 2.8rem;
+}
+.menu li > div .menu_info .menu__ input {
+    width: 100%;
+    max-width: 3rem;
+    text-align: center;
+    border: none;
+    font-size: 1.85rem;
+    font-weight: 400;
+    letter-spacing: -0.0193rem;
+    color: var(--black272931);
+    outline: none;
+}
+.menu li > div .menu_info .menu__ input::-webkit-outer-spin-button,
+.menu li > div .menu_info .menu__ input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.menu li > button {
+    transform: translateY(-1rem);
+}
+.menu li > button img {
+    display: block;
+    width: 4rem;
+    height: 4rem;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.price strong {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--black919299);
+}
+.price span {
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: -0.05rem;
+    color: var(--black3F4147);
+}
+
+.order {
+    width: 100%;
+    padding: 2.2rem 2rem 2rem;
+    background: var(--system-white);
+    border-radius: 2.4rem 2.4rem 0 0;
+    box-shadow: 0 -0.3rem 5rem rgba(0, 0, 0, 0.15);
+}
+.order > button {
+    width: 100%;
+    height: 5.4rem;
+    border-radius: 1rem;
+    background: var(--primary);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--system-white);
+}
+
+@media screen and (min-width: 500px) {
+    html {
+        font-size: 12px;
+    }
+}
+@media screen and (min-width: 600px) {
+    html {
+        font-size: 15px;
+    }
+}

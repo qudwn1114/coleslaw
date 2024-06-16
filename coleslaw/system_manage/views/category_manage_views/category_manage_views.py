@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, JsonResponse
 from django.views.generic import View
 from django.views.decorators.http import require_http_methods
@@ -10,11 +9,10 @@ from system_manage.decorators import permission_required
 from system_manage.models import MainCategory, SubCategory
 import json
 
-class CategoryManageView(LoginRequiredMixin, View):
+class CategoryManageView(View):
     '''
     카테고리 관리
     '''
-    login_url='system_manage:login'
     @method_decorator(permission_required(redirect_url='system_manage:denied'))
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}

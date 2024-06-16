@@ -29,9 +29,9 @@
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
                         {% if search_type == 'name' %}
-                        <option value="name" selected>에이전시명</option>
+                        <option value="name" selected>에이전시(행사,협회)명</option>
                         {% else %}
-                        <option value="name">에이전시명</option>
+                        <option value="name">에이전시(행사,협회)명</option>
                         {% endif %}
                       </select>
                     <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
@@ -64,7 +64,7 @@
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>에이전시명</th>
+                  <th>에이전시(행사,협회)명</th>
                   <th>상태</th>
                   <th>등록일</th>
                   <th>가맹점 관리</th>

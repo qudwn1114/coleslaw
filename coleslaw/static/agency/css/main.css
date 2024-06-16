@@ -1,0 +1,105 @@
+.__app {
+    padding-top: 4.2rem;
+}
+
+.main section {
+    width: 100%;
+    height: calc(100vh - 4.2rem);
+    padding: 2rem 1.8rem 3.6rem;
+    display: flex;
+    flex-direction: column;
+}
+.main_ {
+    flex: 1;
+    margin-bottom: 1.1rem;
+    overflow: auto;
+}
+.banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 2.6rem;
+    padding-right: 2.6rem;
+    background: rgb(233, 234, 236, 0.5);
+    box-shadow: 0 0 0.1rem 0 rgba(0, 0, 0, 0.06);
+    border-radius: 1rem;
+    margin-bottom: 1.2rem;
+}
+.banner h6 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.49;
+    color: var(--black62667C);
+}
+.banner img {
+    display: block;
+    width: 8rem;
+}
+.box {
+    width: 100%;
+    height: 37.7rem;
+    border-radius: 1rem;
+    background: #d9d9d9;
+}
+
+.btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.btns .text {
+    position: relative;
+    width: 45%;
+    height: 0;
+    padding-bottom: calc(25 / 126 * 45%);
+    background: url("../images/box/box_text.png") no-repeat center / contain;
+    margin-bottom: -0.4rem;
+
+    animation: UpDown 1.5s infinite ease-in-out;
+}
+.btns .text span {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    font-size: 3.2vw;
+    font-weight: 600;
+    color: var(--blue43A5FF);
+}
+.btns button {
+    width: 100%;
+    height: 5.4rem;
+    border-radius: 1rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+.btns button.btn_orderfrom {
+    background: var(--primary);
+    color: var(--system-white);
+}
+.btns button.btn_other {
+    background: var(--system-white);
+    color: var(--primary);
+    border: 0.1rem solid var(--primary);
+}
+
+@keyframes UpDown {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-0.5rem);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@media screen and (min-width: 500px) {
+    html {
+        font-size: 12px;
+    }
+}

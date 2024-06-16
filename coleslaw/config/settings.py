@@ -36,8 +36,12 @@ INSTALLED_APPS = [
     'corsheaders',
     #channels
     'channels',
+    # restframework
+    'rest_framework',
 
     #app
+    'agency',
+    'api',
     'system_manage',
     'shop_manage',
     'entry',
@@ -217,3 +221,9 @@ LOGGING = {
 
 SITE_URL = config['SITE_URL']
 SITE_NAME = config['SITE_NAME']
+
+
+SMS_ACCESS_KEY = config['SMS_ACCESS_KEY']
+SMS_SECRET_KEY = config['SMS_SECRET_KEY']
+SMS_API_KEY = config['SMS_API_KEY']
+SMS_SENDER = config['SMS_SENDER']

@@ -10,6 +10,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('robots.txt',  TemplateView.as_view(template_name="robots.txt", content_type='text/plain')),
 
+    path('agency/', include('agency.urls')),
+    path('api/', include('api.urls')),
     path('system-manage/', include('system_manage.urls')),
     path('shop-manage/', include('shop_manage.urls')),
     path('entry/', include('entry.urls')),
