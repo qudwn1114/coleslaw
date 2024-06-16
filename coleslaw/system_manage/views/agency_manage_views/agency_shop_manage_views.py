@@ -7,18 +7,18 @@ from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.db.models import Exists, OuterRef
 from system_manage.decorators import permission_required
-from system_manage.models import Shop, ShopAdmin
+from system_manage.models import Agency, AgencyShop, Shop
 
-class ShopAdminManageView(View):
+class AgencyShopManageView(View):
     '''
-        가맹점 관리자 관리 화면
+        가맹점 가맹점 관리 화면
     '''
     @method_decorator(permission_required(redirect_url='system_manage:denied'))
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         pk = kwargs.get("pk")
-        shop = get_object_or_404(Shop, pk=pk)
-        context['shop'] = shop
+        agency = get_object_or_404(Agency, pk=pk)
+        context['agency'] = agency
 
         paginate_by = '20'
         page = request.GET.get('page', '1')
@@ -32,15 +32,14 @@ class ShopAdminManageView(View):
             context['search_keyword'] = search_keyword
             filter_dict[search_type + '__icontains'] = search_keyword
 
-        shop_admins = ShopAdmin.objects.filter(user=OuterRef('pk'), shop=shop)
-        obj_list = User.objects.filter(**filter_dict).annotate(is_admin=Exists(shop_admins)).values(
+        agency_shops = AgencyShop.objects.filter(shop=OuterRef('pk'), agency=agency)
+        obj_list = Shop.objects.filter(**filter_dict).annotate(is_agnecy_shop=Exists(agency_shops)).values(
             'id',
-            'username',
-            'profile__membername',
-            'date_joined',
-            'profile__phone',
-            'is_admin'
-        ).order_by('-date_joined')
+            'name',
+            'phone',
+            'created_at',
+            'is_agnecy_shop'
+        ).order_by('-id')
 
         paginator = Paginator(obj_list, paginate_by)
         try:
@@ -59,7 +58,7 @@ class ShopAdminManageView(View):
         context['pagelist'] = pagelist
         context['page_obj'] = page_obj
 
-        return render(request, 'shop_manage/shop_admin_manage.html', context)
+        return render(request, 'agency_manage/agency_shop_manage.html', context)
     
 
     @method_decorator(permission_required(raise_exception=True))
@@ -67,18 +66,18 @@ class ShopAdminManageView(View):
         pk = kwargs.get("pk")
         id = request.POST['id']
         try:
-            shop = Shop.objects.get(pk=pk)
+            agency = Agency.objects.get(pk=pk)
         except:
             return JsonResponse({"message": "데이터 오류"},status=400)
         try:
-            user = User.objects.get(pk=id)
+            shop = Shop.objects.get(pk=id)
         except:
-            return JsonResponse({"message": "유저 오류"},status=400)
+            return JsonResponse({"message": "가맹점 오류"},status=400)
         
-        admin = ShopAdmin.objects.filter(shop=shop, user=user)
-        if admin.exists():
-            admin.delete()
+        agency_shop = AgencyShop.objects.filter(agency=agency, shop=shop)
+        if agency_shop.exists():
+            agency_shop.delete()
         else:
-            ShopAdmin.objects.create(shop=shop, user=user)
+            AgencyShop.objects.create(agency=agency, shop=shop)
 
         return JsonResponse({'message' : '저장 되었습니다.'}, status = 201)
