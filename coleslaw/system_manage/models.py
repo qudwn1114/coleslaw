@@ -76,7 +76,7 @@ class Agency(models.Model):
 
 # 에이전시 소속 가맹점
 class AgencyShop(models.Model):
-    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, related_name='agnecy_shop')
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, related_name='agency_shop')
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     status = models.BooleanField(default=True, verbose_name='상태')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')

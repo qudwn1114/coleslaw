@@ -33,12 +33,12 @@ class AgencyShopManageView(View):
             filter_dict[search_type + '__icontains'] = search_keyword
 
         agency_shops = AgencyShop.objects.filter(shop=OuterRef('pk'), agency=agency)
-        obj_list = Shop.objects.filter(**filter_dict).annotate(is_agnecy_shop=Exists(agency_shops)).values(
+        obj_list = Shop.objects.filter(**filter_dict).annotate(is_agency_shop=Exists(agency_shops)).values(
             'id',
             'name',
             'phone',
             'created_at',
-            'is_agnecy_shop'
+            'is_agency_shop'
         ).order_by('-id')
 
         paginator = Paginator(obj_list, paginate_by)

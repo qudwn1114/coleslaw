@@ -77,7 +77,7 @@
                   <td>{{i.phone}}</td>
                   <td>{{i.created_at|date:"Y.m.d"}}</td>
                   <td>
-                    <input class="form-check-input" type="checkbox" {% if i.is_agnecy_shop %}checked{% endif %} onclick="setAgecnyShop({{i.id}}, this)">
+                    <input class="form-check-input" type="checkbox" {% if i.is_agency_shop %}checked{% endif %} onclick="setAgecnyShop({{i.id}}, this)">
                   </td>
                 {% endfor %}
               {% else %}
