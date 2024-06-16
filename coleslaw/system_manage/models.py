@@ -89,6 +89,7 @@ class Goods(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT)
     name = models.CharField(max_length=100, verbose_name='상품명')
+    sale_price = models.PositiveIntegerField(verbose_name='판매가격', default=0)
     price = models.PositiveIntegerField(verbose_name='제품가격', default=0)
     image = models.ImageField(max_length=300, upload_to="image/goods/%Y/%m/%d/", verbose_name='상품이미지')
     image_thumbnail = models.ImageField(max_length=300, upload_to="image/goods/%Y/%m/%d/", verbose_name='상품이미지 썸네일 정사각형')

@@ -60,6 +60,10 @@ class GoodsManageView(View):
             value = request.PUT['value']
             goods.price = value
             goods.save()
+        elif rq_type == 'SALE_PRICE':
+            value = request.PUT['value']
+            goods.sale_price = value
+            goods.save()
         elif rq_type == 'STOCK':
             value = request.PUT['value']
             goods.stock = value
@@ -105,6 +109,7 @@ class GoodsCreateView(View):
         sub_category_id = request.POST['sub_category']
         name = request.POST['goods_name'].strip()
         price = request.POST['price'] 
+        sale_price = request.POST['sale_price'] 
         stock = request.POST['stock']
         status = bool(request.POST.get('status', None))
         soldout = bool(request.POST.get('soldout', None))
@@ -130,6 +135,7 @@ class GoodsCreateView(View):
                     sub_category=sub_category,
                     name=name,
                     price=price,
+                    sale_price=sale_price,
                     stock=stock,
                     image=image,
                     image_thumbnail=image_thumbnail,
@@ -222,6 +228,7 @@ class GoodsEditView(View):
         sub_category_id = request.POST['sub_category']
         name = request.POST['goods_name'].strip()
         price = request.POST['price']
+        sale_price = request.POST['sale_price']
         image = request.FILES.get('image', None)
         status = bool(request.POST.get('status', None))
         soldout = bool(request.POST.get('soldout', None))
@@ -241,6 +248,7 @@ class GoodsEditView(View):
             goods.sub_category  = sub_category
             goods.name = name
             goods.price = price
+            goods.sale_price = sale_price
             goods.status = status
             goods.soldout = soldout
             goods.stock_flag = stock_flag
@@ -328,6 +336,7 @@ def goods(request: HttpRequest, *args, **kwargs):
         'imageThumbnailUrl',
         'name',
         'price',
+        'sale_price',
         'stock',
         'mainCategoryName',
         'subCategoryName',
