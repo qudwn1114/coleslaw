@@ -121,7 +121,7 @@ class ShopGoodsListView(View):
                 'resultCd': '0001',
             }
         
-        main_category_id = request.GET.get('main_category_id', '')
+        main_category_id = request.GET.get('main_category_id', '') 
         sub_category_id = request.GET.get('sub_category_id', '')
 
         filter_dict ={}
@@ -135,7 +135,7 @@ class ShopGoodsListView(View):
         filter_dict['delete_flag'] = False
 
         try:
-            queryset = Goods.objects.filter(shop=shop, delete_flag=False).annotate(
+            queryset = Goods.objects.filter(**filter_dict).annotate(
                     goodsImageThumbnailUrl=Case(
                         When(image_thumbnail='', then=None),
                         When(image_thumbnail=None, then=None),

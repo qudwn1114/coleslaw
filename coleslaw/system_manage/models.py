@@ -181,6 +181,7 @@ class EntryQueueDetail(models.Model):
 
 #상품주문
 class Checkout(models.Model):
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, null=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     code = models.CharField(max_length=100, unique=True)
     final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제금액')
@@ -199,6 +200,14 @@ class CheckoutDetail(models.Model):
     
     class Meta:
         db_table='checkout_detail'
+
+#상품상세
+class CheckoutDetailOption(models.Model):
+    checkout_detail = models.ForeignKey(CheckoutDetail, on_delete=models.CASCADE, related_name="checkout_detail_option")
+    goods_option_detail = models.ForeignKey(GoodsOptionDetail, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table='checkout_detail_option'
 
 #주문
 class Order(models.Model):

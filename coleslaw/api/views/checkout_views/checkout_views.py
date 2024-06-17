@@ -2,7 +2,7 @@ from django.conf import settings
 from django.views.generic import View
 from django.urls import reverse
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from system_manage.models import Shop, Goods, GoodsOption, GoodsOptionDetail, Checkout, CheckoutDetail
+from system_manage.models import Shop, Goods, GoodsOption, GoodsOptionDetail, Checkout, CheckoutDetail, AgencyShop, CheckoutDetailOption
 from django.db.models.functions import Concat
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
 from django.db import transaction
@@ -26,59 +26,91 @@ class ShopCheckoutView(View):
             }
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+
         try:
-            agency_name = request.POST['agency_name']
+            agency_id = request.POST.get('agency_id', None)
+            if agency_id:
+                try:
+                    agency = AgencyShop.objects.get(agency_id=agency_id, shop=shop)
+                except:
+                    return_data = json.dumps({'data': {},'msg': f'주문 가능한 상점이 아닙니다.','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
+                    return HttpResponse(return_data, content_type = "application/json")
+            else:
+                agency = None
+
             checkout_list = request.POST['checkout_list']
             checkout_list = json.loads(checkout_list)
             code = uuid.uuid4().hex
-            for i in checkout_list:
-                goodsId = i['goodsId']
-                goodsName = i['goodsName']
-                quantity = i['quantity']
-                goodsPrice = i['goodsPrice']
-                totalPrice = i['totalPrice']
+            with transaction.atomic():
+                checkout = Checkout.objects.create(
+                    shop = shop,
+                    code = code
+                )
+                for i in checkout_list:
+                    total = 0
+                    goodsId = i['goodsId']
+                    goodsName = i['goodsName']
+                    quantity = i['quantity']
+                    goodsPrice = i['goodsPrice']
+                    totalPrice = i['totalPrice']
 
-                try:
-                    goods = Goods.objects.get(pk=goodsId, shop=shop)
-                except:
-                    return_data = json.dumps({'data': {},'msg': f'{goodsId} Goods ID 오류','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
-                    return HttpResponse(return_data, content_type = "application/json")
-                
-                if goods.sale_price != goodsPrice:
-                    return_data = json.dumps({'data': {},'msg': f'{goodsId} Goods 판매가격 불일치','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
-                    return HttpResponse(return_data, content_type = "application/json")
-                
-                if goods.sale_price * quantity != totalPrice:
-                    return_data = json.dumps({'data': {},'msg': f'{goodsId} Goods total price 불일치','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
-                    return HttpResponse(return_data, content_type = "application/json")
-                # 옵션있을경우
+                    try:
+                        goods = Goods.objects.get(pk=goodsId, shop=shop)
+                    except:
+                        raise ValueError(f'{goodsId} Goods ID error')
+                    
+                    if goods.sale_price != goodsPrice:
+                        raise ValueError(f'{goodsId} Goods prcie error')
+                    
+                    checkout_detail = CheckoutDetail.objects.create(
+                        checkout = checkout,
+                        goods = goods,
+                        quantity = quantity,
+                        price = goodsPrice,
+                        total_price = total
+                    )
+                                        
+                    # 옵션있을경우 옵션 유효 체크
+                    total = goods.sale_price * quantity
+                    if goods.option_flag:
+                        checkout_option_bulk_list = []
 
-                if goods.option_flag:
-                    option = i['option']
-                    for j in option:
-                        optionId = j['optionId']
-                        optionName = j['optionName']
-                        optionDetailId = j['optionDetail']['optionDetailId']
-                        optionDetailName = j['optionDetail']['optionDetailName']
-                        optionDetailPrice = j['optionDetail']['optionDetailPrice']
+                        option = i['option']
+                        for j in option:
+                            optionId = j['optionId']
+                            optionName = j['optionName']
+                            optionDetailId = j['optionDetail']['optionDetailId']
+                            optionDetailName = j['optionDetail']['optionDetailName']
+                            optionDetailPrice = j['optionDetail']['optionDetailPrice']
+                            try:
+                                goods_option_detail = GoodsOptionDetail.objects.get(pk=optionDetailId, goods_option=optionId)
+                            except:
+                                raise ValueError(f'{goodsId} Goods Option Error')
+                            
+                            if goods_option_detail.price != optionDetailPrice:
+                                raise ValueError(f'{goodsId} Goods Option Price Error')
+                            total += optionDetailPrice
 
+                            checkout_option_bulk_list.append(CheckoutDetailOption(checkout_detail=checkout_detail, goods_option_detail=goods_option_detail))
 
-                
+                        CheckoutDetailOption.objects.bulk_create(checkout_option_bulk_list)
 
-            # try:
-            #     with transaction.atomic():
-            #         checkout = Checkout.objects.create(
-            #             shop = shop,
-            #             code = code
-            #         )
-
-            #         for i in checkout_list:
-
-
+                    if  total != totalPrice or total <= 0:
+                        raise ValueError(f'{goodsId} Goods total price Error')
+                      
+                    checkout_detail.total_price = total
+                    checkout_detail.save()
+                    
             return_data = {
                 'data': {},
                 'resultCd': '0000',
                 'msg': '주문정보 생성완료',
+            }
+        except ValueError as e:
+            return_data = {
+                'data': {},
+                'msg': e,
+                'resultCd': '0001',
             }
         except:
             return_data = {
