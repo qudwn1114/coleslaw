@@ -68,6 +68,8 @@ class ShopCheckoutView(View):
                     
                     if goods.sale_price != goodsPrice:
                         raise ValueError(f'{goodsId} Goods prcie error')
+                    if quantity <= 0:
+                        raise ValueError(f'{goodsId} Goods quantity error')
                     
                     checkout_detail = CheckoutDetail.objects.create(
                         checkout = checkout,
