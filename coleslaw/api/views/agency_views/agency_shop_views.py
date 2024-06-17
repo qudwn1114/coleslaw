@@ -2,9 +2,9 @@ from django.conf import settings
 from django.views.generic import View
 from django.urls import reverse
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from system_manage.models import Agency, AgencyShop, Shop, Goods, SubCategory, MainCategory
+from system_manage.models import Agency, AgencyShop, Shop, Goods, SubCategory, MainCategory, GoodsOptionDetail
 from django.db.models.functions import Concat
-from django.db.models import CharField, F, Value as V, Func, Case, When
+from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
 from django.core.serializers.json import DjangoJSONEncoder
 
 import traceback, json, datetime
@@ -13,13 +13,13 @@ class AgencyShopListView(View):
     '''
         agency shop list api
     '''
-    def post(self, request: HttpRequest, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs):
         agency_id = kwargs.get('agency_id')
         try:
             agency = Agency.objects.get(pk=agency_id)
-            page = int(request.POST.get('page', 1))
-            startnum = 0 + (page-1)*10
-            endnum = startnum+10
+            # page = int(request.POST.get('page', 1))
+            # startnum = 0 + (page-1)*10
+            # endnum = startnum+10
             queryset = AgencyShop.objects.filter(agency=agency, status=True).annotate(
                     shopName=F('shop__name'),
                     shopDescription=F('shop__description'),
@@ -38,7 +38,8 @@ class AgencyShopListView(View):
                 ).order_by('-id')
 
             return_data = {
-                'data': list(queryset[startnum:endnum]),
+                # 'data': list(queryset[startnum:endnum]),
+                'data': list(queryset),
                 'resultCd': '0000',
                 'msg': '에이전시 소속 가맹점 리스트',
                 'totalCnt' : queryset.count()
@@ -76,7 +77,6 @@ class ShopMainCategoryListView(View):
             shop_sub_category = Goods.objects.filter(shop=shop, delete_flag=False).values('sub_category').distinct()
             shop_sub_category_id_list = list(shop_sub_category.values_list('sub_category', flat=True))
             shop_main_category_id_list = list(shop_sub_category.values_list('sub_category__main_category', flat=True))
-            print(shop_main_category_id_list)
             queryset = MainCategory.objects.filter(id__in=shop_main_category_id_list).values(
                     'id',
                     'name'
@@ -98,6 +98,124 @@ class ShopMainCategoryListView(View):
             print(traceback.format_exc())
             return_data = {
                 'data': [],
+                'msg': '오류!',
+                'resultCd': '0001',
+            }
+    
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopGoodsListView(View):
+    '''
+        shop goods list api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {
+                'data': [],
+                'msg': 'shop id 오류',
+                'resultCd': '0001',
+            }
+        
+        main_category_id = request.GET.get('main_category_id', '')
+        sub_category_id = request.GET.get('sub_category_id', '')
+
+        filter_dict ={}
+
+        if main_category_id:
+            filter_dict['sub_category__main_category_id'] = main_category_id
+            if sub_category_id:
+                filter_dict['sub_category_id'] = sub_category_id
+
+        filter_dict['shop'] = shop
+        filter_dict['delete_flag'] = False
+
+        try:
+            queryset = Goods.objects.filter(shop=shop, delete_flag=False).annotate(
+                    goodsImageThumbnailUrl=Case(
+                        When(image_thumbnail='', then=None),
+                        When(image_thumbnail=None, then=None),
+                        default=Concat(V(settings.SITE_URL), V(settings.MEDIA_URL), 'image_thumbnail', output_field=CharField())
+                    ),
+                ).values(
+                    'id',
+                    'name',
+                    'sale_price',
+                    'price',
+                    'status',
+                    'option_flag',
+                    'soldout',
+                    'goodsImageThumbnailUrl'
+                ).order_by('-id')
+
+            return_data = {
+                'data': list(queryset),
+                'resultCd': '0000',
+                'msg': '상품 리스트',
+                'totalCnt' : queryset.count()
+            }
+        except:
+            print(traceback.format_exc())
+            return_data = {
+                'data': [],
+                'msg': '오류!',
+                'resultCd': '0001',
+            }
+    
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+class ShopGoodsDetailView(View):
+    '''
+        shop goods detail api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        goods_id = kwargs.get('goods_id')
+        try:
+            goods = Goods.objects.get(pk=goods_id, shop_id=shop_id)
+        except:
+            return_data = {
+                'data': {},
+                'msg': 'id 오류',
+                'resultCd': '0001',
+            }
+
+        try:
+            data = {}
+            data['id'] = goods.pk
+            data['name'] = goods.name
+            data['sale_price'] = goods.sale_price
+            data['price'] = goods.price
+            if goods.image:
+                data['goodsImageThumbnailUrl'] = settings.SITE_URL + goods.image.url
+            else:
+                data['goodsImageThumbnailUrl'] = None
+            data['status'] = goods.status
+            data['soldout'] = goods.soldout
+            data['option_flag'] =goods.option_flag
+            if goods.option_flag and goods.option.all().exists():
+                option_queryset = goods.option.all().values('id', 'required', 'name').order_by('id')
+                for i in option_queryset:
+                    i['option_detail'] = list(GoodsOptionDetail.objects.filter(goods_option_id=i['id']).values('id', 'name', 'stock').order_by('id'))
+                data['option'] = list(option_queryset)
+            else:
+                data['option'] = None
+
+
+            return_data = {
+                'data': data,
+                'resultCd': '0000',
+                'msg': '상품 상세'
+            }
+        except:
+            print(traceback.format_exc())
+            return_data = {
+                'data': data,
                 'msg': '오류!',
                 'resultCd': '0001',
             }
