@@ -20,7 +20,7 @@ class ShopCheckoutView(View):
             shop = Shop.objects.get(pk=shop_id)
         except:
             return_data = {
-                'data': [],
+                'data': {},
                 'msg': 'shop id 오류',
                 'resultCd': '0001',
             }
@@ -28,25 +28,32 @@ class ShopCheckoutView(View):
             return HttpResponse(return_data, content_type = "application/json")
 
         try:
-            agency_id = request.POST.get('agency_id', None)
-            if agency_id:
+            agencyId = request.POST.get('agencyId', None)
+            checkoutList = request.POST['checkoutList']
+            checkoutList = json.loads(checkoutList)
+            finalPrice  = int(request.POST['finalPrice'])
+
+            if agencyId:
                 try:
-                    agency = AgencyShop.objects.get(agency_id=agency_id, shop=shop)
+                    agency = AgencyShop.objects.get(agency_id=agencyId, shop=shop).agency
                 except:
                     return_data = json.dumps({'data': {},'msg': f'주문 가능한 상점이 아닙니다.','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
                     return HttpResponse(return_data, content_type = "application/json")
             else:
                 agency = None
+            if finalPrice <= 0:
+                return_data = json.dumps({'data': {},'msg': f'0이하 결제금액.','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
+                return HttpResponse(return_data, content_type = "application/json")
 
-            checkout_list = request.POST['checkout_list']
-            checkout_list = json.loads(checkout_list)
             code = uuid.uuid4().hex
             with transaction.atomic():
                 checkout = Checkout.objects.create(
+                    agency = agency,
                     shop = shop,
                     code = code
                 )
-                for i in checkout_list:
+                final = 0
+                for i in checkoutList:
                     total = 0
                     goodsId = i['goodsId']
                     goodsName = i['goodsName']
@@ -95,21 +102,33 @@ class ShopCheckoutView(View):
 
                         CheckoutDetailOption.objects.bulk_create(checkout_option_bulk_list)
 
-                    if  total != totalPrice or total <= 0:
+                    if  total != totalPrice:
                         raise ValueError(f'{goodsId} Goods total price Error')
                       
                     checkout_detail.total_price = total
                     checkout_detail.save()
                     
+                    # 총결제금액 합산
+                    final += total
+
+                if final != finalPrice:
+                    raise ValueError(f'Final Price Error')
+                
+                checkout.final_price = final
+                checkout.save()
+                    
             return_data = {
-                'data': {},
-                'resultCd': '0000',
+                'data': {
+                    'shop':shop.pk,
+                    'code':checkout.code,
+                },
                 'msg': '주문정보 생성완료',
+                'resultCd': '0000',
             }
         except ValueError as e:
             return_data = {
                 'data': {},
-                'msg': e,
+                'msg': str(e),
                 'resultCd': '0001',
             }
         except:
