@@ -9,6 +9,7 @@
         <title>Coleslaw</title>
     </head>
     <body>
+        {% csrf_token %}
         <div class="__app">
             <header class="header line">
                 <div class="header_inner">
@@ -132,6 +133,10 @@
                 </section>
             </main>
         </div>
+        <script>
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const agency_id = {{agency.pk}};
+        </script>
 
         <script src="/static/agency/js/common.js"></script>
         <script src="/static/agency/js/basket.js"></script>

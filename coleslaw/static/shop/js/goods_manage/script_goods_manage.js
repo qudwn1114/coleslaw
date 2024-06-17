@@ -226,7 +226,7 @@ $(document).ready(function () {
             {
                 targets: 3,
                 render: function (data, type, row) {
-                    return `<div class="input-group"><input class="form-control" type="number" value="${data}" id="PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_PRICE_${row.id}" onclick="setValue(${row.id}, 'PRICE', this)">저장</button></div><div class="input-group"><input class="form-control" type="number" value="${row.sale_price}" id="SALE_PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'SALE_PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_SALE_PRICE_${row.id}" onclick="setValue(${row.id}, 'SALE_PRICE', this)">저장</button></div>`;
+                    return `<div class="input-group"><input class="form-control" type="number" value="${row.sale_price}" id="SALE_PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'SALE_PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_SALE_PRICE_${row.id}" onclick="setValue(${row.id}, 'SALE_PRICE', this)">저장</button></div><div class="input-group"><input class="form-control" type="number" value="${data}" id="PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_PRICE_${row.id}" onclick="setValue(${row.id}, 'PRICE', this)">저장</button></div>`;
                 },
                 width: 200,
             },

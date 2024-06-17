@@ -10,6 +10,7 @@
         <title>Coleslaw</title>
     </head>
     <body>
+        {% csrf_token %}
         <div class="__app">
             <header class="header">
                 <div class="header_inner">
@@ -206,6 +207,10 @@
         <div class="toast">
             <span>장바구니에 담았습니다.</span>
         </div>
+        <script>
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const shop_id = {{agency_shop.shop.pk}};
+        </script>
 
         <script src="/static/agency/js/swiper.bundle.min.js"></script>
         <script src="/static/agency/js/common.js"></script>
