@@ -121,7 +121,7 @@ class ShopCheckoutView(View):
                     
             return_data = {
                 'data': {
-                    'shop':shop.pk,
+                    'shop_id':shop.pk,
                     'checkout_id':checkout.pk,
                     'code':checkout.code,
                 },
