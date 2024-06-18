@@ -41,6 +41,7 @@ class ShopOrderCreateView(View):
             order_code = uuid.uuid4().hex
             with transaction.atomic():
                 order = Order.objects.create(
+                    agency=checkout.agency,
                     shop=shop,
                     order_phone=phone, 
                     status='0', 

@@ -211,6 +211,7 @@ class CheckoutDetailOption(models.Model):
 
 #주문
 class Order(models.Model):
+    agency = models.ForeignKey(Agency, on_delete=models.PROTECT, null=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
 
     order_name = models.CharField(max_length=255, verbose_name='주문명', null=True)
