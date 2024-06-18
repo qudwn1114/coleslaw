@@ -2,9 +2,10 @@ from django.views.generic import View
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch, Sum
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.core.serializers.json import DjangoJSONEncoder
 from system_manage.views.system_manage_views.auth_views import validate_phone
+from django.utils import timezone, dateformat
 
 import traceback, json, datetime, uuid
 
@@ -30,7 +31,9 @@ class ShopOrderCreateView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        membername = request.POST['membername'].strip()
         phone = request.POST['phone']
+
         if not validate_phone(phone):
             return_data = {'data': {},'msg': '유효하지 않은 전화번호 형식입니다.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -39,15 +42,23 @@ class ShopOrderCreateView(View):
         total_quantity = checkout.checkout_detail.all().aggregate(sum=Sum('quantity')).get('sum')
         try:
             order_code = uuid.uuid4().hex
+            order_no = Order.objects.filter(shop=shop ,date=timezone.now().date()).count() + 1
             with transaction.atomic():
-                order = Order.objects.create(
-                    agency=checkout.agency,
-                    shop=shop,
-                    order_phone=phone, 
-                    status='0', 
-                    order_code = order_code,
-                    final_price = checkout.final_price
-                )
+                try:
+                    order = Order.objects.create(
+                        agency=checkout.agency,
+                        shop=shop,
+                        order_membername=membername,
+                        order_phone=phone, 
+                        status='0', 
+                        order_code = order_code,
+                        order_no=order_no,
+                        final_price = checkout.final_price
+                    )
+                except IntegrityError:
+                    raise ValueError("주문번호 중복 다시 시도해주세요.")
+                except:
+                    raise ValueError("주문생성실패")
                 order_name = ''
                 order_goods_bulk_list = []
                 for i in checkout.checkout_detail.all():
@@ -82,6 +93,10 @@ class ShopOrderCreateView(View):
                 'data': {
                     'shop':shop.pk,
                     'order_id':order.pk,
+                    'order_name':order_name,
+                    'order_membername':membername,
+                    'order_phone':'order_phone',
+                    'final_price':checkout.final_price,
                 },
                 'msg': '결제준비완료',
                 'resultCd': '0000',
