@@ -191,7 +191,7 @@ $(document).ready(function () {
             },
             { "data": function(data, type, row){
                     if(data.stock_flag){
-                        return `<input c    lass="form-check-input" type="checkbox" checked onclick="setStatus(${data.id}, 'STOCK_FLAG', this)"/>`;
+                        return `<input class="form-check-input" type="checkbox" checked onclick="setStatus(${data.id}, 'STOCK_FLAG', this)"/>`;
                     }
                     else{
                         return `<input class="form-check-input" type="checkbox" onclick="setStatus(${data.id}, 'STOCK_FLAG', this)"/>`;
