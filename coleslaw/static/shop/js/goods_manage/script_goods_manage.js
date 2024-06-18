@@ -177,11 +177,8 @@ $(document).ready(function () {
                 orderable: false 
             },
             { "data": function(data, type, row){
-                    if(data.stock_flag && !data.option_flag){
+                    if(data.stock_flag){
                         return `<div class="input-group"><input class="form-control" type="number" value="${data.stock}" id="STOCK_${data.id}" onkeyup="enterkey(${data.id}, 'STOCK')"/><button class="btn btn-outline-secondary" type="button" id="btn_STOCK_${data.id}" onclick="setValue(${data.id}, 'STOCK', this)">저장</button></div>`;
-                    }
-                    else if(data.stock_flag && data.option_flag){
-                        return '<span>옵션별재고</span>';
                     }
                     else{
                         return '<span>x</span>';
