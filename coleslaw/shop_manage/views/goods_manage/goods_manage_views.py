@@ -319,9 +319,9 @@ def goods(request: HttpRequest, *args, **kwargs):
 
     queryset=Goods.objects.filter(**filter_dict).annotate(
         imageThumbnailUrl=Case(
-            When(image_thumbnail='', then=Concat(V(request._current_scheme_host), V(settings.MEDIA_URL), V('image/goods/default.jpg'))),
-            When(image_thumbnail=None, then=Concat(V(request._current_scheme_host), V(settings.MEDIA_URL), V('image/goods/default.jpg'))),
-            default=Concat(V(request._current_scheme_host), V(settings.MEDIA_URL), 'image_thumbnail', output_field=CharField())
+            When(image_thumbnail='', then=Concat(V(settings.SITE_URL), V(settings.MEDIA_URL), V('image/goods/default.jpg'))),
+            When(image_thumbnail=None, then=Concat(V(settings.SITE_URL), V(settings.MEDIA_URL), V('image/goods/default.jpg'))),
+            default=Concat(V(settings.SITE_URL), V(settings.MEDIA_URL), 'image_thumbnail', output_field=CharField())
         ),
         mainCategoryName = F('sub_category__main_category__name'),
         subCategoryName = F('sub_category__name'),

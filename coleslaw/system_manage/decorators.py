@@ -9,7 +9,7 @@ def permission_required(redirect_url=None, raise_exception=False):
         def wrapper(request, *args, **kwargs):
             user = request.user
             if 'system-manage' in request.path:
-                if not user:
+                if not user.is_authenticated:
                     if raise_exception:
                         return HttpResponse('Unauthorized', status=401)
                     else:
@@ -24,7 +24,7 @@ def permission_required(redirect_url=None, raise_exception=False):
                         path = resolve_url(redirect_url)
                         return redirect(f'{path}?next={next_url}')
             elif 'shop-manage' in request.path:
-                if not user:
+                if not user.is_authenticated:
                     if raise_exception:
                         return HttpResponse('Unauthorized', status=401)
                     else:
