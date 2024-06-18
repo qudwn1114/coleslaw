@@ -73,10 +73,9 @@ class ShopOrderCreateView(View):
                     order_goods = OrderGoods(order=order, goods=i.goods, price=i.price, name=i.goods.name, quantity=i.quantity, option=option, option_price=option_price, total_price=(i.price+option_price)*i.quantity)
                     order_goods_bulk_list.append(order_goods)
 
-                    OrderGoods.objects.bulk_create(order_goods_bulk_list)
-                    order.order_name=order_name
-                    order.save()
-
+                OrderGoods.objects.bulk_create(order_goods_bulk_list)
+                order.order_name=order_name
+                order.save()
                     
             return_data = {
                 'data': {

@@ -113,7 +113,6 @@ class ShopCheckoutView(View):
                     # 총결제금액 합산
                     final += total
 
-                print(final)
                 if final != finalPrice:
                     raise ValueError(f'Final Price Error')
                 
