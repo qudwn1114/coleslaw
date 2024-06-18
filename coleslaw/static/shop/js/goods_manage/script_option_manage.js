@@ -121,6 +121,7 @@ function saveOptionDetail(id){
         return;
     }
     let data = {
+        "type": "DETAIL",
         "option_detail_id" : id,
         "option_name" : document.getElementById(`option_name_${id}`).value,
         "option_price" : document.getElementById(`option_price_${id}`).value,
@@ -181,4 +182,40 @@ function deleteOptionDetail(id){
             }
         },
     });
+}
+
+
+function setStockFlag(id, elem){
+    if(!confirm("옵션재고 관리 설정을 변경하시겠습니까?")) {
+        return;
+    }
+    let data = {
+        "type": "STOCK_FLAG",
+        "option_detail_id" : id
+    }
+    $.ajax({
+        type: "PUT",
+        url: `/shop-manage/${shop_id}/option-detail-manage/`,
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        data: JSON.stringify(data),
+        datatype: "JSON",
+        success: function(data) {
+            alert(data.message);
+            location.reload(true);
+        },
+        error: function(error) {
+            if(error.status == 401){
+                alert('로그인 해주세요.');
+            }
+            else if(error.status == 403){
+                alert('권한이 없습니다!');
+            }
+            else{
+                alert(error.status + JSON.stringify(error.responseJSON));
+            }
+        },
+    });
+
 }

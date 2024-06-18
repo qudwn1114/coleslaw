@@ -163,7 +163,11 @@
                                     <input type="text" id="option_price_{{j.id}}" class="form-control" placeholder="옵션 가격" value="{{j.price|intcomma}}" disabled>
                                 </td>
                                 <td>
-                                    <input type="text" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock|intcomma}}" disabled>
+                                    {% if j.stock_flag %}
+                                      <input type="text" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock|intcomma}}" disabled>
+                                    {% else %}
+                                      <span>재고 관리 x</span>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}

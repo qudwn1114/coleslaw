@@ -109,18 +109,31 @@ class OptionDetailManageView(View):
         if not shop:
             return JsonResponse({'message' : '가맹점 오류'},status = 400)
         request.PUT = json.loads(request.body)
-        option_detail_id = request.PUT['option_detail_id']
-        option_name = request.PUT['option_name']
-        option_price = request.PUT['option_price']
-        option_stock = request.PUT['option_stock']
-        try:
-            goods_option_detail = GoodsOptionDetail.objects.get(pk=option_detail_id)
-        except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
-        goods_option_detail.name = option_name
-        goods_option_detail.price = option_price
-        goods_option_detail.stock = option_stock
-        goods_option_detail.save()
+        rq_type = request.PUT['type']
+        if rq_type == 'DETAIL':
+            option_detail_id = request.PUT['option_detail_id']
+            option_name = request.PUT['option_name']
+            option_price = request.PUT['option_price']
+            option_stock = request.PUT['option_stock']
+            try:
+                goods_option_detail = GoodsOptionDetail.objects.get(pk=option_detail_id)
+            except:
+                return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            goods_option_detail.name = option_name
+            goods_option_detail.price = option_price
+            if goods_option_detail.stock_flag:
+                goods_option_detail.stock = option_stock
+            goods_option_detail.save()
+        elif rq_type == 'STOCK_FLAG':
+            option_detail_id = request.PUT['option_detail_id']
+            try:
+                goods_option_detail = GoodsOptionDetail.objects.get(pk=option_detail_id)
+            except:
+                return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            goods_option_detail.stock_flag = not goods_option_detail.stock_flag
+            goods_option_detail.save()
+        else:
+            return JsonResponse({'message' : 'TYPE ERROR'},status = 400)
         
         return JsonResponse({'message' : '수정되었습니다.'},status = 201)
 

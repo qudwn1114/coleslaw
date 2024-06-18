@@ -78,7 +78,15 @@
                                         <input type="number" id="option_price_{{j.id}}" class="form-control" placeholder="옵션 가격" value="{{j.price}}">
                                     </td>
                                     <td>
-                                      <input type="number" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock}}">
+                                      {% if j.stock_flag %}
+                                        <input type="number" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock}}">
+                                        <input class="form-check-input" type="checkbox" value="1" id="stock_flag_{{j.id}}" name="stock_flag_{{j.id}}" checked onchange="setStockFlag({{j.id}}, this)">
+                                        <label class="form-check-label" for="stock_flag_{{j.id}}">옵션 재고관리</label>
+                                      {% else %}
+                                        <input type="hidden" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock}}">
+                                        <input class="form-check-input" type="checkbox" value="0" id="stock_flag_{{j.id}}" name="stock_flag_{{j.id}}" onchange="setStockFlag({{j.id}}, this)">
+                                        <label class="form-check-label" for="stock_flag_{{j.id}}">옵션 재고관리</label>
+                                      {% endif %}
                                     </td>
                                     <td class="text-end">
                                         <button type="button" class="btn btn-danger" onclick="deleteOptionDetail('{{j.id}}')">삭제</button>
@@ -112,6 +120,6 @@
 <script>
   const shop_id = {{shop.id}};
 </script>
-<script src="{% static 'shop/js/goods_manage/script_option_manage.js' %}"></script>
+<script src="{% static 'shop/js/goods_manage/script_option_manage.js' %}?v=20240618"></script>
 {% endblock javascripts %}
 
