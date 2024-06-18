@@ -113,6 +113,7 @@ class ShopCheckoutView(View):
                     # 총결제금액 합산
                     final += total
 
+                print(final)
                 if final != finalPrice:
                     raise ValueError(f'Final Price Error')
                 
@@ -122,6 +123,7 @@ class ShopCheckoutView(View):
             return_data = {
                 'data': {
                     'shop':shop.pk,
+                    'checkout_id':checkout.pk,
                     'code':checkout.code,
                 },
                 'msg': '주문정보 생성완료',

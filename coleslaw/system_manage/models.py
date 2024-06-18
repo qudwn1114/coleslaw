@@ -214,7 +214,7 @@ class Order(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
 
     order_name = models.CharField(max_length=255, verbose_name='주문명', null=True)
-    order_code = models.CharField(max_length=20, verbose_name='주문번호')
+    order_code = models.CharField(max_length=50, verbose_name='주문번호')
     order_phone = models.CharField(max_length=20, default='', verbose_name='주문자번호')
 
     status = models.CharField(max_length=10, verbose_name='결제상태', default='0') #'0':주문요청 '1':결제완료 '2':취소

@@ -19,7 +19,11 @@ class HomeView(TemplateView):
     @method_decorator(permission_required(redirect_url='system_manage:denied'))
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-
+        import uuid
+        order_code = uuid.uuid4().hex
+        print(order_code)
+        print(type(order_code))
+        print(len(order_code))
         return render(request, self.template_name, context)
 
 class LoginView(View):
