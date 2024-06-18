@@ -64,6 +64,19 @@ class OptionManageView(View):
         return JsonResponse({'message' : '등록되었습니다.'},status = 202)
     
     @method_decorator(permission_required(raise_exception=True))
+    def put(self, request: HttpRequest, *args, **kwargs):
+        request.PUT = json.loads(request.body)
+        option_id = request.PUT['option_id']
+        try:
+            goods_option = GoodsOption.objects.get(pk=option_id)
+        except:
+            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+        goods_option.required = not goods_option.required
+        goods_option.save()
+        
+        return JsonResponse({'message' : '수정되었습니다.'},status = 200)
+    
+    @method_decorator(permission_required(raise_exception=True))
     def delete(self, request: HttpRequest, *args, **kwargs):
         request.DELETE = json.loads(request.body)
         option_id = request.DELETE['option_id']

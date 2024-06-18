@@ -187,6 +187,7 @@ function deleteOptionDetail(id){
 
 function setStockFlag(id, elem){
     if(!confirm("옵션재고 관리 설정을 변경하시겠습니까?")) {
+        location.reload(true);
         return;
     }
     let data = {
@@ -218,4 +219,35 @@ function setStockFlag(id, elem){
         },
     });
 
+}
+
+function setRequired(id){
+    if(!confirm("옵션필수 선택을 수정하시겠습니까?")) {
+        location.reload(true);
+        return;
+    }
+    $.ajax({
+        type: "PUT",
+        url: "",
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        data: JSON.stringify({"option_id" : id}),
+        datatype: "JSON",
+        success: function(data) {
+            alert(data.message);
+            location.reload(true);
+        },
+        error: function(error) {
+            if(error.status == 401){
+                alert('로그인 해주세요.');
+            }
+            else if(error.status == 403){
+                alert('권한이 없습니다!');
+            }
+            else{
+                alert(error.status + JSON.stringify(error.responseJSON));
+            }
+        },
+    });
 }

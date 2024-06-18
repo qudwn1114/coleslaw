@@ -57,7 +57,15 @@
             {% if goods.option %}
                 {% for i in goods.option.all %}
                 <div class="border border-3 p-3">
-                    <h6>{{i.name}}{% if i.required %} (필수){% endif %}</h6>
+                    <h6>
+                      {{i.name}} 
+                      {% if i.required %}
+                      <input class="form-check-input" type="checkbox" value="1"  id="option_detail_{{i.id}}" checked onchange="setRequired('{{i.id}}')">
+                      {% else %}
+                      <input class="form-check-input" type="checkbox" value="0" id="option_detail_{{i.id}}" onchange="setRequired('{{i.id}}')">
+                      {% endif %}
+                      <label class="form-check-label" for="option_detail_{{i.id}}">옵션선택 필수</label>
+                    </h6>
                     <table class="table table-hover">
                         <thead>
                           <tr>
