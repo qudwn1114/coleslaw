@@ -111,7 +111,7 @@ class ShopCheckoutView(View):
                         CheckoutDetailOption.objects.bulk_create(checkout_option_bulk_list)
 
                     if  total != totalPrice:
-                        raise ValueError(f'{goodsId} Goods total price Error')
+                        raise ValueError(f'{goodsId} Goods total price Error ...{total}')
                       
                     checkout_detail.total_price = total
                     checkout_detail.save()
