@@ -131,7 +131,7 @@ class ShopOrderCompleteView(View):
     '''
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return super(ShopOrderCreateView, self).dispatch(request, *args, **kwargs)
+        return super(ShopOrderCompleteView, self).dispatch(request, *args, **kwargs)
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
