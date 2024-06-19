@@ -130,6 +130,7 @@ class ShopCheckoutView(View):
                     'shop_id':shop.pk,
                     'checkout_id':checkout.pk,
                     'code':checkout.code,
+                    'final_price':checkout.final_price
                 },
                 'msg': '주문정보 생성완료',
                 'resultCd': '0000',
