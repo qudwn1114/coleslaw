@@ -6,6 +6,8 @@ from django.db import transaction, IntegrityError
 from django.core.serializers.json import DjangoJSONEncoder
 from system_manage.views.system_manage_views.auth_views import validate_phone
 from django.utils import timezone, dateformat
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 import traceback, json, datetime, uuid
 
@@ -13,6 +15,10 @@ class ShopOrderCreateView(View):
     '''
         shop checkout
     '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopOrderCreateView, self).dispatch(request, *args, **kwargs)
+    
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         checkout_id = kwargs.get('checkout_id')

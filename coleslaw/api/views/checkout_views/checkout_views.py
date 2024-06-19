@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.views.generic import View
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.urls import reverse
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from system_manage.models import Shop, Goods, GoodsOption, GoodsOptionDetail, Checkout, CheckoutDetail, AgencyShop, CheckoutDetailOption
@@ -14,6 +16,10 @@ class ShopCheckoutView(View):
     '''
         shop checkout
     '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopCheckoutView, self).dispatch(request, *args, **kwargs)
+    
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         try:
