@@ -3,14 +3,15 @@ from django.contrib.auth import login
 from django.urls import reverse
 from django.views.generic import View, TemplateView
 from django.http import HttpRequest, JsonResponse
-from django.db.models import F
+from django.db.models import F, Sum
+from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.utils import timezone
 
 from django.utils.decorators import method_decorator
 from system_manage.decorators import  permission_required
-from system_manage.models import Shop, ShopAdmin
+from system_manage.models import Shop, ShopAdmin, Order
 
 
 # Create your views here.
@@ -26,6 +27,24 @@ class HomeView(View):
         if not shop:
             return redirect('shop_manage:notfound')
         context['shop'] = shop
+
+        daily_order = Order.objects.filter(shop=shop, date=timezone.now().date()).exclude(status='0')
+        card_sales = daily_order.filter(payment_method="CARD")
+        cash_sales = daily_order.filter(payment_method="CASH")
+        cancel_sales = daily_order.filter(status='2')
+        total_sales = daily_order.all().exclude(status='2')
+
+        daily = {
+            'card_sales' : card_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
+            'card_count' : card_sales.count(),
+            'cash_sales' : cash_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
+            'cash_count' : cash_sales.count(),
+            'cancel_sales' : cancel_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
+            'cancel_count' : cancel_sales.count(),
+            'total_sales' : total_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
+            'total_count' : total_sales.count()
+        }
+        context['daily'] = daily
         
         return render(request, 'shop_admin_manage/shop_manage_main.html', context)
     

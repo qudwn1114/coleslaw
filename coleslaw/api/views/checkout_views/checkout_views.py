@@ -96,7 +96,7 @@ class ShopCheckoutView(View):
                             optionName = j['optionName']
                             optionDetailId = j['optionDetail']['optionDetailId']
                             optionDetailName = j['optionDetail']['optionDetailName']
-                            optionDetailPrice = j['optionDetail']['optionDetailPrice']
+                            optionDetailPrice = int(j['optionDetail']['optionDetailPrice'])
                             try:
                                 goods_option_detail = GoodsOptionDetail.objects.get(pk=optionDetailId, goods_option=optionId)
                             except:

@@ -234,12 +234,12 @@ class Order(models.Model):
     order_membername = models.CharField(max_length=20, default='', verbose_name='주문자명')
     order_phone = models.CharField(max_length=20, default='', verbose_name='주문자번호')
 
-    status = models.CharField(max_length=10, verbose_name='결제상태', default='0') #'0':주문요청 '1':결제완료 '2':취소
+    status = models.CharField(max_length=10, verbose_name='결제상태', default='0') #'0':주문요청 '1':결제완료 '2':취소, '3': 준비중, '4': 주문완료, 5: '수령완료'
 
     final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제요청금액')
 
     payment_price = models.PositiveIntegerField(default=0, verbose_name='실제결제금액')
-    payment_method = models.CharField(max_length=10, verbose_name='결제수단', default='')
+    payment_method = models.CharField(max_length=10, verbose_name='결제수단', default='')  #CARD, #CASH
     cancelled_at = models.DateTimeField(null=True, verbose_name='취소일')
 
     date = models.DateField(auto_now_add=True, verbose_name='날짜')
