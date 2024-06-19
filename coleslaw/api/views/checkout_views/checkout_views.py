@@ -104,7 +104,7 @@ class ShopCheckoutView(View):
                             
                             if goods_option_detail.price != optionDetailPrice:
                                 raise ValueError(f'{goodsId} Goods Option Price Error')
-                            total += optionDetailPrice
+                            total += optionDetailPrice * quantity
 
                             checkout_option_bulk_list.append(CheckoutDetailOption(checkout_detail=checkout_detail, goods_option_detail=goods_option_detail))
 
