@@ -162,6 +162,7 @@ class GoodsOptionDetail(models.Model):
     price = models.PositiveIntegerField(default=0, verbose_name='옵션가격')
     stock = models.IntegerField(default=0, verbose_name='재고수량')
     stock_flag = models.BooleanField(default=False, verbose_name='재고관리사용여부') #재고 관리 사용 여부
+    soldout = models.BooleanField(default=False, verbose_name='품절 여부') #품절 여부
     
     class Meta:
         db_table='goods_option_detail'

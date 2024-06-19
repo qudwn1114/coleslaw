@@ -145,6 +145,14 @@ class OptionDetailManageView(View):
                 return JsonResponse({'message' : '데이터 오류'},  status = 400)
             goods_option_detail.stock_flag = not goods_option_detail.stock_flag
             goods_option_detail.save()
+        elif rq_type == 'SOLD_OUT':
+            option_detail_id = request.PUT['option_detail_id']
+            try:
+                goods_option_detail = GoodsOptionDetail.objects.get(pk=option_detail_id)
+            except:
+                return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            goods_option_detail.soldout = not goods_option_detail.soldout
+            goods_option_detail.save()
         else:
             return JsonResponse({'message' : 'TYPE ERROR'},status = 400)
         

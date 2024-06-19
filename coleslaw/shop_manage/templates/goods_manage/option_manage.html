@@ -72,6 +72,7 @@
                             <th>내용</th>
                             <th>옵션비용</th>
                             <th>재고</th>
+                            <th>품절</th>
                             <th class="text-end"><button type="button" class="btn btn-primary" onclick="createOptionDetail('{{i.id}}')">추가</button></th>
                           </tr>
                         </thead>
@@ -94,6 +95,13 @@
                                         <input type="hidden" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock}}">
                                         <input class="form-check-input" type="checkbox" value="0" id="stock_flag_{{j.id}}" name="stock_flag_{{j.id}}" onchange="setStockFlag({{j.id}}, this)">
                                         <label class="form-check-label" for="stock_flag_{{j.id}}">옵션 재고관리</label>
+                                      {% endif %}
+                                    </td>
+                                    <td>
+                                      {% if j.soldout %}
+                                        <input class="form-check-input" type="checkbox" value="1" id="sold_out_{{j.id}}" name="sold_out_{{j.id}}" checked onchange="setSoldout({{j.id}}, this)">
+                                      {% else %}
+                                        <input class="form-check-input" type="checkbox" value="0" id="sold_out_{{j.id}}" name="sold_out_{{j.id}}" onchange="setSoldout({{j.id}}, this)">
                                       {% endif %}
                                     </td>
                                     <td class="text-end">
@@ -128,6 +136,6 @@
 <script>
   const shop_id = {{shop.id}};
 </script>
-<script src="{% static 'shop/js/goods_manage/script_option_manage.js' %}?v=20240619"></script>
+<script src="{% static 'shop/js/goods_manage/script_option_manage.js' %}?v=20240620"></script>
 {% endblock javascripts %}
 
