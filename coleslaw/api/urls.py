@@ -12,4 +12,5 @@ urlpatterns = [
     path('shop/<int:shop_id>/goods/<int:goods_id>/', ShopGoodsDetailView.as_view()),
     path('shop/<int:shop_id>/checkout/', ShopCheckoutView.as_view()),
     path('shop/<int:shop_id>/order/<int:checkout_id>/<str:code>/', ShopOrderCreateView.as_view()),
+    path('shop/<int:shop_id>/order-complete/<int:order_id>/<str:code>/', ShopOrderCreateView.as_view()),
 ]

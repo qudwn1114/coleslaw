@@ -101,7 +101,8 @@ class ShopOrderCreateView(View):
                     'order_id':order.pk,
                     'order_name':order_name,
                     'order_membername':membername,
-                    'order_phone':'order_phone',
+                    'order_phone':phone,
+                    'order_code':order_code,
                     'final_price':checkout.final_price,
                 },
                 'msg': '결제준비완료',
@@ -120,5 +121,50 @@ class ShopOrderCreateView(View):
                 'resultCd': '0001',
             }
     
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopOrderCompleteView(View):
+    '''
+        shop complete
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopOrderCreateView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        code = kwargs.get('code')
+        order_id = kwargs.get('order_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        try:
+            order = Order.objects.get(pk=order_id, code=code)
+        except:
+            return_data = {'data': {},'msg': 'order id/code 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        order.status = '1'
+        order.save()
+
+        return_data = {
+            'data': {
+                'shop_name':shop.name,
+                'order_id':order.pk,
+                'order_no':order.order_no,
+                'order_membername':order.order_membername,
+                'order_phone':order.order_phone
+            },
+            'msg': '결제완료',
+            'resultCd': '0000',
+        }
+
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
