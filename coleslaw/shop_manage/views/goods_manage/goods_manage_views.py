@@ -295,6 +295,7 @@ def goods(request: HttpRequest, *args, **kwargs):
         order_col_name =  str('-' + order_col_name)
 
     filter_dict = {}
+    filter_dict['shop'] = shop
     filter_dict['delete_flag'] =False
     search_type = request.GET.get('search_type', '')
     search_keyword = request.GET.get('search_keyword', '')
