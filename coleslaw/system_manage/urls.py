@@ -5,6 +5,7 @@ from system_manage.views.system_manage_views.auth_views import HomeView, LoginVi
 from system_manage.views.user_manage_views.user_manage_views import UserManageView, UserCreateView, UserDetailView, UserEditView
 from system_manage.views.agency_manage_views.agency_manage_views import AgencyManageView, AgencyCreateView, AgencyDetailView, AgencyEditView
 from system_manage.views.agency_manage_views.agency_shop_manage_views import AgencyShopManageView
+from system_manage.views.shop_manage_views.shop_category_manage_views import ShopCategoryManageView, ShopCategoryCreateView, ShopCategoryDetailView, ShopCategoryEditView
 from system_manage.views.shop_manage_views.shop_manage_views import ShopManageView, ShopCreateView, ShopDetailView, ShopEditView
 from system_manage.views.shop_manage_views.shop_admin_manage_views import ShopAdminManageView
 from system_manage.views.category_manage_views.category_manage_views import CategoryManageView, sub_category, category
@@ -30,6 +31,12 @@ urlpatterns = [
     path('agency-edit/<int:pk>/', AgencyEditView.as_view(), name='agency_edit'),
 
     path('agency-shop-manage/<int:pk>/', AgencyShopManageView.as_view(), name='agency_shop_manage'),
+
+    #가맹점카테고리 관리
+    path('shop-category-manage/', ShopCategoryManageView.as_view(), name='shop_category_manage'),
+    path('shop-category-create/', ShopCategoryCreateView.as_view(), name='shop_category_create'),
+    path('shop-category-detail/<int:pk>/', ShopCategoryDetailView.as_view(), name='shop_category_detail'),
+    path('shop-category-edit/<int:pk>/', ShopCategoryEditView.as_view(), name='shop_category_edit'),
 
     #가맹점관리
     path('shop-manage/', ShopManageView.as_view(), name='shop_manage'),

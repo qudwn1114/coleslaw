@@ -1,0 +1,66 @@
+{% extends "layouts/system_base.html" %}
+{% load static %}
+
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Shop Category Detail</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+                <li class="breadcrumb-item">Shop Manage</li>
+                <li class="breadcrumb-item active">Shop Category Detail</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">Shop Category Detail</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a href="{% url 'system_manage:shop_category_manage' %}"><i class="bi bi-list"></i> 목록</a></div>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
+                </div>
+            </div>
+            <form id="data-form" method="post" onsubmit="return false">
+                <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="shop_name">카테고리 명</label>
+                        <input type="text" name="shop_category_name" class="form-control" id="shop_category_name" placeholder="카테고리 명" value="{{data.name}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="description">설명</label>
+                        <input type="text" name="description" class="form-control" id="description" placeholder="카테고리 설명" value="{{data.description}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="image">카테고리 이미지</label>
+                        <br>
+                        {% if data.image %}
+                            <img src="{{data.image.url}}"  style="width:200px;">
+                        {% else %}
+                            없음
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <a href="{% url 'system_manage:shop_category_edit' data.id %}" class="btn btn-warning">Edit</a>
+                  </div>
+            </form>
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+{% block javascripts %}
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_category_detail.js' %}"></script>
+{% endblock javascripts %}

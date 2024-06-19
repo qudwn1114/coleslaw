@@ -29,8 +29,21 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
+# 가맹점 카테고리
+class ShopCategory(models.Model):
+    name = models.CharField(max_length=100, verbose_name='가맹점카테고리이름', unique=True)
+    description = models.CharField(default='', max_length=255, verbose_name='설명')
+    image = models.ImageField(max_length=300, null=True, upload_to="image/shop_category/", verbose_name='가맹점카테고리이미지')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta : 
+        db_table = 'shop_category'
+
+
 # 가맹점
 class Shop(models.Model):
+    shop_category = models.ForeignKey(ShopCategory, on_delete=models.PROTECT, null=True, related_name='shop')
     name = models.CharField(max_length=100, verbose_name='가맹점이름', unique=True)
     description = models.CharField(default='', max_length=255, verbose_name='설명')
     

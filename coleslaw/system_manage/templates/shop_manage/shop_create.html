@@ -31,6 +31,16 @@
             <form id="data-form" method="post" onsubmit="return false">
                 <div class="row mb-3">
                       <div class="col-md-12">
+                        <label for="shop_category_id">가맹점 카테고리</label>
+                        <select class="form-select" id="shop_category_id" name="shop_category_id">
+                          <option value="" selected disabled>가맹점 카테고리를 선택해주세요.</option>
+                          {% for i in shop_category %}
+                            <option value="{{i.id}}">{{i.name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <div class="col-md-12">
                         <label for="shop_name">가맹점명</label>
                         <input type="text" name="shop_name" class="form-control" id="shop_name" placeholder="가맹점명">
                       </div>
@@ -78,5 +88,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20240405"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20240619"></script>
 {% endblock javascripts %}
