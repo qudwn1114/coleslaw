@@ -145,7 +145,7 @@ class ShopOrderCompleteView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         try:
-            order = Order.objects.get(pk=order_id, code=code)
+            order = Order.objects.get(pk=order_id, order_code=code)
         except:
             return_data = {'data': {},'msg': 'order id/code 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
