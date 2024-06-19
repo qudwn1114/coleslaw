@@ -97,7 +97,7 @@ class ShopOrderCreateView(View):
                     
             return_data = {
                 'data': {
-                    'shop':shop.pk,
+                    'shop_id':shop.pk,
                     'order_id':order.pk,
                     'order_name':order_name,
                     'order_membername':membername,
