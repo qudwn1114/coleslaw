@@ -82,6 +82,7 @@ class AgencyShopListView(View):
             # startnum = 0 + (page-1)*10
             # endnum = startnum+10
             queryset = AgencyShop.objects.filter(agency=agency, shop__shop_category=shop_category, status=True).annotate(
+                    shopId=F('shop_id'),
                     shopName=F('shop__name'),
                     shopDescription=F('shop__description'),
                     shopImageUrl=Case(
@@ -92,6 +93,7 @@ class AgencyShopListView(View):
                     shopDetailUrl = Concat(V(settings.SITE_URL), V('/shop/'), 'id',  V('/'),output_field=CharField()),
                 ).values(
                     'id',
+                    'shopId',
                     'shopName',
                     'shopDescription',
                     'shopImageUrl',
