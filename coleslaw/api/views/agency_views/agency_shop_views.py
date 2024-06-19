@@ -2,14 +2,14 @@ from django.conf import settings
 from django.views.generic import View
 from django.urls import reverse
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from system_manage.models import Agency, AgencyShop, Shop, Goods, SubCategory, MainCategory, GoodsOptionDetail
+from system_manage.models import ShopCategory, Agency, AgencyShop, Shop, Goods, SubCategory, MainCategory, GoodsOptionDetail
 from django.db.models.functions import Concat
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
 from django.core.serializers.json import DjangoJSONEncoder
 
 import traceback, json, datetime
 
-class AgencyShopListView(View):
+class AgencyShopCategoryListView(View):
     '''
         agency shop list api
     '''
@@ -17,10 +17,71 @@ class AgencyShopListView(View):
         agency_id = kwargs.get('agency_id')
         try:
             agency = Agency.objects.get(pk=agency_id)
+            shop_category = AgencyShop.objects.filter(agency=agency, status=True).values('shop__shop_category').distinct()
+            shop_category_id_list = list(shop_category.values_list('shop__shop_category', flat=True))
+            
+
+            queryset = ShopCategory.objects.filter(id__in=shop_category_id_list).annotate(
+                    categoryImageUrl=Case(
+                        When(image='', then=None),
+                        When(image=None, then=None),
+                        default=Concat(V(settings.SITE_URL), V(settings.MEDIA_URL), 'image', output_field=CharField())
+                    )
+                ).values(
+                    'id',
+                    'name',
+                    'description',
+                    'categoryImageUrl',
+                ).order_by('id')
+
+            return_data = {
+                # 'data': list(queryset[startnum:endnum]),
+                'data': list(queryset),
+                'resultCd': '0000',
+                'msg': '에이전시 가맹점 카테고리 리스트',
+                'totalCnt' : queryset.count()
+            }
+        except:
+            print(traceback.format_exc())
+            return_data = {
+                'data': [],
+                'msg': '오류!',
+                'resultCd': '0001',
+            }
+    
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+
+class AgencyShopListView(View):
+    '''
+        agency shop list api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        agency_id = kwargs.get('agency_id')
+        shop_category_id = kwargs.get('shop_category_id')
+        try:
+            agency = Agency.objects.get(pk=agency_id)
+        except:
+            return_data = {
+                'data': [],
+                'msg': 'agency id 오류',
+                'resultCd': '0001',
+            }
+        try:
+            shop_category = ShopCategory.objects.get(pk=shop_category_id)
+        except:
+            return_data = {
+                'data': [],
+                'msg': 'shop_category id 오류',
+                'resultCd': '0001',
+            }
+        try:
             # page = int(request.POST.get('page', 1))
             # startnum = 0 + (page-1)*10
             # endnum = startnum+10
-            queryset = AgencyShop.objects.filter(agency=agency, status=True).annotate(
+            queryset = AgencyShop.objects.filter(agency=agency, shop__shop_category=shop_category, status=True).annotate(
                     shopName=F('shop__name'),
                     shopDescription=F('shop__description'),
                     shopImageUrl=Case(
