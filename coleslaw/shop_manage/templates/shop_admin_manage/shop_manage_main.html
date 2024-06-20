@@ -7,6 +7,8 @@
 {% block main %}
 <main id="main" class="main">
   <section class="section">
+    <div id="alert_div">
+    </div>
     <div class="row">
       <div class="col" bis_skin_checked="1">
         <div class="card mb-4 rounded-3 shadow-sm" bis_skin_checked="1">
@@ -70,5 +72,9 @@
 </main>
 {% endblock %}
 {% block javascripts %}
+<script>
+  const shop_id = {{shop.pk}};  
+</script>
+<script src="{% static 'shop/js/shop_manage/script_shop_manage_main.js' %}"></script>
 {% endblock javascripts %}
 

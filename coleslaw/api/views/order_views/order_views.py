@@ -8,6 +8,8 @@ from system_manage.views.system_manage_views.auth_views import validate_phone
 from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 import traceback, json, datetime, uuid
 
@@ -37,6 +39,11 @@ class ShopOrderCreateView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        if (timezone.now() - checkout.created_at).seconds >= 7200:
+            return_data = {'data': {},'msg': '주문 시간초과.. 장바구니에서 다시 주문해주세요.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
         membername = request.POST['membername'].strip()
         phone = request.POST['phone']
 
@@ -153,6 +160,15 @@ class ShopOrderCompleteView(View):
         
         order.status = '1'
         order.save()
+        
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f'shop_order_1',
+            {
+                'type': 'chat_message',
+                'message': f'[{order.order_no}] {order.order_name}'
+            }
+        )
 
         return_data = {
             'data': {
