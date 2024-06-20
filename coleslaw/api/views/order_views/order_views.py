@@ -163,7 +163,7 @@ class ShopOrderCompleteView(View):
         
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            f'shop_order_1',
+            f'shop_order_{shop_id}',
             {
                 'type': 'chat_message',
                 'message': f'[{order.order_no}] {order.order_name}'
