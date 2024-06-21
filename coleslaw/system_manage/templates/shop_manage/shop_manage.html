@@ -78,6 +78,7 @@
                   <td>{{i.phone}}</td>
                   <td>{{i.created_at|date:"Y.m.d"}}</td>
                   <td><a class="btn btn-outline-primary" href="{% url 'system_manage:shop_admin_manage' i.id %}">설정</a></td>
+                </tr>
                 {% endfor %}
               {% else %}
                 <tr>

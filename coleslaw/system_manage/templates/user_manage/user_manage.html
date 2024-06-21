@@ -88,6 +88,7 @@
                     <input class="form-check-input" type="checkbox" {% if i.is_superuser %}checked{% endif %} onclick="setAdmin({{i.id}}, this)">
                   </td>
                   <td>{{i.date_joined|date:"Y.m.d"}}</td>
+                </tr>
                 {% endfor %}
               {% else %}
                 <tr>

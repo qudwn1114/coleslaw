@@ -74,6 +74,7 @@
                 <tr>
                   <td><a href="{% url 'system_manage:shop_category_detail' i.id %}">{{i.name}}</a></td>
                   <td>{{i.created_at|date:"Y.m.d"}}</td>
+                </tr>
                 {% endfor %}
               {% else %}
                 <tr>

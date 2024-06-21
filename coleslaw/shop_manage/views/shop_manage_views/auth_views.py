@@ -3,7 +3,7 @@ from django.contrib.auth import login
 from django.urls import reverse
 from django.views.generic import View, TemplateView
 from django.http import HttpRequest, JsonResponse
-from django.db.models import F, Sum
+from django.db.models import F, Sum, Value as V, Func, Sum, CharField
 from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -76,7 +76,44 @@ def shop_main_sales(request: HttpRequest, *args, **kwargs):
         'total_count' : total_sales.count()
     }
     return JsonResponse(data, status = 200)
+
+@require_http_methods(["GET"])
+def shop_main_orders(request: HttpRequest, *args, **kwargs):
+    '''
+        주문내역
+    '''
+    shop_id = kwargs.get('shop_id')
+    shop = check_shop(pk=shop_id)
+    if not shop:
+        return JsonResponse({}, status = 400)
     
+    filter_dict = {}
+    filter_dict['shop'] = shop
+    filter_dict['date'] = timezone.now().date()
+    order_list = Order.objects.filter(**filter_dict).annotate(
+        createdAt = Func(
+            F('created_at'),
+            V('%y.%m.%d %H:%i'),
+            function='DATE_FORMAT',
+            output_field=CharField()
+        )
+    ).exclude(status='0').values(
+        'id',
+        'order_no',
+        'order_name',
+        'order_code',
+        'order_membername',
+        'order_phone',
+        'final_price',
+        'status',
+        'createdAt'
+    ).order_by('-created_at')[:10]
+
+    data = {
+        'order_list' : list(order_list)
+    }
+    return JsonResponse(data, status = 200)
+
 
 class LoginView(View):
     '''

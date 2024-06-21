@@ -62,8 +62,7 @@ class OrderManageView(View):
             context['search_keyword'] = search_keyword
             filter_dict[search_type + '__icontains'] = search_keyword
 
-        obj_list = Order.objects.filter(**filter_dict).annotate(
-        ).values(
+        obj_list = Order.objects.filter(**filter_dict).values(
             'id',
             'order_no',
             'order_name',
@@ -99,7 +98,7 @@ class OrderManageView(View):
         request.PUT = json.loads(request.body)
         order_id = request.PUT['order_id']
         order_status = request.PUT['order_status']
-        status = ['1', '3', '4']
+        status = ['1', '3', '4', '5']
         try:
             order = Order.objects.get(pk=order_id)
         except:
