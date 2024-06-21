@@ -251,15 +251,15 @@ class ShopOrderCompleteView(View):
         # 재고관리
         for i in order.order_goods.all():
             if i.goods.stock_flag:
-                if i.stock - i.quantity <= 0:
+                if i.goods.stock - i.quantity <= 0:
                     goods_soldout = True
                 else:
                     goods_soldout = False
-
-                i.stock -= i.quantity
-                i.soldout = goods_soldout
-                i.save()
-
+                g = i.goods
+                g.stock -= i.quantity
+                g.soldout = goods_soldout
+                g.save()
+                
             for j in i.order_goods_option.all():
                 if j.goods_option_detail.stock_flag:
                     god = j.goods_option_detail
