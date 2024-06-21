@@ -266,7 +266,7 @@ class ShopOrderCompleteView(View):
                     else:
                         option_detail_soldout = False
                     
-                    god -= i.quantity
+                    god.stock -= i.quantity
                     god.soldout = option_detail_soldout
                     god.save()
         

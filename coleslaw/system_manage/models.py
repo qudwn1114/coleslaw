@@ -304,7 +304,7 @@ class OrderGoods(models.Model):
         db_table='order_goods'
 
 class OrderGoodsOption(models.Model):
-    order_goods = models.ForeignKey(CheckoutDetail, on_delete=models.CASCADE, related_name="order_goods_option")
+    order_goods = models.ForeignKey(OrderGoods, on_delete=models.CASCADE, related_name="order_goods_option")
     goods_option_detail = models.ForeignKey(GoodsOptionDetail, on_delete=models.CASCADE)
     
     class Meta:
