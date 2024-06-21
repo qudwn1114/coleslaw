@@ -170,6 +170,7 @@ class ShopOrderCompleteView(View):
         logger = logging.getLogger('my')
         logger.error(str(dict(request.POST)))
         try:
+            refNo = request.POST.get('refNo', '')
             mbrNo = request.POST.get('mbrNo', '')
             mbrRefNo = request.POST.get('mbrRefNo', '')
             tranDate = request.POST.get('tranDate', '')
@@ -207,9 +208,21 @@ class ShopOrderCompleteView(View):
             acqCompanyNo = request.POST.get('acqCompanyNo', '')
             acqCompanyName = request.POST.get('acqCompanyName', '')
             payType = request.POST.get('payType', '')
-            cardAmount = request.POST.get('cardAmount', None)
-            pointAmount = request.POST.get('pointAmount', None)
-            couponAmount = request.POST.get('couponAmount', None)
+            cardAmount = request.POST.get('cardAmount', '')
+            if not cardAmount:
+                cardAmount = 0
+            else:
+                cardAmount = int(cardAmount)
+            pointAmount = request.POST.get('pointAmount', '')
+            if not pointAmount:
+                pointAmount = 0
+            else:
+                pointAmount = int(pointAmount)
+            couponAmount = request.POST.get('couponAmount', '')
+            if not couponAmount:
+                couponAmount = 0
+            else:
+                couponAmount = int(couponAmount)
             custormmerName = request.POST.get('custormmerName', '')
             custormmerTelNo = request.POST.get('custormmerTelNo', '')
             cardPointAmount = request.POST.get('cardPointAmount', '')
@@ -232,6 +245,7 @@ class ShopOrderCompleteView(View):
             
             order.payment_method = 'CARD'
             
+            order.refNo = refNo
             order.mbrNo = mbrNo
             order.mbrRefNo = mbrRefNo
             order.tranDate = tranDate

@@ -243,11 +243,14 @@ class Order(models.Model):
     payment_method = models.CharField(max_length=10, verbose_name='결제수단', default='')  #CARD, #CASH
     cancelled_at = models.DateTimeField(null=True, verbose_name='취소일')
 
+    order_complete_sms = models.BooleanField(default=False, verbose_name='주문완료문자')
+
     date = models.DateField(auto_now_add=True, verbose_name='날짜')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
     delete_flag = models.BooleanField(default=False, verbose_name='삭제여부')
 
+    refNo = models.CharField(max_length=20, default='')
     mbrNo = models.CharField(max_length=20, default='')
     mbrRefNo = models.CharField(max_length=100, default='')
     tranDate = models.CharField(max_length=20, default='')
@@ -269,9 +272,9 @@ class Order(models.Model):
     acqCompanyNo = models.CharField(max_length=20, default='')
     acqCompanyName = models.CharField(max_length=20, default='')
     payType = models.CharField(max_length=10, default='')
-    cardAmount = models.IntegerField(null=True)
-    pointAmount = models.IntegerField(null=True)
-    couponAmount = models.IntegerField(null=True)
+    cardAmount = models.IntegerField(default=0)
+    pointAmount = models.IntegerField(default=0)
+    couponAmount = models.IntegerField(default=0)
     custormmerName = models.CharField(max_length=50, default='')
     custormmerTelNo = models.CharField(max_length=50, default='')
     cardPointAmount = models.IntegerField(default=0)
