@@ -4,7 +4,7 @@ from django.contrib.auth.views import LogoutView
 from shop_manage.views.shop_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, shop_main_sales, shop_main_orders
 from shop_manage.views.goods_manage.goods_manage_views import GoodsManageView, GoodsCreateView, GoodsDetailView, GoodsEditView, goods
 from shop_manage.views.goods_manage.option_manage_views import OptionManageView, OptionDetailManageView
-from shop_manage.views.order_manage.order_manage_views import OrderManageView
+from shop_manage.views.order_manage.order_manage_views import OrderManageView, order_complete_sms
 
 
 app_name='shop_manage'
@@ -27,4 +27,5 @@ urlpatterns = [
     path('<int:shop_id>/option-detail-manage/', OptionDetailManageView.as_view(), name='option_detail_manage'),
 
     path('<int:shop_id>/order-manage/', OrderManageView.as_view(), name='order_manage'),
+    path('<int:shop_id>/order-complete-sms/', order_complete_sms),
 ]

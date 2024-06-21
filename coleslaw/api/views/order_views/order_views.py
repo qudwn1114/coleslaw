@@ -308,7 +308,7 @@ class ShopOrderCompleteView(View):
             
             #에이전시 행사때만 문자발송!
             if order.agency:
-                message=f'[{shop.name}]\n주문번호는 [{order.order_no}] 입니다.\n'
+                message=f'[{shop.name}]\n주문번호 [{order.order_no}] 입니다.'
                 sms_response = send_sms(phone=order.order_phone, message=message)
             
             try:

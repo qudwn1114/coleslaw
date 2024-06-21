@@ -7,9 +7,11 @@ from django.db.models import CharField, F, Value as V, Func
 from django.utils.decorators import method_decorator
 from django.db import transaction
 from django.utils import timezone
+from django.views.decorators.http import require_http_methods
 from system_manage.decorators import permission_required
-from system_manage.models import Order
+from system_manage.models import Order, ShopAdmin
 from shop_manage.views.shop_manage_views.auth_views import check_shop
+from api.views.sms_views.sms_views import send_sms
 
 import json, datetime
 
@@ -109,4 +111,36 @@ class OrderManageView(View):
         order.save()
         
         return JsonResponse({'message' : '수정되었습니다.'},status = 200)
+
+
+@require_http_methods(["POST"])
+def order_complete_sms(request: HttpRequest, *args, **kwargs):
+    '''
+        주문완료 문자
+    '''
+    shop_id = kwargs.get('shop_id')
+    shop = check_shop(pk=shop_id)
+    if not shop:
+        return JsonResponse({"message":"잘못된 가맹점입니다."}, status = 400)
+    order_id = request.POST['order_id']
+    try:
+        order = Order.objects.get(pk=order_id, shop=shop)
+    except:
+        return JsonResponse({"message":"잘못된 주문입니다."}, status = 400)
+    if request.user.is_superuser or ShopAdmin.objects.filter(shop=shop, user=request.user).exists():
+        pass
+    else:
+        return JsonResponse({"message":"권한이 없습니다."}, status = 400)
     
+    if order.order_complete_sms:
+        return JsonResponse({"message":"이미 문자 발송 처리된 주문입니다."}, status = 400)
+    
+    message=f'[{shop.name}]\n주문번호 [{order.order_no}] 회원님 주문하신거 수령하세요~\n'
+    sms_response = send_sms(phone=order.order_phone, message=message)
+    if sms_response.status_code != 202:
+        return JsonResponse({"message":"전송실패.."}, status = 200)
+    
+    order.order_complete_sms = True
+    order.save()
+
+    return JsonResponse({"message":"전송되었습니다."}, status = 200)
