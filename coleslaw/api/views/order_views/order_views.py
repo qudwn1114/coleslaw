@@ -1,6 +1,5 @@
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch, Sum
 from django.db import transaction, IntegrityError
 from django.core.serializers.json import DjangoJSONEncoder
@@ -10,6 +9,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+
+from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption
+from api.views.sms_views.sms_views import send_sms
+
 
 import traceback, json, datetime, uuid
 
@@ -165,6 +168,39 @@ class ShopOrderCompleteView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        mbrNo = request.POST.get(mbrNo, '')
+        mbrRefNo = request.POST.get(mbrRefNo, '')
+        tranDate = request.POST.get(tranDate, '')
+        tranTime = request.POST.get(tranTime, '')
+        goodsName = request.POST.get(goodsName, '')
+        amount = int(request.POST.get(amount, 0))
+        taxAmount = int(request.POST.get(taxAmount, 0))
+        feeAmount = int(request.POST.get(feeAmount, 0))
+        taxFreeAmount = request.POST.get(taxFreeAmount, 0)
+        greenDepositAmount = int(request.POST.get(greenDepositAmount, 0))
+        installment = request.POST.get(installment, '')
+        custormerName = request.POST.get(custormerName, '')
+        customerTelNo = request.POST.get(customerTelNo, '')
+        applNo = request.POST.get(applNo, '')
+        cardNo = request.POST.get(cardNo, '')
+        issueCompanyNo = request.POST.get(issueCompanyNo, '')
+        issueCompanyName = request.POST.get(issueCompanyName, '')
+        issueCardName = request.POST.get(issueCardName, '')
+        acqCompanyNo = request.POST.get(acqCompanyNo, '')
+        acqCompanyName = request.POST.get(acqCompanyName, '')
+        payType = request.POST.get(payType, '')
+        cardAmount = request.POST.get(cardAmount, None)
+        pointAmount = request.POST.get(pointAmount, None)
+        couponAmount = request.POST.get(couponAmount, None)
+        custormmerName = request.POST.get(custormmerName, '')
+        custormmerTelNo = request.POST.get(custormmerTelNo, '')
+        cardPointAmount = int(request.POST.get(cardPointAmount, 0))
+        cardPointApplNo = request.POST.get(cardPointApplNo, '')
+        bankCode = request.POST.get(bankCode, None)
+        accountNo = request.POST.get(accountNo, None)
+        accountCloseDate = request.POST.get(accountCloseDate, None)
+        billkey = request.POST.get(billkey, None)
+        
         try:
             order = Order.objects.get(pk=order_id, order_code=code)
         except:
@@ -172,19 +208,82 @@ class ShopOrderCompleteView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        order.mbrNo = mbrNo
+        order.mbrRefNo = mbrRefNo
+        order.tranDate = tranDate
+        order.tranTime = tranTime
+        order.goodsName = goodsName
+        order.amount = amount
+        order.taxAmount = taxAmount
+        order.feeAmount = feeAmount
+        order.taxFreeAmount = taxFreeAmount
+        order.greenDepositAmount = greenDepositAmount
+        order.installment = installment
+        order.custormerName = custormerName
+        order.customerTelNo = customerTelNo
+        order.applNo = applNo
+        order.cardNo = cardNo
+        order.issueCompanyNo = issueCompanyName
+        order.issueCompanyName = issueCompanyName
+        order.issueCardName = issueCardName
+        order.acqCompanyNo = acqCompanyNo
+        order.acqCompanyName = acqCompanyName
+        order.payType = payType
+        order.cardAmount = cardAmount
+        order.pointAmount = pointAmount
+        order.couponAmount = couponAmount
+        order.custormmerName = custormmerName
+        order.custormmerTelNo = custormmerTelNo
+        order.cardPointAmount = cardPointAmount
+        order.cardPointApplNo = cardPointApplNo
+        order.bankCode = bankCode
+        order.accountNo = accountNo
+        order.accountCloseDate = accountCloseDate
+        order.billkey = billkey
+
         order.status = '1'
         order.save()
+
+        # 재고관리
+        for i in order.order_goods.all():
+            if i.goods.stock_flag:
+                if i.stock - i.quantity <= 0:
+                    goods_soldout = True
+                else:
+                    goods_soldout = False
+
+                i.stock -= i.quantity
+                i.soldout = goods_soldout
+                i.save()
+
+            for j in i.order_goods_option.all():
+                if j.goods_option_detail.stock_flag:
+                    god = j.goods_option_detail
+                    if god.stock - i.quantity <= 0:
+                        option_detail_soldout = True
+                    else:
+                        option_detail_soldout = False
+                    
+                    god -= i.quantity
+                    god.soldout = option_detail_soldout
+                    god.save()
+
+        message=f'[{shop.name}]\n주문번호는 [{order.order_no}] 입니다.\n'
+        sms_response = send_sms(phone=order.phone, message=message)
         
-        channel_layer = get_channel_layer()
-        async_to_sync(channel_layer.group_send)(
-            f'shop_order_{shop_id}',
-            {
-                'type': 'chat_message',
-                'message_type' : 'ORDER',
-                'title': '* 주문접수 * ',
-                'message': f'[{order.order_no}] {order.order_name}'
-            }
-        )
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_order_{shop_id}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'ORDER',
+                    'title': '* 주문접수 * ',
+                    'message': f'[{order.order_no}] {order.order_name}'
+                }
+            )
+        except:
+            pass
 
         return_data = {
             'data': {
