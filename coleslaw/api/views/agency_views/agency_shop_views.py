@@ -133,7 +133,6 @@ class ShopMainCategoryListView(View):
                 'msg': 'shop id 오류',
                 'resultCd': '0001',
             }
-        
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
@@ -183,6 +182,8 @@ class ShopGoodsListView(View):
                 'msg': 'shop id 오류',
                 'resultCd': '0001',
             }
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         
         main_category_id = request.GET.get('main_category_id', '') 
         sub_category_id = request.GET.get('sub_category_id', '')
@@ -248,6 +249,8 @@ class ShopGoodsDetailView(View):
                 'msg': 'id 오류',
                 'resultCd': '0001',
             }
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
 
         try:
             data = {}
