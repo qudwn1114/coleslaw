@@ -189,6 +189,22 @@ class ShopOrderCancelView(View):
             )
         except:
             pass
+        
+        # 재고 롤백
+        try:
+            for i in order.order_goods.all():
+                if i.goods.stock_flag:
+                    g = i.goods
+                    g.stock += i.quantity
+                    g.save()
+                for j in i.order_goods_option.all():
+                    if j.goods_option_detail.stock_flag:
+                        god = j.goods_option_detail
+                        god.stock += i.quantity
+                        god.save()
+        except:
+            pass
+
 
         return_data = {
             'data': {},
