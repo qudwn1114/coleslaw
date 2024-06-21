@@ -205,7 +205,7 @@ class Checkout(models.Model):
     class Meta:
         db_table='checkout'
 
-#상품상세
+#상품주문상세
 class CheckoutDetail(models.Model):
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE, related_name="checkout_detail")
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
@@ -216,7 +216,7 @@ class CheckoutDetail(models.Model):
     class Meta:
         db_table='checkout_detail'
 
-#상품상세
+#상품주문옵션상세
 class CheckoutDetailOption(models.Model):
     checkout_detail = models.ForeignKey(CheckoutDetail, on_delete=models.CASCADE, related_name="checkout_detail_option")
     goods_option_detail = models.ForeignKey(GoodsOptionDetail, on_delete=models.CASCADE)
@@ -269,3 +269,10 @@ class OrderGoods(models.Model):
 
     class Meta:
         db_table='order_goods'
+
+class OrderGoodsOption(models.Model):
+    order_goods = models.ForeignKey(CheckoutDetail, on_delete=models.CASCADE, related_name="order_goods_option")
+    goods_option_detail = models.ForeignKey(GoodsOptionDetail, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table='order_goods_option'

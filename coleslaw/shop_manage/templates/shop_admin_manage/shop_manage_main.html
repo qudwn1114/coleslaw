@@ -23,9 +23,9 @@
                     <h1 class="card-title pricing-card-title">
                       카드결제
                       <br>
-                      {{daily.card_count|intcomma}}<small class="text-muted fw-light"> ₩</small>
+                      <span id="card_sales">{{daily.card_sales|intcomma}}</span><small class="text-muted fw-light"> ₩</small>
                     </h1>
-                    <p class="card-text">총 {{daily.card_count|intcomma}} 건</p>
+                    <p class="card-text">총 <span id="card_count">{{daily.card_count|intcomma}}</span> 건</p>
                   </div>
                 </div>
               </div>
@@ -35,8 +35,8 @@
                     <h1 class="card-title pricing-card-title">
                       현금결제
                       <br>
-                      {{daily.cash_sales|intcomma}}<small class="text-muted fw-light"> ₩</small></h1>
-                      <p class="card-text">총 {{daily.cash_count|intcomma}} 건</p>
+                      <span id="cash_sales">{{daily.cash_sales|intcomma}}</span><small class="text-muted fw-light"> ₩</small></h1>
+                      <p class="card-text">총 <span id="cash_count">{{daily.cash_count|intcomma}}</span> 건</p>
                   </div>
                 </div>
               </div>
@@ -46,8 +46,8 @@
                     <h1 class="card-title pricing-card-title">
                       취소금액
                       <br>
-                      - {{daily.cancel_sales|intcomma}}<small class="text-muted fw-light"> ₩</small></h1>
-                      <p class="card-text">총 {{daily.cancel_count|intcomma}} 건</p>
+                      - <span id="cancel_sales">{{daily.cancel_sales|intcomma}}</span><small class="text-muted fw-light"> ₩</small></h1>
+                      <p class="card-text">총 <span id="cancel_count">{{daily.cancel_count|intcomma}}</span> 건</p>
                   </div>
                 </div>
               </div>
@@ -57,8 +57,8 @@
                     <h1 class="card-title pricing-card-title">
                       총 매출
                       <br>
-                      {{daily.total_sales|intcomma}}<small class="text-muted fw-light"> ₩</small></h1>
-                      <p class="card-text">총 {{daily.total_count|intcomma}} 건</p>
+                      <span id="total_sales">{{daily.total_sales|intcomma}}</span><small class="text-muted fw-light"> ₩</small></h1>
+                      <p class="card-text">총 <span id="total_count">{{daily.total_count|intcomma}}</span> 건</p>
                   </div>
                 </div>
               </div>
@@ -73,8 +73,13 @@
 {% endblock %}
 {% block javascripts %}
 <script>
-  const shop_id = {{shop.pk}};  
+  const shop_id = {{shop.pk}};
+  const order_audio = new Audio('/static/shop/assets/audio/order_alert.mp3')
+  const cancel_audio = new Audio('/static/shop/assets/audio/cancel_alert.mp3')
+  window.addEventListener("DOMContentLoaded", () => {
+    navigator.mediaDevices.getUserMedia({ audio: true });
+  });
 </script>
-<script src="{% static 'shop/js/shop_manage/script_shop_manage_main.js' %}"></script>
+<script src="{% static 'shop/js/shop_manage/script_shop_manage_main.js' %}?v=20240620"></script>
 {% endblock javascripts %}
 

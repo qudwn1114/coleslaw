@@ -34,6 +34,8 @@ class OrderConsumer(AsyncJsonWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        message_type = text_data_json['message_type']
+        title = text_data_json['title']
         message = text_data_json['message']
 
         # Send message to group
@@ -41,16 +43,23 @@ class OrderConsumer(AsyncJsonWebsocketConsumer):
             self.group_name,
             {
                 'type' : 'chat_message',
+                'message_type' : message_type,
+                'title' : title,
                 'message': message,
             }
         )
 
     # Receive message from group
     async def chat_message(self, event):
+        message_type = event['message_type']
+        title = event['title']
         message = event['message']
+        
         
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
+            'message_type' : message_type,
+            'title' : title,
             'message': message,
         }))
     

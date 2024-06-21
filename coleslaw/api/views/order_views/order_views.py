@@ -1,6 +1,6 @@
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods
+from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch, Sum
 from django.db import transaction, IntegrityError
 from django.core.serializers.json import DjangoJSONEncoder
@@ -15,7 +15,7 @@ import traceback, json, datetime, uuid
 
 class ShopOrderCreateView(View):
     '''
-        shop checkout
+        shop 주문생성
     '''
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -73,7 +73,6 @@ class ShopOrderCreateView(View):
                 except:
                     raise ValueError("주문생성실패")
                 order_name = ''
-                order_goods_bulk_list = []
                 for i in checkout.checkout_detail.all():
                     if order_name == '':
                         if total_quantity == 1:
@@ -81,24 +80,39 @@ class ShopOrderCreateView(View):
                         else:
                             order_name = f"{i.goods.name} 외 {total_quantity-1}개"
 
-                    option_price = 0
-                    if i.checkout_detail_option.all().exists():
-                        option = []
-                        
-                        for j in i.checkout_detail_option.all():
-                            option.append(f"{j.goods_option_detail.goods_option.name} : {j.goods_option_detail.name}")
-                            option_price += j.goods_option_detail.price
-                        option = ' / '.join(option)
-                    else:
-                        option = None
-
                     if i.goods.soldout:
                         raise ValueError(f"{i.goods.name} 상품이 판매 중단되었습니다.")
-                    
-                    order_goods = OrderGoods(order=order, goods=i.goods, price=i.price, name=i.goods.name, quantity=i.quantity, option=option, option_price=option_price, total_price=(i.price+option_price)*i.quantity)
-                    order_goods_bulk_list.append(order_goods)
 
-                OrderGoods.objects.bulk_create(order_goods_bulk_list)
+                    order_goods = OrderGoods.objects.create(
+                        order=order, 
+                        goods=i.goods,
+                        price=i.price, 
+                        name=i.goods.name, 
+                        quantity=i.quantity,
+                        option=None, 
+                        option_price=0, 
+                        total_price=i.price*i.quantity
+                    )
+
+                    option_price = 0
+                    if i.checkout_detail_option.all().exists():
+                        option = [] 
+                        order_goods_option_bulk_list = []
+                        for j in i.checkout_detail_option.all():
+                            if j.goods_option_detail.soldout:
+                                raise ValueError(f"{i.goods.name} 상품의 {j.goods_option_detail.name} 옵션 판매 중단되었습니다.")
+                            option.append(f"{j.goods_option_detail.goods_option.name} : {j.goods_option_detail.name}")
+                            option_price += j.goods_option_detail.price
+
+                            order_goods_option_bulk_list.append(OrderGoodsOption(order_goods=order_goods, goods_option_detail=j.goods_option_detail))
+
+                        OrderGoodsOption.objects.bulk_create(order_goods_option_bulk_list)
+                        option = ' / '.join(option)
+                        order_goods.option = option
+                        order_goods.option_price = option_price
+                        order_goods.total_price += option_price
+                        order_goods.save()
+
                 order.order_name=order_name
                 order.save()
                     
@@ -166,6 +180,8 @@ class ShopOrderCompleteView(View):
             f'shop_order_{shop_id}',
             {
                 'type': 'chat_message',
+                'message_type' : 'ORDER',
+                'title': '* 주문접수 * ',
                 'message': f'[{order.order_no}] {order.order_name}'
             }
         )

@@ -8,6 +8,7 @@ from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
+from django.views.decorators.http import require_http_methods
 
 from django.utils.decorators import method_decorator
 from system_manage.decorators import  permission_required
@@ -47,6 +48,34 @@ class HomeView(View):
         context['daily'] = daily
         
         return render(request, 'shop_admin_manage/shop_manage_main.html', context)
+
+@require_http_methods(["GET"])
+def shop_main_sales(request: HttpRequest, *args, **kwargs):
+    '''
+        카테고리 반환
+    '''
+    shop_id = kwargs.get('shop_id')
+    shop = check_shop(pk=shop_id)
+    if not shop:
+        return JsonResponse({}, status = 400)
+
+    daily_order = Order.objects.filter(shop=shop, date=timezone.now().date()).exclude(status='0')
+    card_sales = daily_order.filter(payment_method="CARD")
+    cash_sales = daily_order.filter(payment_method="CASH")
+    cancel_sales = daily_order.filter(status='2')
+    total_sales = daily_order.all().exclude(status='2')
+
+    data = {
+        'card_sales' : card_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
+        'card_count' : card_sales.count(),
+        'cash_sales' : cash_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
+        'cash_count' : cash_sales.count(),
+        'cancel_sales' : cancel_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
+        'cancel_count' : cancel_sales.count(),
+        'total_sales' : total_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
+        'total_count' : total_sales.count()
+    }
+    return JsonResponse(data, status = 200)
     
 
 class LoginView(View):
