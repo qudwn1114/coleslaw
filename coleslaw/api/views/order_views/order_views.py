@@ -175,11 +175,27 @@ class ShopOrderCompleteView(View):
             tranDate = request.POST.get('tranDate', '')
             tranTime = request.POST.get('tranTime', '')
             goodsName = request.POST.get('goodsName', '')
-            amount = int(request.POST.get('amount', 0))
-            taxAmount = int(request.POST.get('taxAmount', 0))
-            feeAmount = int(request.POST.get('feeAmount', 0))
+            amount = request.POST.get('amount', '')
+            if not amount:
+                amount = 0
+            else:
+                amount = int(amount)
+            taxAmount = request.POST.get('taxAmount', '')
+            if not taxAmount:
+                taxAmount = 0
+            else:
+                taxAmount = int(taxAmount)
+            feeAmount = request.POST.get('feeAmount', '')
+            if not feeAmount:
+                feeAmount = 0
+            else:
+                feeAmount = int(feeAmount)
             taxFreeAmount = request.POST.get('taxFreeAmount', 0)
-            greenDepositAmount = int(request.POST.get('greenDepositAmount', 0))
+            greenDepositAmount = request.POST.get('greenDepositAmount', '')
+            if not greenDepositAmount:
+                greenDepositAmount = 0
+            else:
+                greenDepositAmount = int(greenDepositAmount)
             installment = request.POST.get('installment', '')
             custormerName = request.POST.get('custormerName', '')
             customerTelNo = request.POST.get('customerTelNo', '')
@@ -196,7 +212,11 @@ class ShopOrderCompleteView(View):
             couponAmount = request.POST.get('couponAmount', None)
             custormmerName = request.POST.get('custormmerName', '')
             custormmerTelNo = request.POST.get('custormmerTelNo', '')
-            cardPointAmount = int(request.POST.get('cardPointAmount', 0))
+            cardPointAmount = request.POST.get('cardPointAmount', '')
+            if not cardPointAmount:
+                cardPointAmount = 0
+            else:
+                cardPointAmount = int(cardPointAmount)
             cardPointApplNo = request.POST.get('cardPointApplNo', '')
             bankCode = request.POST.get('bankCode', None)
             accountNo = request.POST.get('accountNo', None)
