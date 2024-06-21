@@ -1,5 +1,6 @@
 from django.urls import path, include
 from api.views.agency_views.agency_shop_views import AgencyShopCategoryListView, AgencyShopListView, ShopMainCategoryListView, ShopGoodsListView, ShopGoodsDetailView
+from api.views.agency_views.agency_shop_user_views import AgencyShopUserOrderListView
 from api.views.checkout_views.checkout_views import ShopCheckoutView
 from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderCompleteView
 
@@ -13,4 +14,6 @@ urlpatterns = [
     path('shop/<int:shop_id>/checkout/', ShopCheckoutView.as_view()),
     path('shop/<int:shop_id>/order/<int:checkout_id>/<str:code>/', ShopOrderCreateView.as_view()),
     path('shop/<int:shop_id>/order-complete/<int:order_id>/<str:code>/', ShopOrderCompleteView.as_view()),
+
+    path('agency/<int:agency_id>/user-order-list/', AgencyShopUserOrderListView.as_view()),
 ]

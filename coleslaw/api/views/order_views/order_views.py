@@ -208,6 +208,8 @@ class ShopOrderCompleteView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        order.payment_method = 'CARD'
+        
         order.mbrNo = mbrNo
         order.mbrRefNo = mbrRefNo
         order.tranDate = tranDate
@@ -267,9 +269,11 @@ class ShopOrderCompleteView(View):
                     god -= i.quantity
                     god.soldout = option_detail_soldout
                     god.save()
-
-        message=f'[{shop.name}]\n주문번호는 [{order.order_no}] 입니다.\n'
-        sms_response = send_sms(phone=order.phone, message=message)
+        
+        #에이전시 행사때만 문자발송!
+        if order.agency:
+            message=f'[{shop.name}]\n주문번호는 [{order.order_no}] 입니다.\n'
+            sms_response = send_sms(phone=order.phone, message=message)
         
         try:
             channel_layer = get_channel_layer()
