@@ -13,8 +13,7 @@ from channels.layers import get_channel_layer
 from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption
 from api.views.sms_views.sms_views import send_sms
 
-
-import traceback, json, datetime, uuid
+import traceback, json, datetime, uuid, logging
 
 class ShopOrderCreateView(View):
     '''
@@ -167,6 +166,9 @@ class ShopOrderCompleteView(View):
             return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
+        logger = logging.getLogger('my')
+        logger.info(request.POST)
         
         mbrNo = request.POST.get('mbrNo', '')
         mbrRefNo = request.POST.get('mbrRefNo', '')
