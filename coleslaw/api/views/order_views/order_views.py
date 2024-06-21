@@ -168,7 +168,7 @@ class ShopOrderCompleteView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         logger = logging.getLogger('my')
-        logger.info(request.POST)
+        logger.info(str(dict(request.POST)))
         
         mbrNo = request.POST.get('mbrNo', '')
         mbrRefNo = request.POST.get('mbrRefNo', '')
@@ -259,7 +259,7 @@ class ShopOrderCompleteView(View):
                 g.stock -= i.quantity
                 g.soldout = goods_soldout
                 g.save()
-                
+
             for j in i.order_goods_option.all():
                 if j.goods_option_detail.stock_flag:
                     god = j.goods_option_detail
@@ -275,7 +275,7 @@ class ShopOrderCompleteView(View):
         #에이전시 행사때만 문자발송!
         if order.agency:
             message=f'[{shop.name}]\n주문번호는 [{order.order_no}] 입니다.\n'
-            sms_response = send_sms(phone=order.phone, message=message)
+            sms_response = send_sms(phone=order.order_phone, message=message)
         
         try:
             channel_layer = get_channel_layer()
