@@ -212,7 +212,7 @@ LOGGING = {
         # logger.error(traceback.format_exc())
         'my': {
             'handlers': ['console', 'file'],
-            'level': 'INFO',
+            'level': 'ERROR',
             'propagate': False
         },
     }

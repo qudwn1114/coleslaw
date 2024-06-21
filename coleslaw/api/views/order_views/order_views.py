@@ -168,7 +168,7 @@ class ShopOrderCompleteView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         logger = logging.getLogger('my')
-        logger.info(str(dict(request.POST)))
+        logger.error(str(dict(request.POST)))
         
         mbrNo = request.POST.get('mbrNo', '')
         mbrRefNo = request.POST.get('mbrRefNo', '')
