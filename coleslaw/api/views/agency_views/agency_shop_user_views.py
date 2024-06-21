@@ -59,3 +59,56 @@ class AgencyShopUserOrderListView(View):
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
     
+
+class AgencyShopUserOrderDetailView(View):
+    '''
+        agency shop user order detail api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        agency_id = kwargs.get('agency_id')
+        order_id = kwargs.get('order_id')
+        membername = request.GET['membername']
+        phone = request.GET['phone']
+        try:
+            agency = Agency.objects.get(pk=agency_id)
+            order = Order.objects.get(pk=order_id, agency=agency, order_membername=membername, order_phone=phone)
+            data = {}
+            if order.shop.image:
+                data['orderShopImageUrl'] = settings.SITE_URL + order.shop.image.url
+            else:
+                data['orderShopImageUrl'] = None
+
+            data['shopName'] = order.shop.name
+            data['final_price'] = order.final_price
+            data['order_name'] = order.order_name
+            data['order_code'] = order.order_code
+            data['order_no'] = order.order_no
+            data['status'] = order.status
+            data['created_at'] = order.created_at
+
+            order_goods = order.order_goods.all().values( 
+                'name',
+                'price',
+                'option',
+                'option_price',
+                'quantity',
+                'total_price'
+            ).order_by('id')
+            data['order_goods'] = list(order_goods)
+
+            return_data = {
+                'data': data,
+                'resultCd': '0000',
+                'msg': '사용자 주문상세',
+            }
+        except:
+            print(traceback.format_exc())
+            return_data = {
+                'data': {},
+                'msg': '오류!',
+                'resultCd': '0001',
+            }
+    
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
