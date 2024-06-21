@@ -105,6 +105,7 @@ def shop_main_orders(request: HttpRequest, *args, **kwargs):
         'order_membername',
         'order_phone',
         'final_price',
+        'order_complete_sms',
         'status',
         'createdAt'
     ).order_by('-created_at')[:10]

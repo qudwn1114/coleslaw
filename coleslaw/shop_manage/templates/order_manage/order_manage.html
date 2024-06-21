@@ -108,7 +108,7 @@
                 {% for i in page_obj %}
                 <tr>
                   <td>{{i.order_no}}</td>
-                  <td><a href="#">{{i.order_name}}</a></td>
+                  <td><a href="javascript:;" data-bs-toggle="modal" data-bs-target="#orderGoodsModal" data-order-id="{{i.id}}">{{i.order_name}}</a></td>
                   <td>{{i.final_price|intcomma}}</td>
                   <td>{{i.order_membername}}</td>
                   <td>{{i.order_phone}}</td>
@@ -122,7 +122,9 @@
                       <option value="5" {% if i.status == '5' %}selected{% endif %}>수령완료</option>
                     </select>
                     {% if i.status == '4' %}
-                    <button class="btn btn-outline-primary w-100">완료문자</button>
+                    {% if not i.order_complete_sms %}
+                      <button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('{{i.id}}', this);">완료문자</button>
+                    {% endif %}
                     {% endif %}
                     {% else %}
                       주문취소
@@ -141,13 +143,34 @@
             </div>
         </div>
       </section>
+
+      <!-- Modal -->
+      <div class="modal fade" id="orderGoodsModal" tabindex="-1" aria-labelledby="orderGoodsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="orderGoodsModalLabel">주문 상품</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="orderGoodsModalBody">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </main>
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script>
+  const shop_id = {{shop.pk}};
+</script>
 <script src="{% static 'js/script_pagination.js' %}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}"></script>
+<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}?v=20240622"></script>
 {% endblock javascripts %}

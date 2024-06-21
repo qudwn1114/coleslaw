@@ -104,7 +104,7 @@ class AgencyShopUserOrderDetailView(View):
                 data['order_payment_type'] = '유니온페이'
             else:
                 data['order_payment_type'] = '신용카드'
-            data['createdAt'] = order.created_at.strftime('%Y년%m월%d일%H:%M')
+            data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
 
             data['mbrNo'] = order.mbrNo
             data['mbrRefNo'] = order.mbrRefNo

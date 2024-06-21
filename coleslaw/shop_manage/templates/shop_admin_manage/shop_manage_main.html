@@ -95,6 +95,24 @@
       </div>
     </div>
   </section>
+  <!-- Modal -->
+  <div class="modal fade" id="orderGoodsModal" tabindex="-1" aria-labelledby="orderGoodsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="orderGoodsModalLabel">주문 상품</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="orderGoodsModalBody">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </main>
 {% endblock %}
 {% block javascripts %}
@@ -106,6 +124,6 @@
     navigator.mediaDevices.getUserMedia({ audio: true });
   });
 </script>
-<script src="{% static 'shop/js/shop_manage/script_shop_manage_main.js' %}?v=20240621"></script>
+<script src="{% static 'shop/js/shop_manage/script_shop_manage_main.js' %}?v=20240622"></script>
 {% endblock javascripts %}
 

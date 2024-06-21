@@ -121,7 +121,7 @@ function getMainOrders(){
             tag += 
             `<tr>
                 <td>${data.order_list[i].order_no}</td>
-                <td><a href="#">${data.order_list[i].order_name}</a></td>
+                <td><a href="javascript:;" data-bs-toggle="modal" data-bs-target="#orderGoodsModal" data-order-id="${data.order_list[i].id}">${data.order_list[i].order_name}</a></td>
                 <td>${numberWithCommas(data.order_list[i].final_price)}</td>
                 <td>${data.order_list[i].order_membername}</td>
                 <td>${data.order_list[i].order_phone}</td>
@@ -152,7 +152,7 @@ function getMainOrders(){
                     }
                     tag += `>수령완료</option>
                     </select>`;
-                  if(data.order_list[i].status == '4'){
+                  if(data.order_list[i].status == '4' && data.order_list[i].order_complete_sms == false){
                     tag += `<button class="btn btn-outline-primary w-100">완료문자</button>`
                   }
                 }
@@ -229,3 +229,43 @@ function changeStatus(id, elem){
       },
   });
 }
+
+// 모달 열릴때
+$('#orderGoodsModal').on('show.bs.modal', function(event) {
+  const elem = event.relatedTarget
+  const order_id = elem.getAttribute('data-order-id');
+  $.ajax({
+      type: "GET",
+      url: `/shop-manage/${shop_id}/order-goods/${order_id}/`,
+      headers: {
+          'X-CSRFToken': csrftoken
+      },
+      success: function(data) {
+          let tag = '';
+          orderGoodsModalBody.innerHTML = '...';
+          tag += `<h5>[주문일시] ${data.createdAt}</h5><hr>`;
+          for(let i =0; i<data.order_goods.length; i++){
+              tag += `<h6>[제품명] ${data.order_goods[i].name} <br>`
+              if(data.order_goods[i].option){
+                  tag += `[옵션] ${data.order_goods[i].option} <br>`;
+              } 
+              tag += `[수량] ${data.order_goods[i].quantity}</h6><hr>`
+          }
+          tag += `<h6>총 금액 : ${numberWithCommas(data.final_price)} 원</h6>`
+          orderGoodsModalBody.innerHTML = tag;
+          console.log(data);
+      },
+      error: function(error) {
+          elem.disabled=false;
+          if(error.status == 401){
+              alert('로그인 해주세요.');
+          }
+          else if(error.status == 403){
+              alert('권한이 없습니다!');
+          }
+          else{
+              alert(error.status + JSON.stringify(error.responseJSON));
+          }
+      },
+  });
+});

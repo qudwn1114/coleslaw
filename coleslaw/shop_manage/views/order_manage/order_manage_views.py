@@ -73,6 +73,7 @@ class OrderManageView(View):
             'order_phone',
             'final_price',
             'status',
+            'order_complete_sms',
             'created_at'
         ).order_by('-created_at')
 
@@ -130,8 +131,7 @@ def order_complete_sms(request: HttpRequest, *args, **kwargs):
     if request.user.is_superuser or ShopAdmin.objects.filter(shop=shop, user=request.user).exists():
         pass
     else:
-        return JsonResponse({"message":"권한이 없습니다."}, status = 400)
-    
+        return JsonResponse({"message":"권한이 없습니다."}, status = 400)    
     if order.order_complete_sms:
         return JsonResponse({"message":"이미 문자 발송 처리된 주문입니다."}, status = 400)
     
@@ -144,3 +144,37 @@ def order_complete_sms(request: HttpRequest, *args, **kwargs):
     order.save()
 
     return JsonResponse({"message":"전송되었습니다."}, status = 200)
+
+
+@require_http_methods(["GET"])
+def order_goods(request: HttpRequest, *args, **kwargs):
+    '''
+        주문상세
+    '''
+    shop_id = kwargs.get('shop_id')
+    order_id = kwargs.get('order_id')
+    shop = check_shop(pk=shop_id)
+    if not shop:
+        return JsonResponse({"message":"잘못된 가맹점입니다."}, status = 400)
+    try:
+        order = Order.objects.get(pk=order_id, shop=shop)
+    except:
+        return JsonResponse({"message":"잘못된 주문입니다."}, status = 400)
+    
+    data = {}
+
+    data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
+    data['order_code'] = order.order_code
+    data['order_no'] = order.order_no
+    data['final_price'] = order.final_price
+    order_goods = order.order_goods.all().values( 
+        'name',
+        'price',
+        'option',
+        'option_price',
+        'quantity',
+        'total_price'
+    ).order_by('id')
+    data['order_goods'] = list(order_goods)
+
+    return JsonResponse(data=data, status = 200)
