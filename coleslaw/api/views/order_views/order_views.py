@@ -303,6 +303,7 @@ class ShopOrderCompleteView(View):
                 'resultCd': '0000',
             }
         except:
+            logger.error(traceback.format_exc())
             return_data = {
                 'data': {},
                 'msg': traceback.format_exc(),
