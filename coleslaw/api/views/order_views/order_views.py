@@ -305,3 +305,19 @@ class ShopOrderCompleteView(View):
 
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+    
+
+
+class TestView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(TestView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+
+        logger = logging.getLogger('my')
+        logger.error(str(dict(request.POST)))
+
+        return_data = json.dumps({'post': str(dict(request.POST))}, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+        
