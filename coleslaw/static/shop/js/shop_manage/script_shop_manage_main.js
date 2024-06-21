@@ -153,7 +153,7 @@ function getMainOrders(){
                     tag += `>수령완료</option>
                     </select>`;
                   if(data.order_list[i].status == '4' && data.order_list[i].order_complete_sms == false){
-                    tag += `<button class="btn btn-outline-primary w-100">완료문자</button>`
+                    tag += `<button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('${data.order_list[i].id}', this);">수령문자요청</button>`
                   }
                 }
                 else{
@@ -269,3 +269,38 @@ $('#orderGoodsModal').on('show.bs.modal', function(event) {
       },
   });
 });
+
+
+function sendOrderComplete(id, elem){
+  if (!confirm("완료 문자를 보내시겠습니까?")) {
+      return;
+  }
+  let data = {
+      order_id : id
+  };
+  elem.disabled=true;
+  $.ajax({
+      type: "POST",
+      url: `/shop-manage/${shop_id}/order-complete-sms/`,
+      headers: {
+          'X-CSRFToken': csrftoken
+      },
+      data: data,
+      datatype: "JSON",
+      success: function(data) {
+          location.reload();
+      },
+      error: function(error) {
+          elem.disabled=false;
+          if(error.status == 401){
+              alert('로그인 해주세요.');
+          }
+          else if(error.status == 403){
+              alert('권한이 없습니다!');
+          }
+          else{
+              alert(error.status + JSON.stringify(error.responseJSON));
+          }
+      },
+  });
+}

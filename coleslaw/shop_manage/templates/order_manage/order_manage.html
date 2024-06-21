@@ -123,7 +123,7 @@
                     </select>
                     {% if i.status == '4' %}
                     {% if not i.order_complete_sms %}
-                      <button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('{{i.id}}', this);">완료문자</button>
+                      <button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('{{i.id}}', this);">수령문자요청</button>
                     {% endif %}
                     {% endif %}
                     {% else %}
