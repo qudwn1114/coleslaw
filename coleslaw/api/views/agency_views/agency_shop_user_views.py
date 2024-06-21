@@ -5,8 +5,12 @@ from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.db.models.functions import Concat
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
 from django.core.serializers.json import DjangoJSONEncoder
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
-from system_manage.models import Agency, Order
+from system_manage.models import Agency, Order, Shop
 
 import traceback, json, datetime
 
@@ -78,6 +82,7 @@ class AgencyShopUserOrderDetailView(View):
             else:
                 data['orderShopImageUrl'] = None
 
+            data['shop_id'] = order.shop.pk
             data['shopName'] = order.shop.name
             data['final_price'] = order.final_price
             data['order_name'] = order.order_name
@@ -134,4 +139,61 @@ class AgencyShopUserOrderDetailView(View):
     
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+
+class ShopOrderCancelView(View):
+    '''
+        사용자 주문 취소
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopOrderCancelView, self).dispatch(request, *args, **kwargs)
     
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        order_id = kwargs.get('order_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {
+                'data': {},
+                'msg': 'shop id 오류',
+                'resultCd': '0001',
+            }
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            order = Order.objects.get(pk=order_id, shop=shop)
+        except:
+            return_data = {
+                'data': {},
+                'msg': 'order 오류',
+                'resultCd': '0001',
+            }
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        order.status = '2'
+        order.save()
+
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_order_{shop_id}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'CANCEL',
+                    'title': '! 주문취소 ! ',
+                    'message': f'[{order.order_no}] {order.order_name}'
+                }
+            )
+        except:
+            pass
+
+        return_data = {
+            'data': {},
+            'msg': '취소 상태변경 완료',
+            'resultCd': '0000',
+        }
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
