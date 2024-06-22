@@ -41,7 +41,8 @@ class ShopOrderCreateView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
-        if (timezone.now() - checkout.created_at).seconds >= 7200:
+        # 한시간
+        if (timezone.now() - checkout.created_at).seconds >= 3600:
             return_data = {'data': {},'msg': '주문 시간초과.. 장바구니에서 다시 주문해주세요.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
