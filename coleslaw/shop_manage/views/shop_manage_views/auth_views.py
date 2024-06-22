@@ -3,7 +3,7 @@ from django.contrib.auth import login
 from django.urls import reverse
 from django.views.generic import View, TemplateView
 from django.http import HttpRequest, JsonResponse
-from django.db.models import F, Sum, Value as V, Func, Sum, CharField
+from django.db.models import F, Sum, Value as V, Func, CharField
 from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -52,7 +52,7 @@ class HomeView(View):
 @require_http_methods(["GET"])
 def shop_main_sales(request: HttpRequest, *args, **kwargs):
     '''
-        카테고리 반환
+        판매현황
     '''
     shop_id = kwargs.get('shop_id')
     shop = check_shop(pk=shop_id)
