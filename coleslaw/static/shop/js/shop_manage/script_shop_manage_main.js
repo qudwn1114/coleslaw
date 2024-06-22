@@ -121,7 +121,7 @@ function getMainOrders(){
             tag += 
             `<tr>
                 <td>${data.order_list[i].order_no}</td>
-                <td><a href="javascript:;" data-bs-toggle="modal" data-bs-target="#orderGoodsModal" data-order-id="${data.order_list[i].id}">${data.order_list[i].order_name}</a></td>
+                <td><a href="javascript:;" data-bs-toggle="modal" data-bs-target="#orderGoodsModal" data-order-id="${data.order_list[i].id}">${truncateStr(data.order_list[i].order_name, 16)}</a></td>
                 <td>${numberWithCommas(data.order_list[i].final_price)}</td>
                 <td>${data.order_list[i].order_membername}</td>
                 <td>${data.order_list[i].order_phone}</td>
@@ -304,3 +304,7 @@ function sendOrderComplete(id, elem){
       },
   });
 }
+
+function truncateStr(str, n){
+  return (str.length > n) ? str.slice(0, n-1) + '&hellip;' : str;
+};

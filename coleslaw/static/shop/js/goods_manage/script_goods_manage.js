@@ -217,7 +217,7 @@ $(document).ready(function () {
             {
                 targets: 1,
                 render: function (data, type, row) {
-                    return `<a href="/shop-manage/${shop_id}/goods-detail/${row.id}">${data}</a>`;
+                    return `<a href="/shop-manage/${shop_id}/goods-detail/${row.id}">${truncateStr(data, 18)}</a>`;
                 }
             },
             {
@@ -326,3 +326,7 @@ function enterkey(id, type) {
         setValue(id, type, btn);
     }
 }
+
+function truncateStr(str, n){
+    return (str.length > n) ? str.slice(0, n-1) + '&hellip;' : str;
+};
