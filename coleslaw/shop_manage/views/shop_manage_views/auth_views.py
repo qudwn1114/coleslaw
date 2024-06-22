@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
-
+from django.contrib.auth import update_session_auth_hash
 from django.utils.decorators import method_decorator
 from system_manage.decorators import  permission_required
 from system_manage.models import Shop, ShopAdmin, Order
@@ -157,6 +157,36 @@ class LoginView(View):
 
         else:
             return JsonResponse({'message':'Not an administrator.'}, status = 403)
+        
+
+class UserPasswordEditView(View):
+    '''
+        회원 비밀번호 변경
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = {}
+        if not request.user.is_authenticated:
+            return redirect(resolve_url('shop_manage:login'))
+        return render(request, 'shop_admin_manage/user_password_edit.html', context)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):        
+        if not request.user.is_authenticated:
+            return JsonResponse({"message": "로그인이 되어있지 않습니다."},status=401)
+        user = request.user
+        password = request.POST['password']
+        new_password1 = request.POST['new_password1']
+        new_password2 = request.POST['new_password2']
+             
+        if not user.check_password(raw_password=password):
+            return JsonResponse({'message':'현재 비밀번호가 일치하지 않습니다.'}, status = 400)
+        if new_password1 != new_password2:
+            return JsonResponse({'message':'새로운 비밀번호가 일치하지 않습니다.'}, status = 400)
+        
+        user.set_password(new_password1)
+        user.save()
+        update_session_auth_hash(request, user)
+
+        return JsonResponse({'message' : '변경되었습니다.', 'url':reverse('shop_manage:login')},  status = 202)
     
 
 class PermissionDeniedView(LoginRequiredMixin, TemplateView):

@@ -160,6 +160,20 @@ class UserDetailView(View):
         return render(request, 'user_manage/user_detail.html', context)
     
     @method_decorator(permission_required(raise_exception=True))
+    def post(self, request: HttpRequest, *args, **kwargs):
+        pk = kwargs.get('pk')
+        try:
+            user = User.objects.get(pk=pk)
+        except:
+            return JsonResponse({"message": "데이터 오류"},status=400)
+        
+        new_password = '123456789a'
+        user.set_password(new_password)
+        user.save()
+        
+        return JsonResponse({'message' : '초기화되었습니다.', 'url':reverse('system_manage:user_detail', kwargs={'pk':pk})},  status = 202)
+    
+    @method_decorator(permission_required(raise_exception=True))
     def delete(self, request: HttpRequest, *args, **kwargs):
         pk = kwargs.get('pk')
         try:

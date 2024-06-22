@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from django.contrib.auth.views import LogoutView
-from shop_manage.views.shop_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, shop_main_sales, shop_main_orders
+from shop_manage.views.shop_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, shop_main_sales, shop_main_orders, UserPasswordEditView
 from shop_manage.views.goods_manage.goods_manage_views import GoodsManageView, GoodsCreateView, GoodsDetailView, GoodsEditView, goods
 from shop_manage.views.goods_manage.option_manage_views import OptionManageView, OptionDetailManageView
 from shop_manage.views.order_manage.order_manage_views import OrderManageView, order_complete_sms, order_goods
@@ -14,8 +14,9 @@ urlpatterns = [
     path('<int:shop_id>/main/orders/', shop_main_orders),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='shop_manage:login'), name='logout'),
+    path('login/', LoginView.as_view(), name='login'),
     path('denied/', PermissionDeniedView.as_view(), name='denied'),
-    path('notfound/', NotFoundView.as_view(), name='notfound'),
+    path('user-password-edit/', UserPasswordEditView.as_view(), name='user_password_edit'),
 
     path('<int:shop_id>/goods-manage/', GoodsManageView.as_view(), name='goods_manage'),
     path('<int:shop_id>/goods-create/', GoodsCreateView.as_view(), name='goods_create'),

@@ -28,6 +28,9 @@
                     <div class="icon mt-3"><a href="{% url 'system_manage:user_manage' %}"><i class="bi bi-list"></i> 목록</a></div>
                 </div>
                 <div class="col-auto">
+                  <div class="icon mt-3"><a id="btn-password-reset" href="#"><i class="bi bi-key"></i> 비밀번호 초기화</a></div>
+                </div>
+                <div class="col-auto">
                   <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
               </div>
             </div>
@@ -80,5 +83,5 @@
 </main>
 {% endblock %}
 {% block javascripts %}
-<script src="{% static 'system/js/user_manage/script_user_detail.js' %}"></script>
+<script src="{% static 'system/js/user_manage/script_user_detail.js' %}?v=20240622"></script>
 {% endblock javascripts %}
