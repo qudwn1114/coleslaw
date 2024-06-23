@@ -12,8 +12,11 @@
 | --- | --- |
 |Language|Python v3.10.14|
 |Web Server|Nginx v1.18.0 (Ubuntu)|
+|WSGI Server|Gunicorn v22.0.0|
+|ASGI Server|Daphne v4.1.2|
 |Web Framework|Django v4.2.13|
-|DB|MySQL|
+|DB|MySQL, Redis|
+
 
 ## 개발 동기
 
