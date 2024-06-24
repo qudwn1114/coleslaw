@@ -188,3 +188,13 @@ $('#orderGoodsModal').on('show.bs.modal', function(event) {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+
+function xlsxDownload(){
+    if(!confirm("엑셀저장하시겠습니까?")){
+        return false;
+    }
+    let url_search = new URLSearchParams(window.location.search);
+    url_search.set('excel', true);
+    window.location.href = `?${url_search.toString()}`;
+}

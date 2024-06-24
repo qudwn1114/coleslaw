@@ -81,12 +81,12 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">주문 목록</h5>
+                <h5 class="card-title">매출 : {{total_price|intcomma}}₩</h5>
               </div>
               <div class="col-auto">
                 <div class="icon mt-3 me-3">
                   {% if page_obj %}
-                    <!-- <a id="btn-excel" href="javascript:;" onclick="xlsxDownload();"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a> -->
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload();"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a>
                   {% endif %}
                 </div>
               </div>
@@ -172,5 +172,5 @@
 <script src="{% static 'js/script_pagination.js' %}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}?v=2024062208"></script>
+<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}?v=20240624"></script>
 {% endblock javascripts %}

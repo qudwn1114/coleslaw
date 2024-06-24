@@ -3,13 +3,15 @@ from django.urls import reverse
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
-from django.db.models import CharField, F, Value as V, Func
+from django.db.models import CharField, F, Value as V, Func, Sum
+from django.db.models.functions import Coalesce
 from django.utils.decorators import method_decorator
 from django.db import transaction
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from system_manage.decorators import permission_required
-from system_manage.models import Order, ShopAdmin
+from system_manage.models import Order, OrderGoods, ShopAdmin
+from system_manage.utils import ResponseToXlsx
 from shop_manage.views.shop_manage_views.auth_views import check_shop
 from api.views.sms_views.sms_views import send_sms
 
@@ -64,6 +66,24 @@ class OrderManageView(View):
             context['search_keyword'] = search_keyword
             filter_dict[search_type + '__icontains'] = search_keyword
 
+        excel = request.GET.get('excel', None)
+        if excel:
+            filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
+            filename = f"주문 목록_{timezone.now().strftime('%Y%m%d%H%M')}"
+            columns = ['상품명','옵션명', '판매가격', '옵션가격', '수량', '총금액', '날짜']
+            queryset = OrderGoods.objects.filter(**filter_dict).values(
+                'name',
+                'option',
+                'price',
+                'option_price',
+                'quantity',
+                'total_price',
+                'order__created_at'
+            ).order_by('id')
+            xlsx_download = ResponseToXlsx(columns=columns, queryset=queryset)
+            return xlsx_download.download(filename=filename)
+            
+
         obj_list = Order.objects.filter(**filter_dict).values(
             'id',
             'order_no',
@@ -76,6 +96,9 @@ class OrderManageView(View):
             'order_complete_sms',
             'created_at'
         ).order_by('-created_at')
+
+        total_price = obj_list.exclude(status='2').aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum')
+        context['total_price'] = total_price
 
         paginator = Paginator(obj_list, paginate_by)
         try:
