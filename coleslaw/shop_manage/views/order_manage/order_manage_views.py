@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
-from django.db.models import CharField, F, Value as V, Func, Sum
+from django.db.models import CharField, F, Value as V, Func, Sum, Case, When
 from django.db.models.functions import Coalesce
 from django.utils.decorators import method_decorator
 from django.db import transaction
@@ -70,15 +70,25 @@ class OrderManageView(View):
         if excel:
             filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
             filename = f"주문 목록_{timezone.now().strftime('%Y%m%d%H%M')}"
-            columns = ['상품명','옵션명', '판매가격', '옵션가격', '수량', '총금액', '날짜']
-            queryset = OrderGoods.objects.filter(**filter_dict).values(
+            columns = ['상품명','옵션명', '판매가격', '옵션가격', '수량', '총금액', '주문번호', '날짜', '상태']
+            queryset = OrderGoods.objects.filter(**filter_dict).annotate(
+                orderStatus=Case(
+                    When(order__status='1', then=V('결제완료')),
+                    When(order__status='2', then=V('취소')),
+                    When(order__status='3', then=V('준비중')),
+                    When(order__status='4', then=V('주문완료')),
+                    When(order__status='5', then=V('수령완료')),
+                ),          
+            ).values(
                 'name',
                 'option',
                 'price',
                 'option_price',
                 'quantity',
                 'total_price',
-                'order__created_at'
+                'order__order_no',
+                'order__created_at',
+                'orderStatus',
             ).order_by('id')
             xlsx_download = ResponseToXlsx(columns=columns, queryset=queryset)
             return xlsx_download.download(filename=filename)
