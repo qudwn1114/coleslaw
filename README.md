@@ -1,5 +1,7 @@
 # COLESLAW 
 
+![GitHub last commit](https://img.shields.io/github/last-commit/qudwn1114/coleslaw)
+
 **총 개발인원 : 4명 (2024.06)**
 
 ## 프로젝트 소개
