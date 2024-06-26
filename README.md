@@ -37,10 +37,10 @@
 <img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/1f1fb766-fbb3-474e-95ed-48505ad5dbda" width="200px">
 
 ### 가맹점 관리자는 주문 결제 완료시 실시간 알림을 받을 수 있어요 🤩
-<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/73d68d78-8609-4fe4-95c9-49fa763ba47a" width="500px">
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/e7493ea9-4a54-4815-9446-ceb97f518886" width="500px">
 
 ### 결제를 취소하고 싶어요 😭
 <img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/abaf81ec-8557-4077-b32a-c662749bb9a6" width="200px">
 
 ### 가맹점 관리자는 주문 취소시 실시간 알림을 받을 수 있어요  🤩
-<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/0e327508-ec07-4473-a75f-bd9b276ac8bb" width="500px">
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/4262977a-56ad-43b3-919a-4406d35a11c3" width="500px">
