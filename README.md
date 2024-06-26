@@ -40,7 +40,7 @@
 <img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/e7493ea9-4a54-4815-9446-ceb97f518886" width="500px">
 
 ### 결제를 취소하고 싶어요 😭
-<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/abaf81ec-8557-4077-b32a-c662749bb9a6" width="200px">
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/23e0e68e-00e8-4041-baff-1811388f50da" width="200px">
 
 ### 가맹점 관리자는 주문 취소시 실시간 알림을 받을 수 있어요  🤩
 <img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/4262977a-56ad-43b3-919a-4406d35a11c3" width="500px">
