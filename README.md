@@ -34,7 +34,7 @@
 ## 시연
 
 ### 줄을 서지 않고 원하는 상품을 주문해보세요! 😀
-- | - |
+&nbsp; | &nbsp; |
 ---|---|
 1.가맹점 목록 | 2.장바구니 담기 |
 <img src="https://github.com/qudwn1114/coleslaw/assets/39257040/34a26fed-0cd5-4b1f-a869-c65d2ce300ed" width="200px">|<img src="https://github.com/qudwn1114/coleslaw/assets/39257040/9c1191f7-d0e2-4551-979a-013cb004c861" width="200px">|
