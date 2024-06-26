@@ -34,9 +34,9 @@
 ## 시연
 
 ### 줄을 서지 않고 원하는 상품을 주문해보세요! 😀
-<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/34a26fed-0cd5-4b1f-a869-c65d2ce300ed" width="200px">
-<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/9c1191f7-d0e2-4551-979a-013cb004c861" width="200px">
-<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/0fdfc460-9bd5-4bf4-ba5c-204a0a250225" width="200px">
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/34a26fed-0cd5-4b1f-a869-c65d2ce300ed" width="200px">  
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/9c1191f7-d0e2-4551-979a-013cb004c861" width="200px">  
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/0fdfc460-9bd5-4bf4-ba5c-204a0a250225" width="200px">  
 <img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/134d0269-ba33-4be4-9b5a-efb1d7a78af4" width="200px">
 
 ### 가맹점 관리자는 주문 결제 완료시 실시간 알림을 받을 수 있어요 🤩
