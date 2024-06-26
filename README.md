@@ -25,4 +25,20 @@
 ## 개발 의의
  * API 개발
  * PG 결제 연동
- * 실제 사용 서비스
+ * Naver Cloud Platform(sms) 연동
+ * WebSocket 개발
+
+
+## 시연
+
+### 줄을 서지 않고 원하는 상품을 주문해보세요! 😀
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/a64fef4e-b403-494c-937a-bf40488cfa94" width="300px">
+
+### 가맹점 관리자는 주문 결제 완료시 실시간 알림을 받을 수 있어요 🤩
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/b2335b78-df3d-4a50-a700-0be7cd810708" width="300px">
+
+### 결제를 취소하고 싶어요 😭
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/adf95059-9bbe-4fe8-98aa-0f9fae56734f" width="300px">
+
+### 가맹점 관리자는 주문 취소시 실시간 알림을 받을 수 있어요  🤩
+<img src = "https://github.com/qudwn1114/coleslaw/assets/39257040/0e327508-ec07-4473-a75f-bd9b276ac8bb" width="300px">
