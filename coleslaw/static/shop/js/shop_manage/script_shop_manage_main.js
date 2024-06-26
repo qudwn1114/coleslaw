@@ -127,7 +127,7 @@ function getMainOrders(){
                 <td>${data.order_list[i].order_phone}</td>
                 <td>${data.order_list[i].createdAt}</td>
                 <td>`;
-                if(data.order_list[i].status != 2){
+                if(data.order_list[i].status != '2'){
                   tag += 
                   `<select class="form-select" onchange="changeStatus(${data.order_list[i].id}, this)">
                     <option value="1"`
@@ -152,12 +152,12 @@ function getMainOrders(){
                     }
                     tag += `>수령완료</option>
                     </select>`;
-                  if(data.order_list[i].status == '4' && data.order_list[i].order_complete_sms == false){
-                    tag += `<button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('${data.order_list[i].id}', this);">수령문자요청</button>`
-                  }
                 }
                 else{
                   tag += `주문취소`;
+                }
+                if(data.order_list[i].status == '4' && data.order_list[i].order_complete_sms == false){
+                  tag += `<button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('${data.order_list[i].id}', this);">수령문자요청</button>`
                 }
               tag += `</td>
               </tr>`;

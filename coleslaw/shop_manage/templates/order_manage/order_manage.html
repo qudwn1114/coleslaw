@@ -114,20 +114,20 @@
                   <td>{{i.order_phone}}</td>
                   <td>{{i.created_at|date:"Y.m.d H:i "}}</td>
                   <td>
-                    {% if i.status != 2 %}
+                    {% if i.status != '2' %}
                     <select class="form-select" onchange="changeStatus({{i.id}}, this)">
                       <option value="1" {% if i.status == '1' %}selected{% endif %}>결제완료</option>
                       <option value="3" {% if i.status == '3' %}selected{% endif %}>준비중</option>
                       <option value="4" {% if i.status == '4' %}selected{% endif %}>주문완료</option>
                       <option value="5" {% if i.status == '5' %}selected{% endif %}>수령완료</option>
                     </select>
-                    {% if i.status == '4' %}
-                    {% if not i.order_complete_sms %}
-                      <button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('{{i.id}}', this);">수령문자요청</button>
-                    {% endif %}
-                    {% endif %}
                     {% else %}
                       주문취소
+                    {% endif %}
+                    {% if i.status == '4' %}
+                      {% if not i.order_complete_sms %}
+                        <button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('{{i.id}}', this);">수령문자요청</button>
+                      {% endif %}
                     {% endif %}
                   </td>
                 </tr>
