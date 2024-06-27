@@ -3,8 +3,8 @@ from django.urls import reverse
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
-from django.db.models import CharField, F, Value as V, Func, Sum, Case, When
-from django.db.models.functions import Coalesce
+from django.db.models import CharField, F, Value as V, Func, Sum, Case, When, IntegerField
+from django.db.models.functions import Coalesce, Cast
 from django.utils.decorators import method_decorator
 from django.db import transaction
 from django.utils import timezone
@@ -70,7 +70,7 @@ class OrderManageView(View):
         if excel:
             filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
             filename = f"주문 목록_{timezone.now().strftime('%Y%m%d%H%M')}"
-            columns = ['상품명','옵션명', '판매가격', '옵션가격', '수량', '총금액', '주문번호', '날짜', '상태']
+            columns = ['상품명','옵션명', '판매가격', '옵션가격', '수량',  '주문번호', '거래번호', '승인번호', '날짜', '상태', '총금액']
             queryset = OrderGoods.objects.filter(**filter_dict).annotate(
                 orderStatus=Case(
                     When(order__status='1', then=V('결제완료')),
@@ -78,6 +78,10 @@ class OrderManageView(View):
                     When(order__status='3', then=V('준비중')),
                     When(order__status='4', then=V('주문완료')),
                     When(order__status='5', then=V('수령완료')),
+                ),
+                signedTotalPrice=Case(
+                    When(order__status='2', then= Cast(F('total_price'), IntegerField()) * -1),
+                    default=F('total_price'), output_field=IntegerField()
                 ),          
             ).values(
                 'name',
@@ -85,11 +89,13 @@ class OrderManageView(View):
                 'price',
                 'option_price',
                 'quantity',
-                'total_price',
-                'order__order_no',
+                'order__mbrRefNo',
+                'order__refNo',
+                'order__applNo',
                 'order__created_at',
                 'orderStatus',
-            ).order_by('id')
+                'signedTotalPrice',
+            ).order_by('-id')
             xlsx_download = ResponseToXlsx(columns=columns, queryset=queryset)
             return xlsx_download.download(filename=filename)
             
