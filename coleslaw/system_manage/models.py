@@ -98,6 +98,16 @@ class ShopPersonType(models.Model):
         ]
         db_table = 'shop_person_type'
 
+# shop table
+class ShopTable(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, verbose_name='테이블명')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta:
+        db_table='shop_table'
+
 
 # 에이전시
 class Agency(models.Model):

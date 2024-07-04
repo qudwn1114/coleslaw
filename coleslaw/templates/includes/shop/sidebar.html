@@ -9,13 +9,16 @@
       </li><!-- End Dashboard Nav -->
       <li class="nav-heading">Master Data</li>
       <li class="nav-item"> 
-        <a class="nav-link collapsed" href="{% url 'shop_manage:person_type_manage' shop.id %}"> <i class="bi bi-person"></i> <span>사람 관리 (입장)</span> </a>
-      </li>
-      <li class="nav-item"> 
         <a class="nav-link collapsed" href="{% url 'shop_manage:goods_manage' shop.id %}"> <i class="bi bi-upc-scan"></i> <span>상품 관리</span> </a>
       </li>
       <li class="nav-item"> 
         <a class="nav-link collapsed" href="{% url 'shop_manage:order_manage' shop.id %}"> <i class="bi bi-credit-card"></i> <span>주문내역 관리</span> </a>
+      </li>
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'shop_manage:person_type_manage' shop.id %}"> <i class="bi bi-person"></i> <span>사람 관리 (입장)</span> </a>
+      </li>
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'shop_manage:table_manage' shop.id %}"> <i class="bi bi-window-stack"></i> <span>테이블 관리</span> </a>
       </li>
     </ul>
 </aside><!-- End Sidebar-->

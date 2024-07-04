@@ -1,0 +1,60 @@
+{% extends "layouts/shop_base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>테이블 등록</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
+            <li class="breadcrumb-item active">Table Create</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">테이블 등록</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a href="{% url 'shop_manage:table_manage' shop.id %}"><i class="bi bi-list"></i> 목록</a></div>
+                </div>
+            </div>
+            <form id="data-form" method="post" onsubmit="return false">
+                <div class="row mt-3 mb-3">
+                    <label for="table_name" class="col-sm-2 col-form-label">이름 *</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="table_name" name="table_name" class="form-control" placeholder="이름">
+                        <small class="form-text text-muted">'테이블' 입력 시 테이블1, 테이블2, 테이블3 ... 이런식으로 생겨납니다</small>
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <label for="count" class="col-sm-2 col-form-label">개수</label>
+                    <div class="col-sm-10">
+                        <input type="number" id="count" name="count" class="form-control" value="1">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="btn-submit" class="btn btn-primary">등록</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'shop/js/table_manage/script_table_create.js' %}"></script>
+{% endblock javascripts %}
+

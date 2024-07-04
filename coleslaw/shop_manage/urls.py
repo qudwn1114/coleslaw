@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.contrib.auth.views import LogoutView
 from shop_manage.views.shop_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, shop_main_sales, shop_main_orders, UserPasswordEditView
 from shop_manage.views.entry_manage_views.person_type_manage_views import PersonTypeManageView, PersonTypeCreateView, PersonTypeDetailView, PersonTypeEditView
+from shop_manage.views.table_manage_views.table_manage_views import ShopTableManageView, ShopTableCreateView
 from shop_manage.views.goods_manage_views.goods_manage_views import GoodsManageView, GoodsCreateView, GoodsDetailView, GoodsEditView, goods
 from shop_manage.views.goods_manage_views.option_manage_views import OptionManageView, OptionDetailManageView
 from shop_manage.views.order_manage_views.order_manage_views import OrderManageView, order_complete_sms, order_goods
@@ -24,6 +25,10 @@ urlpatterns = [
     path('<int:shop_id>/person-type-create/', PersonTypeCreateView.as_view(), name='person_type_create'),
     path('<int:shop_id>/person-type-detail/<int:pk>/', PersonTypeDetailView.as_view(), name='person_type_detail'),
     path('<int:shop_id>/person-type-edit/<int:pk>/', PersonTypeEditView.as_view(), name='person_type_edit'),
+
+
+    path('<int:shop_id>/table-manage/', ShopTableManageView.as_view(), name='table_manage'),
+    path('<int:shop_id>/table-create/', ShopTableCreateView.as_view(), name='table_create'),
 
     path('<int:shop_id>/goods-manage/', GoodsManageView.as_view(), name='goods_manage'),
     path('<int:shop_id>/goods-create/', GoodsCreateView.as_view(), name='goods_create'),
