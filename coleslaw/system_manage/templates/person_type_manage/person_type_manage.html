@@ -59,7 +59,7 @@
               {% if page_obj %}
                 {% for i in page_obj %}
                 <tr>
-                  <td>{{i.name}}</td>
+                  <td><a href="{% url 'system_manage:person_type_detail' i.id %}">{{i.name}}</a></td>
                 </tr>
                 {% endfor %}
               {% else %}
