@@ -9,6 +9,7 @@ from system_manage.views.shop_manage_views.shop_category_manage_views import Sho
 from system_manage.views.shop_manage_views.shop_manage_views import ShopManageView, ShopCreateView, ShopDetailView, ShopEditView
 from system_manage.views.shop_manage_views.shop_admin_manage_views import ShopAdminManageView
 from system_manage.views.category_manage_views.category_manage_views import CategoryManageView, sub_category, category
+from system_manage.views.person_type_manage_views.person_type_manage_views import PersonTypeManageView, PersonTypeCreateView, PersonTypeDetailView, PersonTypeEditView
 
 app_name='system_manage'
 urlpatterns = [
@@ -32,6 +33,13 @@ urlpatterns = [
     path('agency-edit/<int:pk>/', AgencyEditView.as_view(), name='agency_edit'),
 
     path('agency-shop-manage/<int:pk>/', AgencyShopManageView.as_view(), name='agency_shop_manage'),
+
+    
+    #사람타입 관리
+    path('person-type-manage/', PersonTypeManageView.as_view(), name='person_type_manage'),
+    path('person-type-create/', PersonTypeCreateView.as_view(), name='person_type_create'),
+    path('person-type-detail/<int:pk>/', PersonTypeDetailView.as_view(), name='person_type_detail'),
+    path('person-type-edit/<int:pk>/', PersonTypeEditView.as_view(), name='person_type_edit'),
 
     #가맹점카테고리 관리
     path('shop-category-manage/', ShopCategoryManageView.as_view(), name='shop_category_manage'),

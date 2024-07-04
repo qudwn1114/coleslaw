@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'api',
     'system_manage',
     'shop_manage',
-    'entry',
     'notification'
 ]
 
