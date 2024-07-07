@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.db import transaction
 from system_manage.decorators import permission_required
-from system_manage.models import Shop, ShopCategory
+from system_manage.models import Shop, ShopCategory, ShopTable
 
 class ShopManageView(View):
     '''
@@ -94,19 +94,28 @@ class ShopCreateView(View):
             return JsonResponse({'message': '이미 존재하는 가맹점 명 입니다.'}, status=400)
         except:
             pass
+        try:
+            with transaction.atomic():
+                shop = Shop.objects.create(
+                    shop_category=shop_category,
+                    name=shop_name,
+                    description=description,
+                    representative=representative,
+                    phone=phone,
+                    registration_no=registration_no,
+                    address=address,
+                    address_detail=address_detail,
+                    zipcode=zipcode,
+                    image=image
+                )
+                ShopTable.objects.create(
+                    shop = shop,
+                    table_no = 0,
+                    name = 'DEFAULT'
+                )
+        except:
+            return JsonResponse({'message': '등록 실패.'}, status=400)
 
-        shop = Shop.objects.create(
-            shop_category=shop_category,
-            name=shop_name,
-            description=description,
-            representative=representative,
-            phone=phone,
-            registration_no=registration_no,
-            address=address,
-            address_detail=address_detail,
-            zipcode=zipcode,
-            image=image
-        )
 
         return JsonResponse({'message' : '등록 되었습니다.', 'url':reverse("system_manage:shop_detail", kwargs={"pk" : shop.id})},  status = 202)
     

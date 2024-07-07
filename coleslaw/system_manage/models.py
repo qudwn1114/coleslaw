@@ -101,11 +101,15 @@ class ShopPersonType(models.Model):
 # shop table
 class ShopTable(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    table_no = models.PositiveIntegerField()
     name = models.CharField(max_length=100, verbose_name='테이블명')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['shop', 'table_no'], name='shop_table_no_unique')
+        ]
         db_table='shop_table'
 
 

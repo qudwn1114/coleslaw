@@ -4,12 +4,13 @@ from django.views.generic import View
 from django.http import HttpRequest, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.utils.decorators import method_decorator
+from django.db.models import Max
 from django.db import transaction
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from system_manage.decorators import permission_required
 from shop_manage.views.shop_manage_views.auth_views import check_shop
-from system_manage.models import ShopTable
+from system_manage.models import ShopTable, Shop
 import json
 
 class ShopTableManageView(View):
@@ -38,8 +39,7 @@ class ShopTableManageView(View):
             context['search_keyword'] = search_keyword
             filter_dict[search_type + '__icontains'] = search_keyword
 
-
-        obj_list = ShopTable.objects.filter(**filter_dict).values(
+        obj_list = ShopTable.objects.filter(**filter_dict).exclude(table_no=0).values(
             'id',
             'name',
             'created_at'
@@ -99,6 +99,9 @@ class ShopTableManageView(View):
         except:
             return JsonResponse({"message": "데이터 오류"},status=400)
         
+        if shop_table.table_no == 0:
+            return JsonResponse({"message": "데이터 오류"},status=400)
+        
         shop_table.delete()
         
         return JsonResponse({'message' : '삭제되었습니다.'}, status = 201)
@@ -128,11 +131,16 @@ class ShopTableCreateView(View):
         table_name = request.POST['table_name'].strip()
         count = int(request.POST['count'])
 
-        bulk_list = []
-        for i in range(1, count+1):
-            bulk_list.append(ShopTable(shop=shop, name=f'{table_name}{i}'))
-        
-        ShopTable.objects.bulk_create(bulk_list)
+        max_table_no = ShopTable.objects.filter(shop=shop).aggregate(Max("table_no", default=0))['table_no__max']
+
+        try:
+            bulk_list = []
+            for i in range(1, count+1):
+                bulk_list.append(ShopTable(shop=shop, table_no=max_table_no+i, name=f'{table_name}{max_table_no+i}'))
+
+            ShopTable.objects.bulk_create(bulk_list)
+        except:
+            return JsonResponse({'message' : '생성 오류'},status = 400)
         
         return JsonResponse({'message' : '생성 완료', 'url':reverse('shop_manage:table_manage', kwargs={'shop_id':shop.id})},  status = 201)
 
