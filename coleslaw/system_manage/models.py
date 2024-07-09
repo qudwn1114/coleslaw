@@ -140,11 +140,14 @@ class ShopAdmin(models.Model):
 class ShopMember(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     membername = models.CharField(default='', max_length=50, verbose_name='회원명')
-    phone = models.CharField(default='', max_length=30, verbose_name='전화번호')
+    phone = models.CharField(max_length=30, verbose_name='전화번호')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
-    class Meta : 
+    class Meta :
+        constraints = [
+            models.UniqueConstraint(fields=['shop', 'phone'], name='shop_phone_unique')
+        ]
         db_table = 'shop_member'
 
 # shop table
@@ -278,6 +281,7 @@ class ShopEntryOptionDetail(models.Model):
         
 class EntryQueue(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     order = models.PositiveIntegerField()
     membername = models.CharField(max_length=20, verbose_name='예약자명')
     phone = models.CharField(max_length=20, verbose_name='전화번호')
@@ -285,6 +289,7 @@ class EntryQueue(models.Model):
     email = models.CharField(max_length=50, verbose_name='이메일', default='')
     status = models.CharField(max_length=10, verbose_name='상태', default='0') #0:대기 1:입장 2:취소
     date = models.DateField(auto_now_add=True, verbose_name='날짜')
+    remark = models.TextField(null=True, verbose_name='비고')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 

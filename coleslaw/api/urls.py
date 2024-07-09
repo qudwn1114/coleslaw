@@ -4,7 +4,7 @@ from api.views.agency_views.agency_shop_user_views import AgencyShopUserOrderLis
 from api.views.checkout_views.checkout_views import ShopCheckoutView
 from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderCompleteView
 
-from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView
+from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView
 
 app_name='api'
 urlpatterns = [
@@ -24,4 +24,5 @@ urlpatterns = [
     # 입장처리
     path('shop/<int:shop_id>/', ShopDetailView.as_view()),
     path('shop/<int:shop_id>/entry/', ShopEntryDetailView.as_view()),
+    path('shop/<int:shop_id>/entry-queue-create/', ShopEntryQueueCreateView.as_view()),
 ]

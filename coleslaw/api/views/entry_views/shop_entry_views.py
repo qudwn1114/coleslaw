@@ -5,12 +5,16 @@ from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.db.models.functions import Concat
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db import transaction, IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.utils import timezone
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-from system_manage.models import Shop, ShopPersonType, ShopEntryOption, ShopEntryOptionDetail
+from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDetail, ShopEntryOptionDetail, ShopMember
+from system_manage.views.system_manage_views.auth_views import validate_phone
+
 
 import traceback, json, datetime
 
@@ -119,5 +123,119 @@ class ShopEntryDetailView(View):
                 'resultCd': '0001',
             }
     
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+
+
+class ShopEntryQueueCreateView(View):
+    '''
+        shop 대기열 생성
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopEntryQueueCreateView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        membername = request.POST['membername']
+        phone = request.POST['phone']
+        email = request.POST['email']
+        car_plate_no = request.POST['car_plate_no']
+
+        if not validate_phone(phone):
+            return JsonResponse({"message": "유효하지 않은 전화번호 형식입니다."},status=400)
+
+        peopleList = request.POST['peopleList']
+        peopleList = json.loads(peopleList)
+
+        optionList = request.POST['optinList']
+        optionList = json.loads(optionList)
+
+        try:
+            with transaction.atomic():
+                shop_member, created = ShopMember.objects.get_or_create(
+                    shop=shop, phone=phone,
+                    defaults={membername:membername}
+                )
+                if not created:
+                    shop_member.membername = membername
+                    shop_member.save()
+
+                order = EntryQueue.objects.filter(shop=shop, date=timezone.now().date()).count() + 1
+                remark = ''
+                entry_queue = EntryQueue.objects.create(
+                    shop=shop,
+                    shop_member=shop_member,
+                    order=order,
+                    membername=membername,
+                    phone=phone,
+                    car_plate_no=car_plate_no,
+                    email=email,
+                    remark=remark
+                )
+                people = ''
+                option = ''
+                entry_queue_detail_bulk_list = []
+                for i in peopleList: 
+                    shopPersonTypeId = i['id']
+                    quantity = int(i['quantity'])
+                    if quantity > 0:
+                        try:
+                            shop_person_type = ShopPersonType.objects.get(pk=shopPersonTypeId, shop=shop)
+                        except:
+                            raise ValueError(f'{shopPersonTypeId} Person Type ID error')
+                        if shop_person_type.goods:
+                            entry_queue_detail_bulk_list.append(EntryQueueDetail(entry_queue=entry_queue, goods=shop_person_type.goods, quantity=quantity))
+                        people += f'{shop_person_type.person_type.name}:{quantity}, '
+                
+                remark += people
+                if entry_queue_detail_bulk_list:
+                    EntryQueueDetail.objects.bulk_create(entry_queue_detail_bulk_list)
+                
+                for i in optionList: 
+                    shopEntryOptionId = i['id']
+                    shopEntryOptionDetailId = i['detailId']
+                    try:
+                        shop_entry_option_detail = ShopEntryOptionDetail.objects.get(pk=shopEntryOptionDetailId, shop_entry_option_id=shopEntryOptionId)
+                    except:
+                        raise ValueError(f'Option error')
+                    option += f'{shop_entry_option_detail.shop_entry_option.name}:{shop_entry_option_detail.name}, '
+                
+                if option:
+                    remark += f'\n\n{option}'
+
+                entry_queue.remark = remark
+                entry_queue.save()
+
+                return_data = {
+                    'data': {
+                        'shop_id':shop.pk,
+                        'order':entry_queue.order,
+                    },
+                    'msg': '대기열 등록완료',
+                    'resultCd': '0000',
+                }
+        
+        except ValueError as e:
+            return_data = {
+                'data': {},
+                'msg': str(e),
+                'resultCd': '0001',
+            }
+        except IntegrityError:
+            return_data = {
+                'data': {},
+                'msg': '다시 시도해주세요.',
+                'resultCd': '0001',
+            }
+        except:
+            return_data = {'data': {},'msg': traceback.format_exc(),'resultCd': '0001'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
