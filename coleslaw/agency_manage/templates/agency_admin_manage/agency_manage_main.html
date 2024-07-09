@@ -1,0 +1,77 @@
+{% extends "layouts/agency_base.html" %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+{% block main %}
+<main id="main" class="main">
+  <section class="section">
+    <div class="row">
+      <div class="col" bis_skin_checked="1">
+        <div class="card mb-4 rounded-3 shadow-sm" bis_skin_checked="1">
+          <div class="card-header py-3" bis_skin_checked="1">
+            <h4 class="my-0 fw-normal">TOTAL DAILY SALES</h4>
+          </div>
+          <div class="card-body" bis_skin_checked="1">
+            <div class="row mt-3">
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">
+                      카드결제
+                      <h4><span id="card_sales"></span><small class="text-muted fw-light"> ₩</small></h4>
+                    </h1>
+                    <p class="card-text">총 <span id="card_count"></span> 건</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">
+                      현금결제
+                      <h4><span id="cash_sales"></span><small class="text-muted fw-light"> ₩</small></h4>
+                    </h1>
+                      <p class="card-text">총 <span id="cash_count"></span> 건</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">
+                      취소금액
+                      <h4>- <span id="cancel_sales"></span><small class="text-muted fw-light"> ₩</small></h4>
+                    </h1>
+                      <p class="card-text">총 <span id="cancel_count"></span> 건</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h1 class="card-title pricing-card-title">
+                      총 매출
+                      <h4><span id="total_sales"></span><small class="text-muted fw-light"> ₩</small></h4>
+                    </h1>
+                      <p class="card-text">총 <span id="total_count"></span> 건</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
+{% block javascripts %}
+<script>
+  const agency_id = {{agency.pk}};
+</script>
+<script src="{% static 'agency/js/agency_manage/script_agency_manage_main.js' %}?v=20240626"></script>
+{% endblock javascripts %}
+

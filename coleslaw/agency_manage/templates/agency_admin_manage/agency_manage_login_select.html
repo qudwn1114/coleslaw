@@ -1,4 +1,4 @@
-{% extends "layouts/shop_base.html" %}
+{% extends "layouts/agency_base.html" %}
 {% load static %}
 
 {% block stylesheets %}
@@ -23,7 +23,7 @@
 
               <div class="d-flex justify-content-center py-4">
                 <a href="#" class="logo d-flex align-items-center w-auto">
-                  <span class="d-none d-lg-block">{{global_site_name}} Shop Admin</span>
+                  <span class="d-none d-lg-block">{{global_site_name}} Agency Admin</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -36,15 +36,16 @@
                   </div>
                   <div class="row g-3" style="width:450px;">
                     <div class="input-group">
-                      <input type="text" class="form-control" id="shop_name" placeholder="가맹점 이름" value="{{shop_name}}" onkeyup="enterkey()">
+                      <input type="text" class="form-control" id="agency_name" placeholder="에이전시 이름" value="{{agency_name}}" onkeyup="enterkey()">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" id="btn-search">검색</button>
                       </div>
                     </div>
+
                     <ul class="list-group">
-                        {% if shop_list %}
-                        {% for i in shop_list %}
-                            <a href="{% url 'shop_manage:home' i.shop_id %}" class="list-group-item list-group-item-action text-center">
+                        {% if agency_list %}
+                        {% for i in agency_list %}
+                            <a href="{% url 'agency_manage:home' i.agency_id %}" class="list-group-item list-group-item-action text-center">
                                 {{ i.name }}
                             </a>
                         {% endfor %}
@@ -55,10 +56,10 @@
                     <div class="col-12">
                     <div class="row justify-content-between">
                       <div class="col">
-                        <p class="small mb-0">Agency Admin? <a class="ms-1" href="{% url 'agency_manage:login' %}">Agency</a></p>
+                        <p class="small mb-0">System Admin? <a class="ms-1" href="{% url 'system_manage:home' %}">System</a></p>
                       </div>
                       <div class="col-auto">
-                        <p class="small mb-0"><a class="ms-1" href="{% url 'shop_manage:logout' %}">Logout</a></p>
+                        <p class="small mb-0"><a class="ms-1" href="{% url 'agency_manage:logout' %}">Logout</a></p>
                       </div>
                     </div>
                   </div>
@@ -76,5 +77,5 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'shop/js/shop_manage/script_login_select.js' %}"></script>
+<script src="{% static 'agency/js/agency_manage/script_login_select.js' %}"></script>
 {% endblock javascripts %}

@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
 
     #app
-    'agency',
     'api',
     'system_manage',
+    'agency_manage',
     'shop_manage',
     'notification'
 ]

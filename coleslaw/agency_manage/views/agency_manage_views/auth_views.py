@@ -12,24 +12,24 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth import update_session_auth_hash
 from django.utils.decorators import method_decorator
 from system_manage.decorators import  permission_required
-from system_manage.models import Shop, ShopAdmin, Order, AgencyAdmin
+from system_manage.models import Agency, AgencyAdmin, Order
 
 
 # Create your views here.
 class HomeView(View):
     '''
-        Shop 관리자 메인 화면
+        agency 관리자 메인 화면
     '''
     @method_decorator(permission_required(redirect_url='shop_manage:denied'))
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        shop_id = kwargs.get('shop_id')
-        shop = check_shop(pk=shop_id)
-        if not shop:
-            return redirect('shop_manage:notfound')
-        context['shop'] = shop
+        agency_id = kwargs.get('agency_id')
+        agency = check_agency(pk=agency_id)
+        if not agency:
+            return redirect('agency_manage:notfound')
+        context['agency'] = agency
 
-        daily_order = Order.objects.filter(shop=shop, date=timezone.now().date()).exclude(status='0')
+        daily_order = Order.objects.filter(agency=agency, date=timezone.now().date()).exclude(status='0')
         card_sales = daily_order.filter(payment_method="CARD")
         cash_sales = daily_order.filter(payment_method="CASH")
         cancel_sales = daily_order.filter(status='2')
@@ -47,19 +47,19 @@ class HomeView(View):
         }
         context['daily'] = daily
         
-        return render(request, 'shop_admin_manage/shop_manage_main.html', context)
+        return render(request, 'agency_admin_manage/agency_manage_main.html', context)
 
 @require_http_methods(["GET"])
-def shop_main_sales(request: HttpRequest, *args, **kwargs):
+def agency_main_sales(request: HttpRequest, *args, **kwargs):
     '''
         판매현황
     '''
-    shop_id = kwargs.get('shop_id')
-    shop = check_shop(pk=shop_id)
-    if not shop:
+    agency_id = kwargs.get('shop_id')
+    agency = check_agency(pk=agency_id)
+    if not agency:
         return JsonResponse({}, status = 400)
 
-    daily_order = Order.objects.filter(shop=shop, date=timezone.now().date()).exclude(status='0')
+    daily_order = Order.objects.filter(agency=agency, date=timezone.now().date()).exclude(status='0')
     card_sales = daily_order.filter(payment_method="CARD")
     cash_sales = daily_order.filter(payment_method="CASH")
     cancel_sales = daily_order.filter(status='2')
@@ -77,73 +77,28 @@ def shop_main_sales(request: HttpRequest, *args, **kwargs):
     }
     return JsonResponse(data, status = 200)
 
-@require_http_methods(["GET"])
-def shop_main_orders(request: HttpRequest, *args, **kwargs):
-    '''
-        주문내역
-    '''
-    shop_id = kwargs.get('shop_id')
-    shop = check_shop(pk=shop_id)
-    if not shop:
-        return JsonResponse({}, status = 400)
-    
-    filter_dict = {}
-    filter_dict['shop'] = shop
-    filter_dict['date'] = timezone.now().date()
-    order_list = Order.objects.filter(**filter_dict).annotate(
-        createdAt = Func(
-            F('created_at'),
-            V('%y.%m.%d %H:%i'),
-            function='DATE_FORMAT',
-            output_field=CharField()
-        )
-    ).exclude(status='0').values(
-        'id',
-        'order_no',
-        'order_name',
-        'order_code',
-        'order_membername',
-        'order_phone',
-        'final_price',
-        'order_complete_sms',
-        'status',
-        'createdAt'
-    ).order_by('-created_at')[:10]
-
-    data = {
-        'order_list' : list(order_list)
-    }
-    return JsonResponse(data, status = 200)
-
-
 class LoginView(View):
     '''
-        가맹점 관리자 로그인 화면
+        에이전시 관리자 로그인 화면
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         if request.user.is_authenticated:
-            shop_name = request.GET.get('shop_name', '')
-            context['shop_name'] = shop_name
+            agency_name = request.GET.get('agency_name', '')
+            context['agency_name'] = agency_name
             filter_dict = {}
             if request.user.is_superuser:
-                if shop_name:
-                    filter_dict['name__icontains'] = shop_name
-                context['shop_list'] = Shop.objects.filter(**filter_dict).annotate(shop_id=F('id')).values('shop_id', 'name')[:50]
-            elif AgencyAdmin.objects.filter(user=request.user).exists():
-                agency_id_list = list(AgencyAdmin.objects.filter(user=request.user).values_list('agency', flat=True))
-                filter_dict['agency_id__in'] = agency_id_list
-                if shop_name:
-                    filter_dict['name__icontains'] = shop_name 
-                context['shop_list'] = Shop.objects.filter(**filter_dict).annotate(shop_id=F('id')).values('shop_id', 'name')[:50]
+                if agency_name:
+                    filter_dict['name__icontains'] = agency_name
+                context['agency_list'] = Agency.objects.filter(**filter_dict).annotate(agency_id=F('id')).values('agency_id', 'name')[:50]
             else:
-                if shop_name:
-                    filter_dict['shop__name__icontains'] = shop_name
+                if agency_name:
+                    filter_dict['shop__name__icontains'] = agency_name
                 filter_dict['user'] = request.user
-                context['shop_list'] = ShopAdmin.objects.filter(**filter_dict).annotate(name=F('shop__name')).values('shop_id', 'name')[:50]
-            return render(request, 'shop_admin_manage/shop_manage_login_select.html', context)
+                context['agency_list'] = AgencyAdmin.objects.filter(**filter_dict).annotate(name=F('agency__name')).values('agency_id', 'name')[:50]
+            return render(request, 'agency_admin_manage/agency_manage_login_select.html', context)
 
-        return render(request, 'shop_admin_manage/shop_manage_login.html', context)
+        return render(request, 'agency_admin_manage/agency_manage_login.html', context)
     
     def post(self, request: HttpRequest, *args, **kwargs):
         username = request.POST['username']
@@ -160,13 +115,13 @@ class LoginView(View):
         if not user.is_active:
             return JsonResponse({'message':'Deactivated account.'}, status = 400)
         
-        if user.is_superuser or ShopAdmin.objects.filter(user=user).exists():
+        if user.is_superuser or AgencyAdmin.objects.filter(user=user).exists():
             login(request, user)
             if 'next' in request.GET:
                 url = request.GET.get('next')
                 url = url.split('?next=')[-1]
             else:
-                url = reverse('shop_manage:login')
+                url = reverse('agency_manage:login')
             return JsonResponse({'message':'Sign in completed.', 'url':url}, status = 200)
 
         else:
@@ -200,21 +155,21 @@ class UserPasswordEditView(View):
         user.save()
         update_session_auth_hash(request, user)
 
-        return JsonResponse({'message' : '변경되었습니다.', 'url':reverse('shop_manage:login')},  status = 202)
+        return JsonResponse({'message' : '변경되었습니다.', 'url':reverse('agency_manage:login')},  status = 202)
     
 
 class PermissionDeniedView(LoginRequiredMixin, TemplateView):
-    login_url = 'shop_manage:login'
-    template_name='shop_admin_manage/permission_denied.html'
+    login_url = 'agency_manage:login'
+    template_name='agency_admin_manage/permission_denied.html'
     
 
 class NotFoundView(TemplateView):
-    template_name='shop_admin_manage/not_found.html'
+    template_name='agency_admin_manage/not_found.html'
     
 
-def check_shop(pk):
+def check_agency(pk):
     try:
-        shop = Shop.objects.get(pk=pk)
+        agency = Agency.objects.get(pk=pk)
     except:
         return None
-    return shop
+    return agency
