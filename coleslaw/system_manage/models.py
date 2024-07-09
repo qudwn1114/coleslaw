@@ -12,44 +12,6 @@ class PersonType(models.Model):
     class Meta :
         db_table = 'person_type'
 
-# Create your models here.
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    membername = models.CharField(default='', max_length=50, verbose_name='회원명')
-    phone = models.CharField(default='', max_length=30, verbose_name='전화번호')
-    gender = models.CharField(default='M', max_length=10, verbose_name='성별') # M / F
-    birth = models.DateField(default='1990-01-01', verbose_name='생년월일')
-
-    zipcode = models.CharField(default='', max_length=10, verbose_name='우편번호')
-    address = models.CharField(default='', max_length=255, verbose_name='주소')
-    address_detail = models.CharField(default='', max_length=255, verbose_name='상세주소')
-
-    withdrawal_at = models.DateTimeField(null=True, verbose_name='탈퇴일')
-
-    class Meta:
-        db_table='auth_profile'
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-
-# 가맹점 카테고리
-class ShopCategory(models.Model):
-    name = models.CharField(max_length=100, verbose_name='가맹점카테고리이름', unique=True)
-    description = models.CharField(default='', max_length=255, verbose_name='설명')
-    image = models.ImageField(max_length=300, null=True, upload_to="image/shop_category/", verbose_name='가맹점카테고리이미지')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
-
-    class Meta : 
-        db_table = 'shop_category'
-
-
 # 에이전시
 class Agency(models.Model):
     name = models.CharField(max_length=100, verbose_name='agency이름', unique=True)
@@ -73,6 +35,45 @@ class AgencyAdmin(models.Model):
             models.UniqueConstraint(fields=['agency', 'user'], name='agency_user_unique')
         ]
         db_table = 'agency_admin'
+
+# Create your models here.
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    membername = models.CharField(default='', max_length=50, verbose_name='회원명')
+    phone = models.CharField(default='', max_length=30, verbose_name='전화번호')
+    gender = models.CharField(default='M', max_length=10, verbose_name='성별') # M / F
+    birth = models.DateField(default='1990-01-01', verbose_name='생년월일')
+
+    zipcode = models.CharField(default='', max_length=10, verbose_name='우편번호')
+    address = models.CharField(default='', max_length=255, verbose_name='주소')
+    address_detail = models.CharField(default='', max_length=255, verbose_name='상세주소')
+
+    withdrawal_at = models.DateTimeField(null=True, verbose_name='탈퇴일')
+
+    agency = models.ForeignKey(Agency, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        db_table='auth_profile'
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+# 가맹점 카테고리
+class ShopCategory(models.Model):
+    name = models.CharField(max_length=100, verbose_name='가맹점카테고리이름', unique=True)
+    description = models.CharField(default='', max_length=255, verbose_name='설명')
+    image = models.ImageField(max_length=300, null=True, upload_to="image/shop_category/", verbose_name='가맹점카테고리이미지')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta : 
+        db_table = 'shop_category'
 
 
 # 가맹점

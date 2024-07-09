@@ -1,0 +1,87 @@
+{% extends "layouts/system_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>User Detail</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'agency_manage:home' agency.pk %}">Home</a></li>
+            <li class="breadcrumb-item">User Manage</li>
+            <li class="breadcrumb-item active">User</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">User Detail</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a href="{% url 'agency_manage:user_manage' agency.pk %}"><i class="bi bi-list"></i> 목록</a></div>
+                </div>
+                <div class="col-auto">
+                  <div class="icon mt-3"><a id="btn-password-reset" href="#"><i class="bi bi-key"></i> 비밀번호 초기화</a></div>
+                </div>
+                <div class="col-auto">
+                  <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
+              </div>
+            </div>
+            <form id="data-form" method="post" onsubmit="return false">
+                <div class="row mb-3">
+                      <div class="col-md-12">
+                        <label for="membername">회원명</label>
+                        <input type="text" name="membername" class="form-control" id="membername" value="{{data.profile.membername}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="username">아이디</label>
+                        <input type="text" name="username" class="form-control" id="username" value="{{data.username}}" disabled>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="phone">연락처</label>
+                        <input type="tel" class="form-control" name="phone" id="phone" value="{{data.profile.phone}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="birth">생년월일</label>
+                        <input type="text" class="form-control" name="birth" id="birth" value="{{data.profile.birth}}" readonly>
+                      </div>
+                      <div class="col-md-10">
+                        <label for="address">주소</label>
+                        <input type="text" class="form-control" name="address" id="address" value="{{data.profile.address}}" readonly>
+                      </div>
+                      <div class="col-md-2">
+                        <input type="text" class="form-control readmore mt-4" value="{{data.profile.zipcode}}" id="zipcode" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <input type="text" class="form-control" name="address_detail" id="address_detail" value="{{data.profile.address_detail}}" readonly>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="gender">성별</label>
+                        <input type="text" class="form-control" name="gender" id="gender" 
+                        {% if data.profile.gender == 'M' %}
+                        value="남자" 
+                        {% elif data.profile.gender == 'F' %}
+                        value="여자" 
+                        {% endif %} readonly>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <a class="btn btn-warning" href="{% url 'agency_manage:user_edit' agency.pk data.id %}">Edit</a>
+                    </div>
+            </form>
+          </div>
+        </div>
+
+      </section>
+</main>
+{% endblock %}
+{% block javascripts %}
+<script src="{% static 'agency/js/user_manage/script_user_detail.js' %}?v=20240622"></script>
+{% endblock javascripts %}
