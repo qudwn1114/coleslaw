@@ -2,6 +2,8 @@ from django.urls import path, include
 from django.contrib.auth.views import LogoutView
 from agency_manage.views.agency_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, agency_main_sales, UserPasswordEditView
 from agency_manage.views.user_manage_views.user_manage_views import UserManageView, UserCreateView, UserDetailView, UserEditView
+from agency_manage.views.shop_manage_views.shop_manage_views import ShopManageView, ShopCreateView, ShopDetailView, ShopEditView
+from agency_manage.views.shop_manage_views.shop_admin_manage_views import ShopAdminManageView
 
 
 app_name='agency_manage'
@@ -20,4 +22,12 @@ urlpatterns = [
     path('<int:agency_id>/user-create/', UserCreateView.as_view(), name='user_create'),
     path('<int:agency_id>/user-detail/<int:pk>/', UserDetailView.as_view(), name='user_detail'),
     path('<int:agency_id>/user-edit/<int:pk>/', UserEditView.as_view(), name='user_edit'),
+
+    #가맹점관리
+    path('<int:agency_id>/shop-manage/', ShopManageView.as_view(), name='shop_manage'),
+    path('<int:agency_id>/shop-create/', ShopCreateView.as_view(), name='shop_create'),
+    path('<int:agency_id>/shop-detail/<int:pk>/', ShopDetailView.as_view(), name='shop_detail'),
+    path('<int:agency_id>/shop-edit/<int:pk>/', ShopEditView.as_view(), name='shop_edit'),
+
+    path('<int:agency_id>/shop-admin-manage/<int:pk>/', ShopAdminManageView.as_view(), name='shop_admin_manage'),
 ]

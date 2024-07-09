@@ -1,4 +1,4 @@
-{% extends "layouts/system_base.html" %}
+{% extends "layouts/agency_base.html" %}
 {% load static %}
 
 
@@ -11,7 +11,7 @@
         <h1>Shop Detail</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'agency_manage:home' agency.pk %}">Home</a></li>
                 <li class="breadcrumb-item">Shop Manage</li>
                 <li class="breadcrumb-item active">Shop Detail</li>
             </ol>
@@ -25,7 +25,7 @@
                     <h5 class="card-title">Shop Detail</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{% url 'system_manage:shop_manage' %}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{% url 'agency_manage:shop_manage' agency.pk %}"><i class="bi bi-list"></i> 목록</a></div>
                 </div>
                 <div class="col-auto">
                     <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
@@ -100,7 +100,7 @@
                   </div>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <a href="{% url 'system_manage:shop_edit' data.id %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'agency_manage:shop_edit' agency.pk data.id %}" class="btn btn-warning">Edit</a>
                   </div>
             </form>
           </div>
@@ -110,5 +110,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_detail.js' %}"></script>
+<script src="{% static 'agency/js/shop_manage/script_shop_detail.js' %}"></script>
 {% endblock javascripts %}

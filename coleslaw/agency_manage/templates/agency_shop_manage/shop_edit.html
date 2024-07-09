@@ -1,4 +1,4 @@
-{% extends "layouts/system_base.html" %}
+{% extends "layouts/agency_base.html" %}
 {% load static %}
 
 
@@ -8,12 +8,12 @@
 {% block main %}
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Shop Registration</h1>
+        <h1>Shop Edit</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'agency_manage:home' agency.pk %}">Home</a></li>
                 <li class="breadcrumb-item">Shop Manage</li>
-                <li class="breadcrumb-item active">Shop Registration</li>
+                <li class="breadcrumb-item active">Shop Edit</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -22,80 +22,71 @@
           <div class="card-body">
             <div class="row justify-content-between">
                 <div class="col">
-                    <h5 class="card-title">Shop Registration</h5>
+                    <h5 class="card-title">Shop Edit</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{% url 'system_manage:shop_manage' %}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{% url 'agency_manage:shop_manage' agency.pk %}"><i class="bi bi-list"></i> 목록</a></div>
                 </div>
             </div>
             <form id="data-form" method="post" onsubmit="return false">
                 <div class="row mb-3">
-                    <div class="col-md-12">
-                      <label for="agency_id">메인 에이전시</label>
-                      <select class="form-select" id="agency_id" name="agency_id">
-                        <option value="" selected disabled>에이전시를 선택해주세요.</option>
-                        {% for i in agency %}
-                          <option value="{{i.id}}">{{i.name}}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
                       <div class="col-md-12">
                         <label for="shop_category_id">가맹점 카테고리</label>
                         <select class="form-select" id="shop_category_id" name="shop_category_id">
-                          <option value="" selected disabled>가맹점 카테고리를 선택해주세요.</option>
                           {% for i in shop_category %}
-                            <option value="{{i.id}}">{{i.name}}</option>
+                            <option value="{{i.id}}" {% if i.id == data.shop_category.id %} selected {% endif %}>{{i.name}}</option>
                           {% endfor %}
                         </select>
                       </div>
 
                       <div class="col-md-12">
                         <label for="shop_name">가맹점명</label>
-                        <input type="text" name="shop_name" class="form-control" id="shop_name" placeholder="가맹점명">
+                        <input type="text" name="shop_name" class="form-control" id="shop_name" placeholder="가맹점명" value="{{data.name}}">
                       </div>
                       <div class="col-md-12">
                         <label for="description">가맹점 설명</label>
-                        <input type="text" name="description" class="form-control" id="description" placeholder="가맹점 설명">
+                        <input type="text" name="description" class="form-control" id="description" placeholder="가맹점 설명" value="{{data.description}}">
                       </div>
                       <div class="col-md-12">
                         <label for="representative">대표자명</label>
-                        <input type="text" name="representative" class="form-control" id="representative" placeholder="대표자명">
+                        <input type="text" name="representative" class="form-control" id="representative" placeholder="대표자명" value="{{data.representative}}">
                       </div>
                       <div class="col-md-12">
                         <label for="phone">연락처</label>
-                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="연락처">
+                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="연락처" value="{{data.phone}}">
                         <small class="form-text text-muted">예시) 0200001234 or 01000005678</small>
                       </div>
                       <div class="col-md-12">
                         <label for="registration_no">사업자번호</label>
-                        <input type="text" name="registration_no" class="form-control" id="registration_no" placeholder="사업자번호">
+                        <input type="text" name="registration_no" class="form-control" id="registration_no" placeholder="사업자번호" value="{{data.registration_no}}">
                       </div>
                       <div class="col-md-10">
                         <label for="address">주소</label>
-                        <input type="text" class="form-control" name="address" id="address" readonly placeholder="주소">
-                        <input type="hidden" class="form-control" name="zipcode" id="zipcode">
+                        <input type="text" class="form-control" name="address" id="address" value="{{data.address}}" readonly>
+                        <input type="hidden" class="form-control" name="zipcode" id="zipcode" value="{{data.zipcode}}">
                       </div>
                       <div class="col-md-2">
                         <button type="button" class="btn btn-outline-secondary mt-4" id="btn-address">우편번호</button>
                       </div>
                       <div class="col-md-12">
-                        <input type="text" class="form-control" name="address_detail" id="address_detail" placeholder="상세주소">
+                        <input type="text" class="form-control" name="address_detail" id="address_detail" value="{{data.address_detail}}">
                       </div>
                       <div class="col-md-12">
-                        <label for="image">가맹점 이미지 <small class="form-text text-muted">필수 x</small></label>
+                        <label for="image">가맹점 이미지 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
                         <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
-                      <label for="logo_image">로고 이미지 <small class="form-text text-muted">필수 x</small></label>
+                      <label for="logo_image">로고 이미지 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
                       <input type="file" id="logo_image" name="logo_image" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
-                      <label for="entry_image">입장 이미지 <small class="form-text text-muted">필수 x</small></label>
+                      <label for="entry_image">입장 이미지 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
                       <input type="file" id="entry_image" name="entry_image" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <button type="button" id="btn-submit" class="btn btn-success">등록</button>
+                    <a href="{% url 'agency_manage:shop_detail' agency.pk data.pk %}" class="btn btn-danger">취소</a>
+                    <button type="button" id="btn-submit" class="btn btn-success">Save</button>
                 </div>
             </form>
           </div>
@@ -105,5 +96,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20240709"></script>
+<script src="{% static 'agency/js/shop_manage/script_shop_edit.js' %}?v=20240709"></script>
 {% endblock javascripts %}

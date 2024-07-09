@@ -1,4 +1,4 @@
-{% extends "layouts/system_base.html" %}
+{% extends "layouts/agency_base.html" %}
 {% load static %}
 
 
@@ -11,7 +11,7 @@
         <h1>Shop Registration</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'agency_manage:home' agency.pk %}">Home</a></li>
                 <li class="breadcrumb-item">Shop Manage</li>
                 <li class="breadcrumb-item active">Shop Registration</li>
             </ol>
@@ -25,20 +25,11 @@
                     <h5 class="card-title">Shop Registration</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{% url 'system_manage:shop_manage' %}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{% url 'agency_manage:shop_manage' agency.pk %}"><i class="bi bi-list"></i> 목록</a></div>
                 </div>
             </div>
             <form id="data-form" method="post" onsubmit="return false">
                 <div class="row mb-3">
-                    <div class="col-md-12">
-                      <label for="agency_id">메인 에이전시</label>
-                      <select class="form-select" id="agency_id" name="agency_id">
-                        <option value="" selected disabled>에이전시를 선택해주세요.</option>
-                        {% for i in agency %}
-                          <option value="{{i.id}}">{{i.name}}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
                       <div class="col-md-12">
                         <label for="shop_category_id">가맹점 카테고리</label>
                         <select class="form-select" id="shop_category_id" name="shop_category_id">
@@ -105,5 +96,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20240709"></script>
+<script src="{% static 'agency/js/shop_manage/script_shop_create.js' %}?v=20240709"></script>
 {% endblock javascripts %}

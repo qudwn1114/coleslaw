@@ -93,6 +93,9 @@ class Shop(models.Model):
     registration_no = models.CharField(null=True, max_length=20, verbose_name='가맹점사업자등록번호')
     image = models.ImageField(max_length=300, null=True, upload_to="image/shop/", verbose_name='가맹점이미지')
 
+    logo_image = models.ImageField(max_length=300, null=True, upload_to="image/shop_logo/", verbose_name='가맹점 로고이미지')
+    entry_image = models.ImageField(max_length=300, null=True, upload_to="image/shop_entry/", verbose_name='가맹점 입장이미지')
+
     entry_membername = models.BooleanField(default=True)
     entry_phone = models.BooleanField(default=True)
     entry_email = models.BooleanField(default=False)

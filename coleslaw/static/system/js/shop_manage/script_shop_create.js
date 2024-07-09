@@ -11,6 +11,8 @@ const address = document.getElementById("address");
 const address_detail = document.getElementById("address_detail");
 const zipcode = document.getElementById("zipcode");
 const image = document.getElementById("image");
+const logo_image = document.getElementById("logo_image");
+const entry_image = document.getElementById("entry_image");
 
 btn_submit.addEventListener("click", () => {
     if(!validation()){
@@ -33,6 +35,8 @@ btn_submit.addEventListener("click", () => {
     address_detail.disabled=true;
     zipcode.disabled=true;
     image.disabled=true;
+    logo_image.disabled=true;
+    entry_image.disabled=true;
     $.ajax({
         type: "POST",
         url: "",
@@ -61,6 +65,8 @@ btn_submit.addEventListener("click", () => {
             address_detail.disabled=false;
             zipcode.disabled=false;
             image.disabled=false;
+            logo_image.disabled=false;
+            entry_image.disabled=false;
             if(error.status == 401){
                 alert('로그인 해주세요.');
             }

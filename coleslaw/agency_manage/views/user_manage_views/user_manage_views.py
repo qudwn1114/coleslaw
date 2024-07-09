@@ -84,7 +84,7 @@ class UserManageView(View):
         rq_type = request.PUT['type']
         user_id = request.PUT['user_id']
         try:
-            user = User.objects.get(pk=user_id)
+            user = User.objects.get(pk=user_id, profile__agency=agency)
         except:
             return JsonResponse({"message": "데이터 오류"},status=400)
         if rq_type == 'ACTIVE':
@@ -169,7 +169,7 @@ class UserCreateView(View):
             return JsonResponse({'message': '가입 오류'}, status=400)
 
 
-        return JsonResponse({'message' : '등록 되었습니다.', 'url':reverse('agency_manage:user_manage', kwargs={'agency_id':agency_id, 'pk':user.pk})},  status = 202)
+        return JsonResponse({'message' : '등록 되었습니다.', 'url':reverse('agency_manage:user_manage', kwargs={'agency_id':agency_id})},  status = 202)
 
 
 class UserDetailView(View):
