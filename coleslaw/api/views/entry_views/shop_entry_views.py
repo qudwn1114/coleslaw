@@ -30,7 +30,10 @@ class ShopDetailView(View):
             data['shopRepresentative'] = shop.representative
             data['shopAddress'] = shop.address
             data['shopAddressDetail'] = shop.address_detail
-            data['shopAddressDetail'] = shop.address_detail
+            data['shopZipcode'] = shop.zipcode
+
+            data['shopEntryOrder'] = 10
+            data['shopEntryTime'] = 30
 
             if shop.image:
                 data['shopImageUrl'] = settings.SITE_URL + shop.image.url
