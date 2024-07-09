@@ -21,6 +21,7 @@
           <div class="card-body">
             <h5 class="card-title">Person Type Manage</h5>
             <a class="btn btn-primary" href="{% url 'shop_manage:person_type_create' shop.id %}">등록</a>
+            <a class="btn btn-outline-primary" href="{% url 'shop_manage:entry_option_manage' shop.id %}">입장옵션관리</a>
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
                 <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
@@ -40,6 +41,48 @@
                 </div>
               </div>
             </form>
+            <div class="row mt-3 mb-3 mx-2">
+              <div class="form-check col-sm-3">
+                {% if shop.entry_membername %}
+                <input class="form-check-input" type="checkbox" value="1" id="entry_membername" name="entry_membername" checked disabled>
+                {% else %}
+                <input class="form-check-input" type="checkbox" value="0" id="entry_membername" name="entry_membername" disabled>
+                {% endif %}
+                <label class="form-check-label" for="entry_membername">
+                이름
+                </label>
+              </div>
+              <div class="form-check col-sm-3">
+                {% if shop.entry_phone %}
+                <input class="form-check-input" type="checkbox" value="1" id="entry_phone" name="entry_phone" checked disabled>
+                {% else %}
+                <input class="form-check-input" type="checkbox" value="0" id="entry_phone" name="entry_phone" disabled>
+                {% endif %}
+                <label class="form-check-label" for="entry_phone">
+                휴대폰
+                </label>
+              </div>
+              <div class="form-check col-sm-3">
+                {% if shop.entry_email %}
+                <input class="form-check-input" type="checkbox" value="1" id="entry_email" name="entry_email" checked onclick="shopEntryManage('EMAIL')">
+                {% else %}
+                <input class="form-check-input" type="checkbox" value="0" id="entry_email" name="entry_email" onclick="shopEntryManage('EMAIL')">
+                {% endif %}
+                <label class="form-check-label" for="entry_email">
+                이메일
+                </label>
+              </div>
+              <div class="form-check col-sm-3">
+                {% if shop.entry_car_plate_no %}
+                <input class="form-check-input" type="checkbox" value="1" id="entry_car_plate_no" name="entry_car_plate_no" checked onclick="shopEntryManage('CAR')">
+                {% else %}
+                <input class="form-check-input" type="checkbox" value="0" id="entry_car_plate_no" name="entry_car_plate_no" onclick="shopEntryManage('CAR')">
+                {% endif %}
+                <label class="form-check-label" for="entry_car_plate_no">
+                차량번호
+                </label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="card mb-3" >
@@ -54,6 +97,7 @@
                 <tr>
                   <th>이름</th>
                   <th>설명</th>
+                  <th>상품(필수아님)</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,11 +106,19 @@
                 <tr>
                   <td><a href="{% url 'shop_manage:person_type_detail' shop.id  i.id %}">{{i.person_type__name}}</a></td>
                   <td>{{i.description}}</td>
+                  <td>
+                    {% if i.goods %}
+                      <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id %}">수정</a>
+                      ( {{i.goods__name}} )
+                    {% else %}
+                      <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id %}">매칭</a>
+                    {% endif %}
+                  </td>
                 </tr>
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='2'>내용이 없습니다.</td>
+                    <td colspan='4'>내용이 없습니다.</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -81,4 +133,5 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script src="{% static 'js/script_pagination.js' %}"></script>
+<script src="{% static 'shop/js/entry_manage/script_shop_person_type_manage.js' %}"></script>
 {% endblock javascripts %}

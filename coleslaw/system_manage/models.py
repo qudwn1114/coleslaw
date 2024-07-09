@@ -66,6 +66,11 @@ class Shop(models.Model):
     registration_no = models.CharField(null=True, max_length=20, verbose_name='가맹점사업자등록번호')
     image = models.ImageField(max_length=300, null=True, upload_to="image/shop/", verbose_name='가맹점이미지')
 
+    entry_membername = models.BooleanField(default=True)
+    entry_phone = models.BooleanField(default=True)
+    entry_email = models.BooleanField(default=False)
+    entry_car_plate_no = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
@@ -84,11 +89,26 @@ class ShopAdmin(models.Model):
         ]
         db_table = 'shop_admin'
 
+
+# 가맹점회원
+class ShopMember(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    membername = models.CharField(default='', max_length=50, verbose_name='회원명')
+    phone = models.CharField(default='', max_length=30, verbose_name='전화번호')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta : 
+        db_table = 'shop_member'
+
 # shop table
 class ShopTable(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     table_no = models.PositiveIntegerField()
     name = models.CharField(max_length=100, verbose_name='테이블명')
+    cart = models.TextField(verbose_name='장바구니', null=True)
+    shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
+    entry_time = models.DateTimeField(null=True, verbose_name='입장시간')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
@@ -98,6 +118,13 @@ class ShopTable(models.Model):
         ]
         db_table='shop_table'
 
+class ShopTableLog(models.Model):
+    shop_table = models.ForeignKey(ShopTable, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False) #False:입장 True:퇴장
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+
+    class Meta:
+        db_table='shop_table_log'
 
 # 에이전시
 class Agency(models.Model):
@@ -205,6 +232,28 @@ class ShopPersonType(models.Model):
             models.UniqueConstraint(fields=['shop', 'person_type'], name='shop_person_type_unique')
         ]
         db_table = 'shop_person_type'
+
+# 가맹점 입장 옵션
+class ShopEntryOption(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='entry_option')
+    required = models.BooleanField(default=True, verbose_name='필수여부')
+    name = models.CharField(max_length=100, verbose_name='옵션명')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['shop', 'name'], name='shop_name_unique')
+        ]
+        db_table='shop_entry_option'
+
+
+# 가맹점 입장 옵션 상세
+class ShopEntryOptionDetail(models.Model):
+    shop_entry_option = models.ForeignKey(ShopEntryOption, on_delete=models.CASCADE, related_name='entry_option_detail')
+    name = models.CharField(max_length=100, verbose_name='옵션명')
+    image = models.ImageField(max_length=300, upload_to="image/shop_entry_option/%Y/%m/%d/", verbose_name='옵션이미지', default='image/goods/default.jpg')
+    
+    class Meta:
+        db_table='shop_entry_option_detail'
         
 class EntryQueue(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
@@ -212,6 +261,7 @@ class EntryQueue(models.Model):
     membername = models.CharField(max_length=20, verbose_name='예약자명')
     phone = models.CharField(max_length=20, verbose_name='전화번호')
     car_plate_no = models.CharField(max_length=20, verbose_name='차량번호', default='')
+    email = models.CharField(max_length=50, verbose_name='이메일', default='')
     status = models.CharField(max_length=10, verbose_name='상태', default='0') #0:대기 1:입장 2:취소
     date = models.DateField(auto_now_add=True, verbose_name='날짜')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
