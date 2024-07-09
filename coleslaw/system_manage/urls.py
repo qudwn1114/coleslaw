@@ -4,6 +4,7 @@ from django.contrib.auth.views import LogoutView
 from system_manage.views.system_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, system_main_sales
 from system_manage.views.user_manage_views.user_manage_views import UserManageView, UserCreateView, UserDetailView, UserEditView
 from system_manage.views.agency_manage_views.agency_manage_views import AgencyManageView, AgencyCreateView, AgencyDetailView, AgencyEditView
+from system_manage.views.agency_manage_views.agency_admin_manage_views import AgencyAdminManageView
 from system_manage.views.agency_manage_views.agency_shop_manage_views import AgencyShopManageView
 from system_manage.views.shop_manage_views.shop_category_manage_views import ShopCategoryManageView, ShopCategoryCreateView, ShopCategoryDetailView, ShopCategoryEditView
 from system_manage.views.shop_manage_views.shop_manage_views import ShopManageView, ShopCreateView, ShopDetailView, ShopEditView
@@ -33,6 +34,8 @@ urlpatterns = [
     path('agency-edit/<int:pk>/', AgencyEditView.as_view(), name='agency_edit'),
 
     path('agency-shop-manage/<int:pk>/', AgencyShopManageView.as_view(), name='agency_shop_manage'),
+
+    path('agency-admin-manage/<int:pk>/', AgencyAdminManageView.as_view(), name='agency_admin_manage'),
 
     
     #사람타입 관리

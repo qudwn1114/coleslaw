@@ -8,30 +8,36 @@
 {% block main %}
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Agency Manage</h1>
+        <h1>Agency Admin Manage</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
             <li class="breadcrumb-item">Agency Manage</li>
-            <li class="breadcrumb-item active">Agency</li>
+            <li class="breadcrumb-item active">Agency Admin Manage</li>
           </ol>
         </nav>
     </div><!-- End Page Title -->
       <section class="section">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Agency Manage</h5>
-            <a class="btn btn-primary" href="{% url 'system_manage:agency_create' %}">에이전시 등록</a>
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                  <h5 class="card-title">{{agency.name}} 관리자 관리</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a href="{% url 'system_manage:agency_manage' %}"><i class="bi bi-list"></i> 에이전시 목록</a></div>
+                </div>
+            </div>
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
                 <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
                 <div class="col-sm-8">
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
-                        {% if search_type == 'name' %}
-                        <option value="name" selected>에이전시(행사,협회)명</option>
+                        {% if search_type == 'username' %}
+                        <option value="username" selected>아이디</option>
                         {% else %}
-                        <option value="name">에이전시(행사,협회)명</option>
+                        <option value="username">아이디</option>
                         {% endif %}
                       </select>
                     <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
@@ -41,7 +47,7 @@
               <div class="row mb-3">
                 <div class="text-center">
                     <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
-                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'system_manage:agency_manage' %}">초기화</a>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'system_manage:agency_admin_manage' agency.id %}">초기화</a>
                 </div>
               </div>
             </form>
@@ -51,44 +57,33 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">에이전시 목록</h5>
-              </div>
-              <div class="col-auto">
-                <div class="icon mt-3 me-3">
-                  {% if page_obj %}
-                    <!-- <a id="btn-excel" href="javascript:;" onclick="xlsxDownload();"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a> -->
-                  {% endif %}
-                </div>
+                <h5 class="card-title">유저 목록</h5>
               </div>
             </div>
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>에이전시(행사,협회)명</th>
-                  <th>상태</th>
-                  <th>등록일</th>
-                  <th>관리자 설정</th>
-                  <th>입점</th>
-                  <th>가맹점 관리</th>
+                  <th>아이디</th>
+                  <th>연락처</th>
+                  <th>가입일</th>
+                  <th>에이전시 관리자</th>
                 </tr>
               </thead>
               <tbody>
               {% if page_obj %}
                 {% for i in page_obj %}
                 <tr>
-                  <td><a href="{% url 'system_manage:agency_detail' i.id %}">{{i.name}}</a></td>
+                  <td>{{i.username}}</td>
+                  <td>{{i.profile__phone}}</td>
+                  <td>{{i.date_joined|date:"Y.m.d"}}</td>
                   <td>
-                    <input type="checkbox" {% if i.status %}checked{% endif %} onchange="setStatus({{i.id}}, this)"  data-toggle="toggle" data-on="활성" data-off="비활성" data-width="90">
+                    <input class="form-check-input" type="checkbox" {% if i.is_admin %}checked{% endif %} onclick="setAdmin({{i.id}}, this)">
                   </td>
-                  <td>{{i.created_at|date:"Y.m.d"}}</td>
-                  <td><a class="btn btn-outline-primary" href="{% url 'system_manage:agency_admin_manage' i.id %}">설정</a></td>
-                  <td><a class="btn btn-outline-primary" href="{% url 'system_manage:agency_shop_manage' i.id %}">설정</a></td>
-                  <td><a class="btn btn-primary" href="{% url 'system_manage:shop_manage' %}?search_type=agency__name&search_keyword={{i.name}}">관리</a></td>
                 </tr>
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='4'>등록된 에이전시가 없습니다.</td>
+                    <td colspan='4'>유저가 없습니다.</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -98,10 +93,12 @@
         </div>
       </section>
 </main>
+
+
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'system/js/agency_manage/script_agency_manage.js' %}"></script>
+<script src="{% static 'system/js/agency_manage/script_agency_admin_manage.js' %}"></script>
 <script src="{% static 'js/script_pagination.js' %}"></script>
 {% endblock javascripts %}

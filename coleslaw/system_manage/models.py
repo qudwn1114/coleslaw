@@ -62,6 +62,18 @@ class Agency(models.Model):
     class Meta : 
         db_table = 'agency'
 
+# 에이전시관리자
+class AgencyAdmin(models.Model):
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='agency_admin')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+
+    class Meta : 
+        constraints = [
+            models.UniqueConstraint(fields=['agency', 'user'], name='agency_user_unique')
+        ]
+        db_table = 'agency_admin'
+
 
 # 가맹점
 class Shop(models.Model):
