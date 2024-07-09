@@ -2,6 +2,7 @@ const btn_submit = document.getElementById("btn-submit");
 const btn_address = document.getElementById("btn-address")
 const representative = document.getElementById("representative");
 const shop_category_id = document.getElementById("shop_category_id");
+const agency_id = document.getElementById("agency_id");
 const shop_name = document.getElementById("shop_name");
 const description = document.getElementById("description");
 const phone = document.getElementById("phone");
@@ -22,6 +23,7 @@ btn_submit.addEventListener("click", () => {
     btn_submit.disabled=true;
     btn_address.disabled=true;
     representative.disabled=true;
+    agency_id.disabled=true;
     shop_category_id.disabled=true;
     description.disabled=true;
     shop_name.disabled=true;
@@ -50,6 +52,7 @@ btn_submit.addEventListener("click", () => {
             btn_address.disabled=false;
             representative.disabled=false;
             description.disabled=false;
+            agency_id.disabled=false;
             shop_category_id.disabled=false;
             shop_name.disabled=false;
             phone.disabled=false;
@@ -106,6 +109,10 @@ function regPhone(str){
 
 //유효성 체크 함수
 function validation(){
+    if(agency_id.value == ''){
+        agency_id.focus();
+        return false;
+    }
     if(shop_category_id.value == ''){
         shop_category_id.focus();
         return false;

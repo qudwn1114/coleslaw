@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.db import transaction
 from system_manage.decorators import permission_required
-from system_manage.models import Shop, ShopCategory, ShopTable
+from system_manage.models import Shop, ShopCategory, ShopTable, Agency, AgencyShop
 
 class ShopManageView(View):
     '''
@@ -34,6 +34,7 @@ class ShopManageView(View):
             'name',
             'phone',
             'representative',
+            'agency__name',
             'created_at',
         ).order_by('-created_at')
 
@@ -65,12 +66,15 @@ class ShopCreateView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         shop_category = ShopCategory.objects.all().values('id', 'name').order_by('id')
+        agency = Agency.objects.all().values('id', 'name').order_by('id')
         context['shop_category'] = shop_category
+        context['agency'] = agency
 
         return render(request, 'shop_manage/shop_create.html', context)
     
     @method_decorator(permission_required(raise_exception=True))
     def post(self, request: HttpRequest, *args, **kwargs):
+        agency_id = request.POST['agency_id']
         shop_category_id = request.POST['shop_category_id']
 
         shop_name = request.POST['shop_name'].strip()
@@ -85,6 +89,11 @@ class ShopCreateView(View):
         image = request.FILES.get("image")
 
         try:
+            agency = Agency.objects.get(pk=agency_id)
+        except:
+            return JsonResponse({'message': '에이전시 오류 입니다.'}, status=400)
+
+        try:
             shop_category = ShopCategory.objects.get(pk=shop_category_id)
         except:
             return JsonResponse({'message': '카테고리 오류 입니다.'}, status=400)
@@ -97,6 +106,7 @@ class ShopCreateView(View):
         try:
             with transaction.atomic():
                 shop = Shop.objects.create(
+                    agency=agency,
                     shop_category=shop_category,
                     name=shop_name,
                     description=description,
@@ -112,6 +122,10 @@ class ShopCreateView(View):
                     shop = shop,
                     table_no = 0,
                     name = 'DEFAULT'
+                )
+                AgencyShop.objects.create(
+                    agency=agency,
+                    shop=shop
                 )
         except:
             return JsonResponse({'message': '등록 실패.'}, status=400)
@@ -157,7 +171,9 @@ class ShopEditView(View):
         data = get_object_or_404(Shop, pk=pk)
         context['data'] = data
         shop_category = ShopCategory.objects.all().values('id', 'name').order_by('id')
+        agency = Agency.objects.all().values('id', 'name').order_by('id')
         context['shop_category'] = shop_category
+        context['agency'] = agency
 
         return render(request, 'shop_manage/shop_edit.html', context)
     
@@ -169,6 +185,7 @@ class ShopEditView(View):
         except:
             return JsonResponse({"message": "데이터 오류"},status=400)
         
+        agency_id = request.POST['agency_id']
         shop_category_id = request.POST['shop_category_id']
         shop_name = request.POST['shop_name'].strip()
         description = request.POST['description'].strip()
@@ -182,6 +199,11 @@ class ShopEditView(View):
         image = request.FILES.get("image")
 
         try:
+            agency = Agency.objects.get(pk=agency_id)
+        except:
+            return JsonResponse({'message': '에이전시 오류 입니다.'}, status=400)
+
+        try:
             shop_category = ShopCategory.objects.get(pk=shop_category_id)
         except:
             return JsonResponse({'message': '카테고리 오류 입니다.'}, status=400)
@@ -190,6 +212,7 @@ class ShopEditView(View):
         if Shop.objects.filter(name=shop_name).exclude(pk=shop.pk).exists():
             return JsonResponse({'message': '이미 존재하는 가맹점 명 입니다.'}, status=400)
         
+        shop.agency = agency
         shop.shop_category = shop_category
         shop.name = shop_name
         shop.description = description

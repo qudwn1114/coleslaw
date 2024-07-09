@@ -50,9 +50,23 @@ class ShopCategory(models.Model):
         db_table = 'shop_category'
 
 
+# 에이전시
+class Agency(models.Model):
+    name = models.CharField(max_length=100, verbose_name='agency이름', unique=True)
+    description = models.CharField(default='', max_length=255, verbose_name='설명')
+    image = models.ImageField(max_length=300, null=True, upload_to="image/agency/", verbose_name='에이전시이미지')
+    status = models.BooleanField(default=True, verbose_name='상태')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta : 
+        db_table = 'agency'
+
+
 # 가맹점
 class Shop(models.Model):
-    shop_category = models.ForeignKey(ShopCategory, on_delete=models.PROTECT, null=True, related_name='shop')
+    agency = models.ForeignKey(Agency, on_delete=models.PROTECT, related_name='shop', verbose_name='메인 agency')
+    shop_category = models.ForeignKey(ShopCategory, on_delete=models.PROTECT, related_name='shop')
     name = models.CharField(max_length=100, verbose_name='가맹점이름', unique=True)
     description = models.CharField(default='', max_length=255, verbose_name='설명')
     
@@ -76,6 +90,22 @@ class Shop(models.Model):
 
     class Meta : 
         db_table = 'shop'
+
+
+# 에이전시 소속 가맹점
+class AgencyShop(models.Model):
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, related_name='agency_shop')
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    status = models.BooleanField(default=True, verbose_name='상태')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+
+    class Meta : 
+        constraints = [
+            models.UniqueConstraint(fields=['agency', 'shop'], name='agency_shop_unique')
+        ]
+        db_table = 'agency_shop'
+
+
 
 # 가맹점관리자
 class ShopAdmin(models.Model):
@@ -125,31 +155,6 @@ class ShopTableLog(models.Model):
 
     class Meta:
         db_table='shop_table_log'
-
-# 에이전시
-class Agency(models.Model):
-    name = models.CharField(max_length=100, verbose_name='agency이름', unique=True)
-    description = models.CharField(default='', max_length=255, verbose_name='설명')
-    image = models.ImageField(max_length=300, null=True, upload_to="image/agency/", verbose_name='에이전시이미지')
-    status = models.BooleanField(default=True, verbose_name='상태')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
-
-    class Meta : 
-        db_table = 'agency'
-
-# 에이전시 소속 가맹점
-class AgencyShop(models.Model):
-    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, related_name='agency_shop')
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    status = models.BooleanField(default=True, verbose_name='상태')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
-
-    class Meta : 
-        constraints = [
-            models.UniqueConstraint(fields=['agency', 'shop'], name='agency_shop_unique')
-        ]
-        db_table = 'agency_shop'
 
 # 대분류
 class MainCategory(models.Model):

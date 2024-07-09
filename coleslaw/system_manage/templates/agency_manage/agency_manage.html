@@ -67,6 +67,7 @@
                   <th>에이전시(행사,협회)명</th>
                   <th>상태</th>
                   <th>등록일</th>
+                  <th>입점</th>
                   <th>가맹점 관리</th>
                 </tr>
               </thead>
@@ -80,6 +81,7 @@
                   </td>
                   <td>{{i.created_at|date:"Y.m.d"}}</td>
                   <td><a class="btn btn-outline-primary" href="{% url 'system_manage:agency_shop_manage' i.id %}">설정</a></td>
+                  <td><a class="btn btn-primary" href="{% url 'system_manage:shop_manage' %}?search_type=agency__name&search_keyword={{i.name}}">관리</a></td>
                 </tr>
                 {% endfor %}
               {% else %}
