@@ -180,7 +180,6 @@ class ShopEntryQueueCreateView(View):
                     email=email,
                     remark=remark
                 )
-                people = ''
                 option = ''
                 entry_queue_detail_bulk_list = []
                 for i in peopleList: 
@@ -192,10 +191,8 @@ class ShopEntryQueueCreateView(View):
                         except:
                             raise ValueError(f'{shopPersonTypeId} Person Type ID error')
                         if shop_person_type.goods:
-                            entry_queue_detail_bulk_list.append(EntryQueueDetail(entry_queue=entry_queue, goods=shop_person_type.goods, quantity=quantity))
-                        people += f'{shop_person_type.person_type.name}:{quantity}, '
+                            entry_queue_detail_bulk_list.append(EntryQueueDetail(entry_queue=entry_queue, name=shop_person_type.person_type.name, goods=shop_person_type.goods, quantity=quantity))
                 
-                remark += people
                 if entry_queue_detail_bulk_list:
                     EntryQueueDetail.objects.bulk_create(entry_queue_detail_bulk_list)
                 
@@ -312,13 +309,13 @@ class ShopEntryQueueDetailView(View):
         data['phone'] = entry_queue.phone
         data['email'] = entry_queue.email
         data['car_plate_no'] = entry_queue.car_plate_no
-        data['remark'] = entry_queue.remark
         data['order'] = entry_queue.order
-        entry_queue_detail = EntryQueueDetail.objects.filter(entry_queue=entry_queue).annotate(goodsName=F('goods__name')).values(
-            'goodsName',
+        entry_queue_detail = EntryQueueDetail.objects.filter(entry_queue=entry_queue).values(
+            'name',
             'quantity'
         ).order_by('id')
-        data['goods'] = list(entry_queue_detail)
+        data['entry_queue_detail'] = list(entry_queue_detail)
+        data['remark'] = entry_queue.remark
         data['createdAt'] = entry_queue.created_at.strftime('%Y-%m-%d %H:%M')
 
         return_data = {
@@ -327,7 +324,6 @@ class ShopEntryQueueDetailView(View):
             'msg': '가맹점 대기열 상세',
         }
 
-    
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
 

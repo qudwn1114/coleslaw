@@ -301,7 +301,8 @@ class EntryQueue(models.Model):
 
 class EntryQueueDetail(models.Model):
     entry_queue = models.ForeignKey(EntryQueue, on_delete=models.CASCADE)
-    goods = models.ForeignKey(Goods, on_delete=models.PROTECT)
+    name = models.CharField(max_length=100)
+    goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, null=True)
     quantity = models.PositiveIntegerField(default=1, verbose_name='수량')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
