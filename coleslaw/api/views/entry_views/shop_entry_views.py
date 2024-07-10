@@ -155,7 +155,7 @@ class ShopEntryQueueCreateView(View):
         peopleList = request.POST['peopleList']
         peopleList = json.loads(peopleList)
 
-        optionList = request.POST['optinList']
+        optionList = request.POST['optionList']
         optionList = json.loads(optionList)
 
         try:
