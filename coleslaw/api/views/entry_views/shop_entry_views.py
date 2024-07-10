@@ -144,7 +144,7 @@ class ShopEntryQueueCreateView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
-        membername = request.POST['membername']
+        membername = request.POST['membername'].strip()
         phone = request.POST['phone']
         email = request.POST['email']
         car_plate_no = request.POST['car_plate_no']
@@ -162,7 +162,7 @@ class ShopEntryQueueCreateView(View):
             with transaction.atomic():
                 shop_member, created = ShopMember.objects.get_or_create(
                     shop=shop, phone=phone,
-                    defaults={membername:membername}
+                    defaults={ 'membername' : membername }
                 )
                 if not created:
                     shop_member.membername = membername
