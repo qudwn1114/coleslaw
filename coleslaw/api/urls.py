@@ -6,6 +6,7 @@ from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderComp
 
 from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView
+from api.views.pos_views.pos_views import AddShopTableView
 
 app_name='api'
 urlpatterns = [
@@ -31,4 +32,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/table-list/', ShopTableListView.as_view()),
     path('shop/<int:shop_id>/table-assign/<int:table_no>/', ShopTableAssignView.as_view()),
     path('shop/<int:shop_id>/table-exit/<int:table_no>/', ShopTableExitView.as_view()),
+    
+    #pos
+    path('shop/<int:shop_id>/add-table/<int:table_no>/', AddShopTableView.as_view()),
 ]
