@@ -169,6 +169,7 @@ class ShopTable(models.Model):
 
 class ShopTableLog(models.Model):
     shop_table = models.ForeignKey(ShopTable, on_delete=models.CASCADE)
+    shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     status = models.BooleanField(default=False) #False:입장 True:퇴장
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 

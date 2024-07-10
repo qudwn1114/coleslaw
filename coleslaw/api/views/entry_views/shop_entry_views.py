@@ -206,7 +206,8 @@ class ShopEntryQueueCreateView(View):
                     option += f'{shop_entry_option_detail.shop_entry_option.name}:{shop_entry_option_detail.name}, '
                 
                 if option:
-                    remark += f'\n\n{option}'
+                    remark = remark.strip().rstrip(',')
+                    remark += f'{option}'
 
                 entry_queue.remark = remark
                 entry_queue.save()
