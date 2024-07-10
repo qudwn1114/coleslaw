@@ -37,5 +37,5 @@ urlpatterns = [
     #pos
     path('shop/<int:shop_id>/add-table/<int:table_no>/', AddShopTableView.as_view()),
     path('shop/<int:shop_id>/member-list/', ShopMemberListView.as_view()),
-    path('shop/<int:shop_id>/member-list/', ShopMemberCreateView.as_view()),
+    path('shop/<int:shop_id>/member-create/', ShopMemberCreateView.as_view()),
 ]
