@@ -31,7 +31,6 @@ class AddShopTableView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
-        print(request.POST)
         goods_id = request.POST['goods_id']
         quantity = int(request.POST['quantity'])
         optionList = request.POST['optionList']
