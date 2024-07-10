@@ -343,6 +343,9 @@ class CheckoutDetailOption(models.Model):
 class Order(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.PROTECT, null=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    
+    table_no = models.PositiveIntegerField(default=0)
+    shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
 
     order_name = models.CharField(max_length=255, verbose_name='주문명', null=True)
     order_code = models.CharField(max_length=50, verbose_name='주문코드')

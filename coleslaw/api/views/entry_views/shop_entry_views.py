@@ -239,3 +239,90 @@ class ShopEntryQueueCreateView(View):
             return_data = {'data': {},'msg': traceback.format_exc(),'resultCd': '0001'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopEntryQueueListView(View):
+    '''
+        shop entry queue list api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            page = int(request.GET.get('page', 1))
+            startnum = 0 + (page-1)*10
+            endnum = startnum+10
+            queryset = EntryQueue.objects.filter(shop=shop).annotate(
+                    createdAt=Func(
+                        F('created_at'),
+                        V('%y.%m.%d %H:%i'),
+                        function='DATE_FORMAT',
+                        output_field=CharField()
+                    )
+                ).values(
+                    'id',
+                    'membername',
+                    'phone',
+                    'status',
+                    'order',
+                    'date',
+                    'createdAt',
+                ).order_by('-id', '-order')
+
+            return_data = {
+                'data': list(queryset[startnum:endnum]),
+                'resultCd': '0000',
+                'msg': '가맹점 대기열 리스트',
+                'totalCnt' : queryset.count()
+            }
+        except:
+            print(traceback.format_exc())
+            return_data = {
+                'data': [],
+                'msg': '오류!',
+                'resultCd': '0001',
+            }
+    
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+
+
+class ShopEntryQueueDetailView(View):
+    '''
+        shop entry queue detail api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        pk = kwargs.get('pk')
+        try:
+            entry_queue = EntryQueue.objects.get(pk=pk, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '데이터 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        data = {}
+        data['membername'] = entry_queue.membername
+        data['phone'] = entry_queue.phone
+        data['email'] = entry_queue.email
+        data['car_plate_no'] = entry_queue.car_plate_no
+        data['remark'] = entry_queue.remark
+        data['order'] = entry_queue.order
+        data['createdAt'] = entry_queue.created_at.strftime('%Y년 %m월 %d일 %H:%M')
+
+
+        return_data = {
+            'data': data,
+            'resultCd': '0000',
+            'msg': '가맹점 대기열 상세',
+        }
+
+    
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
