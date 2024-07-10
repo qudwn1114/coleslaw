@@ -150,7 +150,9 @@ class ShopEntryQueueCreateView(View):
         car_plate_no = request.POST['car_plate_no']
 
         if not validate_phone(phone):
-            return JsonResponse({"message": "유효하지 않은 전화번호 형식입니다."},status=400)
+            return_data = {'data': {},'msg': '유효하지 않은 전화번호 형식입니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
 
         peopleList = request.POST['peopleList']
         peopleList = json.loads(peopleList)
