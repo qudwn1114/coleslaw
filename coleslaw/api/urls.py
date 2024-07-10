@@ -29,7 +29,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/entry/', ShopEntryDetailView.as_view()),
     path('shop/<int:shop_id>/entry-queue-create/', ShopEntryQueueCreateView.as_view()),
     path('shop/<int:shop_id>/entry-queue-list/', ShopEntryQueueListView.as_view()),
-    path('shop/<int:shop_id>/entry-queue/<int:pk>/', ShopEntryDetailView.as_view()),
+    path('shop/<int:shop_id>/entry-queue/<int:pk>/', ShopEntryQueueDetailView.as_view()),
     path('shop/<int:shop_id>/table-list/', ShopTableListView.as_view()),
     path('shop/<int:shop_id>/table-assign/<int:table_no>/', ShopTableAssignView.as_view()),
     path('shop/<int:shop_id>/table-exit/<int:table_no>/', ShopTableExitView.as_view()),
@@ -37,5 +37,5 @@ urlpatterns = [
     #pos
     path('shop/<int:shop_id>/add-table/<int:table_no>/', AddShopTableView.as_view()),
     path('shop/<int:shop_id>/member-list/', ShopMemberListView.as_view()),
-    path('shop/<int:shop_id>/member-create/', ShopMemberCreateView.as_view()),
+    path('shop/<int:shop_id>/member-list/', ShopMemberCreateView.as_view()),
 ]
