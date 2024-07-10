@@ -307,14 +307,19 @@ class ShopEntryQueueDetailView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         data = {}
+        data['id'] = entry_queue.pk
         data['membername'] = entry_queue.membername
         data['phone'] = entry_queue.phone
         data['email'] = entry_queue.email
         data['car_plate_no'] = entry_queue.car_plate_no
         data['remark'] = entry_queue.remark
         data['order'] = entry_queue.order
-        data['createdAt'] = entry_queue.created_at.strftime('%Y년 %m월 %d일 %H:%M')
-
+        entry_queue_detail = EntryQueueDetail.objects.filter(entry_queue=entry_queue).annotate(goodsName=F('goods__name')).values(
+            'goodsName',
+            'quantity'
+        ).order_by('id')
+        data['goods'] = list(entry_queue_detail)
+        data['createdAt'] = entry_queue.created_at.strftime('%Y-%m-%d %H:%M')
 
         return_data = {
             'data': data,
@@ -325,4 +330,36 @@ class ShopEntryQueueDetailView(View):
     
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+
+
+class ShopEntryQueueStatusView(View):
+    '''
+        shop 대기열 상태 변경
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopEntryQueueCreateView, self).dispatch(request, *args, **kwargs)
     
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        pk = kwargs.get('pk')
+        try:
+            entry_queue = EntryQueue.objects.get(pk=pk, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '데이터 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        status = str(request.POST['status'])
+
+        if status not in ['0', '1', '2']:
+            return_data = {'data': {},'msg': '옳바르지 않은 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        entry_queue.status = status
+        entry_queue.save()
+
+        return_data = {'data': {},'msg': '상태가 변경되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
