@@ -258,7 +258,7 @@ class ShopEntryQueueListView(View):
             page = int(request.GET.get('page', 1))
             startnum = 0 + (page-1)*10
             endnum = startnum+10
-            queryset = EntryQueue.objects.filter(shop=shop).annotate(
+            queryset = EntryQueue.objects.filter(shop=shop, date=timezone.now().date()).annotate(
                     createdAt=Func(
                         F('created_at'),
                         V('%y.%m.%d %H:%i'),
