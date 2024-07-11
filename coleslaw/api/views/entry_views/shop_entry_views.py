@@ -70,7 +70,7 @@ class ShopDetailView(View):
 
 class ShopEntryDetailView(View):
     '''
-        entry shop detail api
+        입장 정보 입력 관련 api
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')

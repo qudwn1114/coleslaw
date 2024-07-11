@@ -4,7 +4,7 @@ from api.views.agency_views.agency_shop_user_views import AgencyShopUserOrderLis
 from api.views.checkout_views.checkout_views import ShopCheckoutView
 from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderCompleteView
 
-from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView
+from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView
 from api.views.pos_views.pos_views import AddShopTableView
 from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView
@@ -27,14 +27,18 @@ urlpatterns = [
     # 입장처리
     path('shop/<int:shop_id>/', ShopDetailView.as_view()),
     path('shop/<int:shop_id>/entry/', ShopEntryDetailView.as_view()),
+
     path('shop/<int:shop_id>/entry-queue-create/', ShopEntryQueueCreateView.as_view()),
     path('shop/<int:shop_id>/entry-queue-list/', ShopEntryQueueListView.as_view()),
     path('shop/<int:shop_id>/entry-queue/<int:pk>/', ShopEntryQueueDetailView.as_view()),
+    path('shop/<int:shop_id>/entry-queue-status/<int:pk>/', ShopEntryQueueStatusView.as_view()),
+
+    # 테이블
     path('shop/<int:shop_id>/table-list/', ShopTableListView.as_view()),
     path('shop/<int:shop_id>/table-assign/<int:table_no>/', ShopTableAssignView.as_view()),
     path('shop/<int:shop_id>/table-exit/<int:table_no>/', ShopTableExitView.as_view()),
     
-    #pos
+    # pos
     path('shop/<int:shop_id>/add-table/<int:table_no>/', AddShopTableView.as_view()),
     path('shop/<int:shop_id>/member-list/', ShopMemberListView.as_view()),
     path('shop/<int:shop_id>/member-create/', ShopMemberCreateView.as_view()),
