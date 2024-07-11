@@ -81,23 +81,41 @@
                         {% endif %}
                     </div>
                     <div class="col-md-12">
-                      <label for="logo_image">로고 이미지</label>
+                      <label for="logo_image1">로고 이미지</label>
                       <br>
-                      {% if data.logo_image %}
-                          <img src="{{data.logo_image.url}}"  style="width:200px;">
+                      {% if data.logo_image1 %}
+                          <img src="{{data.logo_image1.url}}"  style="width:200px;">
                       {% else %}
                           없음
                       {% endif %}
                     </div>
                     <div class="col-md-12">
-                      <label for="image">입장 이미지</label>
+                      <label for="entry_image1">입장 이미지</label>
                       <br>
-                      {% if data.entry_image %}
-                          <img src="{{data.entry_image.url}}"  style="width:200px;">
+                      {% if data.entry_image1 %}
+                          <img src="{{data.entry_image1.url}}"  style="width:200px;">
                       {% else %}
                           없음
                       {% endif %}
                   </div>
+                  <div class="col-md-12">
+                    <label for="logo_image2">로고 이미지</label>
+                    <br>
+                    {% if data.logo_image2 %}
+                        <img src="{{data.logo_image2.url}}"  style="width:200px;">
+                    {% else %}
+                        없음
+                    {% endif %}
+                  </div>
+                  <div class="col-md-12">
+                    <label for="entry_image2">입장 이미지</label>
+                    <br>
+                    {% if data.entry_image2 %}
+                        <img src="{{data.entry_image2.url}}"  style="width:200px;">
+                    {% else %}
+                        없음
+                    {% endif %}
+                </div>
                 </div>
                 <div class="col-sm-12 text-center">
                     <a href="{% url 'system_manage:shop_edit' data.id %}" class="btn btn-warning">Edit</a>

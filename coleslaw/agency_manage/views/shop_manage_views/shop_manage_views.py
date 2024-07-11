@@ -103,8 +103,10 @@ class ShopCreateView(View):
         address_detail = request.POST['address_detail'].strip()
         zipcode = request.POST['zipcode']
         image = request.FILES.get("image")
-        logo_image = request.FILES.get("logo_image")
-        entry_image = request.FILES.get("entry_image")
+        logo_image1 = request.FILES.get("logo_image1")
+        entry_image1 = request.FILES.get("entry_image1")
+        logo_image2 = request.FILES.get("logo_image2")
+        entry_image2 = request.FILES.get("entry_image2")
 
         try:
             agency = Agency.objects.get(pk=agency_id)
@@ -135,8 +137,10 @@ class ShopCreateView(View):
                     address_detail=address_detail,
                     zipcode=zipcode,
                     image=image,
-                    logo_image=logo_image,
-                    entry_image=entry_image
+                    logo_image1=logo_image1,
+                    entry_image1=entry_image1,
+                    logo_image2=logo_image2,
+                    entry_image2=entry_image2,
                 )
                 ShopTable.objects.create(
                     shop = shop,
@@ -233,8 +237,10 @@ class ShopEditView(View):
         address_detail = request.POST['address_detail'].strip()
         zipcode = request.POST['zipcode']
         image = request.FILES.get("image")
-        logo_image = request.FILES.get("logo_image")
-        entry_image = request.FILES.get("entry_image")
+        logo_image1 = request.FILES.get("logo_image1")
+        entry_image1 = request.FILES.get("entry_image1")
+        logo_image2 = request.FILES.get("logo_image2")
+        entry_image2 = request.FILES.get("entry_image2")
 
         try:
             shop_category = ShopCategory.objects.get(pk=shop_category_id)
@@ -256,10 +262,14 @@ class ShopEditView(View):
         shop.zipcode = zipcode
         if image:
             shop.image = image
-        if logo_image:
-            shop.logo_image = logo_image
-        if entry_image:
-            shop.entry_image = entry_image
+        if logo_image1:
+            shop.logo_image1 = logo_image1
+        if entry_image1:
+            shop.entry_image1 = entry_image1
+        if logo_image2:
+            shop.logo_image2 = logo_image2
+        if entry_image2:
+            shop.entry_image2 = entry_image2
         shop.save()
 
         return JsonResponse({'message' : '수정 되었습니다.', 'url':reverse("agency_manage:shop_detail", kwargs={"agency_id":agency_id, "pk" : shop.id})},  status = 202)

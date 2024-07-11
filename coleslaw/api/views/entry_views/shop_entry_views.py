@@ -43,14 +43,23 @@ class ShopDetailView(View):
                 data['shopImageUrl'] = settings.SITE_URL + shop.image.url
             else:
                 data['shopImageUrl'] = None 
-            if shop.logo_image:
-                data['shopLogoImageUrl'] = settings.SITE_URL + shop.logo_image.url
+            if shop.logo_image1:
+                data['shopLogoImageUrl1'] = settings.SITE_URL + shop.logo_image1.url
             else:
-                data['shopLogoImageUrl'] = None
-            if shop.entry_image:
-                data['shopEntryImageUrl'] = settings.SITE_URL + shop.entry_image.url
+                data['shopLogoImageUrl1'] = None
+            if shop.entry_image1:
+                data['shopEntryImageUrl1'] = settings.SITE_URL + shop.entry_image1.url
             else:
-                data['shopEntryImageUrl'] = None
+                data['shopEntryImageUrl1'] = None
+            
+            if shop.logo_image2:
+                data['shopLogoImageUrl2'] = settings.SITE_URL + shop.logo_image2.url
+            else:
+                data['shopLogoImageUrl2'] = None
+            if shop.entry_image2:
+                data['shopEntryImageUrl2'] = settings.SITE_URL + shop.entry_image2.url
+            else:
+                data['shopEntryImageUrl2'] = None
 
             return_data = {
                 'data': data,
