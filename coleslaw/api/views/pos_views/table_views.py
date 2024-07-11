@@ -53,6 +53,7 @@ class ShopTableListView(View):
                     'name',
                     'entry_time',
                     'membername',
+                    'total_price',
                     'entryTime',
                 ).order_by('table_no')
 
@@ -111,6 +112,7 @@ class ShopTableAssignView(View):
         try:
             with transaction.atomic():
                 shop_table.shop_member = shop_member
+                shop_table.total_price = 0
                 shop_table.entry_time = timezone.now()
                 shop_table.save()
 
@@ -151,6 +153,7 @@ class ShopTableExitView(View):
                 shop_table.shop_member = None
                 shop_table.entry_time = None
                 shop_table.cart = None
+                shop_table.total_price = 0
                 shop_table.save()
                 ShopTableLog.objects.create(
                     shop_table=shop_table,

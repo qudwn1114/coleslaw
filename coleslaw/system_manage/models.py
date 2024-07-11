@@ -156,6 +156,7 @@ class ShopTable(models.Model):
     table_no = models.PositiveIntegerField()
     name = models.CharField(max_length=100, verbose_name='테이블명')
     cart = models.TextField(verbose_name='장바구니', null=True)
+    total_price = models.PositiveIntegerField(default=0, verbose_name='총 결제 금액')
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     entry_time = models.DateTimeField(null=True, verbose_name='입장시간')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
