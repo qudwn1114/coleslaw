@@ -16,7 +16,7 @@ from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDet
 from system_manage.views.system_manage_views.auth_views import validate_phone
 
 
-import traceback, json, datetime
+import traceback, json, datetime, logging
 
 class ShopDetailView(View):
     '''
@@ -168,6 +168,9 @@ class ShopEntryQueueCreateView(View):
 
         peopleList = request.POST['peopleList']
         peopleList = json.loads(peopleList)
+
+        logger = logging.getLogger('my')
+        logger.error(peopleList)
 
         if not peopleList:
             return_data = {'data': {},'msg': '인원수를 선택해주세요.','resultCd': '0001'}
