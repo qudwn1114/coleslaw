@@ -81,6 +81,10 @@
                         {% endif %}
                     </div>
                     <div class="col-md-12">
+                      <label for="waiting_time">팀 당 입장시간(분)</label>
+                      <input type="number" name="waiting_time" class="form-control" id="waiting_time" placeholder="팀 당 입장시간(분)" value="{{data.waiting_time}}" readonly>
+                    </div>
+                    <div class="col-md-12">
                       <label for="logo_image1">로고 이미지</label>
                       <br>
                       {% if data.logo_image1 %}

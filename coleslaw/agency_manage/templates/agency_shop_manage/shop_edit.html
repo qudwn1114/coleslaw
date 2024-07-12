@@ -76,6 +76,10 @@
                         <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
+                      <label for="waiting_time">팀 당 입장시간(분)</label>
+                      <input type="number" name="waiting_time" class="form-control" id="waiting_time" placeholder="팀 당 입장시간(분)" value="{{data.waiting_time}}">
+                    </div>
+                    <div class="col-md-12">
                       <label for="logo_image1">로고 이미지 1 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
                       <input type="file" id="logo_image1" name="logo_image1" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
@@ -104,5 +108,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'agency/js/shop_manage/script_shop_edit.js' %}?v=20240710"></script>
+<script src="{% static 'agency/js/shop_manage/script_shop_edit.js' %}?v=20240712"></script>
 {% endblock javascripts %}
