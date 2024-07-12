@@ -89,7 +89,6 @@ class AddShopTableView(View):
 
             if is_new:
                 data={}
-                data['id'] = len(optionList) + 1
                 data['goodsId'] = goods.pk
                 data['name'] = goods.name
                 data['price'] = goods.price
@@ -112,7 +111,6 @@ class AddShopTableView(View):
             
         else:
             data={}
-            data['id'] = 1
             data['goodsId'] = goods.pk
             data['name'] = goods.name
             data['price'] = goods.price

@@ -35,9 +35,11 @@ class ShopDetailView(View):
             data['shopAddress'] = shop.address
             data['shopAddressDetail'] = shop.address_detail
             data['shopZipcode'] = shop.zipcode
+            
+            waiting_team = EntryQueue.objects.filter(shop=shop, status='0', date=timezone.now()).count()
 
-            data['shopEntryOrder'] = 10
-            data['shopEntryTime'] = 30
+            data['shopEntryWaitingTeam'] = waiting_team
+            data['shopEntryWaitingTime'] = waiting_team * shop.waiting_time
 
             if shop.image:
                 data['shopImageUrl'] = settings.SITE_URL + shop.image.url
