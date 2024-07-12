@@ -351,7 +351,7 @@ class ShopEntryQueueStatusView(View):
     '''
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return super(ShopEntryQueueCreateView, self).dispatch(request, *args, **kwargs)
+        return super(ShopEntryQueueStatusView, self).dispatch(request, *args, **kwargs)
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
@@ -384,7 +384,7 @@ class ShopEntryCallView(View):
     '''
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return super(ShopEntryQueueCreateView, self).dispatch(request, *args, **kwargs)
+        return super(ShopEntryCallView, self).dispatch(request, *args, **kwargs)
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
