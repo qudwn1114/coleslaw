@@ -169,6 +169,12 @@ class ShopEntryQueueCreateView(View):
         peopleList = request.POST['peopleList']
         peopleList = json.loads(peopleList)
 
+        if not peopleList:
+            return_data = {'data': {},'msg': '인원수를 선택해주세요.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+
         optionList = request.POST['optionList']
         optionList = json.loads(optionList)
 
