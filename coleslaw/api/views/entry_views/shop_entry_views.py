@@ -177,10 +177,6 @@ class ShopEntryQueueCreateView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
 
-
-        optionList = request.POST['optionList']
-        optionList = json.loads(optionList)
-
         try:
             with transaction.atomic():
                 shop_member, created = ShopMember.objects.get_or_create(
@@ -213,8 +209,7 @@ class ShopEntryQueueCreateView(View):
                             shop_person_type = ShopPersonType.objects.get(pk=shopPersonTypeId, shop=shop)
                         except:
                             raise ValueError(f'{shopPersonTypeId} Person Type ID error')
-                        if shop_person_type.goods:
-                            entry_queue_detail_bulk_list.append(EntryQueueDetail(entry_queue=entry_queue, name=shop_person_type.person_type.name, goods=shop_person_type.goods, quantity=quantity))
+                        entry_queue_detail_bulk_list.append(EntryQueueDetail(entry_queue=entry_queue, name=shop_person_type.person_type.name, goods=shop_person_type.goods, quantity=quantity))
                 
                 if entry_queue_detail_bulk_list:
                     EntryQueueDetail.objects.bulk_create(entry_queue_detail_bulk_list)
