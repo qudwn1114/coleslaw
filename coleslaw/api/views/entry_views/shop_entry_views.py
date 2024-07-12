@@ -177,7 +177,6 @@ class ShopEntryQueueCreateView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
 
-
         try:
             with transaction.atomic():
                 shop_member, created = ShopMember.objects.get_or_create(
@@ -347,7 +346,6 @@ class ShopEntryQueueDetailView(View):
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
 
-
 class ShopEntryQueueStatusView(View):
     '''
         shop 대기열 상태 변경
@@ -377,5 +375,44 @@ class ShopEntryQueueStatusView(View):
         entry_queue.save()
 
         return_data = {'data': {},'msg': '상태가 변경되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopEntryCallView(View):
+    '''
+        shop 대기 호출
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopEntryQueueCreateView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        pk = kwargs.get('pk')
+        try:
+            entry_queue = EntryQueue.objects.get(pk=pk, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '데이터 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_entry_{shop_id}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'CALL',
+                    'title': '입장 안내',
+                    'message': f'{entry_queue.order}'
+                }
+            )
+        except:
+            return_data = {'data': {},'msg': '호출 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+
+        return_data = {'data': {},'msg': '호출 알림 전달완료','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
