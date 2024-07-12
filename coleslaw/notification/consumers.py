@@ -76,8 +76,8 @@ class EntryConsumer(AsyncJsonWebsocketConsumer):
             self.entry_id = self.scope['url_route']['kwargs']['entry_queue_id']
             self.group_name = f"shop_entry_{self.shop_id}"
 
-            if not await self.check_entry_exists(self.shop_id, self.entry_id): # 대기열 체크
-                raise ValueError('대기열이 존재하지 않습니다.')
+            if not await self.check_shop_exists(self.shop_id): # 대기열 체크
+                raise ValueError('가맹점이 존재하지 않습니다.')
 
             # send 등 과 같은 동기적인 함수를 비동기적으로 사용하기 위해서는 async_to_sync 로 감싸줘야함
             # 현재 채널을 그룹에 추가합니다. 
@@ -130,6 +130,6 @@ class EntryConsumer(AsyncJsonWebsocketConsumer):
         }))
     
     @database_sync_to_async
-    def check_entry_exists(self, shop_id, entry_id):
+    def check_shop_exists(self, shop_id):
         # 주어진 ID로 채팅방이 존재하는지 확인합니다.
-        return EntryQueue.objects.filter(pk=entry_id, shop=shop_id).exists()
+        return Shop.objects.filter(id=shop_id).exists()
