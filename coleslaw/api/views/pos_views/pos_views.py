@@ -127,36 +127,3 @@ class AddShopTableView(View):
             return_data = {'data': {},'msg': '상품이 담겼습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
-        
-class ShopTableCartListView(View):
-    '''
-        shop table cart list api
-    '''
-    def get(self, request: HttpRequest, *args, **kwargs):
-        shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
-        try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
-        except:
-            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
-            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-            return HttpResponse(return_data, content_type = "application/json")
-        data = {}
-
-        if shop_table.cart:
-            cart_list = json.loads(shop_table.cart)
-        else:
-            cart_list = []
-
-        data['cart_list'] = cart_list
-        data['cart_cnt'] = len(cart_list)
-        data['cart_total_price'] = shop_table.total_price
-
-        return_data = {
-            'data': data,
-            'resultCd': '0000',
-            'msg': f'테이블{shop_table.table_no} 장바구니',
-        }
-
-        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-        return HttpResponse(return_data, content_type = "application/json")

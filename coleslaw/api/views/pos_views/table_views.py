@@ -171,3 +171,46 @@ class ShopTableExitView(View):
         return_data = {'data': {},'msg': '테이블이 정리 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopTableDetailView(View):
+    '''
+        shop table detail api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = kwargs.get('table_no')
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        data = {}
+
+        if shop_table.cart:
+            cart_list = json.loads(shop_table.cart)
+        else:
+            cart_list = []
+
+        if shop_table.shop_member:
+            membername = shop_table.shop_member.membername
+            phone = shop_table.shop_member.phone
+        else:
+            membername = None
+            phone = None
+
+        data['membername'] = membername
+        data['phone'] = phone
+        data['cart_list'] = cart_list
+        data['cart_cnt'] = len(cart_list)
+        data['cart_total_price'] = shop_table.total_price
+
+        return_data = {
+            'data': data,
+            'resultCd': '0000',
+            'msg': f'[no.{shop_table.table_no}] 테이블 회원 및 장바구니 정보',
+        }
+
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
