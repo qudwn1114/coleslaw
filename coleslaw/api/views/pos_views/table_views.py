@@ -31,9 +31,10 @@ class ShopTableListView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
+            paginate_by = 30
             page = int(request.GET.get('page', 1))
-            startnum = 0 + (page-1)*30
-            endnum = startnum+30
+            startnum = 0 + (page-1)*paginate_by
+            endnum = startnum+paginate_by
             queryset = ShopTable.objects.filter(shop=shop).exclude(table_no=0).annotate(
                     membername=Case(
                         When(shop_member=None, then=V('비회원')),
@@ -59,6 +60,7 @@ class ShopTableListView(View):
 
             return_data = {
                 'data': list(queryset[startnum:endnum]),
+                'paginate_by': paginate_by,
                 'resultCd': '0000',
                 'msg': '가맹점 테이블 리스트',
                 'totalCnt' : queryset.count()

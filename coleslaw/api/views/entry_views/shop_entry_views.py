@@ -276,16 +276,20 @@ class ShopEntryQueueListView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         if status == "0":
+            status_txt = '대기'
             order_col =  ('id', 'order')
         elif status == "1":
+            status_txt = '완료'
             order_col = ('-id')
         elif status == "2":
+            status_txt = '취소'
             order_col = ('-id')
         
         try:
+            paginate_by = 10
             page = int(request.GET.get('page', 1))
-            startnum = 0 + (page-1)*10
-            endnum = startnum+10
+            startnum = 0 + (page-1)*paginate_by
+            endnum = startnum+paginate_by
             queryset = EntryQueue.objects.filter(shop=shop, date=timezone.now().date()).annotate(
                     createdAt=Func(
                         F('created_at'),
@@ -305,8 +309,9 @@ class ShopEntryQueueListView(View):
 
             return_data = {
                 'data': list(queryset[startnum:endnum]),
+                'paginate_by': paginate_by,
                 'resultCd': '0000',
-                'msg': '가맹점 대기열 리스트',
+                'msg': f'가맹점 대기열 리스트 ({status_txt})',
                 'totalCnt' : queryset.count()
             }
         except:
