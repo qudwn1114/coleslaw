@@ -73,7 +73,6 @@ class EntryConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         try:
             self.shop_id = self.scope['url_route']['kwargs']['shop_id']
-            self.entry_id = self.scope['url_route']['kwargs']['entry_queue_id']
             self.group_name = f"shop_entry_{self.shop_id}"
 
             if not await self.check_shop_exists(self.shop_id): # 대기열 체크
