@@ -268,6 +268,20 @@ class ShopEntryQueueListView(View):
             return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
+        status = str(request.GET.get('status', '0'))
+        if status not in ['0', '1', '2']:
+            return_data = {'data': {},'msg': '옳바르지 않은 status','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        if status == "0":
+            order_col =  ('id', 'order')
+        elif status == "1":
+            order_col = ('-id')
+        elif status == "2":
+            order_col = ('-id')
+        
         try:
             page = int(request.GET.get('page', 1))
             startnum = 0 + (page-1)*10
@@ -287,7 +301,7 @@ class ShopEntryQueueListView(View):
                     'order',
                     'date',
                     'createdAt',
-                ).order_by('-id', '-order')
+                ).order_by(*order_col)
 
             return_data = {
                 'data': list(queryset[startnum:endnum]),
@@ -366,7 +380,7 @@ class ShopEntryQueueStatusView(View):
         status = str(request.POST['status'])
 
         if status not in ['0', '1', '2']:
-            return_data = {'data': {},'msg': '옳바르지 않은 오류','resultCd': '0001'}
+            return_data = {'data': {},'msg': '옳바르지 않은 status','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
