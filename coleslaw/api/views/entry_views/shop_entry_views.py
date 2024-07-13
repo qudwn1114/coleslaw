@@ -277,20 +277,20 @@ class ShopEntryQueueListView(View):
         
         if status == "0":
             status_txt = '대기'
-            order_col =  ('id', 'order')
+            order_col =  ['id', 'order']
         elif status == "1":
             status_txt = '완료'
-            order_col = ('-id')
+            order_col = ['-id']
         elif status == "2":
             status_txt = '취소'
-            order_col = ('-id')
+            order_col = ['-id']
         
         try:
             paginate_by = 10
             page = int(request.GET.get('page', 1))
             startnum = 0 + (page-1)*paginate_by
             endnum = startnum+paginate_by
-            queryset = EntryQueue.objects.filter(shop=shop, date=timezone.now().date()).annotate(
+            queryset = EntryQueue.objects.filter(shop=shop, status=status, date=timezone.now().date()).annotate(
                     createdAt=Func(
                         F('created_at'),
                         V('%y.%m.%d %H:%i'),
