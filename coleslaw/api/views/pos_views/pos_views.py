@@ -13,13 +13,13 @@ from api.views.sms_views.sms_views import send_sms
 
 import traceback, json, datetime, uuid, logging
 
-class AddShopTableView(View):
+class ShopTableAddView(View):
     '''
         상품담기
     '''
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return super(AddShopTableView, self).dispatch(request, *args, **kwargs)
+        return super(ShopTableAddView, self).dispatch(request, *args, **kwargs)
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
@@ -127,3 +127,147 @@ class AddShopTableView(View):
             return_data = {'data': {},'msg': '상품이 담겼습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
+
+class ShopTableUpdateView(View):
+    '''
+        수량 수정
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopTableUpdateView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = kwargs.get('table_no')
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        index = int(request.POST['index'])
+        quantity = int(request.POST['quantity'])
+
+        if quantity <= 0:
+            return_data = {'data': {},'msg': 'quantity 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        if shop_table.cart:
+            cart_list = json.loads(shop_table.cart)
+            try:
+                price = cart_list[index]['price']
+                optionPrice = cart_list[index]['optionPrice']
+                adjusted_quantity = quantity - cart_list[index]['quantity']
+                cart_list[index]['quantity'] = quantity
+                total_price = shop_table.total_price + ((price+optionPrice)* adjusted_quantity)
+            except IndexError:
+                return_data = {'data': {},'msg': 'Index Error','resultCd': '0001'}
+                return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+                return HttpResponse(return_data, content_type = "application/json")
+                        
+            data = {}
+            data['cart_list'] = cart_list
+            data['cart_cnt'] = len(cart_list)
+            data['cart_total_price'] = total_price
+
+            cart_list = json.dumps(cart_list, ensure_ascii=False)
+            shop_table.cart = cart_list
+            shop_table.total_price = total_price
+            shop_table.save()
+
+            return_data = {'data': data,'msg': '상품 수량이 업데이트 되었습니다.','resultCd': '0000'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        else:
+            return_data = {'data': {},'msg': '상품이 없습니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        
+
+class ShopTableDeleteView(View):
+    '''
+        상품 삭제
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopTableUpdateView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = kwargs.get('table_no')
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        index = int(request.POST['index'])
+        if shop_table.cart:
+            cart_list = json.loads(shop_table.cart)
+            try:
+                price = cart_list[index]['price'] * cart_list[index]['quantity']
+                optionPrice = cart_list[index]['optionPrice'] * cart_list[index]['quantity']
+
+                total_price = shop_table.total_price - (price + optionPrice)
+                del cart_list[index]
+            except IndexError:
+                return_data = {'data': {},'msg': 'Index Error','resultCd': '0001'}
+                return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+                return HttpResponse(return_data, content_type = "application/json")
+                        
+            data = {}
+            data['cart_list'] = cart_list
+            data['cart_cnt'] = len(cart_list)
+            data['cart_total_price'] = total_price
+
+            cart_list = json.dumps(cart_list, ensure_ascii=False)
+            shop_table.cart = cart_list
+            shop_table.total_price = total_price
+            shop_table.save()
+
+            return_data = {'data': data,'msg': '상품이 제거되었습니다.','resultCd': '0000'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        else:
+            return_data = {'data': {},'msg': '상품이 없습니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+
+class ShopTableClearView(View):
+    '''
+        전체 삭제
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopTableClearView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = kwargs.get('table_no')
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        data = {}
+        shop_table.cart = None
+        shop_table.total_price = 0
+        shop_table.save()
+
+        data['cart_list'] = []
+        data['cart_cnt'] = 0
+        data['cart_total_price'] = 0
+
+        return_data = {'data': data,'msg': '상품이 모두 제거되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
