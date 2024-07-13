@@ -4,9 +4,9 @@ from api.views.agency_views.agency_shop_user_views import AgencyShopUserOrderLis
 from api.views.checkout_views.checkout_views import ShopCheckoutView
 from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderCompleteView
 
-from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView
+from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView
-from api.views.pos_views.pos_views import AddShopTableView
+from api.views.pos_views.pos_views import AddShopTableView, ShopTableCartListView
 from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView
 
 app_name='api'
@@ -33,6 +33,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/entry-queue/<int:pk>/', ShopEntryQueueDetailView.as_view()),
     path('shop/<int:shop_id>/entry-queue-status/<int:pk>/', ShopEntryQueueStatusView.as_view()),
     path('shop/<int:shop_id>/entry-call/<int:pk>/', ShopEntryCallView.as_view()),
+    path('shop/<int:shop_id>/entry-payment/<int:pk>/', ShopEntryPaymentView.as_view()),
 
     # 테이블
     path('shop/<int:shop_id>/table-list/', ShopTableListView.as_view()),
@@ -41,6 +42,7 @@ urlpatterns = [
     
     # pos
     path('shop/<int:shop_id>/add-table/<int:table_no>/', AddShopTableView.as_view()),
+    path('shop/<int:shop_id>/table-cart-list/<int:table_no>/', ShopTableCartListView.as_view()),
     path('shop/<int:shop_id>/member-list/', ShopMemberListView.as_view()),
     path('shop/<int:shop_id>/member-create/', ShopMemberCreateView.as_view()),
 ]

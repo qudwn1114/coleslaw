@@ -12,7 +12,7 @@ from django.utils import timezone
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDetail, ShopEntryOptionDetail, ShopMember
+from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDetail, ShopEntryOptionDetail, ShopMember, ShopTable
 from system_manage.views.system_manage_views.auth_views import validate_phone
 
 
@@ -432,5 +432,62 @@ class ShopEntryCallView(View):
         
 
         return_data = {'data': {},'msg': '호출 알림 전달완료','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+    
+class ShopEntryPaymentView(View):
+    '''
+        shop
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopEntryPaymentView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        pk = kwargs.get('pk')
+        try:
+            entry_queue = EntryQueue.objects.get(pk=pk, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '데이터 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        cart_list = []
+        total_price = 0
+        entry_queue_detail = entry_queue.entry_queue_detail.all()
+        for i in entry_queue_detail:
+            data = {}
+            if i.goods:
+                data['goodsId'] = i.goods.pk
+                data['name'] = i.goods.name
+                data['price'] = i.goods.price
+                data['quantity'] = i.quantity
+                data['optionName'] = ''
+                data['optionPrice'] = 0
+                data['optionList'] = []
+                total_price += i.quantity * i.goods.price
+                cart_list.append(data)
+
+        if not cart_list:
+            return_data = {'data': {},'msg': '입장결제 상품이 연결되어있지 않습니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        try:
+            shop_table = ShopTable.objects.get(table_no=0, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        cart_list = json.dumps(cart_list, ensure_ascii=False)
+        shop_table.cart = cart_list
+        shop_table.total_price = total_price
+        shop_table.shop_member = entry_queue.shop_member
+        shop_table.save()
+        
+        return_data = {'data': {},'msg': '메인 포스 테이블에 상품이 담겼습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")

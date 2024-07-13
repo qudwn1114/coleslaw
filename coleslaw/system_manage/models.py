@@ -306,7 +306,7 @@ class EntryQueue(models.Model):
         db_table = 'entry_queue'
 
 class EntryQueueDetail(models.Model):
-    entry_queue = models.ForeignKey(EntryQueue, on_delete=models.CASCADE)
+    entry_queue = models.ForeignKey(EntryQueue, on_delete=models.CASCADE, related_name='entry_queue_detail')
     name = models.CharField(max_length=100)
     goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, null=True)
     quantity = models.PositiveIntegerField(default=1, verbose_name='수량')
