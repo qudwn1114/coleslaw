@@ -235,18 +235,15 @@ class ShopEntryQueueCreateView(View):
                 entry_queue.remark = remark
                 entry_queue.save()
 
-                waiting_team = EntryQueue.objects.filter(shop=shop, status='0', date=timezone.now()).count()
-                waiting_time = waiting_team * shop.waiting_time
-
                 try:
                     channel_layer = get_channel_layer()
                     async_to_sync(channel_layer.group_send)(
                         f'shop_entry_{shop_id}',
                         {
                             'type': 'chat_message',
-                            'message_type' : 'STATUS',
-                            'title': '대기 현황',
-                            'message': {'waiting_team':waiting_team, 'waiting_time':waiting_time}
+                            'message_type' : 'REGISTER',
+                            'title': '대기열 등록',
+                            'message': order
                         }
                     )
                 except:
@@ -467,7 +464,7 @@ class ShopEntryCallView(View):
                     'type': 'chat_message',
                     'message_type' : 'CALL',
                     'title': '입장 안내',
-                    'message': f'{entry_queue.order}'
+                    'message': entry_queue.order
                 }
             )
         except:
