@@ -74,6 +74,7 @@ class ShopTableAddView(View):
         if optionName:
             optionName = optionName.strip().rstrip('/')
 
+        data = {}
         if shop_table.cart:
             is_new = True
             cart_list = json.loads(shop_table.cart)
@@ -84,43 +85,51 @@ class ShopTableAddView(View):
                     if i['optionList'] == optionList:
                         is_new = False
                         i['quantity'] += quantity
-                        addtional_price = quantity * i['price']
+                        addtional_price = quantity * (i['price'] + i['optionPrice'])
                         break
 
             if is_new:
-                data={}
-                data['goodsId'] = goods.pk
-                data['name'] = goods.name
-                data['price'] = goods.price
-                data['quantity'] = quantity
-                data['optionName'] = optionName
-                data['optionPrice'] = optionPrice
-                data['optionList'] = optionList
-                cart_list.append(data)
-                addtional_price = quantity * goods.price
+                cart={}
+                cart['goodsId'] = goods.pk
+                cart['name'] = goods.name
+                cart['price'] = goods.price
+                cart['quantity'] = quantity
+                cart['optionName'] = optionName
+                cart['optionPrice'] = optionPrice
+                cart['optionList'] = optionList
+                cart_list.append(cart)
+                addtional_price = quantity * (goods.price + optionPrice)
+
+            data['cart_list'] = cart_list
+            data['cart_cnt'] = len(cart_list)
+            data['cart_total_price'] = shop_table.total_price + addtional_price
             
             cart_list = json.dumps(cart_list, ensure_ascii=False)
             shop_table.cart = cart_list
             shop_table.total_price += addtional_price
             shop_table.save()
 
-            return_data = {'data': {},'msg': '상품이 추가 되었습니다.','resultCd': '0000'}
+            return_data = {'data': {data},'msg': '상품이 추가 되었습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
 
             
         else:
-            data={}
-            data['goodsId'] = goods.pk
-            data['name'] = goods.name
-            data['price'] = goods.price
-            data['quantity'] = quantity
-            data['optionName'] = optionName
-            data['optionPrice'] = optionPrice
-            data['optionList'] = optionList
-            cart_list = json.dumps([data], ensure_ascii=False)
+            cart={}
+            cart['goodsId'] = goods.pk
+            cart['name'] = goods.name
+            cart['price'] = goods.price
+            cart['quantity'] = quantity
+            cart['optionName'] = optionName
+            cart['optionPrice'] = optionPrice
+            cart['optionList'] = optionList
+            cart_list = json.dumps([cart], ensure_ascii=False)
 
-            shop_table.total_price = goods.price * quantity
+            data['cart_list'] = cart_list
+            data['cart_cnt'] = len(cart_list)
+            data['cart_total_price'] = (goods.price + optionPrice) * quantity
+
+            shop_table.total_price = (goods.price + optionPrice) * quantity
             shop_table.cart = cart_list
             shop_table.save()
             
@@ -154,7 +163,6 @@ class ShopTableUpdateView(View):
             return_data = {'data': {},'msg': 'quantity 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
-
         if shop_table.cart:
             cart_list = json.loads(shop_table.cart)
             try:
