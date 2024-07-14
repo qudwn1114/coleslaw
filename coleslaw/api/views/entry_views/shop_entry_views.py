@@ -200,9 +200,14 @@ class ShopEntryQueueCreateView(View):
                     remark=remark
                 )
                 option = ''
+                person_type_id_list = []
                 entry_queue_detail_bulk_list = []
                 for i in peopleList: 
                     shopPersonTypeId = i['id']
+                    if shopPersonTypeId in person_type_id_list:
+                        raise ValueError(f'{shopPersonTypeId} Person Type Id Duplicated')
+                    
+                    person_type_id_list.append(shopPersonTypeId)
                     quantity = int(i['quantity'])
                     if quantity > 0:
                         try:
