@@ -197,6 +197,7 @@ class ShopEntryQueueCreateView(View):
                     phone=phone,
                     car_plate_no=car_plate_no,
                     email=email,
+                    status='0',
                     remark=remark
                 )
                 option = ''
@@ -233,6 +234,23 @@ class ShopEntryQueueCreateView(View):
 
                 entry_queue.remark = remark
                 entry_queue.save()
+
+                waiting_team = EntryQueue.objects.filter(shop=shop, status='0', date=timezone.now()).count()
+                waiting_time = waiting_team * shop.waiting_time
+
+                try:
+                    channel_layer = get_channel_layer()
+                    async_to_sync(channel_layer.group_send)(
+                        f'shop_entry_{shop_id}',
+                        {
+                            'type': 'chat_message',
+                            'message_type' : 'STATUS',
+                            'title': '대기 현황',
+                            'message': {'waiting_team':waiting_team, 'waiting_time':waiting_time}
+                        }
+                    )
+                except:
+                    pass
 
                 return_data = {
                     'data': {
@@ -394,8 +412,30 @@ class ShopEntryQueueStatusView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        if status == entry_queue.status:
+            return_data = {'data': {},'msg': '이전 status와 일치합니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
         entry_queue.status = status
         entry_queue.save()
+
+        waiting_team = EntryQueue.objects.filter(shop=entry_queue.shop, status='0', date=timezone.now()).count()
+        waiting_time = waiting_team * entry_queue.shop.waiting_time
+        
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_entry_{shop_id}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'STATUS',
+                    'title': '대기 현황',
+                    'message': {'waiting_team':waiting_team, 'waiting_time':waiting_time}
+                }
+            )
+        except:
+            pass
 
         return_data = {'data': {},'msg': '상태가 변경되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
