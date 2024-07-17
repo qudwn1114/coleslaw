@@ -58,7 +58,8 @@ class ShopCheckoutView(View):
                     shop = shop,
                     code = code,
                     table_no = None,
-                    shop_member = None
+                    shop_member = None,
+                    final_discount=0
                 )
                 final = 0
                 for i in checkoutList:
@@ -132,7 +133,8 @@ class ShopCheckoutView(View):
                     'shop_id':shop.pk,
                     'checkout_id':checkout.pk,
                     'code':checkout.code,
-                    'final_price':checkout.final_price
+                    'final_price':checkout.final_price,
+                    'final_discount':checkout.final_discount
                 },
                 'msg': '주문정보 생성완료',
                 'resultCd': '0000',

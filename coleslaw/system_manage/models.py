@@ -160,6 +160,7 @@ class ShopTable(models.Model):
     table_no = models.PositiveIntegerField()
     name = models.CharField(max_length=100, verbose_name='테이블명')
     cart = models.TextField(verbose_name='장바구니', null=True)
+    total_discount = models.PositiveIntegerField(default=0, verbose_name='총 할인 금액')
     total_price = models.PositiveIntegerField(default=0, verbose_name='총 결제 금액')
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     entry_time = models.DateTimeField(null=True, verbose_name='입장시간')
@@ -324,6 +325,7 @@ class Checkout(models.Model):
     table_no = models.PositiveIntegerField(default=None, null=True)
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제금액')
+    final_discount = models.PositiveIntegerField(default=0, verbose_name='최종 할인 금액')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     class Meta:
@@ -366,6 +368,7 @@ class Order(models.Model):
     status = models.CharField(max_length=10, verbose_name='결제상태', default='0') #'0':주문요청 '1':결제완료 '2':취소, '3': 준비중, '4': 주문완료, 5: '수령완료'
 
     final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제요청금액')
+    final_discount = models.PositiveIntegerField(default=0, verbose_name='최종 할인 금액')
 
     payment_price = models.PositiveIntegerField(default=0, verbose_name='실제결제금액')
     payment_method = models.CharField(max_length=10, verbose_name='결제수단', default='')  #CARD, #CASH

@@ -78,14 +78,14 @@ class ShopTableAddView(View):
         if shop_table.cart:
             is_new = True
             cart_list = json.loads(shop_table.cart)
-            addtional_price = 0
+            additional_price = 0
             for i in cart_list:
                 if i['goodsId'] == goods.pk:
                     # 이미 담긴 상품일때
                     if i['optionList'] == optionList:
                         is_new = False
                         i['quantity'] += quantity
-                        addtional_price = quantity * (i['price'] + i['optionPrice'])
+                        additional_price = quantity * (i['price'] + i['optionPrice'])
                         break
 
             if is_new:
@@ -98,15 +98,17 @@ class ShopTableAddView(View):
                 cart['optionPrice'] = optionPrice
                 cart['optionList'] = optionList
                 cart_list.append(cart)
-                addtional_price = quantity * (goods.price + optionPrice)
+
+                additional_price = quantity * (goods.price + optionPrice)
 
             data['cart_list'] = cart_list
             data['cart_cnt'] = len(cart_list)
-            data['cart_total_price'] = shop_table.total_price + addtional_price
+            data['cart_total_price'] = shop_table.total_price + additional_price
+            data['cart_total_discount'] = shop_table.total_discount
             
             cart_list = json.dumps(cart_list, ensure_ascii=False)
             shop_table.cart = cart_list
-            shop_table.total_price += addtional_price
+            shop_table.total_price += additional_price
             shop_table.save()
 
             return_data = {'data': {data},'msg': '상품이 추가 되었습니다.','resultCd': '0000'}
@@ -128,8 +130,10 @@ class ShopTableAddView(View):
             data['cart_list'] = cart_list
             data['cart_cnt'] = len(cart_list)
             data['cart_total_price'] = (goods.price + optionPrice) * quantity
+            data['cart_total_discount'] = 0
 
             shop_table.total_price = (goods.price + optionPrice) * quantity
+            shop_table.total_discount = 0
             shop_table.cart = cart_list
             shop_table.save()
             
@@ -180,9 +184,16 @@ class ShopTableUpdateView(View):
             data['cart_list'] = cart_list
             data['cart_cnt'] = len(cart_list)
             data['cart_total_price'] = total_price
+            if total_price < shop_table.total_discount:
+                data['cart_total_discount'] = 0
+            else:
+                data['cart_total_discount'] = shop_table.total_discount
 
             cart_list = json.dumps(cart_list, ensure_ascii=False)
             shop_table.cart = cart_list
+            if total_price < shop_table.total_discount:
+                total_price += shop_table.total_discount
+                shop_table.total_discount = 0
             shop_table.total_price = total_price
             shop_table.save()
 
@@ -221,8 +232,8 @@ class ShopTableDeleteView(View):
             try:
                 price = cart_list[index]['price'] * cart_list[index]['quantity']
                 optionPrice = cart_list[index]['optionPrice'] * cart_list[index]['quantity']
-
                 total_price = shop_table.total_price - (price + optionPrice)
+
                 del cart_list[index]
             except IndexError:
                 return_data = {'data': {},'msg': 'Index Error','resultCd': '0001'}
@@ -233,9 +244,16 @@ class ShopTableDeleteView(View):
             data['cart_list'] = cart_list
             data['cart_cnt'] = len(cart_list)
             data['cart_total_price'] = total_price
+            if total_price < shop_table.total_discount:
+                data['cart_total_discount'] = 0
+            else:
+                data['cart_total_discount'] = shop_table.total_discount
 
             cart_list = json.dumps(cart_list, ensure_ascii=False)
             shop_table.cart = cart_list
+            if total_price < shop_table.total_discount:
+                total_price += shop_table.total_discount
+                shop_table.total_discount = 0
             shop_table.total_price = total_price
             shop_table.save()
 
@@ -270,13 +288,57 @@ class ShopTableClearView(View):
         data = {}
         shop_table.cart = None
         shop_table.total_price = 0
+        shop_table.total_discount = 0
         shop_table.save()
 
         data['cart_list'] = []
         data['cart_cnt'] = 0
         data['cart_total_price'] = 0
+        data['cart_total_discount'] = 0
 
         return_data = {'data': data,'msg': '상품이 모두 제거되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopTableDiscountView(View):
+    '''
+        테이블 할인
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopTableDiscountView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = kwargs.get('table_no')
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        discount = int(request.POST['discount'])
+
+        if shop_table.total_price < discount:
+            return_data = {'data': {},'msg': '결제 금액보다 할인금액을 높게 설정할 수 없습니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        total_price = shop_table.total_price - discount
+        total_discount = shop_table.total_discount + discount
+
+        shop_table.total_price = total_price
+        shop_table.total_discount = total_discount
+        
+        shop_table.save()
+
+        data = {}
+        data['cart_total_price'] = total_price
+        data['cart_total_discount'] = total_discount
+
+        return_data = {'data': data,'msg': '할인이 적용 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
     
@@ -374,7 +436,12 @@ class ShopTableCheckoutView(View):
                     # 총결제금액 합산
                     final += total
 
+            final = final - shop_table.total_discount
+            if final < 0:
+                raise ValueError('Final Price Error')
+
             checkout.final_price = final
+            checkout.final_discount = shop_table.total_discount
             checkout.save()
                     
             return_data = {
@@ -382,7 +449,8 @@ class ShopTableCheckoutView(View):
                     'shop_id':shop.pk,
                     'checkout_id':checkout.pk,
                     'code':checkout.code,
-                    'final_price':checkout.final_price
+                    'final_price':checkout.final_price,
+                    'final_discount':checkout.final_discount
                 },
                 'msg': '주문정보 생성완료',
                 'resultCd': '0000',
