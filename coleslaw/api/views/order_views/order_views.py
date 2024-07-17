@@ -64,6 +64,7 @@ class ShopOrderCreateView(View):
                     order = Order.objects.create(
                         agency=checkout.agency,
                         shop=shop,
+                        order_type='1',
                         order_membername=membername,
                         order_phone=phone, 
                         status='0', 
