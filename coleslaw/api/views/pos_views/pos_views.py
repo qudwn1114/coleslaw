@@ -137,7 +137,7 @@ class ShopTableAddView(View):
             shop_table.cart = cart_list
             shop_table.save()
             
-            return_data = {'data': {},'msg': '상품이 담겼습니다.','resultCd': '0000'}
+            return_data = {'data': data,'msg': '상품이 담겼습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
