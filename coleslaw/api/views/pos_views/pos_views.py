@@ -111,7 +111,7 @@ class ShopTableAddView(View):
             shop_table.total_price += additional_price
             shop_table.save()
 
-            return_data = {'data': {data},'msg': '상품이 추가 되었습니다.','resultCd': '0000'}
+            return_data = {'data': data,'msg': '상품이 추가 되었습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
 
