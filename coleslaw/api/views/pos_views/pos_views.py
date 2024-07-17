@@ -125,13 +125,14 @@ class ShopTableAddView(View):
             cart['optionName'] = optionName
             cart['optionPrice'] = optionPrice
             cart['optionList'] = optionList
-            cart_list = json.dumps([cart], ensure_ascii=False)
 
+            cart_list = [cart]
             data['cart_list'] = cart_list
             data['cart_cnt'] = len(cart_list)
             data['cart_total_price'] = (goods.price + optionPrice) * quantity
             data['cart_total_discount'] = 0
 
+            cart_list = json.dumps(cart_list, ensure_ascii=False)
             shop_table.total_price = (goods.price + optionPrice) * quantity
             shop_table.total_discount = 0
             shop_table.cart = cart_list
