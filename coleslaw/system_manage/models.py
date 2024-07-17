@@ -321,6 +321,8 @@ class Checkout(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE, null=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     code = models.CharField(max_length=100, unique=True)
+    table_no = models.PositiveIntegerField(default=None, null=True)
+    shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제금액')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
@@ -351,7 +353,7 @@ class Order(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.PROTECT, null=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     
-    table_no = models.PositiveIntegerField(default=0)
+    table_no = models.PositiveIntegerField(default=None, null=True)
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
 
     order_name = models.CharField(max_length=255, verbose_name='주문명', null=True)

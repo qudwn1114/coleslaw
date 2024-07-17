@@ -8,7 +8,7 @@ from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-from system_manage.models import ShopTable, Goods, GoodsOption, GoodsOptionDetail, Shop
+from system_manage.models import ShopTable, Goods, GoodsOption, GoodsOptionDetail, Shop, Checkout, CheckoutDetail, CheckoutDetailOption
 from api.views.sms_views.sms_views import send_sms
 
 import traceback, json, datetime, uuid, logging
@@ -277,5 +277,129 @@ class ShopTableClearView(View):
         data['cart_total_price'] = 0
 
         return_data = {'data': data,'msg': '상품이 모두 제거되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopTableCheckoutView(View):
+    '''
+        shop table checkout
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopTableCheckoutView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = kwargs.get('table_no')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        if shop_table.cart:
+            cart_list = json.loads(shop_table.cart)
+        else:
+            return_data = {'data': {},'msg': '상품이 없습니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        code = uuid.uuid4().hex
+        try:
+            with transaction.atomic():
+                final = 0
+                checkout = Checkout.objects.create(
+                    agency = shop.agency,
+                    shop = shop,
+                    code = code,
+                    table_no = shop_table.table_no,
+                    shop_member = shop_table.shop_member
+                )
+                for i in cart_list:
+                    total = 0
+                    goodsId = i['goodsId']
+                    goodsName = i['name']
+                    goodsPrice = i['price']
+                    quantity = i['quantity']
+                    optionName = i['optionName']
+                    optionPrice = i['optionPrice']
+                    optionList = i['optionList']
+
+                    try:
+                        goods = Goods.objects.get(pk=goodsId, shop=shop)
+                    except:
+                        raise ValueError(f'{goodsId} Goods ID error')
+                    if goods.sale_price != goodsPrice:
+                        raise ValueError(f'{goodsId} Goods prcie error')
+                    if quantity <= 0:
+                        raise ValueError(f'{goodsId} Goods quantity error')
+                    
+                    checkout_detail = CheckoutDetail.objects.create(
+                        checkout = checkout,
+                        goods = goods,
+                        quantity = quantity,
+                        price = goodsPrice,
+                        total_price = total
+                    )
+                    total = goods.sale_price * quantity
+                    # 옵션있을경우 옵션 유효 체크
+                    if optionList:
+                        option_total = 0
+                        checkout_option_bulk_list = []
+                        for j in optionList:
+                            try:
+                                goods_option_detail = GoodsOptionDetail.objects.get(pk=j)
+                            except:
+                                raise ValueError(f'{goodsId} Goods Option Error')
+                            option_total += goods_option_detail.price
+                            total += goods_option_detail.price * quantity
+                            checkout_option_bulk_list.append(CheckoutDetailOption(checkout_detail=checkout_detail, goods_option_detail=goods_option_detail))
+
+                        if option_total != optionPrice:
+                            raise ValueError(f'{goodsId} Goods Option Price error')
+                        
+                        CheckoutDetailOption.objects.bulk_create(checkout_option_bulk_list)
+
+                    checkout_detail.total_price = total
+                    checkout_detail.save()
+                    # 총결제금액 합산
+                    final += total
+
+            checkout.final_price = final
+            checkout.save()
+                    
+            return_data = {
+                'data': {
+                    'shop_id':shop.pk,
+                    'checkout_id':checkout.pk,
+                    'code':checkout.code,
+                    'final_price':checkout.final_price
+                },
+                'msg': '주문정보 생성완료',
+                'resultCd': '0000',
+            }
+
+        except ValueError as e:
+            return_data = {
+                'data': {},
+                'msg': str(e),
+                'resultCd': '0001',
+            }
+        except:
+            return_data = {
+                'data': {},
+                'msg': traceback.format_exc(),
+                'resultCd': '0001',
+            }
+
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")

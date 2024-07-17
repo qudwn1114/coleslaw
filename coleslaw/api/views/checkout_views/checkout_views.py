@@ -56,7 +56,9 @@ class ShopCheckoutView(View):
                 checkout = Checkout.objects.create(
                     agency = agency,
                     shop = shop,
-                    code = code
+                    code = code,
+                    table_no = None,
+                    shop_member = None
                 )
                 final = 0
                 for i in checkoutList:
