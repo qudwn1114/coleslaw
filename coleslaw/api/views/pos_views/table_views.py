@@ -31,7 +31,7 @@ class ShopTableListView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            paginate_by = 30
+            paginate_by = 50
             page = int(request.GET.get('page', 1))
             startnum = 0 + (page-1)*paginate_by
             endnum = startnum+paginate_by
