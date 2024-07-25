@@ -40,7 +40,8 @@ class CategoryManageView(View):
             try:
                 category = SubCategory.objects.create(
                     main_category = main_category,
-                    name_kr = categoryNameKr
+                    name_kr = categoryNameKr,
+                    name_en = categoryNameEn
                 )
             except IntegrityError:
                 return JsonResponse({'message':'이미 소분류에 존재하는 카테고리 입니다.'}, status = 400)
