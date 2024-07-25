@@ -107,7 +107,8 @@ class GoodsCreateView(View):
             return JsonResponse({'message' : '가맹점 오류'},status = 400)
         
         sub_category_id = request.POST['sub_category']
-        name = request.POST['goods_name'].strip()
+        name_kr = request.POST['goods_name_kr'].strip()
+        name_en = request.POST['goods_name_en'].strip()
         price = request.POST['price'] 
         sale_price = request.POST['sale_price'] 
         stock = request.POST['stock']
@@ -133,7 +134,8 @@ class GoodsCreateView(View):
                 goods = Goods.objects.create(
                     shop=shop,
                     sub_category=sub_category,
-                    name=name,
+                    name_kr=name_kr,
+                    name_en=name_en,
                     price=price,
                     sale_price=sale_price,
                     stock=stock,
@@ -226,7 +228,8 @@ class GoodsEditView(View):
             return JsonResponse({'message' : '데이터 오류'},  status = 400)
         
         sub_category_id = request.POST['sub_category']
-        name = request.POST['goods_name'].strip()
+        name_kr = request.POST['goods_name_kr'].strip()
+        name_en = request.POST['goods_name_en'].strip()
         price = request.POST['price']
         sale_price = request.POST['sale_price']
         image = request.FILES.get('image', None)
@@ -246,7 +249,8 @@ class GoodsEditView(View):
 
         try:
             goods.sub_category  = sub_category
-            goods.name = name
+            goods.name_kr = name_kr
+            goods.name_en = name_en
             goods.price = price
             goods.sale_price = sale_price
             goods.status = status
@@ -335,7 +339,7 @@ def goods(request: HttpRequest, *args, **kwargs):
     ).values(
         'id',
         'imageThumbnailUrl',
-        'name',
+        'name_kr',
         'price',
         'sale_price',
         'stock',

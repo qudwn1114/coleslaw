@@ -46,10 +46,16 @@
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                    <label for="goods_name" class="col-sm-2 col-form-label">상품명</label>
+                    <label for="goods_name_kr" class="col-sm-2 col-form-label">상품한글명</label>
                     <div class="col-sm-10">
-                        <input type="text" id="goods_name" name="goods_name" class="form-control" placeholder="상품명" disabled value="{{goods.name}}">
+                        <input type="text" id="goods_name_kr" name="goods_name_kr" class="form-control" placeholder="상품한글명" disabled value="{{goods.name_kr}}">
                     </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                  <label for="goods_name_en" class="col-sm-2 col-form-label">상품영문명</label>
+                  <div class="col-sm-10">
+                      <input type="text" id="goods_name_en" name="goods_name_en" class="form-control" placeholder="상품영문명" disabled value="{{goods.name_en}}">
+                  </div>
                 </div>
                 <div class="row mt-3 mb-3">
                   <label for="price" class="col-sm-2 col-form-label">상품 가격</label>

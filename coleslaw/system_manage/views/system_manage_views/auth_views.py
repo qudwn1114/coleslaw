@@ -12,7 +12,7 @@ from django.views.decorators.http import require_http_methods
 from django.utils.decorators import method_decorator
 from django.core.validators import RegexValidator
 from system_manage.decorators import permission_required
-from system_manage.models import Order, Shop
+from system_manage.models import Order
 
 import datetime
 
@@ -25,7 +25,7 @@ class HomeView(TemplateView):
     @method_decorator(permission_required(redirect_url='system_manage:denied'))
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        
+
         return render(request, self.template_name, context)
 
 @require_http_methods(["GET"])

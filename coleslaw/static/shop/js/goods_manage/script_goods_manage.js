@@ -149,7 +149,7 @@ $(document).ready(function () {
         },
         columns: [
             { "data": "id", orderable: true },
-            { "data": "name", orderable: true },
+            { "data": "name_kr", orderable: true },
             { "data": function(data, type, row){
                     return `<img src="${data.imageThumbnailUrl}" width="50px"/>`;
                 },
