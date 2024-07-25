@@ -372,7 +372,7 @@ class ShopTableDiscountCancelView(View):
 
         data = {}
         data['cart_total_price'] = total_price
-        data['cart_total_discount'] = total_discount
+        data['cart_total_discount'] = 0
 
         return_data = {'data': data,'msg': '할인이 취소 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
