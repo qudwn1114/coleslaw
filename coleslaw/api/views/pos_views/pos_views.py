@@ -91,7 +91,7 @@ class ShopTableAddView(View):
             if is_new:
                 cart={}
                 cart['goodsId'] = goods.pk
-                cart['name'] = goods.name_kr
+                cart['name_kr'] = goods.name_kr
                 cart['price'] = goods.price
                 cart['quantity'] = quantity
                 cart['optionName'] = optionName
@@ -119,7 +119,7 @@ class ShopTableAddView(View):
         else:
             cart={}
             cart['goodsId'] = goods.pk
-            cart['name'] = goods.name_kr
+            cart['name_kr'] = goods.name_kr
             cart['price'] = goods.price
             cart['quantity'] = quantity
             cart['optionName'] = optionName
