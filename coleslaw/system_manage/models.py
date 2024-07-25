@@ -66,7 +66,8 @@ def save_user_profile(sender, instance, **kwargs):
 
 # 가맹점 카테고리
 class ShopCategory(models.Model):
-    name = models.CharField(max_length=100, verbose_name='가맹점카테고리이름', unique=True)
+    name_kr = models.CharField(max_length=100, verbose_name='가맹점카테고리한글이름', unique=True)
+    name_en = models.CharField(max_length=100, verbose_name='가맹점카테고리영문이름', unique=True)
     description = models.CharField(default='', max_length=255, verbose_name='설명')
     image = models.ImageField(max_length=300, null=True, upload_to="image/shop_category/", verbose_name='가맹점카테고리이미지')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')

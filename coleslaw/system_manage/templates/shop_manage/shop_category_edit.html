@@ -31,8 +31,12 @@
             <form id="data-form" method="post" onsubmit="return false">
                 <div class="row mb-3">
                       <div class="col-md-12">
-                        <label for="shop_category_name">카테고리명</label>
-                        <input type="text" name="shop_category_name" class="form-control" id="shop_category_name" placeholder="카테고리명" value="{{data.name}}">
+                        <label for="shop_category_name_kr">카테고리 한글명</label>
+                        <input type="text" name="shop_category_name_kr" class="form-control" id="shop_category_name_kr" placeholder="카테고리 한글명" value="{{data.name_kr}}">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="shop_category_name_en">카테고리 영문명</label>
+                        <input type="text" name="shop_category_name_en" class="form-control" id="shop_category_name_en" placeholder="카테고리 영문명" value="{{data.name_en}}">
                       </div>
                       <div class="col-md-12">
                         <label for="description">설명</label>
@@ -55,5 +59,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_category_edit.js' %}"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_category_edit.js' %}?v=20240725"></script>
 {% endblock javascripts %}

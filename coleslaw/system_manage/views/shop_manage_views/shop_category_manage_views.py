@@ -31,7 +31,8 @@ class ShopCategoryManageView(View):
 
         obj_list = ShopCategory.objects.filter(**filter_dict).values(
             'id',
-            'name',
+            'name_kr',
+            'name_en',
             'created_at',
         ).order_by('id')
 
@@ -68,18 +69,26 @@ class ShopCategoryCreateView(View):
     
     @method_decorator(permission_required(raise_exception=True))
     def post(self, request: HttpRequest, *args, **kwargs):
-        shop_category_name = request.POST['shop_category_name'].strip()
+        shop_category_name_kr = request.POST['shop_category_name_kr'].strip()
+        shop_category_name_en = request.POST['shop_category_name_en'].strip()
         description = request.POST['description'].strip()
         image = request.FILES.get("image")
 
         try:
-            ShopCategory.objects.get(name=shop_category_name)
-            return JsonResponse({'message': '이미 존재하는 카테고리명 입니다.'}, status=400)
+            ShopCategory.objects.get(name_kr=shop_category_name_kr)
+            return JsonResponse({'message': '이미 존재하는 카테고리 한글명 입니다.'}, status=400)
+        except:
+            pass
+
+        try:
+            ShopCategory.objects.get(name_en=shop_category_name_en)
+            return JsonResponse({'message': '이미 존재하는 카테고리 영문명 입니다.'}, status=400)
         except:
             pass
 
         shop_category = ShopCategory.objects.create(
-            name=shop_category_name,
+            name_kr=shop_category_name_kr,
+            name_en=shop_category_name_en,
             description=description,
             image=image
         )
@@ -135,14 +144,19 @@ class ShopCategoryEditView(View):
         except:
             return JsonResponse({"message": "데이터 오류"},status=400)
         
-        shop_category_name = request.POST['shop_category_name'].strip()
+        shop_category_name_kr = request.POST['shop_category_name_kr'].strip()
+        shop_category_name_en = request.POST['shop_category_name_en'].strip()
         description = request.POST['description'].strip()
         image = request.FILES.get("image")
     
-        if ShopCategory.objects.filter(name=shop_category_name).exclude(pk=shop_category.pk).exists():
-            return JsonResponse({'message': '이미 존재하는 카테고리 명 입니다.'}, status=400)
+        if ShopCategory.objects.filter(name_kr=shop_category_name_kr).exclude(pk=shop_category.pk).exists():
+            return JsonResponse({'message': '이미 존재하는 카테고리 한글명 입니다.'}, status=400)
         
-        shop_category.name = shop_category_name
+        if ShopCategory.objects.filter(name_en=shop_category_name_en).exclude(pk=shop_category.pk).exists():
+            return JsonResponse({'message': '이미 존재하는 카테고리 영문명 입니다.'}, status=400)
+        
+        shop_category.name_kr = shop_category_name_kr
+        shop_category.name_en = shop_category_name_en
         shop_category.description = description
         if image:
             shop_category.image = image

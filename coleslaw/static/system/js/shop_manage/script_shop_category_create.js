@@ -1,5 +1,6 @@
 const btn_submit = document.getElementById("btn-submit");
-const shop_category_name = document.getElementById("shop_category_name");
+const shop_category_name_kr = document.getElementById("shop_category_name_kr");
+const shop_category_name_en = document.getElementById("shop_category_name_en");
 const description = document.getElementById("description");
 const image = document.getElementById("image");
 
@@ -13,7 +14,8 @@ btn_submit.addEventListener("click", () => {
     const data =new FormData(document.getElementById("data-form"));
     btn_submit.disabled=true;
     description.disabled=true;
-    shop_category_name.disabled=true;
+    shop_category_name_kr.disabled=true;
+    shop_category_name_en.disabled=true;
     image.disabled=true;
     $.ajax({
         type: "POST",
@@ -32,7 +34,8 @@ btn_submit.addEventListener("click", () => {
         error: function(error) {
             btn_submit.disabled=false;
             description.disabled=false;
-            shop_category_name.disabled=false;
+            shop_category_name_kr.disabled=false;
+            shop_category_name_en.disabled=false;
             image.disabled=false;
             if(error.status == 401){
                 alert('로그인 해주세요.');
@@ -49,8 +52,12 @@ btn_submit.addEventListener("click", () => {
 
 //유효성 체크 함수
 function validation(){
-    if(shop_category_name.value == ''){
-        shop_category_name.focus();
+    if(shop_category_name_kr.value == ''){
+        shop_category_name_kr.focus();
+        return false;
+    }
+    if(shop_category_name_en.value == ''){
+        shop_category_name_en.focus();
         return false;
     }
     return true;

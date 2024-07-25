@@ -29,7 +29,8 @@ class AgencyShopCategoryListView(View):
                     )
                 ).values(
                     'id',
-                    'name',
+                    'name_kr',
+                    'name_en',
                     'description',
                     'categoryImageUrl',
                 ).order_by('id')
