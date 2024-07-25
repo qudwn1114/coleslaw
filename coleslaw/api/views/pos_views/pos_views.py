@@ -344,6 +344,41 @@ class ShopTableDiscountView(View):
         return HttpResponse(return_data, content_type = "application/json")
     
 
+class ShopTableDiscountCancelView(View):
+    '''
+        테이블 할인취소
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopTableDiscountCancelView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = kwargs.get('table_no')
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+
+        total_price = shop_table.total_price
+        total_discount = shop_table.total_discount
+
+        shop_table.total_price = total_price + total_discount
+        shop_table.total_discount = 0
+        shop_table.save()
+
+        data = {}
+        data['cart_total_price'] = total_price
+        data['cart_total_discount'] = total_discount
+
+        return_data = {'data': data,'msg': '할인이 취소 되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
 class ShopTableCheckoutView(View):
     '''
         shop table checkout
