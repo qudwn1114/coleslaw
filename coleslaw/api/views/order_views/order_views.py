@@ -104,19 +104,23 @@ class ShopOrderCreateView(View):
 
                     option_price = 0
                     if i.checkout_detail_option.all().exists():
-                        option = [] 
+                        option_kr = [] 
+                        option_en = [] 
                         order_goods_option_bulk_list = []
                         for j in i.checkout_detail_option.all():
                             if j.goods_option_detail.soldout:
-                                raise ValueError(f"{i.goods.name} 상품의 {j.goods_option_detail.name} 옵션 판매 중단되었습니다.")
-                            option.append(f"{j.goods_option_detail.goods_option.name} : {j.goods_option_detail.name}")
+                                raise ValueError(f"{i.goods.name_kr} 상품의 {j.goods_option_detail.name_kr} 옵션 판매 중단되었습니다.")
+                            option_kr.append(f"{j.goods_option_detail.goods_option.name_kr} : {j.goods_option_detail.name_kr}")
+                            option_en.append(f"{j.goods_option_detail.goods_option.name_en} : {j.goods_option_detail.name_en}")
                             option_price += j.goods_option_detail.price
 
                             order_goods_option_bulk_list.append(OrderGoodsOption(order_goods=order_goods, goods_option_detail=j.goods_option_detail))
 
                         OrderGoodsOption.objects.bulk_create(order_goods_option_bulk_list)
-                        option = ' / '.join(option)
-                        order_goods.option = option
+                        option_kr = ' / '.join(option_kr)
+                        option_en = ' / '.join(option_en)
+                        order_goods.option_kr = option_kr
+                        order_goods.option_en = option_en
                         order_goods.option_price = option_price
                         order_goods.total_price += option_price
                         order_goods.save()

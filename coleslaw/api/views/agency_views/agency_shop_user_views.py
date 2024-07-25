@@ -123,7 +123,8 @@ class AgencyShopUserOrderDetailView(View):
                 'name_kr',
                 'name_en',
                 'price',
-                'option',
+                'option_kr',
+                'option_en',
                 'option_price',
                 'quantity',
                 'total_price'
