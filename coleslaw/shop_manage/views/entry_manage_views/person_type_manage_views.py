@@ -47,7 +47,7 @@ class PersonTypeManageView(View):
             'person_type__name',
             'description',
             'goods',
-            'goods__name',
+            'goods__name_kr',
             'created_at'
         ).order_by('id')
 
@@ -279,7 +279,8 @@ class PersonTypeGoodsManageView(View):
         ).values(
             'id',
             'imageThumbnailUrl',
-            'name',
+            'name_kr',
+            'name_en',
         ).order_by('id')
 
         paginator = Paginator(obj_list, paginate_by)

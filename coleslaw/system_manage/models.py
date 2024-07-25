@@ -428,7 +428,8 @@ class Order(models.Model):
 class OrderGoods(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_goods')    
     goods = models.ForeignKey(Goods, on_delete=models.PROTECT, related_name='order_goods')
-    name = models.CharField(null=True, max_length=255, verbose_name='제품명')
+    name_kr = models.CharField(null=True, max_length=255, verbose_name='제품영어명')
+    name_en = models.CharField(null=True, max_length=255, verbose_name='제품한글명')
     price = models.PositiveIntegerField(default=0, verbose_name='가격')
     option = models.CharField(max_length=255, verbose_name='옵션', null=True)
     option_price = models.PositiveIntegerField(default=0, verbose_name='옵션추가비용')

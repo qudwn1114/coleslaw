@@ -95,7 +95,8 @@ class AgencyShopListView(View):
                 ).values(
                     'id',
                     'shopId',
-                    'shopName',
+                    'shopNameKr',
+                    'shopNameEn',
                     'shopDescription',
                     'shopImageUrl',
                     'shopDetailUrl'
@@ -209,7 +210,8 @@ class ShopGoodsListView(View):
                     ),
                 ).values(
                     'id',
-                    'name',
+                    'name_kr',
+                    'name_en',
                     'sale_price',
                     'price',
                     'status',
@@ -256,7 +258,8 @@ class ShopGoodsDetailView(View):
         try:
             data = {}
             data['id'] = goods.pk
-            data['name'] = goods.name
+            data['name_kr'] = goods.name_kr
+            data['name_en'] = goods.name_en
             data['sale_price'] = goods.sale_price
             data['price'] = goods.price
             if goods.image:

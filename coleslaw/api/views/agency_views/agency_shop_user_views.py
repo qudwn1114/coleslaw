@@ -25,7 +25,8 @@ class AgencyShopUserOrderListView(View):
         try:
             agency = Agency.objects.get(pk=agency_id)
             queryset = Order.objects.filter(agency=agency, order_membername=membername, order_phone=phone).exclude(status='0').annotate(
-                shopName = F('shop__name'),
+                shopNameKr = F('shop__name_kr'),
+                shopNameEn = F('shop__name_en'),
                 shopImageUrl=Case(
                     When(shop__image='', then=None),
                     When(shop__image=None, then=None),
@@ -39,7 +40,8 @@ class AgencyShopUserOrderListView(View):
                 )
             ).values(
                 'id',
-                'shopName',
+                'shopNameKr',
+                'shopNameEn',
                 'shopImageUrl',
                 'final_price',
                 'order_name',

@@ -27,7 +27,7 @@
                 <div class="col-sm-8">
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
-                        <option value="name" {% if search_type == 'name' %}selected{% endif %}>이름</option>
+                        <option value="name_kr" {% if search_type == 'name_kr' %}selected{% endif %}>이름</option>
                       </select>
                     <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
                   </div>
@@ -62,7 +62,7 @@
                 {% for i in page_obj %}
                 <tr>
                     <td><img src="{{i.imageThumbnailUrl}}"  style="width:80px;"></td>
-                    <td>{{i.name}}</td>
+                    <td>{{i.name_kr}}</td>
                     <td>
                         {% if shop_person_type.goods %}
                             {% if shop_person_type.goods.id == i.id %}

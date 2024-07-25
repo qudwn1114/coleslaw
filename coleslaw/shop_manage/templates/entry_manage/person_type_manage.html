@@ -109,7 +109,7 @@
                   <td>
                     {% if i.goods %}
                       <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id %}">수정</a>
-                      ( {{i.goods__name}} )
+                      ( {{i.goods__name_kr}} )
                     {% else %}
                       <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id %}">매칭</a>
                     {% endif %}
