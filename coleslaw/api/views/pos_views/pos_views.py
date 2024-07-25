@@ -365,13 +365,14 @@ class ShopTableDiscountCancelView(View):
 
         total_price = shop_table.total_price
         total_discount = shop_table.total_discount
-
-        shop_table.total_price = total_price + total_discount
+        new_total_price = total_price + total_discount
+        
+        shop_table.total_price = new_total_price
         shop_table.total_discount = 0
         shop_table.save()
 
         data = {}
-        data['cart_total_price'] = total_price
+        data['cart_total_price'] = new_total_price
         data['cart_total_discount'] = 0
 
         return_data = {'data': data,'msg': '할인이 취소 되었습니다.','resultCd': '0000'}
