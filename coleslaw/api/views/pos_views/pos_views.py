@@ -366,7 +366,7 @@ class ShopTableDiscountCancelView(View):
         total_price = shop_table.total_price
         total_discount = shop_table.total_discount
         new_total_price = total_price + total_discount
-        
+
         shop_table.total_price = new_total_price
         shop_table.total_discount = 0
         shop_table.save()
@@ -426,7 +426,7 @@ class ShopTableCheckoutView(View):
                 for i in cart_list:
                     total = 0
                     goodsId = i['goodsId']
-                    goodsName = i['name']
+                    goodsName = i['name_kr']
                     goodsPrice = i['price']
                     quantity = i['quantity']
                     optionName = i['optionName']
