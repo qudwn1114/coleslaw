@@ -328,7 +328,7 @@ class Checkout(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE, null=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     code = models.CharField(max_length=100, unique=True)
-    table_no = models.PositiveIntegerField(default=None, null=True)
+    table_no = models.IntegerField(default=None, null=True)
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제금액')
     final_discount = models.PositiveIntegerField(default=0, verbose_name='최종 할인 금액')
@@ -361,7 +361,7 @@ class Order(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.PROTECT, null=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     
-    table_no = models.PositiveIntegerField(default=None, null=True)
+    table_no = models.IntegerField(default=None, null=True)
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
 
     order_type = models.CharField(max_length=10, verbose_name='주문방식', default='0') # 0: pos, 1: QR, 2: 키오스크
