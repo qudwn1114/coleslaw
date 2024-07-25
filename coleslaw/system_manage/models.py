@@ -361,7 +361,8 @@ class Order(models.Model):
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
 
     order_type = models.CharField(max_length=10, verbose_name='주문방식', default='0') # 0: pos, 1: QR, 2: 키오스크
-    order_name = models.CharField(max_length=255, verbose_name='주문명', null=True)
+    order_name_kr = models.CharField(max_length=255, verbose_name='주문한글명', null=True)
+    order_name_en = models.CharField(max_length=255, verbose_name='주문영문명', null=True)
     order_code = models.CharField(max_length=50, verbose_name='주문코드')
     order_no = models.PositiveIntegerField(default=0, verbose_name='주문번호')
     order_membername = models.CharField(max_length=20, default='', verbose_name='주문자명')

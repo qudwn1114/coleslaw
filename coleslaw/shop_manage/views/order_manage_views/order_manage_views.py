@@ -103,7 +103,8 @@ class OrderManageView(View):
         obj_list = Order.objects.filter(**filter_dict).values(
             'id',
             'order_no',
-            'order_name',
+            'order_name_kr',
+            'order_name_en',
             'order_code',
             'order_membername',
             'order_phone',

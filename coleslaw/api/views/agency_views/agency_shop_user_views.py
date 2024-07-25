@@ -44,7 +44,8 @@ class AgencyShopUserOrderListView(View):
                 'shopNameEn',
                 'shopImageUrl',
                 'final_price',
-                'order_name',
+                'order_name_kr',
+                'order_name_en',
                 'status',
                 'createdAt'
             ).order_by('-id')
@@ -88,7 +89,8 @@ class AgencyShopUserOrderDetailView(View):
             data['shopNameKr'] = order.shop.name_kr
             data['shopNameEn'] = order.shop.name_en
             data['final_price'] = order.final_price
-            data['order_name'] = order.order_name
+            data['order_name_kr'] = order.order_name_kr
+            data['order_name_en'] = order.order_name_en
             data['order_code'] = order.order_code
             data['order_no'] = order.order_no
             data['status'] = order.status
@@ -118,7 +120,8 @@ class AgencyShopUserOrderDetailView(View):
             data['amount'] = order.amount
 
             order_goods = order.order_goods.all().values( 
-                'name',
+                'name_kr',
+                'name_en',
                 'price',
                 'option',
                 'option_price',

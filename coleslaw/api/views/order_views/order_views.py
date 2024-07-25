@@ -76,13 +76,16 @@ class ShopOrderCreateView(View):
                     raise ValueError("주문번호 중복 다시 시도해주세요.")
                 except:
                     raise ValueError("주문생성실패")
-                order_name = ''
+                order_name_kr = ''
+                order_name_en = ''
                 for i in checkout.checkout_detail.all():
-                    if order_name == '':
+                    if order_name_kr == '':
                         if total_quantity == 1:
-                            order_name = f"{i.goods.name} {total_quantity}개"
+                            order_name_kr = f"{i.goods.name_kr} {total_quantity}개"
+                            order_name_en = f"{i.goods.name_en} {total_quantity}"
                         else:
-                            order_name = f"{i.goods.name} 외 {total_quantity-1}개"
+                            order_name_kr = f"{i.goods.name_kr} 외 {total_quantity-1}개"
+                            order_name_en = f"{i.goods.name_en} and {total_quantity-1} others"
 
                     if i.goods.soldout:
                         raise ValueError(f"{i.goods.name} 상품이 판매 중단되었습니다.")
@@ -118,14 +121,16 @@ class ShopOrderCreateView(View):
                         order_goods.total_price += option_price
                         order_goods.save()
 
-                order.order_name=order_name
+                order.order_name_kr=order_name_kr
+                order.order_name_en=order_name_en
                 order.save()
                     
             return_data = {
                 'data': {
                     'shop_id':shop.pk,
                     'order_id':order.pk,
-                    'order_name':order_name,
+                    'order_name_kr':order_name_kr,
+                    'order_name_en':order_name_en,
                     'order_membername':membername,
                     'order_phone':phone,
                     'order_code':order_code,
