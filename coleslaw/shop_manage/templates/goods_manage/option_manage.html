@@ -30,9 +30,15 @@
             <form id="data-form" method="post" onsubmit="return false">
                 <span>옵션 내용을 , 로 구분지어 등록해주세요. 옵션은 최대 5개 까지 등록 가능합니다. 옵션 내용 최대 20개</span><br>
                 <div class="row mt-3 mb-3">
-                  <label for="option_detail" class="col-sm-2 col-form-label">옵션 명</label>
+                  <label for="option_name_kr" class="col-sm-2 col-form-label">옵션 한글명</label>
                   <div class="col-sm-10">
-                      <input type="text" id="option_name" name="option_name" class="form-control" placeholder="옵션 명">
+                      <input type="text" id="option_name_kr" name="option_name_kr" class="form-control" placeholder="옵션 한글명">
+                  </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                  <label for="option_name_en" class="col-sm-2 col-form-label">옵션 영문명</label>
+                  <div class="col-sm-10">
+                      <input type="text" id="option_name_en" name="option_name_en" class="form-control" placeholder="옵션 영문명">
                   </div>
                 </div>
                   <div class="row mt-3 mb-3">
@@ -58,7 +64,7 @@
                 {% for i in goods.option.all %}
                 <div class="border border-3 p-3">
                     <h6>
-                      {{i.name}} 
+                      [ {{i.name_kr}} ] | [ {{i.name_en}} ]
                       {% if i.required %}
                       <input class="form-check-input" type="checkbox" value="1"  id="option_detail_{{i.id}}" checked onchange="setRequired('{{i.id}}')">
                       {% else %}
@@ -69,7 +75,8 @@
                     <table class="table table-hover">
                         <thead>
                           <tr>
-                            <th>내용</th>
+                            <th>내용(한글)</th>
+                            <th>내용(영문)</th>
                             <th>옵션비용</th>
                             <th>재고</th>
                             <th>품절</th>
@@ -81,7 +88,10 @@
                                 {% for j in i.option_detail.all %}
                                 <tr>
                                     <td>
-                                        <input type="text" id="option_name_{{j.id}}" class="form-control" placeholder="옵션 내용" value="{{j.name}}">
+                                        <input type="text" id="option_name_kr_{{j.id}}" class="form-control" placeholder="옵션 한글명" value="{{j.name_kr}}">
+                                    </td>
+                                    <td>
+                                      <input type="text" id="option_name_en_{{j.id}}" class="form-control" placeholder="옵션 영문명" value="{{j.name_en}}">
                                     </td>
                                     <td>
                                         <input type="number" id="option_price_{{j.id}}" class="form-control" placeholder="옵션 가격" value="{{j.price}}">
@@ -112,7 +122,7 @@
                                 {% endfor %}
                             {% else %}
                             <tr>
-                                <td colspan="3">데이터가 없습니다</td>
+                                <td colspan="6">데이터가 없습니다</td>
                             </tr>
                             {% endif %}
                           </tbody>
@@ -136,6 +146,6 @@
 <script>
   const shop_id = {{shop.id}};
 </script>
-<script src="{% static 'shop/js/goods_manage/script_option_manage.js' %}?v=20240620"></script>
+<script src="{% static 'shop/js/goods_manage/script_option_manage.js' %}?v=20240725"></script>
 {% endblock javascripts %}
 

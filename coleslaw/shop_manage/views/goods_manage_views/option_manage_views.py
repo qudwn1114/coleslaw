@@ -39,8 +39,9 @@ class OptionManageView(View):
         except:
             return JsonResponse({'message' : '데이터 오류'},  status = 400)
         
-        option_name = request.POST['option_name']
-        option_detail = request.POST['option_detail']
+        option_name_kr = request.POST['option_name_kr'].strip()
+        option_name_en = request.POST['option_name_en'].strip()
+        option_detail = request.POST['option_detail'].strip()
         option_detail_list = option_detail.split(',')
         option_detail_list = [i.strip() for i in option_detail_list]
         option_count = goods.option.all().count()
@@ -52,11 +53,12 @@ class OptionManageView(View):
             with transaction.atomic():
                 goods_option = GoodsOption.objects.create(
                     goods=goods,
-                    name = option_name.strip()
+                    name_kr = option_name_kr,
+                    name_en = option_name_en
                 )
                 bulk_list = []
                 for i in option_detail_list:
-                    bulk_list.append(GoodsOptionDetail(goods_option=goods_option, name=i))
+                    bulk_list.append(GoodsOptionDetail(goods_option=goods_option, name_kr=i, name_en=i))
                 GoodsOptionDetail.objects.bulk_create(bulk_list)
         except:
             return JsonResponse({'message' : '등록 에러'},  status = 400)
@@ -110,7 +112,8 @@ class OptionDetailManageView(View):
             return JsonResponse({'message' : '옵션내용은 20개 까지 가능합니다.'},  status = 400)
         GoodsOptionDetail.objects.create(
             goods_option=goods_option,
-            name=f'내용{option_detail_count+1}'
+            name_kr=f'내용{option_detail_count+1}',
+            name_en=f'content{option_detail_count+1}'
         )
 
         return JsonResponse({'message' : '등록되었습니다.'},status = 202)
@@ -125,14 +128,16 @@ class OptionDetailManageView(View):
         rq_type = request.PUT['type']
         if rq_type == 'DETAIL':
             option_detail_id = request.PUT['option_detail_id']
-            option_name = request.PUT['option_name']
+            option_name_kr = request.PUT['option_name_kr'].strip()
+            option_name_en = request.PUT['option_name_en'].strip()
             option_price = request.PUT['option_price']
             option_stock = request.PUT['option_stock']
             try:
                 goods_option_detail = GoodsOptionDetail.objects.get(pk=option_detail_id)
             except:
                 return JsonResponse({'message' : '데이터 오류'},  status = 400)
-            goods_option_detail.name = option_name
+            goods_option_detail.name_kr = option_name_kr
+            goods_option_detail.name_en = option_name_en
             goods_option_detail.price = option_price
             if goods_option_detail.stock_flag:
                 goods_option_detail.stock = option_stock

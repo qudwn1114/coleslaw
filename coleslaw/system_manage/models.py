@@ -231,18 +231,17 @@ class Goods(models.Model):
 class GoodsOption(models.Model):
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, related_name='option')
     required = models.BooleanField(default=True, verbose_name='필수여부')
-    name = models.CharField(max_length=100, verbose_name='옵션명')
+    name_kr = models.CharField(max_length=100, verbose_name='옵션한글명', null=True)
+    name_en = models.CharField(max_length=100, verbose_name='옵션영문명', null=True)
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['goods', 'name'], name='goods_name_unique')
-        ]
         db_table='goods_option'
 
 #상품옵션상세
 class GoodsOptionDetail(models.Model):
     goods_option = models.ForeignKey(GoodsOption, on_delete=models.CASCADE, related_name='option_detail')
-    name = models.CharField(max_length=100, verbose_name='옵션명')
+    name_kr = models.CharField(max_length=100, verbose_name='옵션한글명', null=True)
+    name_en = models.CharField(max_length=100, verbose_name='옵션영문명', null=True)
     price = models.PositiveIntegerField(default=0, verbose_name='옵션가격')
     stock = models.IntegerField(default=0, verbose_name='재고수량')
     stock_flag = models.BooleanField(default=False, verbose_name='재고관리사용여부') #재고 관리 사용 여부

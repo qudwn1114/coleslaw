@@ -270,9 +270,9 @@ class ShopGoodsDetailView(View):
             data['soldout'] = goods.soldout
             data['option_flag'] =goods.option_flag
             if goods.option_flag and goods.option.all().exists():
-                option_queryset = goods.option.all().values('id', 'required', 'name').order_by('id')
+                option_queryset = goods.option.all().values('id', 'required', 'name_kr', 'name_en').order_by('id')
                 for i in option_queryset:
-                    i['option_detail'] = list(GoodsOptionDetail.objects.filter(goods_option_id=i['id']).values('id', 'name', 'price', 'stock', 'stock_flag', 'soldout').order_by('id'))
+                    i['option_detail'] = list(GoodsOptionDetail.objects.filter(goods_option_id=i['id']).values('id', 'name_kr', 'name_en', 'price', 'stock', 'stock_flag', 'soldout').order_by('id'))
                 data['option'] = list(option_queryset)
             else:
                 data['option'] = None

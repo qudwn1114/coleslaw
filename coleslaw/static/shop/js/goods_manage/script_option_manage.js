@@ -1,4 +1,5 @@
-const option_name = document.getElementById("option_name");
+const option_name_kr = document.getElementById("option_name_kr");
+const option_name_en = document.getElementById("option_name_en");
 const option_detail = document.getElementById("option_detail");
 
 const btn_submit = document.getElementById("btn-submit");
@@ -44,8 +45,12 @@ btn_submit.addEventListener("click", () => {
 
 //유효성 체크 함수
 function validation(){
-    if(option_name.value == ''){
-        option_name.focus();
+    if(option_name_kr.value == ''){
+        option_name_kr.focus();
+        return false;
+    }
+    if(option_name_en.value == ''){
+        option_name_en.focus();
         return false;
     }
     if(option_detail.value == ''){
@@ -123,7 +128,8 @@ function saveOptionDetail(id){
     let data = {
         "type": "DETAIL",
         "option_detail_id" : id,
-        "option_name" : document.getElementById(`option_name_${id}`).value,
+        "option_name_kr" : document.getElementById(`option_name_kr_${id}`).value,
+        "option_name_en" : document.getElementById(`option_name_en_${id}`).value,
         "option_price" : document.getElementById(`option_price_${id}`).value,
         "option_stock" : document.getElementById(`option_stock_${id}`).value
     }
