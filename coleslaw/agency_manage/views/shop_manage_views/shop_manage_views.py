@@ -40,7 +40,8 @@ class ShopManageView(View):
 
         obj_list = Shop.objects.filter(**filter_dict).values(
             'id',
-            'name',
+            'name_kr',
+            'name_en',
             'phone',
             'representative',
             'agency__name',
@@ -93,7 +94,8 @@ class ShopCreateView(View):
         
         shop_category_id = request.POST['shop_category_id']
 
-        shop_name = request.POST['shop_name'].strip()
+        shop_name_kr = request.POST['shop_name_kr'].strip()
+        shop_name_en = request.POST['shop_name_en'].strip()
         description = request.POST['description'].strip()
 
         representative = request.POST['representative']
@@ -119,8 +121,13 @@ class ShopCreateView(View):
             return JsonResponse({'message': '카테고리 오류 입니다.'}, status=400)
 
         try:
-            Shop.objects.get(name=shop_name)
-            return JsonResponse({'message': '이미 존재하는 가맹점 명 입니다.'}, status=400)
+            Shop.objects.get(name_kr=shop_name_kr)
+            return JsonResponse({'message': '이미 존재하는 가맹점 한글명 입니다.'}, status=400)
+        except:
+            pass
+        try:
+            Shop.objects.get(name_en=shop_name_en)
+            return JsonResponse({'message': '이미 존재하는 가맹점 영문명 입니다.'}, status=400)
         except:
             pass
         try:
@@ -128,7 +135,8 @@ class ShopCreateView(View):
                 shop = Shop.objects.create(
                     agency=agency,
                     shop_category=shop_category,
-                    name=shop_name,
+                    name_kr=shop_name_kr,
+                    name_en=shop_name_en,
                     description=description,
                     representative=representative,
                     phone=phone,
@@ -227,7 +235,8 @@ class ShopEditView(View):
             return JsonResponse({"message": "데이터 오류"},status=400)
         
         shop_category_id = request.POST['shop_category_id']
-        shop_name = request.POST['shop_name'].strip()
+        shop_name_kr = request.POST['shop_name_kr'].strip()
+        shop_name_en = request.POST['shop_name_en'].strip()
         description = request.POST['description'].strip()
 
         representative = request.POST['representative']
@@ -248,11 +257,14 @@ class ShopEditView(View):
             return JsonResponse({'message': '카테고리 오류 입니다.'}, status=400)
 
     
-        if Shop.objects.filter(name=shop_name).exclude(pk=shop.pk).exists():
-            return JsonResponse({'message': '이미 존재하는 가맹점 명 입니다.'}, status=400)
+        if Shop.objects.filter(name_kr=shop_name_kr).exclude(pk=shop.pk).exists():
+            return JsonResponse({'message': '이미 존재하는 가맹점 한글명 입니다.'}, status=400)
+        if Shop.objects.filter(name_en=shop_name_en).exclude(pk=shop.pk).exists():
+            return JsonResponse({'message': '이미 존재하는 가맹점 영문명 입니다.'}, status=400)
         
         shop.shop_category = shop_category
-        shop.name = shop_name
+        shop.name_kr = shop_name_kr
+        shop.name_en = shop_name_en
         shop.description = description
         shop.representative = representative
         shop.phone = phone

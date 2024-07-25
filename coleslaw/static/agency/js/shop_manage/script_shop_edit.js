@@ -2,7 +2,8 @@ const btn_submit = document.getElementById("btn-submit");
 const btn_address = document.getElementById("btn-address")
 const representative = document.getElementById("representative");
 const shop_category_id = document.getElementById("shop_category_id");
-const shop_name = document.getElementById("shop_name");
+const shop_name_kr = document.getElementById("shop_name_kr");
+const shop_name_en = document.getElementById("shop_name_en");
 const description = document.getElementById("description");
 const phone = document.getElementById("phone");
 const registration_no = document.getElementById("registration_no");
@@ -29,7 +30,8 @@ btn_submit.addEventListener("click", () => {
     representative.disabled=true;
     shop_category_id.disabled=true;
     description.disabled=true;
-    shop_name.disabled=true;
+    shop_name_kr.disabled=true;
+    shop_name_en.disabled=true;
     phone.disabled=true;
     registration_no.disabled=true;
     address.disabled=true;
@@ -61,7 +63,8 @@ btn_submit.addEventListener("click", () => {
             representative.disabled=false;
             description.disabled=false;
             shop_category_id.disabled=false;
-            shop_name.disabled=false;
+            shop_name_kr.disabled=false;
+            shop_name_en.disabled=false;
             phone.disabled=false;
             registration_no.disabled=false;
             address.disabled=false;
@@ -129,8 +132,12 @@ function validation(){
         representative.focus();
         return false;
     }
-    if(shop_name.value == ''){
-        shop_name.focus();
+    if(shop_name_kr.value == ''){
+        shop_name_kr.focus();
+        return false;
+    }
+    if(shop_name_en.value == ''){
+        shop_name_en.focus();
         return false;
     }
     if(!regPhone(phone.value)){

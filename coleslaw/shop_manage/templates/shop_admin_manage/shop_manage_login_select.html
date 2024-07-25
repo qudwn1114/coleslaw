@@ -36,7 +36,7 @@
                   </div>
                   <div class="row g-3" style="width:450px;">
                     <div class="input-group">
-                      <input type="text" class="form-control" id="shop_name" placeholder="가맹점 이름" value="{{shop_name}}" onkeyup="enterkey()">
+                      <input type="text" class="form-control" id="shop_name_kr" placeholder="가맹점 이름" value="{{shop_name_kr}}" onkeyup="enterkey()">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" id="btn-search">검색</button>
                       </div>
@@ -45,7 +45,7 @@
                         {% if shop_list %}
                         {% for i in shop_list %}
                             <a href="{% url 'shop_manage:home' i.shop_id %}" class="list-group-item list-group-item-action text-center">
-                                {{ i.name }}
+                                {{ i.name_kr }}
                             </a>
                         {% endfor %}
                         {% else %}
@@ -76,5 +76,5 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'shop/js/shop_manage/script_login_select.js' %}"></script>
+<script src="{% static 'shop/js/shop_manage/script_login_select.js' %}?v=20240725"></script>
 {% endblock javascripts %}

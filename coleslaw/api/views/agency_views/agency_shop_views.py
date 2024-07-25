@@ -83,7 +83,8 @@ class AgencyShopListView(View):
             # endnum = startnum+10
             queryset = AgencyShop.objects.filter(agency=agency, shop__shop_category=shop_category, status=True).annotate(
                     shopId=F('shop_id'),
-                    shopName=F('shop__name'),
+                    shopNameKr=F('shop__name_kr'),
+                    shopNameEn=F('shop__name_en'),
                     shopDescription=F('shop__description'),
                     shopImageUrl=Case(
                         When(shop__image='', then=None),

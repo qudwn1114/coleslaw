@@ -83,7 +83,8 @@ class AgencyShopUserOrderDetailView(View):
                 data['orderShopImageUrl'] = None
 
             data['shop_id'] = order.shop.pk
-            data['shopName'] = order.shop.name
+            data['shopNameKr'] = order.shop.name_kr
+            data['shopNameEn'] = order.shop.name_en
             data['final_price'] = order.final_price
             data['order_name'] = order.order_name
             data['order_code'] = order.order_code

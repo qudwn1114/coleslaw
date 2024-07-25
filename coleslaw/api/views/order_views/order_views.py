@@ -310,7 +310,7 @@ class ShopOrderCompleteView(View):
             
             #에이전시 행사때만 문자발송!
             if order.agency:
-                message=f'[{shop.name}]\n주문번호 [{order.order_no}] 입니다.'
+                message=f'[{shop.name_kr}]\n주문번호 [{order.order_no}] 입니다.'
                 sms_response = send_sms(phone=order.order_phone, message=message)
             
             try:
@@ -329,7 +329,8 @@ class ShopOrderCompleteView(View):
 
             return_data = {
                 'data': {
-                    'shop_name':shop.name,
+                    'shop_name_kr':shop.name_kr,
+                    'shop_name_en':shop.name_en,
                     'order_id':order.pk,
                     'order_no':order.order_no,
                     'order_membername':order.order_membername,

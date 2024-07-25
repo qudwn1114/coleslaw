@@ -80,7 +80,8 @@ class ShopCategory(models.Model):
 class Shop(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.PROTECT, related_name='shop', verbose_name='메인 agency')
     shop_category = models.ForeignKey(ShopCategory, on_delete=models.PROTECT, related_name='shop')
-    name = models.CharField(max_length=100, verbose_name='가맹점이름', unique=True)
+    name_kr = models.CharField(max_length=100, verbose_name='가맹점한글명', unique=True)
+    name_en = models.CharField(max_length=100, verbose_name='가맹점영문명', unique=True)
     description = models.CharField(default='', max_length=255, verbose_name='설명')
     
     phone = models.CharField(null=True, max_length=20, verbose_name='가맹점연락처')

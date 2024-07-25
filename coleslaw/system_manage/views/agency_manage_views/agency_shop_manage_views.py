@@ -35,7 +35,7 @@ class AgencyShopManageView(View):
         agency_shops = AgencyShop.objects.filter(shop=OuterRef('pk'), agency=agency)
         obj_list = Shop.objects.filter(**filter_dict).annotate(is_agency_shop=Exists(agency_shops)).values(
             'id',
-            'name',
+            'name_kr',
             'phone',
             'created_at',
             'is_agency_shop'

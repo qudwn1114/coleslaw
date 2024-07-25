@@ -29,7 +29,8 @@ class ShopDetailView(View):
             data = {}            
             data['agencyName'] = shop.agency.name
             data['shopCategoryName'] = shop.shop_category.name
-            data['shopName'] = shop.name
+            data['shopNameKr'] = shop.name_kr
+            data['shopNameEn'] = shop.name_en
             data['shopDescription'] = shop.description
             data['shopRepresentative'] = shop.representative
             data['shopAddress'] = shop.address
@@ -88,7 +89,8 @@ class ShopEntryDetailView(View):
         try:
             shop = Shop.objects.get(pk=shop_id)
             data = {}
-            data['shopName'] = shop.name
+            data['shopNameKr'] = shop.name_kr
+            data['shopNameEn'] = shop.name_en
             data['entryMembername'] = shop.entry_membername
             data['entryPhone'] = shop.entry_phone
             data['entryEmail'] = shop.entry_email

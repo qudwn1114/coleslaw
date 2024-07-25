@@ -28,10 +28,15 @@
                 <div class="col-sm-8">
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
-                        {% if search_type == 'name' %}
-                        <option value="name" selected>가맹점명</option>
+                        {% if search_type == 'name_kr' %}
+                        <option value="name_kr" selected>가맹점한글명</option>
                         {% else %}
-                        <option value="name">가맹점명</option>
+                        <option value="name_kr">가맹점한글명</option>
+                        {% endif %}
+                        {% if search_type == 'name_en' %}
+                        <option value="name_en" selected>가맹점영문명</option>
+                        {% else %}
+                        <option value="name_en">가맹점영문명</option>
                         {% endif %}
                         {% if search_type == 'agency__name' %}
                         <option value="agency__name" selected>에이전시명</option>
@@ -81,7 +86,7 @@
                 {% for i in page_obj %}
                 <tr>
                   <td>{{i.agency__name}}</td>
-                  <td><a href="{% url 'system_manage:shop_detail' i.id %}">{{i.name}}</a></td>
+                  <td><a href="{% url 'system_manage:shop_detail' i.id %}">{{i.name_kr}}</a></td>
                   <td>{{i.phone}}</td>
                   <td>{{i.created_at|date:"Y.m.d"}}</td>
                   <td><a class="btn btn-outline-primary" href="{% url 'system_manage:shop_admin_manage' i.id %}">설정</a></td>
