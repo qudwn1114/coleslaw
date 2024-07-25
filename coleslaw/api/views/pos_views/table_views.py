@@ -44,7 +44,7 @@ class ShopTableListView(View):
                         When(entry_time=None, then=None),
                             default=Func(
                             F('entry_time'),
-                            V('%y.%m.%d %H:%i'),
+                            V('%m.%d %H:%i'),
                             function='DATE_FORMAT',
                             output_field=CharField()
                         )
