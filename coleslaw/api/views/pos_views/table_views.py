@@ -204,6 +204,7 @@ class ShopTableDetailView(View):
         data['phone'] = phone
         data['cart_list'] = cart_list
         data['cart_cnt'] = len(cart_list)
+        data['cart_total_discount'] = shop_table.total_discount
         data['cart_total_price'] = shop_table.total_price
 
         return_data = {
