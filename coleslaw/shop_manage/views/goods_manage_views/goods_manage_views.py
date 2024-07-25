@@ -209,8 +209,8 @@ class GoodsEditView(View):
         goods = get_object_or_404(Goods, pk=pk, shop=shop)
         context['goods'] = goods
 
-        context['main_category'] = MainCategory.objects.all().values('id', 'name')
-        context['sub_category'] = SubCategory.objects.filter(main_category=goods.sub_category.main_category).values('id', 'name')
+        context['main_category'] = MainCategory.objects.all().order_by('name_kr').values('id', 'name_kr')
+        context['sub_category'] = SubCategory.objects.filter(main_category=goods.sub_category.main_category).order_by('name_kr').values('id', 'name_kr')
 
         return render(request, 'goods_manage/goods_edit.html', context)
     
@@ -328,8 +328,8 @@ def goods(request: HttpRequest, *args, **kwargs):
             When(image_thumbnail=None, then=Concat(V(settings.SITE_URL), V(settings.MEDIA_URL), V('image/goods/default.jpg'))),
             default=Concat(V(settings.SITE_URL), V(settings.MEDIA_URL), 'image_thumbnail', output_field=CharField())
         ),
-        mainCategoryName = F('sub_category__main_category__name'),
-        subCategoryName = F('sub_category__name'),
+        mainCategoryNameKr = F('sub_category__main_category__name_kr'),
+        subCategoryNameKr = F('sub_category__name_kr'),
         createdAt=Func(
             F('created_at'),
             V('%y.%m.%d %H:%i'),
@@ -343,8 +343,8 @@ def goods(request: HttpRequest, *args, **kwargs):
         'price',
         'sale_price',
         'stock',
-        'mainCategoryName',
-        'subCategoryName',
+        'mainCategoryNameKr',
+        'subCategoryNameKr',
         'status',
         'soldout',
         'stock_flag',

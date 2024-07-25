@@ -47,7 +47,7 @@ function setCategory(type, arr){
     }
     $oSelect.removeAttr("disabled");
     for(let i=0; i<arr.length; i++){
-        $oSelect.append(new Option(arr[i].name , arr[i].id, false, false));
+        $oSelect.append(new Option(arr[i].name_kr , arr[i].id, false, false));
     }
     $oSelect.selectpicker('refresh');
 }

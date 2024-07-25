@@ -3,7 +3,8 @@ const categoryModal = document.getElementById('categoryModal');
 const inputCategoryId = document.getElementById('categoryId');
 const inputParentCategoryId = document.getElementById('parentCategoryId');
 const inputCategoryType = document.getElementById('categoryType');
-const inputCategoryName = document.getElementById('categoryName');
+const inputCategoryNameKr = document.getElementById('categoryNameKr');
+const inputCategoryNameEn = document.getElementById('categoryNameEn');
 
 const btn_submit = document.getElementById("btn-submit");
 const btn_edit = document.getElementById('btn-edit');
@@ -37,7 +38,7 @@ function getSubCateogryList(parent_id){
 }
 
 
-function selectLCategory(elem, id){
+function selectLCategory(elem, id, name_kr, name_en){
     const mainCategory = document.querySelectorAll(".main-category");
     mainCategory.forEach(el => el.classList.remove('active'));
     elem.classList.add('active');
@@ -50,7 +51,8 @@ function selectLCategory(elem, id){
 
     deleteLCategory.setAttribute('data-main-id', id);
     editLCategory.setAttribute('data-main-id', id);
-    editLCategory.setAttribute('data-category-name', elem.innerText);
+    editLCategory.setAttribute('data-category-name-kr', name_kr);
+    editLCategory.setAttribute('data-category-name-en', name_en);
 
     const createSCategory = document.getElementById('createSCategory');
     createSCategory.setAttribute('data-parent-id', id);
@@ -58,7 +60,7 @@ function selectLCategory(elem, id){
     getSubCateogryList(id);
 }
 
-function selectSCategory(elem, id){
+function selectSCategory(elem, id, name_kr, name_en){
     const subCategory = document.querySelectorAll(".sub-category");
     subCategory.forEach(el => el.classList.remove('active'));
     elem.classList.add('active');
@@ -71,9 +73,9 @@ function selectSCategory(elem, id){
 
     deleteSCategory.setAttribute('data-sub-id', id);
     editSCategory.setAttribute('data-sub-id', id);
-    editSCategory.setAttribute('data-category-name', elem.innerText);
+    editSCategory.setAttribute('data-category-name-kr', name_kr);
+    editSCategory.setAttribute('data-category-name-en', name_en);
 }
-
 
 
 // 모달 열릴 때 폼 초기화 및 데이터 넘기기
@@ -89,14 +91,17 @@ categoryModal.addEventListener('show.bs.modal', function (event) {
         if(modalType == 'create'){
             btn_submit.style.display = 'block';
             btn_edit.style.display = 'none';
-            inputCategoryName.placeholder = '카테고리 이름을 넣어주세요.';
+            inputCategoryNameKr.placeholder = '카테고리 한글 이름을 넣어주세요.';
+            inputCategoryNameEn.placeholder = '카테고리 영문 이름을 넣어주세요.';
         }
         else if(modalType == 'edit'){
             btn_submit.style.display = 'none';
             btn_edit.style.display = 'block';
             inputCategoryId.value = button.getAttribute('data-main-id');
-            inputCategoryName.value = button.getAttribute('data-category-name');
-            inputCategoryName.placeholder = button.getAttribute('data-category-name');
+            inputCategoryNameKr.value = button.getAttribute('data-category-name-kr');
+            inputCategoryNameKr.placeholder = button.getAttribute('data-category-name-kr');
+            inputCategoryNameEn.value = button.getAttribute('data-category-name-en');
+            inputCategoryNameEn.placeholder = button.getAttribute('data-category-name-en');
         }
     }
     else if(categoryType == 'sub'){
@@ -104,14 +109,18 @@ categoryModal.addEventListener('show.bs.modal', function (event) {
             btn_submit.style.display = 'block';
             btn_edit.style.display = 'none';
             inputParentCategoryId.value = button.getAttribute('data-parent-id');
-            inputCategoryName.placeholder = '카테고리 이름을 넣어주세요.';
+            inputCategoryNameKr.placeholder = '카테고리 한글 이름을 넣어주세요.';
+            inputCategoryNameEn.placeholder = '카테고리 영문 이름을 넣어주세요.';
         }
         else if(modalType == 'edit'){
             btn_submit.style.display = 'none';
             btn_edit.style.display = 'block';
             inputCategoryId.value = button.getAttribute('data-sub-id');
-            inputCategoryName.value = button.getAttribute('data-category-name');
-            inputCategoryName.placeholder = button.getAttribute('data-category-name');
+            inputCategoryNameKr.value = button.getAttribute('data-category-name-kr');
+            inputCategoryNameKr.placeholder = button.getAttribute('data-category-name-kr');
+            inputCategoryNameEn.value = button.getAttribute('data-category-name-en');
+            inputCategoryNameEn.placeholder = button.getAttribute('data-category-name-en');
+
         }
     }
     else{
@@ -126,8 +135,12 @@ function validation(){
         alert('카테고리 타입이 없습니다.');
         return false;
     }
-    if(inputCategoryName.value == ''){
-        inputCategoryName.focus();
+    if(inputCategoryNameKr.value == ''){
+        inputCategoryNameKr.focus();
+        return false;
+    }
+    if(inputCategoryNameEn.value == ''){
+        inputCategoryNameEn.focus();
         return false;
     }
     return true;
@@ -267,6 +280,8 @@ function deleteCategory(elem){
 
 function loadList(data, type, id){
     let x;
+    let kr;
+    let en;
     clearList(type)
     if(type == 'main'){
         if(data.length > 0){
@@ -274,16 +289,18 @@ function loadList(data, type, id){
                 let a = document.createElement("a");
                 if(data[i].id==id){
                     x = a;
+                    kr = data[i].name_kr;
+                    en = data[i].name_en;
                 }
                 a.classList.add("main-category", "list-group-item", "list-group-item-action");
-                a.setAttribute("onClick", `selectLCategory(this, ${data[i].id})`);
-                let textNode = document.createTextNode(data[i].name);
+                a.setAttribute("onClick", `selectLCategory(this, ${data[i].id}, '${data[i].name_kr}', '${data[i].name_en}')`);
+                let textNode = document.createTextNode(data[i].name_kr);
                 a.appendChild(textNode);
                 a.href="javascript:;";
                 document.getElementById('list-main-category').appendChild(a);
             }
             if(typeof id != 'undefined'){
-                selectLCategory(x, id);
+                selectLCategory(x, id, kr, en);
                 x.scrollIntoView();
             }
             else{
@@ -313,16 +330,18 @@ function loadList(data, type, id){
                 let a = document.createElement("a");
                 if(data[i].id==id){
                     x = a;
+                    kr = data[i].name_kr;
+                    en = data[i].name_en;
                 }
                 a.classList.add("sub-category", "list-group-item", "list-group-item-action");
-                a.setAttribute("onClick", `selectSCategory(this, ${data[i].id})`);
+                a.setAttribute("onClick", `selectSCategory(this, ${data[i].id}, '${data[i].name_kr}', '${data[i].name_en}')`);
                 a.href="javascript:;";
-                let textNode = document.createTextNode(data[i].name);
+                let textNode = document.createTextNode(data[i].name_kr);
                 a.appendChild(textNode);
                 document.getElementById('list-sub-category').appendChild(a);
             }
             if(typeof id != 'undefined'){
-                selectSCategory(x, id);
+                selectSCategory(x, id, kr, en);
                 x.scrollIntoView();
             }
             else{

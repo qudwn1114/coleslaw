@@ -16,7 +16,7 @@ class CategoryManageView(View):
     @method_decorator(permission_required(redirect_url='system_manage:denied'))
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        context['MainCategory'] = MainCategory.objects.all().order_by('name')
+        context['MainCategory'] = MainCategory.objects.all().order_by('name_kr')
         return render(request, 'category_manage/category_manage.html', context)
     
     @method_decorator(permission_required(raise_exception=True))
@@ -53,8 +53,8 @@ class CategoryManageView(View):
         request.PUT = json.loads(request.body)
         categoryType = request.PUT['categoryType']
         categoryId = request.PUT['categoryId']
-        categoryNameKr = request.POST['categoryNameKr'].strip()
-        categoryNameEn = request.POST['categoryNameEn'].strip()
+        categoryNameKr = request.PUT['categoryNameKr'].strip()
+        categoryNameEn = request.PUT['categoryNameEn'].strip()
 
         if categoryType == 'main':
             category = MainCategory.objects.get(id=categoryId)

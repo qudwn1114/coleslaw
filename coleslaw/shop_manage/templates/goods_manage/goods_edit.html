@@ -39,9 +39,9 @@
                       <select  class="selectpicker form-control" id="main_category" name="main_category" data-live-search="true" title="대분류 카테고리를 선택해주세요." onchange="selectCategory('main',this.value)">
                           {% for i in main_category %}
                           {% if goods.sub_category.main_category.id == i.id %}
-                              <option value="{{i.id}}" selected>{{i.name}}</option>
+                              <option value="{{i.id}}" selected>{{i.name_kr}}</option>
                           {% else %}
-                              <option value="{{i.id}}">{{i.name}}</option>
+                              <option value="{{i.id}}">{{i.name_kr}}</option>
                           {% endif %}
                           {% endfor %}
                         </select>
@@ -50,9 +50,9 @@
                       <select  class="selectpicker form-control" id="sub_category" name="sub_category" data-live-search="true" title="소분류 카테고리를 선택해주세요.">
                           {% for i in sub_category %}
                           {% if goods.sub_category.id == i.id %}
-                              <option value="{{i.id}}" selected>{{i.name}}</option>
+                              <option value="{{i.id}}" selected>{{i.name_kr}}</option>
                           {% else %}
-                              <option value="{{i.id}}">{{i.name}}</option>
+                              <option value="{{i.id}}">{{i.name_kr}}</option>
                           {% endif %}
                           {% endfor %}
                       </select>
