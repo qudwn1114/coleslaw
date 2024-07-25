@@ -210,7 +210,7 @@ def order_goods(request: HttpRequest, *args, **kwargs):
     order_goods = order.order_goods.all().values( 
         'name_kr',
         'price',
-        'option',
+        'option_kr',
         'option_price',
         'quantity',
         'total_price'

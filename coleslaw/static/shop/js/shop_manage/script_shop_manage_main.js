@@ -246,8 +246,8 @@ $('#orderGoodsModal').on('show.bs.modal', function(event) {
           tag += `<h5>[주문일시] ${data.createdAt}</h5><hr>`;
           for(let i =0; i<data.order_goods.length; i++){
               tag += `<h6>[제품명] ${data.order_goods[i].name_kr} <br>`
-              if(data.order_goods[i].option){
-                  tag += `[옵션] ${data.order_goods[i].option} <br>`;
+              if(data.order_goods[i].option_kr){
+                  tag += `[옵션] ${data.order_goods[i].option_kr} <br>`;
               } 
               tag += `[수량] ${data.order_goods[i].quantity}</h6><hr>`
           }
