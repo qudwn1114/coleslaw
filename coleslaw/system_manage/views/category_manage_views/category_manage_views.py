@@ -22,15 +22,17 @@ class CategoryManageView(View):
     @method_decorator(permission_required(raise_exception=True))
     def post(self, request: HttpRequest, *args, **kwargs):
         categoryType = request.POST['categoryType']
-        categoryName = request.POST['categoryName'].strip()
+        categoryNameKr = request.POST['categoryNameKr'].strip()
+        categoryNameEn = request.POST['categoryNameEn'].strip()
         if categoryType == 'main':
             try:
                 category = MainCategory.objects.create(
-                    name = categoryName
+                    name_kr = categoryNameKr,
+                    name_en = categoryNameEn
                 )
             except IntegrityError:
                 return JsonResponse({'message':'이미 대분류에 존재하는 카테고리 입니다.'}, status = 400)
-            return JsonResponse({'message' : '생성 완료', 'id':category.id, 'type':'main', 'data':list(MainCategory.objects.all().values('id', 'name'))}, status = 201)
+            return JsonResponse({'message' : '생성 완료', 'id':category.id, 'type':'main', 'data':list(MainCategory.objects.all().order_by('name_kr').values('id', 'name_kr', 'name_en'))}, status = 201)
 
         elif categoryType == 'sub':
             parentCategoryId = request.POST['parentCategoryId']
@@ -38,11 +40,11 @@ class CategoryManageView(View):
             try:
                 category = SubCategory.objects.create(
                     main_category = main_category,
-                    name = categoryName
+                    name_kr = categoryNameKr
                 )
             except IntegrityError:
                 return JsonResponse({'message':'이미 소분류에 존재하는 카테고리 입니다.'}, status = 400)
-            return JsonResponse({'message' : '생성 완료', 'id':category.id, 'type':'sub', 'data':list(main_category.sub_category.all().values('id', 'name'))}, status = 201)
+            return JsonResponse({'message' : '생성 완료', 'id':category.id, 'type':'sub', 'data':list(main_category.sub_category.all().order_by('name_kr').values('id', 'name_kr', 'name_en'))}, status = 201)
         else:
             return JsonResponse({'message':'전달값 오류..'}, status = 400)
         
@@ -51,24 +53,27 @@ class CategoryManageView(View):
         request.PUT = json.loads(request.body)
         categoryType = request.PUT['categoryType']
         categoryId = request.PUT['categoryId']
-        categoryName = request.PUT['categoryName'].strip()
+        categoryNameKr = request.POST['categoryNameKr'].strip()
+        categoryNameEn = request.POST['categoryNameEn'].strip()
 
         if categoryType == 'main':
             category = MainCategory.objects.get(id=categoryId)
             try:
-                category.name = categoryName
+                category.name_kr = categoryNameKr
+                category.name_en = categoryNameEn
                 category.save()
             except IntegrityError:
                 return JsonResponse({'message':'이미 대분류에 존재하는 카테고리 입니다.'}, status = 400)            
-            return JsonResponse({'message' : '수정 완료', 'id':category.id, 'type':'main', 'data':list(MainCategory.objects.all().values('id', 'name'))}, status = 201)
+            return JsonResponse({'message' : '수정 완료', 'id':category.id, 'type':'main', 'data':list(MainCategory.objects.all().order_by('name_kr').values('id', 'name_kr', 'name_en'))}, status = 201)
         elif categoryType == 'sub':
             category = SubCategory.objects.get(id=categoryId)
             try:
-                category.name = categoryName
+                category.name_kr = categoryNameKr
+                category.name_en = categoryNameEn
                 category.save()
             except IntegrityError:
                 return JsonResponse({'message':'이미 소분류에 존재하는 카테고리 입니다.'}, status = 400)
-            return JsonResponse({'message' : '수정 완료', 'id':category.id, 'type':'sub', 'data':list(category.main_category.sub_category.all().values('id', 'name'))}, status = 201)
+            return JsonResponse({'message' : '수정 완료', 'id':category.id, 'type':'sub', 'data':list(category.main_category.sub_category.all().order_by('name_kr').values('id', 'name_kr', 'name_en'))}, status = 201)
         else:
             return JsonResponse({'message':'전달값 오류..'}, status = 400)
 
@@ -83,7 +88,7 @@ class CategoryManageView(View):
                 category.delete()
             except ProtectedError:
                 return JsonResponse({'message':'하위 노드들이 있어 삭제 불가능합니다.'}, status = 400)
-            return JsonResponse({'message' : '삭제 완료', 'data':list(MainCategory.objects.all().values('id', 'name'))}, status = 200)
+            return JsonResponse({'message' : '삭제 완료', 'data':list(MainCategory.objects.all().order_by('name_kr').values('id', 'name_kr', 'name_en'))}, status = 200)
         elif categoryType == 'sub':
             category = SubCategory.objects.get(id=categoryId)
             main_category = category.main_category
@@ -91,7 +96,7 @@ class CategoryManageView(View):
                 category.delete()
             except ProtectedError:
                 return JsonResponse({'message':'하위 노드들이 있어 삭제 불가능합니다.'}, status = 400)
-            return JsonResponse({'message' : '삭제 완료', 'data':list(main_category.sub_category.all().values('id', 'name'))}, status = 200)
+            return JsonResponse({'message' : '삭제 완료', 'data':list(main_category.sub_category.all().order_by('name_kr').values('id', 'name_kr', 'name_en'))}, status = 200)
         else:
             return JsonResponse({'message':'전달값 오류..'}, status = 400)
 
@@ -102,7 +107,7 @@ def sub_category(request: HttpRequest):
     '''
     parent_id = request.POST['parent_id']
     try:
-        data = list(MainCategory.objects.get(pk=parent_id).sub_category.all().values('id', 'name').order_by('name'))
+        data = list(MainCategory.objects.get(pk=parent_id).sub_category.all().order_by('name_kr').values('id', 'name_kr', 'name_en'))
         return JsonResponse({'data':data, 'type':'sub', 'message':'Sub Category List'}, status = 200)
     except Exception as e:
         return JsonResponse({'message':'데이터 오류..'}, status = 400)
@@ -113,10 +118,10 @@ def category(request: HttpRequest):
     '''
     카테고리 반환
     '''
-    main_category = list(MainCategory.objects.all().order_by('name').values('id', 'name'))
+    main_category = list(MainCategory.objects.all().order_by('name_kr').values('id', 'name_kr', 'name_en'))
     sub_category = list(SubCategory.objects.all().annotate(
         parent_id = F('main_category_id')
-    ).order_by('name').values('id', 'parent_id', 'name'))
+    ).order_by('name_kr').values('id', 'parent_id', 'name_kr', 'name_en'))
     
     data = {
         "main_category_list" : main_category,

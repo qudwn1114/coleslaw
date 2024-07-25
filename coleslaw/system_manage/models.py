@@ -186,7 +186,8 @@ class ShopTableLog(models.Model):
 
 # 대분류
 class MainCategory(models.Model):
-    name = models.CharField(max_length=100, verbose_name='대분류이름', unique=True)
+    name_kr = models.CharField(max_length=100, verbose_name='대분류 한글이름', unique=True)
+    name_en = models.CharField(max_length=100, verbose_name='대분류 영문이름', unique=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
@@ -196,14 +197,17 @@ class MainCategory(models.Model):
 # 소분류
 class SubCategory(models.Model):
     main_category = models.ForeignKey(MainCategory, on_delete=models.PROTECT, related_name='sub_category')
-    name = models.CharField(max_length=100, verbose_name='소분류이름')
+    name_kr = models.CharField(max_length=100, verbose_name='소분류 한글이름', null=True)
+    name_en = models.CharField(max_length=100, verbose_name='소분류 영문이름', null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['main_category', 'name'], name='main_category_name_unique')
+            models.UniqueConstraint(fields=['main_category', 'name_kr'], name='main_category_name_kr_unique'),
+            models.UniqueConstraint(fields=['main_category', 'name_en'], name='main_category_name_en_unique')
         ]
+
         db_table='sub_category'
 
 # 상품

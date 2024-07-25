@@ -12,7 +12,7 @@ from django.views.decorators.http import require_http_methods
 from django.utils.decorators import method_decorator
 from django.core.validators import RegexValidator
 from system_manage.decorators import permission_required
-from system_manage.models import Order
+from system_manage.models import Order, MainCategory, SubCategory
 
 import datetime
 
