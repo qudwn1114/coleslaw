@@ -123,22 +123,22 @@ class LoginView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         if request.user.is_authenticated:
-            shop_name = request.GET.get('shop_name', '')
-            context['shop_name'] = shop_name
+            shop_name_kr = request.GET.get('shop_name_kr', '')
+            context['shop_name_kr'] = shop_name_kr
             filter_dict = {}
             if request.user.is_superuser:
-                if shop_name:
-                    filter_dict['name__icontains'] = shop_name
+                if shop_name_kr:
+                    filter_dict['name_kr__icontains'] = shop_name_kr
                 context['shop_list'] = Shop.objects.filter(**filter_dict).annotate(shop_id=F('id')).values('shop_id', 'name_kr')[:50]
             elif AgencyAdmin.objects.filter(user=request.user).exists():
                 agency_id_list = list(AgencyAdmin.objects.filter(user=request.user).values_list('agency', flat=True))
                 filter_dict['agency_id__in'] = agency_id_list
-                if shop_name:
-                    filter_dict['name__icontains'] = shop_name 
+                if shop_name_kr:
+                    filter_dict['name_kr__icontains'] = shop_name_kr 
                 context['shop_list'] = Shop.objects.filter(**filter_dict).annotate(shop_id=F('id')).values('shop_id', 'name_kr')[:50]
             else:
-                if shop_name:
-                    filter_dict['shop__name__icontains'] = shop_name
+                if shop_name_kr:
+                    filter_dict['shop__name_kr__icontains'] = shop_name_kr
                 filter_dict['user'] = request.user
                 context['shop_list'] = ShopAdmin.objects.filter(**filter_dict).annotate(name_kr=F('shop__name_kr')).values('shop_id', 'name_kr')[:50]
             return render(request, 'shop_admin_manage/shop_manage_login_select.html', context)
