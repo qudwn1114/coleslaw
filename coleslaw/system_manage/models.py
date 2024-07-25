@@ -159,7 +159,7 @@ class ShopMember(models.Model):
 # shop table
 class ShopTable(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    table_no = models.PositiveIntegerField()
+    table_no = models.IntegerField()
     name = models.CharField(max_length=100, verbose_name='테이블명')
     cart = models.TextField(verbose_name='장바구니', null=True)
     total_discount = models.PositiveIntegerField(default=0, verbose_name='총 할인 금액')

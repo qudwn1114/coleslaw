@@ -35,7 +35,7 @@ class ShopTableListView(View):
             page = int(request.GET.get('page', 1))
             startnum = 0 + (page-1)*paginate_by
             endnum = startnum+paginate_by
-            queryset = ShopTable.objects.filter(shop=shop).exclude(table_no=0).annotate(
+            queryset = ShopTable.objects.filter(shop=shop, table_no__gt=0).annotate(
                     membername=Case(
                         When(shop_member=None, then=V('비회원')),
                         default=F('shop_member__membername'), output_field=CharField()

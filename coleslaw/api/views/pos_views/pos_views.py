@@ -13,6 +13,44 @@ from api.views.sms_views.sms_views import send_sms
 
 import traceback, json, datetime, uuid, logging
 
+class ShopPosListView(View):
+    '''
+        shop pos list api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            queryset = ShopTable.objects.filter(shop=shop, table_no__lte=0).annotate(
+                ).order_by('id').values(
+                    'table_no',
+                    'name',
+                )
+
+            return_data = {
+                'data': list(queryset),
+                'resultCd': '0000',
+                'msg': '가맹점 pos 리스트',
+                'totalCnt' : queryset.count()
+            }
+        except:
+            print(traceback.format_exc())
+            return_data = {
+                'data': [],
+                'msg': '오류!',
+                'resultCd': '0001',
+            }
+    
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+
+
+
 class ShopTableAddView(View):
     '''
         상품담기

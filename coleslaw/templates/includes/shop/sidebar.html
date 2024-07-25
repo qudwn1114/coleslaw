@@ -18,6 +18,9 @@
         <a class="nav-link collapsed" href="{% url 'shop_manage:person_type_manage' shop.id %}"> <i class="bi bi-person"></i> <span>입장 관리</span> </a> 
       </li>
       <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'shop_manage:pos_manage' shop.id %}"> <i class="bi bi-calculator"></i> <span>POS 관리</span> </a>
+      </li>
+      <li class="nav-item"> 
         <a class="nav-link collapsed" href="{% url 'shop_manage:table_manage' shop.id %}"> <i class="bi bi-window-stack"></i> <span>테이블 관리</span> </a>
       </li>
     </ul>

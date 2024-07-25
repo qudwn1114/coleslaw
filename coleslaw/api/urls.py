@@ -6,7 +6,7 @@ from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderComp
 
 from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView, ShopTableDetailView
-from api.views.pos_views.pos_views import ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableCheckoutView
+from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableCheckoutView
 from api.views.pos_views.checkout_views import PosCheckoutDetailView
 from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView
 
@@ -43,6 +43,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/table-exit/<int:table_no>/', ShopTableExitView.as_view()),
     
     # pos
+    path('shop/<int:shop_id>/pos-list/', ShopPosListView.as_view()),
     path('shop/<int:shop_id>/member-list/', ShopMemberListView.as_view()),
     path('shop/<int:shop_id>/member-create/', ShopMemberCreateView.as_view()),
     path('shop/<int:shop_id>/table/<int:table_no>/add/', ShopTableAddView.as_view()),
