@@ -1,7 +1,8 @@
 const main_category = document.getElementById("main_category");
 const sub_category = document.getElementById("sub_category");
 
-const goods_name = document.getElementById("goods_name");
+const goods_name_kr = document.getElementById("goods_name_kr");
+const goods_name_en = document.getElementById("goods_name_en");
 const price = document.getElementById("price");
 
 const btn_submit = document.getElementById("btn-submit");
@@ -122,8 +123,12 @@ function validation(){
         alert('상품은 소분류까지 분류되어야합니다.');
         return false;
     }
-    if(goods_name.value == ''){
-        goods_name.focus();
+    if(goods_name_kr.value == ''){
+        goods_name_kr.focus();
+        return false;
+    }
+    if(goods_name_en.value == ''){
+        goods_name_en.focus();
         return false;
     }
     if(price.value == '' || price.value < 0){
