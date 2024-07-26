@@ -97,7 +97,8 @@ class ShopOrderCreateView(View):
                         name_kr=i.goods.name_kr, 
                         name_en=i.goods.name_en,
                         quantity=i.quantity,
-                        option=None, 
+                        option_kr=None, 
+                        option_en=None, 
                         option_price=0, 
                         total_price=i.price*i.quantity
                     )
