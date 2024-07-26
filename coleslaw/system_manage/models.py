@@ -452,3 +452,42 @@ class OrderGoodsOption(models.Model):
     
     class Meta:
         db_table='order_goods_option'
+
+class OrderPayment(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_payment')
+    refNo = models.CharField(max_length=20, default='')
+    mbrNo = models.CharField(max_length=20, default='')
+    mbrRefNo = models.CharField(max_length=100, default='')
+    tranDate = models.CharField(max_length=20, default='')
+    tranTime = models.CharField(max_length=20, default='')
+    goodsName = models.CharField(max_length=100, default='')
+    amount = models.IntegerField(default=0)
+    taxAmount = models.IntegerField(default=0)
+    feeAmount = models.IntegerField(default=0)
+    taxFreeAmount = models.IntegerField(default=0)
+    greenDepositAmount = models.IntegerField(default=0)
+    installment = models.CharField(max_length=20, default='')
+    custormerName = models.CharField(max_length=50, default='')
+    customerTelNo = models.CharField(max_length=20, default='')
+    applNo = models.CharField(max_length=20, default='')
+    cardNo = models.CharField(max_length=100, default='')
+    issueCompanyNo = models.CharField(max_length=10, default='')
+    issueCompanyName = models.CharField(max_length=20, default='')
+    issueCardName = models.CharField(max_length=20, default='')
+    acqCompanyNo = models.CharField(max_length=20, default='')
+    acqCompanyName = models.CharField(max_length=20, default='')
+    payType = models.CharField(max_length=10, default='')
+    cardAmount = models.IntegerField(default=0)
+    pointAmount = models.IntegerField(default=0)
+    couponAmount = models.IntegerField(default=0)
+    custormmerName = models.CharField(max_length=50, default='')
+    custormmerTelNo = models.CharField(max_length=50, default='')
+    cardPointAmount = models.IntegerField(default=0)
+    cardPointApplNo = models.CharField(max_length=20, default='')
+    bankCode = models.CharField(max_length=20, null=True)
+    accountNo = models.CharField(max_length=20, null=True)
+    accountCloseDate = models.CharField(max_length=20, null=True)
+    billkey = models.CharField(max_length=20, null=True)
+
+    class Meta:
+        db_table='order_payment'

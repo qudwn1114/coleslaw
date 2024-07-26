@@ -80,7 +80,7 @@ class ShopCreateView(View):
         if not agency:
             return redirect('agency_manage:notfound')
         context['agency'] = agency
-        shop_category = ShopCategory.objects.all().values('id', 'name').order_by('id')
+        shop_category = ShopCategory.objects.all().values('id', 'name_kr').order_by('id')
         context['shop_category'] = shop_category
 
         return render(request, 'agency_shop_manage/shop_create.html', context)
@@ -217,7 +217,7 @@ class ShopEditView(View):
         pk = kwargs.get("pk")
         data = get_object_or_404(Shop, pk=pk, agency=agency)
         context['data'] = data
-        shop_category = ShopCategory.objects.all().values('id', 'name').order_by('id')
+        shop_category = ShopCategory.objects.all().values('id', 'name_kr').order_by('id')
         context['shop_category'] = shop_category
 
         return render(request, 'agency_shop_manage/shop_edit.html', context)

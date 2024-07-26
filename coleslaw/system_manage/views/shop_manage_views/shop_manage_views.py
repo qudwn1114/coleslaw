@@ -66,7 +66,7 @@ class ShopCreateView(View):
     @method_decorator(permission_required(redirect_url='system_manage:denied'))
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
-        shop_category = ShopCategory.objects.all().values('id', 'name').order_by('id')
+        shop_category = ShopCategory.objects.all().values('id', 'name_kr').order_by('id')
         agency = Agency.objects.all().values('id', 'name').order_by('id')
         context['shop_category'] = shop_category
         context['agency'] = agency
@@ -186,7 +186,7 @@ class ShopEditView(View):
         pk = kwargs.get("pk")
         data = get_object_or_404(Shop, pk=pk)
         context['data'] = data
-        shop_category = ShopCategory.objects.all().values('id', 'name').order_by('id')
+        shop_category = ShopCategory.objects.all().values('id', 'name_kr').order_by('id')
         agency = Agency.objects.all().values('id', 'name').order_by('id')
         context['shop_category'] = shop_category
         context['agency'] = agency

@@ -42,7 +42,7 @@
                         <label for="shop_category_id">가맹점 카테고리</label>
                         <select class="form-select" id="shop_category_id" name="shop_category_id">
                           {% for i in shop_category %}
-                            <option value="{{i.id}}" {% if i.id == data.shop_category.id %} selected {% endif %}>{{i.name}}</option>
+                            <option value="{{i.id}}" {% if i.id == data.shop_category.id %} selected {% endif %}>{{i.name_kr}}</option>
                           {% endfor %}
                         </select>
                       </div>
