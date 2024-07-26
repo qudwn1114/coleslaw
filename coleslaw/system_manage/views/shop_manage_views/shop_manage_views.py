@@ -238,8 +238,8 @@ class ShopEditView(View):
         
         shop.agency = agency
         shop.shop_category = shop_category
-        shop.name_kr = shop_name_kr,
-        shop.name_en = shop_name_en,
+        shop.name_kr = shop_name_kr
+        shop.name_en = shop_name_en
         shop.description = description
         shop.representative = representative
         shop.phone = phone
