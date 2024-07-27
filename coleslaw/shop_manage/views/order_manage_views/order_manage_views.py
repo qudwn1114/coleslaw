@@ -175,7 +175,7 @@ def order_complete_sms(request: HttpRequest, *args, **kwargs):
     if order.order_complete_sms:
         return JsonResponse({"message":"이미 문자 발송 처리된 주문입니다."}, status = 400)
     
-    message=f'[{shop.name}]\n주문번호 [{order.order_no}] 회원님 주문하신거 수령하세요~\n'
+    message=f'[{shop.name_kr}]\n주문번호 [{order.order_no}] 회원님 주문하신거 수령하세요~\n'
     sms_response = send_sms(phone=order.order_phone, message=message)
     if sms_response.status_code != 202:
         return JsonResponse({"message":"전송실패.."}, status = 200)
