@@ -79,6 +79,11 @@ class ShopCheckoutView(View):
                         raise ValueError(f'{goodsId} Goods prcie error')
                     if quantity <= 0:
                         raise ValueError(f'{goodsId} Goods quantity error')
+                    if goods.soldout:
+                        raise ValueError(f'{goods.name_kr} Soldout')
+                    if goods.stock_flag:
+                         if goods.stock < quantity:
+                            raise ValueError(f'{goods.name_kr} Out of Stock')
                     
                     checkout_detail = CheckoutDetail.objects.create(
                         checkout = checkout,
@@ -107,6 +112,14 @@ class ShopCheckoutView(View):
                             
                             if goods_option_detail.price != optionDetailPrice:
                                 raise ValueError(f'{goodsId} Goods Option Price Error')
+
+                            if goods_option_detail.soldout:
+                                raise ValueError(f'{goods.name_kr} {goods_option_detail.name_kr} Option Soldout')
+                            
+                            if goods_option_detail.stock_flag:
+                                if goods_option_detail.stock < quantity:
+                                    raise ValueError(f'{goods.name_kr} {goods_option_detail.name_kr} Out of Stock')
+
                             total += optionDetailPrice * quantity
 
                             checkout_option_bulk_list.append(CheckoutDetailOption(checkout_detail=checkout_detail, goods_option_detail=goods_option_detail))

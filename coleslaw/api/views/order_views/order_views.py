@@ -89,6 +89,10 @@ class ShopOrderCreateView(View):
 
                     if i.goods.soldout:
                         raise ValueError(f"{i.goods.name} 상품이 판매 중단되었습니다.")
+                    
+                    if i.goods.stock_flag:
+                         if i.goods.stock < i.quantity:
+                            raise ValueError(f'{i.goods.name_kr} Out of Stock')
 
                     order_goods = OrderGoods.objects.create(
                         order=order, 
@@ -110,7 +114,12 @@ class ShopOrderCreateView(View):
                         order_goods_option_bulk_list = []
                         for j in i.checkout_detail_option.all():
                             if j.goods_option_detail.soldout:
-                                raise ValueError(f"{i.goods.name_kr} 상품의 {j.goods_option_detail.name_kr} 옵션 판매 중단되었습니다.")
+                                raise ValueError(f"{i.goods.name_kr} {j.goods_option_detail.name_kr} Option Soldout")
+                            
+                            if j.goods_option_detail.stock_flag:
+                                if j.goods_option_detail.stock < i.quantity:
+                                    raise ValueError(f'{i.goods.name_kr} {j.goods_option_detail.name_kr} Out of Stock')
+                            
                             option_kr.append(f"{j.goods_option_detail.goods_option.name_kr} : {j.goods_option_detail.name_kr}")
                             option_en.append(f"{j.goods_option_detail.goods_option.name_en} : {j.goods_option_detail.name_en}")
                             option_price += j.goods_option_detail.price
