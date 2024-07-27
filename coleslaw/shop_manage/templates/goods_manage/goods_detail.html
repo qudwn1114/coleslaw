@@ -156,7 +156,7 @@
                         <th>내용</th>
                         <th>옵션비용</th>
                         <th>재고</th>
-                        <th></th>
+                        <th>품절여부</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -175,6 +175,13 @@
                                     {% else %}
                                       <span>재고 관리 x</span>
                                     {% endif %}
+                                </td>
+                                <td>
+                                  {% if j.soldout %}
+                                  품절
+                                  {% else %}
+                                  판매중
+                                  {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
