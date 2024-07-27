@@ -167,9 +167,6 @@
                                     <input type="text" id="option_name_kr_{{j.id}}" class="form-control" placeholder="옵션 내용" value="{{j.name_kr}}" disabled>
                                 </td>
                                 <td>
-                                  <input type="text" id="option_name_en_{{j.id}}" class="form-control" placeholder="옵션 내용" value="{{j.name_en}}" disabled>
-                                </td>
-                                <td>
                                     <input type="text" id="option_price_{{j.id}}" class="form-control" placeholder="옵션 가격" value="{{j.price|intcomma}}" disabled>
                                 </td>
                                 <td>
@@ -183,7 +180,7 @@
                             {% endfor %}
                         {% else %}
                         <tr>
-                            <td colspan="4">데이터가 없습니다</td>
+                            <td colspan="3">데이터가 없습니다</td>
                         </tr>
                         {% endif %}
                       </tbody>
