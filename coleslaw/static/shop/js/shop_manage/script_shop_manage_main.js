@@ -129,7 +129,11 @@ function getMainOrders(){
                 <td>`;
                 if(data.order_list[i].status != '2'){
                   tag += 
-                  `<select class="form-select" onchange="changeStatus(${data.order_list[i].id}, this)">
+                  `<select class="form-select" onchange="changeStatus(${data.order_list[i].id}, this)"` 
+                  if(data.order_list[i].status == '1'){
+                    tag += `style="color:#28A745"`;
+                  }
+                  tag+=`>
                     <option value="1"`
                     if(data.order_list[i].status == '1'){
                       tag += `selected`
@@ -154,7 +158,7 @@ function getMainOrders(){
                     </select>`;
                 }
                 else{
-                  tag += `주문취소`;
+                  tag += `<span class="text-danger">주문취소</span>`;
                 }
                 if(data.order_list[i].status == '4' && data.order_list[i].order_complete_sms == false){
                   tag += `<button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('${data.order_list[i].id}', this);">수령문자요청</button>`
