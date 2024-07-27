@@ -28,24 +28,6 @@ class HomeView(View):
         if not agency:
             return redirect('agency_manage:notfound')
         context['agency'] = agency
-
-        daily_order = Order.objects.filter(agency=agency, date=timezone.now().date()).exclude(status='0')
-        card_sales = daily_order.filter(payment_method="CARD")
-        cash_sales = daily_order.filter(payment_method="CASH")
-        cancel_sales = daily_order.filter(status='2')
-        total_sales = daily_order.all().exclude(status='2')
-
-        daily = {
-            'card_sales' : card_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
-            'card_count' : card_sales.count(),
-            'cash_sales' : cash_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
-            'cash_count' : cash_sales.count(),
-            'cancel_sales' : cancel_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
-            'cancel_count' : cancel_sales.count(),
-            'total_sales' : total_sales.aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum'),
-            'total_count' : total_sales.count()
-        }
-        context['daily'] = daily
         
         return render(request, 'agency_admin_manage/agency_manage_main.html', context)
 
@@ -54,7 +36,7 @@ def agency_main_sales(request: HttpRequest, *args, **kwargs):
     '''
         판매현황
     '''
-    agency_id = kwargs.get('shop_id')
+    agency_id = kwargs.get('agency_id')
     agency = check_agency(pk=agency_id)
     if not agency:
         return JsonResponse({}, status = 400)

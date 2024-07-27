@@ -7,11 +7,12 @@ const cancel_count = document.getElementById("cancel_count");
 const total_sales = document.getElementById("total_sales");
 const total_count = document.getElementById("total_count");
 
+getMainSales();
 
 function getMainSales(){
   $.ajax({
       type: "GET",
-      url: `/shop-manage/${shop_id}/main/sales/`,
+      url: `/agency-manage/${agency_id}/main/sales/`,
       headers: {
           'X-CSRFToken': csrftoken
       },
