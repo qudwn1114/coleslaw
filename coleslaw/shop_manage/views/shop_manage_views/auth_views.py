@@ -100,7 +100,7 @@ def shop_main_orders(request: HttpRequest, *args, **kwargs):
     ).exclude(status='0').values(
         'id',
         'order_no',
-        'order_name',
+        'order_name_kr',
         'order_code',
         'order_membername',
         'order_phone',
