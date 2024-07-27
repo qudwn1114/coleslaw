@@ -84,8 +84,8 @@ class OrderManageView(View):
                     default=F('total_price'), output_field=IntegerField()
                 ),          
             ).values(
-                'name',
-                'option',
+                'name_kr',
+                'option_kr',
                 'price',
                 'option_price',
                 'quantity',
