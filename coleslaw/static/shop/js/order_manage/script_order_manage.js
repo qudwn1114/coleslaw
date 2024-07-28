@@ -168,7 +168,7 @@ $('#orderGoodsModal').on('show.bs.modal', function(event) {
         success: function(data) {
             let tag = '';
             orderGoodsModalBody.innerHTML = '...';
-            tag += `<h5>[주문일시] ${data.createdAt}</h5><hr>`;
+            tag += `<h5>[주문번호] ${data.order_no} | [주문일시] ${data.createdAt}</h5><hr>`;
             for(let i =0; i<data.order_goods.length; i++){
                 tag += `<h6>[제품명] ${data.order_goods[i].name_kr} <br>`
                 if(data.order_goods[i].option_kr){
