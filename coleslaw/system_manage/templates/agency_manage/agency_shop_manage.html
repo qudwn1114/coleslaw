@@ -34,10 +34,10 @@
                 <div class="col-sm-8">
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
-                        {% if search_type == 'name' %}
-                        <option value="name" selected>가맹점명</option>
+                        {% if search_type == 'name_kr' %}
+                        <option value="name_kr" selected>가맹점명</option>
                         {% else %}
-                        <option value="name">가맹점명</option>
+                        <option value="name_kr">가맹점명</option>
                         {% endif %}
                       </select>
                     <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
@@ -73,7 +73,7 @@
               {% if page_obj %}
                 {% for i in page_obj %}
                 <tr>
-                  <td>{{i.name}}</td>
+                  <td>{{i.name_kr}}</td>
                   <td>{{i.phone}}</td>
                   <td>{{i.created_at|date:"Y.m.d"}}</td>
                   <td>
