@@ -8,11 +8,13 @@ from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import update_session_auth_hash
 from django.utils.decorators import method_decorator
 from system_manage.decorators import  permission_required
 from system_manage.models import Shop, ShopAdmin, Order, AgencyAdmin
+import datetime
 
 
 # Create your views here.
@@ -87,9 +89,32 @@ def shop_main_orders(request: HttpRequest, *args, **kwargs):
     if not shop:
         return JsonResponse({}, status = 400)
     
+    paginate_by = request.GET.get('paginate_by', '20')
+    page = request.GET.get('page', '1')
+    search_type = request.GET.get('search_type', '')
+    search_keyword = request.GET.get('search_keyword', '')
+    
     filter_dict = {}
     filter_dict['shop'] = shop
-    filter_dict['date'] = timezone.now().date()
+    if request.GET:
+        dates = request.GET.get('dates', '')
+        if dates != '':
+            startDate = dates.split(' - ')[0].strip()
+            endDate = dates.split(' - ')[1].strip()
+            format = '%m/%d/%Y'
+
+            startDate = datetime.datetime.strptime(startDate, format)
+            endDate = datetime.datetime.strptime(endDate, format)
+            endDate = datetime.datetime.combine(endDate, datetime.time.max)
+            filter_dict['created_at__lte'] = endDate
+            filter_dict['created_at__gte'] = startDate
+    else:
+        filter_dict['date'] = timezone.now().date()
+    status_list = ['1', '2', '3', '4', '5']
+    filter_dict['status__in'] = status_list
+    if search_keyword:
+        filter_dict[search_type + '__icontains'] = search_keyword
+
     order_list = Order.objects.filter(**filter_dict).annotate(
         createdAt = Func(
             F('created_at'),
@@ -97,10 +122,11 @@ def shop_main_orders(request: HttpRequest, *args, **kwargs):
             function='DATE_FORMAT',
             output_field=CharField()
         )
-    ).exclude(status='0').values(
+    ).order_by('-created_at').values(
         'id',
         'order_no',
         'order_name_kr',
+        'order_name_en',
         'order_code',
         'order_membername',
         'order_phone',
@@ -108,10 +134,23 @@ def shop_main_orders(request: HttpRequest, *args, **kwargs):
         'order_complete_sms',
         'status',
         'createdAt'
-    ).order_by('-created_at')[:10]
+    )
+
+    paginator = Paginator(order_list, paginate_by)
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        page_obj = paginator.page(page)
+    except EmptyPage:
+        page = 1
+        page_obj = paginator.page(page)
+    except InvalidPage:
+        page = 1
+        page_obj = paginator.page(page)
 
     data = {
-        'order_list' : list(order_list)
+        'order_list' : list(page_obj)
     }
     return JsonResponse(data, status = 200)
 

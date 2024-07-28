@@ -103,7 +103,7 @@
                   <th>처리여부</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="order_tbody">
               {% if page_obj %}
                 {% for i in page_obj %}
                 <tr>
@@ -112,7 +112,7 @@
                   <td>{{i.final_price|intcomma}}</td>
                   <td>{{i.order_membername}}</td>
                   <td>{{i.order_phone}}</td>
-                  <td>{{i.created_at|date:"Y.m.d H:i "}}</td>
+                  <td>{{i.createdAt}}</td>
                   <td>
                     {% if i.status != '2' %}
                     <select class="form-select" onchange="changeStatus({{i.id}}, this)" {% if i.status == '1' %}style="color:#28A745"{% endif %}>
@@ -172,5 +172,5 @@
 <script src="{% static 'js/script_pagination.js' %}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}?v=20240728"></script>
+<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}?v=2024072817"></script>
 {% endblock javascripts %}

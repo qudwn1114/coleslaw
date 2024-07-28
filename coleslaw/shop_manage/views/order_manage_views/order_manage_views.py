@@ -100,7 +100,13 @@ class OrderManageView(View):
             return xlsx_download.download(filename=filename)
             
 
-        obj_list = Order.objects.filter(**filter_dict).values(
+        obj_list = Order.objects.filter(**filter_dict).annotate(
+        createdAt = Func(
+            F('created_at'),
+            V('%y.%m.%d %H:%i'),
+            function='DATE_FORMAT',
+            output_field=CharField()
+        )).order_by('-created_at').values(
             'id',
             'order_no',
             'order_name_kr',
@@ -111,8 +117,8 @@ class OrderManageView(View):
             'final_price',
             'status',
             'order_complete_sms',
-            'created_at'
-        ).order_by('-created_at')
+            'createdAt'
+        )
 
         total_price = obj_list.exclude(status='2').aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum')
         context['total_price'] = total_price
@@ -203,10 +209,14 @@ def order_goods(request: HttpRequest, *args, **kwargs):
     
     data = {}
 
+    data['id'] = order.pk
     data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
     data['order_code'] = order.order_code
     data['order_no'] = order.order_no
     data['final_price'] = order.final_price
+    data['status'] = order.status
+    data['order_complete_sms'] = order.order_complete_sms
+
     order_goods = order.order_goods.all().values( 
         'name_kr',
         'price',
