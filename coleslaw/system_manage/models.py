@@ -487,7 +487,6 @@ class OrderPayment(models.Model):
     billkey = models.CharField(max_length=20, null=True)
 
     #pos
-    cardType = models.CharField(max_length=10, default='')
     tid = models.CharField(max_length=20, default='')
     approvalNumber = models.CharField(max_length=20, null=True)
     approvalDate  = models.CharField(max_length=20, null=True)
