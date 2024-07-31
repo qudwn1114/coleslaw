@@ -244,8 +244,8 @@ class ShopOrderCompleteView(View):
                 couponAmount = 0
             else:
                 couponAmount = int(couponAmount)
-            custormmerName = request.POST.get('custormmerName', '')
-            custormmerTelNo = request.POST.get('custormmerTelNo', '')
+            customerName = request.POST.get('custommerName', '')
+            customerTelNo = request.POST.get('custommerTelNo', '')
             cardPointAmount = request.POST.get('cardPointAmount', '')
             if not cardPointAmount:
                 cardPointAmount = 0
@@ -295,8 +295,8 @@ class ShopOrderCompleteView(View):
                 cardAmount = cardAmount,
                 pointAmount = pointAmount,
                 couponAmount = couponAmount,
-                custormmerName = custormmerName,
-                custormmerTelNo = custormmerTelNo,
+                customerName = customerName,
+                customerTelNo = customerTelNo,
                 cardPointAmount = cardPointAmount,
                 cardPointApplNo = cardPointApplNo,
                 bankCode = bankCode,

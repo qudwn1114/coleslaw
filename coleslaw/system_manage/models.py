@@ -455,8 +455,8 @@ class OrderPayment(models.Model):
     refNo = models.CharField(max_length=20, default='')
     mbrNo = models.CharField(max_length=20, default='')
     mbrRefNo = models.CharField(max_length=100, default='')
-    tranDate = models.CharField(max_length=20, default='') #approvalDate[:6] pos
-    tranTime = models.CharField(max_length=20, default='') #approvalDate[6:] pos
+    tranDate = models.CharField(max_length=20, default='')
+    tranTime = models.CharField(max_length=20, default='')
     goodsName = models.CharField(max_length=100, default='')
     amount = models.IntegerField(default=0)
     taxAmount = models.IntegerField(default=0)
@@ -464,7 +464,7 @@ class OrderPayment(models.Model):
     taxFreeAmount = models.IntegerField(default=0)
     greenDepositAmount = models.IntegerField(default=0)
     installment = models.CharField(max_length=20, default='')
-    custormerName = models.CharField(max_length=50, default='')
+    customerName = models.CharField(max_length=50, default='')
     customerTelNo = models.CharField(max_length=20, default='')
     applNo = models.CharField(max_length=20, default='')
     cardNo = models.CharField(max_length=50, default='')
