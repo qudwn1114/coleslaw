@@ -455,8 +455,8 @@ class OrderPayment(models.Model):
     refNo = models.CharField(max_length=20, default='')
     mbrNo = models.CharField(max_length=20, default='')
     mbrRefNo = models.CharField(max_length=100, default='')
-    tranDate = models.CharField(max_length=20, default='')
-    tranTime = models.CharField(max_length=20, default='')
+    tranDate = models.CharField(max_length=20, default='') #approvalDate[:6] pos
+    tranTime = models.CharField(max_length=20, default='') #approvalDate[6:] pos
     goodsName = models.CharField(max_length=100, default='')
     amount = models.IntegerField(default=0)
     taxAmount = models.IntegerField(default=0)
@@ -467,7 +467,7 @@ class OrderPayment(models.Model):
     custormerName = models.CharField(max_length=50, default='')
     customerTelNo = models.CharField(max_length=20, default='')
     applNo = models.CharField(max_length=20, default='')
-    cardNo = models.CharField(max_length=100, default='')
+    cardNo = models.CharField(max_length=50, default='')
     issueCompanyNo = models.CharField(max_length=10, default='')
     issueCompanyName = models.CharField(max_length=20, default='')
     issueCardName = models.CharField(max_length=20, default='')
@@ -485,6 +485,15 @@ class OrderPayment(models.Model):
     accountNo = models.CharField(max_length=20, null=True)
     accountCloseDate = models.CharField(max_length=20, null=True)
     billkey = models.CharField(max_length=20, null=True)
+
+    #pos
+    cardType = models.CharField(max_length=10, default='')
+    tid = models.CharField(max_length=20, default='')
+    approvalNumber = models.CharField(max_length=20, null=True)
+    approvalDate  = models.CharField(max_length=20, null=True)
+    maskingCardNumber  = models.CharField(max_length=50, default='')
+    additionalInfo = models.CharField(max_length=300, null=True)
+    posEntryMode = models.CharField(max_length=10, default='')
 
     class Meta:
         db_table='order_payment'
