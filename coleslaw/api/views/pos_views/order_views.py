@@ -215,7 +215,12 @@ class ShopPosOrderCompleteView(View):
                 return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
             
-            order.payment_method = paymentMethod
+            payment_price = order.payment_price + amount
+            left_price = order.final_price - payment_price
+            
+            order.payment_price = payment_price
+            if not paymentMethod:
+                order.payment_method = paymentMethod
             order.status = '1'
             order.save()
 
@@ -231,36 +236,35 @@ class ShopPosOrderCompleteView(View):
                 taxAmount = taxAmount,
             )
 
-
             # 재고관리
-            for i in order.order_goods.all():
-                if i.goods.stock_flag:
-                    if i.goods.stock - i.quantity <= 0:
-                        goods_soldout = True
-                    else:
-                        goods_soldout = False
-                    g = i.goods
-                    g.stock -= i.quantity
-                    g.soldout = goods_soldout
-                    g.save()
-
-                for j in i.order_goods_option.all():
-                    if j.goods_option_detail.stock_flag:
-                        god = j.goods_option_detail
-                        if god.stock - i.quantity <= 0:
-                            option_detail_soldout = True
+            if left_price == 0:
+                for i in order.order_goods.all():
+                    if i.goods.stock_flag:
+                        if i.goods.stock - i.quantity <= 0:
+                            goods_soldout = True
                         else:
-                            option_detail_soldout = False
-                        god.stock -= i.quantity
-                        god.soldout = option_detail_soldout
-                        god.save()
+                            goods_soldout = False
+                        g = i.goods
+                        g.stock -= i.quantity
+                        g.soldout = goods_soldout
+                        g.save()
+
+                    for j in i.order_goods_option.all():
+                        if j.goods_option_detail.stock_flag:
+                            god = j.goods_option_detail
+                            if god.stock - i.quantity <= 0:
+                                option_detail_soldout = True
+                            else:
+                                option_detail_soldout = False
+                            god.stock -= i.quantity
+                            god.soldout = option_detail_soldout
+                            god.save()
 
             return_data = {
                 'data': {
-                    'shop_name_kr':shop.name_kr,
-                    'shop_name_en':shop.name_en,
                     'order_id':order.pk,
                     'order_code':order.order_code,
+                    'left_price':left_price
                 },
                 'msg': '결제완료',
                 'resultCd': '0000',
