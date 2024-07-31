@@ -40,6 +40,11 @@ class PosCheckoutDetailView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         data = {}
+        if checkout.shop_member:
+            data['membername'] = checkout.shop_member.membername
+        else:
+            data['membername'] = None
+            
         data['final_price'] = checkout.final_price
         data['final_discount'] = checkout.final_discount
         checkout_detail = checkout.checkout_detail.all().annotate(
