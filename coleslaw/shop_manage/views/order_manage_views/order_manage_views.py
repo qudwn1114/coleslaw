@@ -70,7 +70,7 @@ class OrderManageView(View):
         if excel:
             filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
             filename = f"주문 목록_{timezone.now().strftime('%Y%m%d%H%M')}"
-            columns = ['상품명','옵션명', '판매가격', '옵션가격', '수량',  '주문번호', '거래번호', '승인번호', '날짜', '상태', '총금액']
+            columns = ['상품명', '옵션명', '판매가격', '옵션가격', '수량', '날짜', '상태', '총금액', '주문타입']
             queryset = OrderGoods.objects.filter(**filter_dict).annotate(
                 orderStatus=Case(
                     When(order__status='1', then=V('결제완료')),
@@ -82,19 +82,22 @@ class OrderManageView(View):
                 signedTotalPrice=Case(
                     When(order__status='2', then= Cast(F('total_price'), IntegerField()) * -1),
                     default=F('total_price'), output_field=IntegerField()
-                ),          
+                ),
+                orderType=Case(
+                    When(order__order_type='0', then=V('POS')),
+                    When(order__order_type='1', then=V('QR')),
+                    When(order__order_type='2', then=V('KIOSK'))
+                ),     
             ).values(
                 'name_kr',
                 'option_kr',
                 'price',
                 'option_price',
                 'quantity',
-                'order__mbrRefNo',
-                'order__refNo',
-                'order__applNo',
                 'order__created_at',
                 'orderStatus',
                 'signedTotalPrice',
+                'orderType'
             ).order_by('-id')
             xlsx_download = ResponseToXlsx(columns=columns, queryset=queryset)
             return xlsx_download.download(filename=filename)

@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-from system_manage.models import Agency, Order, Shop
+from system_manage.models import Agency, Order, Shop, OrderPayment
 
 import traceback, json, datetime
 
@@ -78,7 +78,8 @@ class AgencyShopUserOrderDetailView(View):
         phone = request.GET['phone']
         try:
             agency = Agency.objects.get(pk=agency_id)
-            order = Order.objects.get(pk=order_id, agency=agency, order_membername=membername, order_phone=phone)
+            order = Order.objects.get(pk=order_id, agency=agency, order_type='1', order_membername=membername, order_phone=phone)
+            order_payment = OrderPayment.objects.get(order=order)
             data = {}
             if order.shop.image:
                 data['orderShopImageUrl'] = settings.SITE_URL + order.shop.image.url
@@ -95,29 +96,29 @@ class AgencyShopUserOrderDetailView(View):
             data['order_no'] = order.order_no
             data['status'] = order.status
 
-            if order.payType in ['I', 'V', 'K']:
+            if order_payment.payType in ['I', 'V', 'K']:
                 data['order_payment_type'] = '신용카드'
-            elif order.payType == 'A':
+            elif order_payment.payType == 'A':
                 data['order_payment_type'] = '카카오페이'
-            elif order.payType == 'P':
+            elif order_payment.payType == 'P':
                 data['order_payment_type'] = '페이코'
-            elif order.payType == 'N1':
+            elif order_payment.payType == 'N1':
                 data['order_payment_type'] = '네이버페이'
-            elif order.payType == 'N2':
+            elif order_payment.payType == 'N2':
                 data['order_payment_type'] = '네이버페이포인트'
-            elif order.payType == 'U':
+            elif order_payment.payType == 'U':
                 data['order_payment_type'] = '유니온페이'
             else:
                 data['order_payment_type'] = '신용카드'
             data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
 
-            data['mbrNo'] = order.mbrNo
-            data['mbrRefNo'] = order.mbrRefNo
-            data['refNo'] = order.refNo
-            data['tranDate'] = order.tranDate
-            data['payType'] = order.payType
+            data['mbrNo'] = order_payment.mbrNo
+            data['mbrRefNo'] = order_payment.mbrRefNo
+            data['refNo'] = order_payment.refNo
+            data['tranDate'] = order_payment.tranDate
+            data['payType'] = order_payment.payType
             data['paymethod'] = order.payment_method
-            data['amount'] = order.amount
+            data['amount'] = order_payment.amount
 
             order_goods = order.order_goods.all().values( 
                 'name_kr',
