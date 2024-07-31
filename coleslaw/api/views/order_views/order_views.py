@@ -295,8 +295,6 @@ class ShopOrderCompleteView(View):
                 cardAmount = cardAmount,
                 pointAmount = pointAmount,
                 couponAmount = couponAmount,
-                customerName = customerName,
-                customerTelNo = customerTelNo,
                 cardPointAmount = cardPointAmount,
                 cardPointApplNo = cardPointApplNo,
                 bankCode = bankCode,
