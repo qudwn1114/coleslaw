@@ -50,11 +50,12 @@ class PosCheckoutDetailView(View):
             'quantity',
             'total_price'
         )
-
         for i in checkout_detail:
             i['option_detail'] = list(CheckoutDetailOption.objects.filter(pk=i['id']).annotate(
-                name_kr = F('goods_option_detail__name__name_kr'),
+                name_kr = F('goods_option_detail__name_kr'),
             ).values('name_kr'))
+
+        data['checkout_detail'] = list(checkout_detail)
 
         return_data = {
             'data': data,
