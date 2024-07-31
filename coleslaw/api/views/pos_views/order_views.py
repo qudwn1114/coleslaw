@@ -8,7 +8,7 @@ from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment
+from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, ShopMember
 
 import traceback, json, datetime, uuid, logging
 
@@ -38,6 +38,27 @@ class ShopPosOrderCreateView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        shop_member_id = request.POST['shop_member_id']
+        if shop_member_id == 0:
+            shop_member_id = None
+            shop_member = None
+        else:
+            try:
+                shop_member = ShopMember.objects.get(pk=shop_member_id, shop=shop)
+            except:
+                return_data = {'data': {},'msg': 'shop member id 오류','resultCd': '0001'}
+                return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+                return HttpResponse(return_data, content_type = "application/json")
+        
+        if checkout.shop_member:
+            if shop_member != checkout.shop_member:
+                return_data = {'data': {},'msg': 'shop member 변경 오류','resultCd': '0001'}
+                return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+                return HttpResponse(return_data, content_type = "application/json")
+        else:
+            checkout.shop_member = shop_member
+            checkout.save()
+        
         # 한시간
         if (timezone.now() - checkout.created_at).seconds >= 3600:
             return_data = {'data': {},'msg': '주문 시간초과.. 다시 주문해주세요.','resultCd': '0001'}
@@ -54,7 +75,7 @@ class ShopPosOrderCreateView(View):
                         agency=checkout.agency,
                         shop=shop,
                         table_no=checkout.table_no,
-                        shop_member=checkout.shop_member,
+                        shop_member=shop_member,
                         order_type='0',
                         order_membername='',
                         order_phone='', 
@@ -130,7 +151,11 @@ class ShopPosOrderCreateView(View):
                 order.order_name_kr=order_name_kr
                 order.order_name_en=order_name_en
                 order.save()
-                    
+            
+            if shop_member:
+                membername = shop_member.membername
+            else:
+                membername = None
             return_data = {
                 'data': {
                     'shop_id':shop.pk,
@@ -139,6 +164,9 @@ class ShopPosOrderCreateView(View):
                     'order_name_en':order_name_en,
                     'order_code':order_code,
                     'final_price':checkout.final_price,
+                    'final_discount':checkout.final_discount,
+                    'shop_member_id' : shop_member_id,
+                    'membername' : membername
                 },
                 'msg': '결제준비완료',
                 'resultCd': '0000',
