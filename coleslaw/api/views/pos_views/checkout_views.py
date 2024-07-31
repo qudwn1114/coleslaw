@@ -41,10 +41,12 @@ class PosCheckoutDetailView(View):
         
         data = {}
         if checkout.shop_member:
+            data['shop_member_id'] = checkout.shop_member.pk
             data['membername'] = checkout.shop_member.membername
         else:
+            data['shop_member_id'] = None
             data['membername'] = None
-            
+
         data['final_price'] = checkout.final_price
         data['final_discount'] = checkout.final_discount
         checkout_detail = checkout.checkout_detail.all().annotate(
