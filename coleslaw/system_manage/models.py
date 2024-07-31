@@ -156,6 +156,37 @@ class ShopMember(models.Model):
         ]
         db_table = 'shop_member'
 
+# 가맹점쿠폰
+class ShopCoupon(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    coupon_type = models.CharField(max_length=10, verbose_name='쿠폰타입', default='0') # 0: 할인쿠폰, 1: 이용권
+    name = models.CharField(max_length=50, verbose_name='쿠폰명')
+    discount_type = models.CharField(max_length=10, verbose_name='할인', default='0') # 0: 원, 1: 퍼센트
+    discount = models.PositiveIntegerField(verbose_name='할인', default=0) #할인 금액
+    expiration_period = models.PositiveIntegerField(verbose_name='유효기간', default=365) #365일
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta :
+        db_table = 'shop_coupon'
+
+
+# 가맹점회원쿠폰
+class ShopMemberCoupon(models.Model):
+    coupon_type = models.CharField(max_length=10, verbose_name='쿠폰타입', default='0') # 0: 할인쿠폰, 1: 이용권
+    shop_member = models.ForeignKey(ShopMember, on_delete=models.CASCADE, related_name='shop_member_coupon')
+    name = models.CharField(max_length=50, verbose_name='쿠폰명')
+    discount_type = models.CharField(max_length=10, verbose_name='할인', default='0') # 0: 원, 1: 퍼센트
+    discount = models.PositiveIntegerField(verbose_name='할인', default=0) #할인 금액
+    status = models.CharField(max_length=10, default='0') # 0=미사용, 1=사용완료, 2=만료
+    expiration_date = models.DateTimeField(verbose_name='만료일')
+    used_at = models.DateTimeField(null=True, verbose_name='사용일')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta :
+        db_table = 'shop_member_coupon'
+
 # shop table
 class ShopTable(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
@@ -387,41 +418,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
     delete_flag = models.BooleanField(default=False, verbose_name='삭제여부')
-
-    refNo = models.CharField(max_length=20, default='')
-    mbrNo = models.CharField(max_length=20, default='')
-    mbrRefNo = models.CharField(max_length=100, default='')
-    tranDate = models.CharField(max_length=20, default='')
-    tranTime = models.CharField(max_length=20, default='')
-    goodsName = models.CharField(max_length=100, default='')
-    amount = models.IntegerField(default=0)
-    taxAmount = models.IntegerField(default=0)
-    feeAmount = models.IntegerField(default=0)
-    taxFreeAmount = models.IntegerField(default=0)
-    greenDepositAmount = models.IntegerField(default=0)
-    installment = models.CharField(max_length=20, default='')
-    custormerName = models.CharField(max_length=50, default='')
-    customerTelNo = models.CharField(max_length=20, default='')
-    applNo = models.CharField(max_length=20, default='')
-    cardNo = models.CharField(max_length=100, default='')
-    issueCompanyNo = models.CharField(max_length=10, default='')
-    issueCompanyName = models.CharField(max_length=20, default='')
-    issueCardName = models.CharField(max_length=20, default='')
-    acqCompanyNo = models.CharField(max_length=20, default='')
-    acqCompanyName = models.CharField(max_length=20, default='')
-    payType = models.CharField(max_length=10, default='')
-    cardAmount = models.IntegerField(default=0)
-    pointAmount = models.IntegerField(default=0)
-    couponAmount = models.IntegerField(default=0)
-    custormmerName = models.CharField(max_length=50, default='')
-    custormmerTelNo = models.CharField(max_length=50, default='')
-    cardPointAmount = models.IntegerField(default=0)
-    cardPointApplNo = models.CharField(max_length=20, default='')
-    bankCode = models.CharField(max_length=20, null=True)
-    accountNo = models.CharField(max_length=20, null=True)
-    accountCloseDate = models.CharField(max_length=20, null=True)
-    billkey = models.CharField(max_length=20, null=True)
-
+    
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['shop', 'order_code'], name='shop_order_code_unique'),

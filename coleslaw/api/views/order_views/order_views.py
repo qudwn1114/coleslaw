@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption
+from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment
 from api.views.sms_views.sms_views import send_sms
 
 import traceback, json, datetime, uuid, logging
@@ -190,7 +190,6 @@ class ShopOrderCompleteView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         logger = logging.getLogger('my')
-        logger.error(str(dict(request.POST)))
         try:
             refNo = request.POST.get('refNo', '')
             mbrNo = request.POST.get('mbrNo', '')
@@ -266,43 +265,45 @@ class ShopOrderCompleteView(View):
                 return HttpResponse(return_data, content_type = "application/json")
             
             order.payment_method = 'CARD'
-            
-            order.refNo = refNo
-            order.mbrNo = mbrNo
-            order.mbrRefNo = mbrRefNo
-            order.tranDate = tranDate
-            order.tranTime = tranTime
-            order.goodsName = goodsName
-            order.amount = amount
-            order.taxAmount = taxAmount
-            order.feeAmount = feeAmount
-            order.taxFreeAmount = taxFreeAmount
-            order.greenDepositAmount = greenDepositAmount
-            order.installment = installment
-            order.custormerName = custormerName
-            order.customerTelNo = customerTelNo
-            order.applNo = applNo
-            order.cardNo = cardNo
-            order.issueCompanyNo = issueCompanyNo
-            order.issueCompanyName = issueCompanyName
-            order.issueCardName = issueCardName
-            order.acqCompanyNo = acqCompanyNo
-            order.acqCompanyName = acqCompanyName
-            order.payType = payType
-            order.cardAmount = cardAmount
-            order.pointAmount = pointAmount
-            order.couponAmount = couponAmount
-            order.custormmerName = custormmerName
-            order.custormmerTelNo = custormmerTelNo
-            order.cardPointAmount = cardPointAmount
-            order.cardPointApplNo = cardPointApplNo
-            order.bankCode = bankCode
-            order.accountNo = accountNo
-            order.accountCloseDate = accountCloseDate
-            order.billkey = billkey
-
             order.status = '1'
             order.save()
+
+            OrderPayment.objects.create(
+                order = order,
+                refNo = refNo,
+                mbrNo = mbrNo,
+                mbrRefNo = mbrRefNo,
+                tranDate = tranDate,
+                tranTime = tranTime,
+                goodsName = goodsName,
+                amount = amount,
+                taxAmount = taxAmount,
+                feeAmount = feeAmount,
+                taxFreeAmount = taxFreeAmount,
+                greenDepositAmount = greenDepositAmount,
+                installment = installment,
+                custormerName = custormerName,
+                customerTelNo = customerTelNo,
+                applNo = applNo,
+                cardNo = cardNo,
+                issueCompanyNo = issueCompanyNo,
+                issueCompanyName = issueCompanyName,
+                issueCardName = issueCardName,
+                acqCompanyNo = acqCompanyNo,
+                acqCompanyName = acqCompanyName,
+                payType = payType,
+                cardAmount = cardAmount,
+                pointAmount = pointAmount,
+                couponAmount = couponAmount,
+                custormmerName = custormmerName,
+                custormmerTelNo = custormmerTelNo,
+                cardPointAmount = cardPointAmount,
+                cardPointApplNo = cardPointApplNo,
+                bankCode = bankCode,
+                accountNo = accountNo,
+                accountCloseDate = accountCloseDate,
+                billkey = billkey
+            )
 
             # 재고관리
             for i in order.order_goods.all():
@@ -360,6 +361,7 @@ class ShopOrderCompleteView(View):
                 'resultCd': '0000',
             }
         except:
+            logger.error(str(dict(request.POST)))
             logger.error(traceback.format_exc())
             return_data = {
                 'data': {},
