@@ -38,7 +38,7 @@ class ShopPosOrderCreateView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
-        shop_member_id = request.POST['shop_member_id']
+        shop_member_id = int(request.POST['shop_member_id'])
         if shop_member_id == 0:
             shop_member_id = None
             shop_member = None
