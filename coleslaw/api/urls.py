@@ -5,7 +5,7 @@ from api.views.checkout_views.checkout_views import ShopCheckoutView
 from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderCompleteView
 
 from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView
-from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView, ShopTableDetailView
+from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView, ShopTableDetailView, ShopTableLogoutView
 from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableCheckoutView
 from api.views.pos_views.checkout_views import PosCheckoutDetailView
 from api.views.pos_views.order_views import ShopPosOrderCreateView, ShopPosOrderCompleteView
@@ -42,6 +42,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/table-detail/<str:table_no>/', ShopTableDetailView.as_view()),
     path('shop/<int:shop_id>/table-assign/<str:table_no>/', ShopTableAssignView.as_view()),
     path('shop/<int:shop_id>/table-exit/<str:table_no>/', ShopTableExitView.as_view()),
+    path('shop/<int:shop_id>/table-logout/<str:table_no>/', ShopTableLogoutView.as_view()),
     
     # pos
     path('shop/<int:shop_id>/pos-list/', ShopPosListView.as_view()),
