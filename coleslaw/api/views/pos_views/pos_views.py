@@ -523,9 +523,10 @@ class ShopTableCheckoutView(View):
         if shop_table.cart:
             cart_list = json.loads(shop_table.cart)
         else:
-            return_data = {'data': {},'msg': '상품이 없습니다.','resultCd': '0001'}
-            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-            return HttpResponse(return_data, content_type = "application/json")
+            if shop_table.total_price == 0:
+                return_data = {'data': {},'msg': '결제 금액이 부족합니다.','resultCd': '0001'}
+                return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+                return HttpResponse(return_data, content_type = "application/json")
         
         if shop_table.shop_member:
             shop_member_id = shop_table.shop_member.pk
