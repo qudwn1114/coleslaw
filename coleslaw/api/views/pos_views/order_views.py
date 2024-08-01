@@ -220,22 +220,37 @@ class ShopPosOrderCompleteView(View):
                 return HttpResponse(return_data, content_type = "application/json")
             
             tid = request.POST.get('tid', '')
-            approvalNumber = request.POST.get('approvalNumber', '')
-            approvalDate = request.POST.get('approvalDate', '')
-            maskingCardNumber = request.POST.get('maskingCardNumber', '')
-            additionalInfo = request.POST.get('additionalInfo', '')
-            posEntryMode = request.POST.get('posEntryMode', '')
-
+            installment = request.POST.get('installment', '')
             amount = request.POST.get('amount', '')
             if not amount:
                 amount = 0
             else:
                 amount = int(amount)
-            taxAmount = request.POST.get('taxAmount', '')
+            taxAmount = request.POST.get('amountTax', '')
             if not taxAmount:
                 taxAmount = 0
             else:
                 taxAmount = int(taxAmount)
+
+            approvalNumber = request.POST.get('approvalNumber', '')
+            approvalDate = request.POST.get('approvalDate', '')
+            if approvalDate:
+                tranDate = approvalDate[:6]
+                tranTime = approvalDate[6:]
+            else:
+                tranDate = ''
+                tranTime = ''
+
+            cardNo = request.POST.get('maskingCardNumber', '') #마스킹 되어진 카드번호
+
+            issueCompanyNo = request.POST.get('issuerCode', '') #발급사코드
+            issueCompanyName = request.POST.get('issuer', '') #발금사명
+            acqCompanyNo = request.POST.get('acquirerCode', '') #매입사코드
+            acqCompanyName = request.POST.get('acquirer', '') #매입사명
+
+
+            additionalInfo = request.POST.get('additionalInfo', '')
+            posEntryMode = request.POST.get('posEntryMode', '')
 
         
             try:
@@ -257,9 +272,15 @@ class ShopPosOrderCompleteView(View):
             OrderPayment.objects.create(
                 order = order,
                 tid = tid,
+                installment=installment,
                 approvalNumber = approvalNumber,
-                approvalDate = approvalDate,
-                maskingCardNumber = maskingCardNumber,
+                tranDate = tranDate,
+                tranTime = tranTime,
+                cardNo = cardNo,
+                issueCompanyNo=issueCompanyNo,
+                issueCompanyName=issueCompanyName,
+                acqCompanyNo=acqCompanyNo,
+                acqCompanyName=acqCompanyName,
                 additionalInfo = additionalInfo,
                 posEntryMode = posEntryMode,
                 amount = amount,

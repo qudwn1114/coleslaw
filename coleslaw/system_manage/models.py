@@ -496,8 +496,6 @@ class OrderPayment(models.Model):
     #pos
     tid = models.CharField(max_length=20, default='')
     approvalNumber = models.CharField(max_length=20, null=True)
-    approvalDate  = models.CharField(max_length=20, null=True)
-    maskingCardNumber  = models.CharField(max_length=50, default='')
     additionalInfo = models.CharField(max_length=300, null=True)
     posEntryMode = models.CharField(max_length=10, default='')
 
