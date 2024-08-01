@@ -507,7 +507,7 @@ class ShopEntryPaymentView(View):
             data = {}
             if i.goods:
                 data['goodsId'] = i.goods.pk
-                data['name'] = i.goods.name_kr
+                data['name_kr'] = i.goods.name_kr
                 data['price'] = i.goods.price
                 data['quantity'] = i.quantity
                 data['optionName'] = ''
