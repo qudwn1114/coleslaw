@@ -418,6 +418,83 @@ class ShopTableDiscountCancelView(View):
         return HttpResponse(return_data, content_type = "application/json")
     
 
+class ShopTableAdditionalView(View):
+    '''
+        테이블 추가 요금
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopTableAdditionalView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = int(kwargs.get('table_no'))
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        additional = int(request.POST['additional'])
+
+        if additional <= 0:
+            return_data = {'data': {},'msg': '추가금액은 0원보다 커야합니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        total_price = shop_table.total_price + additional
+        total_additional = shop_table.total_discount + additional
+
+        shop_table.total_price = total_price
+        shop_table.total_additional = total_additional
+        shop_table.save()
+
+        data = {}
+        data['cart_total_price'] = total_price
+        data['cart_total_additional'] = total_additional
+
+        return_data = {'data': data,'msg': '추가요금이 적용 되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopTableAdditionalCancelView(View):
+    '''
+        테이블 추가 취소
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopTableAdditionalCancelView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = int(kwargs.get('table_no'))
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        total_price = shop_table.total_price
+        total_additional = shop_table.total_additional
+        new_total_price = total_price - total_additional
+
+        shop_table.total_price = new_total_price
+        shop_table.total_additional = 0
+        shop_table.save()
+
+        data = {}
+        data['cart_total_price'] = new_total_price
+        data['total_additional'] = 0
+
+        return_data = {'data': data,'msg': '추가요금이 취소 되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+    
+
 class ShopTableCheckoutView(View):
     '''
         shop table checkout
