@@ -909,6 +909,7 @@
                 if (httpRequest.status === 200) {
                     document.getElementById('recvMessage').value = httpRequest.responseText;
                     const message = JSON.parse(httpRequest.responseText);
+                    console.log(message);
                     return JSON.stringify(message.printData).replace(/\"/gi, "");
                 }
                 else {
