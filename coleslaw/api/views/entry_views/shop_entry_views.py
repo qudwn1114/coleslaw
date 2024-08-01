@@ -499,6 +499,7 @@ class ShopEntryPaymentView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        mainpos_id = int(request.POST['mainpos_id'])
         cart_list = []
         total_price = 0
         entry_queue_detail = entry_queue.entry_queue_detail.all()
@@ -521,7 +522,7 @@ class ShopEntryPaymentView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         try:
-            shop_table = ShopTable.objects.get(table_no=0, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
