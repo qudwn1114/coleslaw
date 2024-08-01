@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>SpcnVirtualPos Sample</title>
+    </head>
+    <style>
+        .topnav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            padding: 10px 10px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .commonContent {
+            padding-top: 10px;
+        }
+        .tabContent {
+            padding-top: 10px;
+        }
+        .formGroup {
+            padding-bottom: 10px;
+        }
+        .formGroup label#formLabel {
+            display: block;
+            font-weight: bold;
+        }
+        .formGroup #sendMessage,#recvMessage,#printData {
+            width: 500px;
+            height: 100px;
+        }
+        .logContainer {
+            padding-top: 10px;
+        }
+        .message {
+            padding-top: 30px;
+        }
+        label {
+            font-size: 12px;
+        }
+    </style>
+    <body>
+        <!--title-->
+        <h3 style="text-align: center;">SpcnVirtualPos Sample</h3>
+
+        <!--top navigation-->
+        <div class="topnav">
+            <a href="#card" onclick="openPage('card', this)" id="defaultOpen">신용카드</a>
+            <a href="#cash" onclick="openPage('cash', this)">현금영수증</a>
+            <a href="#point" onclick="openPage('point', this)">포인트</a>
+            <a href="#check" onclick="openPage('check', this)">수표조회</a>
+            <a href="#cash-ic" onclick="openPage('cash-ic', this)">현금IC</a>
+            <a href="#download" onclick="openPage('download', this)">개시거래</a>
+            <a href="#zeropay" onclick="openPage('zeropay', this)">제로페이</a>
+            <a href="#token" onclick="openPage('token', this)">토큰거래</a>
+			<a href="#easypay" onclick="openPage('easypay', this)">간편결제</a>
+            <a href="#net-cancel" onclick="openPage('net-cancel', this)">망취소</a>
+            <a href="#ic-reader" onclick="openPage('ic-reader', this)">IC 리더기 제어</a>
+            <a href="#sign-pad" onclick="openPage('sign-pad', this)">서명패드 제어</a>
+            <a href="#rf-reader" onclick="openPage('rf-reader', this)">RF 리더기 제어</a>
+            <a href="#settings" onclick="openPage('settings', this)">가상단말기 설정</a>
+            <a href="#utilities" onclick="openPage('utilities', this)">부가기능</a>
+        </div>
+
+        <!--common envrionment form-->
+        <div>
+            <form>
+                <label>Host: </label>
+                <input type="text" id="host" name="host" value="http://127.0.0.1">
+                <label>Port: </label>
+                <input type="text" id="port" name="port" value="19011">
+                <label>단말기번호: </label>
+                <input type="text" id="tid" name="tid" value="PCR0000001">
+            </form>
+        </div>
+
+        <!--card form-->
+        <div id="card" class="tabContent">
+            <form name="cardForm">
+                <div class="formGroup">
+                    <label id="formLabel">거래구분 </label>
+                    <input type="radio" id="S0" name="transactionType" value="S0" checked>
+                    <label for="S0">신용승인</label>
+                    <input type="radio" id="S1" name="transactionType" value="S1">
+                    <label for="S1">신용취소</label>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">할부개월수</label>
+                    <input type="number" id="installment" name="installment" value=0>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인금액</label>
+                    <input type="number" id="amount" name="amount" value=1004>
+                </div>  
+                <div class="formGroup">
+                    <label id="formLabel">봉사료</label>
+                    <input type="number" id="amountService" name="amountService" value="0">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">부가세</label>
+                    <input type="number" id="amountTax" name="amountTax" value="91">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인번호</label>
+                    <input type="text" id="approvalNumber" name="approvalNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인일자(YYMMDD)</label>
+                    <input type="text" id="approvalDate" name="approvalDate">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">예약필드</label>
+                    <input type="text" id="reserved" name="reserved">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">서명옵션</label>
+                    <select name="signOption">
+                        <option value="">가상단말기 설정</option>
+                        <option value="M">직전 전자서명 사용</option>
+                        <option value="C">전자서명 미사용</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">카드종류</label>
+                    <select name="cardType">
+                        <option value="">일반신용</option>
+                        <option value="Y">은련카드</option>
+                        <option value="A">앱카드</option>
+                        <option value="R">후불RF카드</option>
+                        <option value="Q">EMV QR</option>
+                        <option value="I">카카오페이 OTC</option>
+                        <option value="P">페이코 OTC</option>
+                        <option value="H">해피기프트</option>
+                        <option value="L">L페이 OTC</option>
+                        <option value="T">토큰거래</option>
+                        <option value="C">해피페이 OTC</option>
+                        <option value="B">네이버페이</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">추가정보</label>
+                    <input type="text" id="otherInfo" name="otherInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">업체정보</label>
+                    <input type="text" id="companyInfo" name="companyInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">전문번호</label>
+                    <input type="number" id="transactionNumber" name="transactionNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">상품코드</label>
+                    <input type="text" id="productCode" name="productCode">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">전자상거래 보안등급</label>
+                    <input type="text" id="securityLevel" name="securityLevel">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">사용자 정보</label>
+                    <input type="text" id="userInfo" name="userInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">도메인</label>
+                    <input type="text" id="domain" name="domain">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">카드정보</label>
+                    <input type="text" id="cardInfo" name="cardInfo" style="width: 500px;">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">업체서버IP</label>
+                    <input type="text" id="companyServerIp" name="companyServerIp">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">Mall 사업자번호</label>
+                    <input type="text" id="mallBusinessNumber" name="mallBusinessNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">부가정보</label>
+                    <input type="text" id="additionalInfo" name="additionalInfo">
+                </div>
+                <button type="button" onclick="makeCardRequest()">신용카드 거래 요청</button>
+            </form>
+        </div>
+
+        <!--cash form-->
+        <div id="cash" class="tabContent">
+            <form name="cashForm">
+                <div class="formGroup">
+                    <label id="formLabel">거래구분 </label>
+                    <input type="radio" id="C0" name="transactionType" value="C0" checked>
+                    <label for="C0">현금영수증 승인</label>
+                    <input type="radio" id="C1" name="transactionType" value="C1">
+                    <label for="C1">현금영수증 취소</label>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">현금거래구분</label>
+                    <select name="cashType">
+                        <option value=0>소득공제</option>
+                        <option value=1>지출증빙</option>
+                        <option value=2>자진발급</option>
+                    </select>
+                </div>  
+                <div class="formGroup">
+                    <label id="formLabel">승인금액</label>
+                    <input type="number" id="amount" name="amount" value=1004>
+                </div>  
+                <div class="formGroup">
+                    <label id="formLabel">봉사료</label>
+                    <input type="number" id="amountService" name="amountService" value="0">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">부가세</label>
+                    <input type="number" id="amountTax" name="amountTax" value="91">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인번호</label>
+                    <input type="text" id="approvalNumber" name="approvalNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인일자(YYMMDD)</label>
+                    <input type="text" id="approvalDate" name="approvalDate">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">취소사유코드</label>
+                    <select name="cancelReasonCode">
+                        <option value="1">거래취소</option>
+                        <option value="2">오류발급취소</option>
+                        <option value="3">기타</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">예약필드</label>
+                    <input type="text" id="reserved" name="reserved">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">key-in 여부</label>
+                    <select name="keyInType">
+                        <option value="">MS 우선거래</option>
+                        <option value="Y">가상단말기에서 입력</option>
+                        <option value="I">POS에서 전송</option>
+                        <option value="A">모든 거래매체 활성화</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">추가정보</label>
+                    <input type="text" id="otherInfo" name="otherInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">업체정보</label>
+                    <input type="text" id="companyInfo" name="companyInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">전문번호</label>
+                    <input type="number" id="transactionNumber" name="transactionNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">상품코드</label>
+                    <input type="text" id="productCode" name="productCode">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">가맹점 사용 ID</label>
+                    <input type="text" id="shopId" name="shopId">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">가맹점 사용 데이터</label>
+                    <input type="text" id="shopData" name="shopData">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">key-in 정보</label>
+                    <input type="text" id="keyInInfo" name="keyInInfo">
+                </div>
+                <button type="button" onclick="makeCashRequest()">현금영수증 거래 요청</button>
+            </form>
+        </div>
+
+        <!-- point form-->
+        <div id="point" class="tabContent">
+            <form name="pointForm">
+                <div class="formGroup">
+                    <label id="formLabel">거래구분 </label>
+                    <select name="transactionType">
+                        <option value="Y0">포인트 적립(발급)</option>
+                        <option value="Y1">포인트 적립(발급) 취소</option>
+                        <option value="Y2">포인트 사용</option>
+                        <option value="Y3">포인트 사용 취소</option>
+                        <option value="Y4">포인트 할인</option>
+                        <option value="Y5">포인트 할인 취소</option>
+                        <option value="Y6">포인트 조회</option>
+                        <option value="Y7">전자쿠폰 조회</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">판매 구분</label>
+                    <select name="salesType">
+                        <option value=1>현금</option>
+                        <option value=2>신용</option>
+                        <option value=3>직불</option>
+                        <option value=4>자사</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">포인트 구분</label>
+                    <select name="pointType">
+                        <option value="OCB">OK 캐시백</option>
+                        <option value="HPY">해피포인트</option>
+                        <option value="SKT">SKT</option>
+                        <option value="KTF">KT</option>
+                        <option value="LGT">LGT</option>
+                        <option value="HOB">현대오일뱅크</option>
+                        <option value="BLU">현대블루멤버스</option>
+                        <option value="RED">기아레드멤버스</option>
+                        <option value="ALP">알리페이</option>
+                        <option value="ANY">O2Point</option>
+                        <option value="SMP">스마일페이</option>
+                        <option value="SPC">SPC 임직원포인트</option>
+                        <option value="TPY">T-PAY</option>
+                        <option value="HGF">해피기프트</option>
+                        <option value="KKO">카카오페이</option>
+                        <option value="PCO">페이코</option>
+                        <option value="LPY">L페이</option>
+                        <option value="LPO">L포인트</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인금액</label>
+                    <input type="number" id="amount" name="amount" value=1004>
+                </div>  
+                <div class="formGroup">
+                    <label id="formLabel">승인번호</label>
+                    <input type="text" id="approvalNumber" name="approvalNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인일자(YYMMDD)</label>
+                    <input type="text" id="approvalDate" name="approvalDate">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">예약필드</label>
+                    <input type="text" id="reserved" name="reserved">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">캠페인정보</label>
+                    <input type="text" id="campaignInfo" name="campaignInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">추가정보</label>
+                    <input type="text" id="otherInfo" name="otherInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">Key-in 여부</label>
+                    <select name="keyInType">
+                        <option value="">MS 우선거래</option>
+                        <option value="Y">Key-in 거래</option>
+                        <option value="I">OTC 전송</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">비밀번호 입력 여부</label>
+                    <select name="enterPassword">
+                        <option value="Y">비밀번호 입력 받음</option>
+                        <option value="N">비밀번호 입력 안 받음</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">업체정보</label>
+                    <input type="text" id="companyInfo" name="companyInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">전문번호</label>
+                    <input type="number" id="transactionNumber" name="transactionNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">상품코드</label>
+                    <input type="text" id="productCode" name="productCode">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">OTC 데이터</label>
+                    <input type="text" id="otcData" name="otcData" style="width: 500px;">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">부가정보</label>
+                    <input type="text" id="additionalInfo" name="additionalInfo" style="width: 500px;">
+                </div>
+                <button type="button" onclick="makePointRequest()">포인트 거래 요청</button>
+            </form>
+        </div>
+
+        <!-- check form-->
+        <div id="check" class="tabContent">
+            <form name="checkForm">
+                <div class="formGroup">
+                    <label id="formLabel">수표번호</label>
+                    <input type="text" id="checkNumber" name="checkNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">발행은행코드</label>
+                    <input type="text" id="publishedBankCode" name="publishedBankCode">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">발행영업점코드</label>
+                    <input type="text" id="publishedBranchCode" name="publishedBranchCode">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">수표권종</label>
+                    <select name="amountCode">
+                        <option value="13">10만원</option>
+                        <option value="14">30만원</option>
+                        <option value="15">50만원</option>
+                        <option value="16">100만원</option>
+                        <option value="19">기타</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">수표금액</label>
+                    <input type="number" id="amount" name="amount">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">수표발행일(YYMMDD)</label>
+                    <input type="text" id="publishedDate" name="publishedDate">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">계좌일련번호</label>
+                    <input type="text" id="accountSerialNumber" name="accountSerialNumber" value="000000">
+                </div>
+                <button type="button" onclick="makeCheckRequest()">수표조회 요청</button>
+            </form>
+        </div>
+
+        <!-- cash ic form-->
+        <div id="cash-ic" class="tabContent">
+            <form name="cashIcForm">
+                <div class="formGroup">
+                    <label id="formLabel">거래구분</label>
+                    <select name="transactionType">
+                        <option value="H0">현금 IC 구매</option>
+                        <option value="H1">현금 IC 구매환불</option>
+                        <option value="H2">현금 IC 잔액조회</option>
+                        <option value="H3">현금 IC 구매결과조회</option>
+                        <option value="H4">현금 IC 환불결과조회</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인금액</label>
+                    <input type="number" id="amount" name="amount" value=1004>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">봉사료</label>
+                    <input type="number" id="amountService" name="amountService" value=0>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">부가세</label>
+                    <input type="number" id="amountTax" name="amountTax" value=91>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인번호</label>
+                    <input type="text" id="approvalNumber" name="approvalNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인일자(YYYYMMDD)</label>
+                    <input type="text" id="approvalDate" name="approvalDate">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">간소화 거래 여부</label>
+                    <select name="streamlinedTransaction">
+                        <option value="">간소화 거래 미사용</option>
+                        <option value="Y">간소화 거래 사용</option>
+                    </select>
+                </div>
+                <button type="button" onclick="makeCashIcRequest()">현금 IC 거래 요청</button>
+            </form>
+        </div>
+
+        <!-- download form-->
+        <div id="download" class="tabContent">
+            <form name="downloadForm">
+                <div class="formGroup">
+                    <label id="formLabel">사업자번호</label>
+                    <input type="text" id="businessNumber" name="businessNumber" value="1138610017">
+                </div>
+                <button type="button" onclick="makeDownloadRequest()">개시거래 요청</button>
+            </form>
+        </div>
+
+        <!--zeropay form-->
+        <div id="zeropay" class="tabContent">
+            <form name="zeropayForm">
+                <div class="formGroup">
+                    <label id="formLabel">거래구분 </label>
+                    <input type="radio" id="Z0" name="transactionType" value="Z0" checked>
+                    <label for="Z0">제로페이 승인</label>
+                    <input type="radio" id="Z1" name="transactionType" value="Z1">
+                    <label for="Z1">제로페이 취소</label>
+                    <input type="radio" id="Z2" name="transactionType" value="Z2">
+                    <label for="Z2">제로페이 결과조회</label>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">전문번호</label>
+                    <input type="number" id="transactionNumber" name="transactionNumber" value=1>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">Pos Entry Mode</label>
+                    <select name="posEntryMode">
+                        <option value="Q">QR 코드</option>
+                        <option value="B">바코드</option>
+                        <option value="">IC 리더기에서 스캔</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">결제데이터</label>
+                    <input type="text" id="paymentData" name="paymentData" style="width: 500px;">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">가맹점 추가정보</label>
+                    <input type="text" id="shopAdditionalInfo" name="shopAdditionalInfo" style="width: 500px;">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인금액</label>
+                    <input type="number" id="amount" name="amount" value=1004>
+                </div>  
+                <div class="formGroup">
+                    <label id="formLabel">봉사료</label>
+                    <input type="number" id="amountService" name="amountService" value="0">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">부가세</label>
+                    <input type="number" id="amountTax" name="amountTax" value="91">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인일자(YYMMDD)</label>
+                    <input type="text" id="approvalDate" name="approvalDate">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인번호</label>
+                    <input type="text" id="approvalNumber" name="approvalNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">취소사유코드</label>
+                    <select name="cancelType">
+                        <option value="N">환불</option>
+                        <option value="Y">망취소</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">예약필드</label>
+                    <input type="text" id="reserved" name="reserved">
+                </div>
+                <button type="button" onclick="makeZeropayRequest()">제로페이 거래 요청</button>
+            </form>
+        </div>
+
+        <!-- token form-->
+        <div id="token" class="tabContent">
+            <form name="tokenForm">
+                <div class="formGroup">
+                    <label id="formLabel">업체정보</label>
+                    <input type="text" id="companyInfo" name="companyInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">전문번호</label>
+                    <input type="number" id="transactionNumber" name="transactionNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">Pos Entry Mode</label>
+                    <input type="text" id="posEntryMode" name="posEntryMode">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">Track 2 Data</label>
+                    <input type="text" id="track2Data" name="track2Data">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">거래유형 코드</label>
+                    <input type="text" id="transactionDetailCode" name="transactionDetailCode" value="00">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인금액</label>
+                    <input type="number" id="amount" name="amount" value=0>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">봉사료</label>
+                    <input type="number" id="amountService" name="amountService" value=0>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">부가세</label>
+                    <input type="number" id="amountTax" name="amountTax" value=0>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">상품코드</label>
+                    <input type="text" id="productCode" name="productCode">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">사용자정보</label>
+                    <input type="text" id="userInfo" name="userInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">Mall 사업자 번호</label>
+                    <input type="text" id="mallBusinessNumber" name="mallBusinessNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">reserved</label>
+                    <input type="text" id="reserved" name="reserved">
+                </div>
+                <button type="button" onclick="makeTokenRequest()">토큰거래 요청</button>
+            </form>
+        </div>
+
+        <!-- easypayForm form-->
+        <div id="easypay" class="tabContent">
+            <form name="easypayForm">
+                <div class="formGroup">
+                    <label id="formLabel">거래구분</label>
+                    <input type="radio" id="E0" name="transactionType" value="E0" checked>
+                    <label for="E0">승인</label>
+                    <input type="radio" id="E1" name="transactionType" value="E1">
+                    <label for="E1">취소</label>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">할부기간</label>
+                    <input type="number" id="installment" name="installment" value=00>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인금액</label>
+                    <input type="number" id="amount" name="amount" value=1004>
+                </div>  
+                <div class="formGroup">
+                    <label id="formLabel">봉사료</label>
+                    <input type="number" id="amountService" name="amountService" value="0">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">세금</label>
+                    <input type="number" id="amountTax" name="amountTax" value="0">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">Reserved</label>
+                    <input type="text" id="reserved" name="reserved">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인번호</label>
+                    <input type="text" id="approvalNumber" name="approvalNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인일자(YYMMDD)</label>
+                    <input type="number" id="approvalDate" name="approvalDate">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">업체정보</label>
+                    <input type="text" id="companyInfo" name="companyInfo" value=SSAM>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">부가정보</label>
+                    <input type="text" id="additionalInfo" name="additionalInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">다중사업자 거래여부</label>
+                    <select name="multiBusinessApproval">
+                        <option value="N">일반거래</option>
+                        <option value="Y">다중사업자 거래</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">전자서명 특수여부</label>
+                    <select name="signOption">
+                        <option value="">가상단말기 설정</option>
+                        <option value="M">직전 전자서명 사용</option>
+                        <option value="C">전자서명 미사용</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">결제 바코드</label>
+                    <input type="text" id="barcodeNumber" name="barcodeNumber" style="width: 500px;">
+                </div>
+
+                <button type="button" onclick="makeEasyPayRequest()">통합간편결제거래 요청</button>
+            </form>
+        </div>
+
+        <!-- net-cancel form-->
+        <div id="net-cancel" class="tabContent">
+            <form name="netCancelForm">
+                <div class="formGroup">
+                    <label id="formLabel">승인금액</label>
+                    <input type="number" id="amount" name="amount" value=1004>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인번호</label>
+                    <input type="text" id="approvalNumber" name="approvalNumber">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인일자</label>
+                    <input type="text" id="approvalDate" name="approvalDate">
+                </div>
+                <button type="button" onclick="makeNetCancelRequest()">망 취소 요청</button>
+            </form>
+        </div>
+
+        <!-- ic-reader form-->
+        <div id="ic-reader" class="tabContent">
+            <form name="icReaderForm">
+                <div class="formGroup">
+                    <label id="formLabel">거래구분 </label>
+                    <select name="transactionType">
+                        <option value="I0">IC 리더기 초기화</option>
+                        <option value="I1">IC 리더기 상호인증(키 다운로드)</option>
+                        <option value="I2">IC 리더기 무결성 점검</option>
+                        <option value="I3">IC 리더기 상태 확인</option>
+                        <option value="I4">IC 리더기 시간 설정</option>
+                        <option value="I5">IC 리더기 카드BIN 정보 확인</option>
+                        <option value="I6">IC 리더기 카드 배출 시간 설정(모터드리븐)</option>
+                        <option value="I7">IC 리더기 기능 설정</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">IC 리더기 인덱스(상호인증, 무결성점검, 상태확인, 시간설정)</label>
+                    <select name="icReaderIndex">
+                        <option value="1">메인 IC Reader</option>
+                        <option value="2">추가 IC Reader</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">화면 표시 여부(카드BIN 확인)</label>
+                    <select name="display">
+                        <option value="N">미표시</option>
+                        <option value="Y">표시</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">화면 표시 메시지(카드BIN 확인)</label>
+                    <input type="text" id="displayMessage" name="displayMessage">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">카드 배출 시간, 초 단위(카드 배출시간 설정)</label>
+                    <input type="text" id="cardEjectionTime" name="cardEjectionTime" value="0030">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">카드 배출 설정 여부(카드 배출시간 설정)</label>
+                    <select name="useCardEjection">
+                        <option value="1">활성화</option>
+                        <option value="2">비활성화</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">추가 정보(카드 배출시간 설정)</label>
+                    <input type="text" id="additionalInfo" name="additionalInfo">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">설정 구분(기능 설정)</label>
+                    <select name="settingType">
+                        <option value="DP">자동 락 해제(DIP 타입 리더기 전용)</option>
+                        <option value="U1">리더기 이벤트 사용 여부</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">설정 값(기능 설정)</label>
+                    <select name="settingValue">
+                        <option value="0">미사용</option>
+                        <option value="1">사용</option>
+                    </select>
+                </div>
+                <button type="button" onclick="makeIcReaderRequest()">IC 리더기 제어 요청</button>
+            </form>
+        </div>
+
+        <!-- sign-pad form-->
+        <div id="sign-pad" class="tabContent">
+            <form name="signPadForm">
+                <div class="formGroup">
+                    <label id="formLabel">거래구분 </label>
+                    <input type="radio" id="P0" name="transactionType" value="P0" checked>
+                    <label for="P0">전자서명 요청</label>
+                    <input type="radio" id="P1" name="transactionType" value="P1">
+                    <label for="P1">메시지 요청</label>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">승인금액(서명 요청)</label>
+                    <input type="number" id="amount" name="amount" value=1004>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">전자서명 파일 저장 위치(서명 요청)</label>
+                    <input type="text" id="pathToSave" name="pathToSave" style="width: 500px;">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">전자서명 파일명(서명 요청)</label>
+                    <input type="text" id="fileName" name="fileName">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">사용자 입력 표시 유형(메시지 요청)</label>
+                    <select name="displayType">
+                        <option value="0">마스킹 표시</option>
+                        <option value="1">입력 번호 표시</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">최대 입력 길이(메시지 요청)</label>
+                    <input type="number" id="maxInputLength" name="maxInputLength" value=15>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">화면 표시 메시지(메시지 요청)</label>
+                    <input type="text" id="displayMessage" name="displayMessage">
+                </div>
+                <button type="button" onclick="makeSignPadRequest()">서명패드 제어 요청</button>
+            </form>
+        </div>
+
+        <!-- rf-reader form-->
+        <div id="rf-reader" class="tabContent">
+            <form name="rfReaderForm">
+                <div class="formGroup">
+                    <label id="formLabel">거래구분 </label>
+                    <select name="transactionType">
+                        <option value="R0">RF 리더기 초기화</option>
+                        <option value="R1">RF 리더기 상호인증(키 다운로드)</option>
+                        <option value="R2">RF 리더기 무결성 점검</option>
+                        <option value="R3">RF 리더기 상태 확인</option>
+                        <option value="R4">RF 리더기 시간 설정</option>
+                        <option value="R5">RF 리더기 후불 SAM 등록</option>
+                    </select>
+                </div>
+                <button type="button" onclick="makeRfReaderRequest()">RF 리더기 제어 요청</button>
+            </form>
+        </div>
+
+        <!-- settings form-->
+        <div id="settings" class="tabContent">
+            <form name="settingsForm">
+                <div class="formGroup">
+                    <label id="formLabel">IC 리더기 포트</label>
+                    <input type="text" id="icReaderPort" name="icReaderPort" value="1">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">IC 리더기 통신속도</label>
+                    <input type="number" id="icReaderBaudRate" name="icReaderBaudRate" value=38400>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">서명 패드 포트</label>
+                    <input type="text" id="signPadPort" name="signPadPort" value="1">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">서명 패드 통신속도</label>
+                    <input type="number" id="signPadBaudRate" name="signPadBaudRate" value=38400>
+                </div>
+                <button type="button" onclick="makeSettingsRequest()">가상단말기 설정 요청</button>
+            </form>
+        </div>
+
+        <!-- utilities form-->
+        <div id="utilities" class="tabContent">
+            <form name="utilitiesForm">
+                <div class="formGroup">
+                    <label id="formLabel">데이터 형식(서명요청, 출력요청 공통)</label>
+                    <select name="type">
+                        <option value="0">Hex String</option>
+                    </select>
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">프린터 시리얼 포트(프린터 출력)</label>
+                    <input type="text" id="printerPort" name="printerPort" value="1">
+                </div>
+                <div class="formGroup">
+                    <label id="formLabel">프린터 시리얼 통신속도(프린터 출력)</label>
+                    <input type="number" id="printerBaudRate" name="printerBaudRate" value=38400>
+                </div>
+                <button type="button" onclick="makeSignDataRequest()">서명 데이터 요청</button>
+                <button type="button" onclick="makePrintRequest()">프린터 출력 요청</button>
+            </form>
+        </div>
+
+        <!--display send/receive message-->
+        <div id="log" class="logContainer">
+            <div class="formGroup">
+                <label for="sendMessage" id="formLabel">요청전문</label>
+                <textarea id="sendMessage" name="sendMessage"></textarea>
+            </div>
+            <div class="formGroup">
+                <label for="recvMessage" id="formLabel">응답전문</label>
+                <textarea id="recvMessage" name="recvMessage"></textarea>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById("defaultOpen").click();
+
+            function convertUtf8StringToAnsiString(utf8String) {
+                var message = {
+                    type : document.utilitiesForm.type.value,
+                    data : utf8String
+                };
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+
+                var host = document.getElementById('host').value;
+                host += ':';
+                host += document.getElementById('port').value;
+                host += "/s9/virtual-pos/v1/utilities/convert-string";
+
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.open("POST", host, false);
+                httpRequest.setRequestHeader("Content-Type", "application/json");
+                httpRequest.send(JSON.stringify(message));
+
+                if (httpRequest.status === 200) {
+                    document.getElementById('recvMessage').value = httpRequest.responseText;
+                    const message = JSON.parse(httpRequest.responseText);
+                    return JSON.stringify(message.printData).replace(/\"/gi, "");
+                }
+                else {
+                    return "";
+                }
+            }
+
+            function getTextLength(str) {
+                var len = 0;
+                for (var i = 0; i < str.length; i++) {
+                    if (escape(str.charAt(i)).length == 6) {
+                        len++;
+                    }
+                    len++;
+                }
+                return len;
+            }
+
+            function getURL(message) {
+                var host = document.getElementById('host').value;
+                host += ':';
+                host += document.getElementById('port').value;
+                host += "/s9/virtual-pos/v1";
+                switch (message.transactionType) {
+                    case "S0":
+                    case "S1":
+                        return host += "/payments/card";
+                    case "E0":
+                    case "E1":
+                        return host += "/payments/easypay";
+                    case "C0":
+                    case "C1":
+                        return host += "/payments/cash";
+                    case "Z0":
+                    case "Z1":
+                    case "Z2":
+                        return host += "/payments/zeropay";
+                    case "Y0":
+                    case "Y1":
+                    case "Y2":
+                    case "Y3":
+                    case "Y4":
+                    case "Y5":
+                    case "Y6":
+                    case "Y7":
+                        return host += "/payments/point";
+                    case "DK":
+                        return host += "/payments/check";
+                    case "H0":
+                    case "H1":
+                    case "H2":
+                    case "H3":
+                    case "H4":
+                        return host += "/payments/cash-ic";
+                    case "DN":
+                        return host += "/payments/download";
+                    case "T0":
+                        return host += "/payments/token";
+                    case "Q0":
+                        return host += "/payments/net-cancel";
+                    case "I0":
+                        return host += "/ic-reader/initialize";
+                    case "I1":
+                        return host += "/ic-reader/download-key";
+                    case "I2":
+                        return host += "/ic-reader/integrity";
+                    case "I3":
+                        return host += "/ic-reader/status";
+                    case "I4":
+                        return host += "/ic-reader/time";
+                    case "I5":
+                        return host += "/ic-reader/card-bin";
+                    case "I6":
+                        return host += "/ic-reader/ejection-time";
+                    case "I7":
+                        return host += "/ic-reader/settings";
+                    case "P0":
+                        return host += "/sign-pad/sign";
+                    case "P1":
+                        return host += "/sign-pad/message";
+                    case "R0":
+                        return host += "/rf-reader/initialize";
+                    case "R1":
+                        return host += "/rf-reader/download-key";
+                    case "R2":
+                        return host += "/rf-reader/integrity";
+                    case "R3":
+                        return host += "/rf-reader/status";
+                    case "R4":
+                        return host += "/rf-reader/time";
+                    case "R5":
+                        return host += "/rf-reader/register-sam";
+                }
+            }
+
+            function makeCardRequest() {
+                var type = document.cardForm.querySelector('input[name=transactionType]:checked').value;
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById("tid").value,
+                    installment : parseInt(document.cardForm.installment.value),
+                    amount : parseInt(document.cardForm.amount.value),
+                    amountService : parseInt(document.cardForm.amountService.value),
+                    amountTax : parseInt(document.cardForm.amountTax.value)
+                };           
+                if (type == "S1") {
+                    message.approvalNumber = document.cardForm.approvalNumber.value;
+                    message.approvalDate = document.cardForm.approvalDate.value;
+                }
+                if (document.cardForm.reserved.value != "") {
+                    message.reserved = document.cardForm.reserved.value;
+                }
+                if (document.cardForm.signOption.value != "") {
+                    message.signOption = document.cardForm.signOption.value;
+                }
+                if (document.cardForm.cardType.value != "") {
+                    message.cardType = document.cardForm.cardType.value;
+                }
+                if (document.cardForm.otherInfo.value != "") {
+                    message.otherInfo = document.cardForm.otherInfo.value;
+                }
+                if (document.cardForm.companyInfo.value != "") {
+                    message.companyInfo = document.cardForm.companyInfo.value;
+                }
+                if (parseInt(document.cardForm.transactionNumber.value) > 0) {
+                    message.transactionNumber = parseInt(document.cardForm.companyInfo.value);
+                }
+                if (document.cardForm.productCode.value != "") {
+                    message.productCode = document.cardForm.productCode.value;
+                }
+                if (document.cardForm.securityLevel.value != "") {
+                    message.securityLevel = document.cardForm.securityLevel.value;
+                }
+                if (document.cardForm.userInfo.value != "") {
+                    message.userInfo = document.cardForm.userInfo.value;
+                }
+                if (document.cardForm.domain.value != "") {
+                    message.domain = document.cardForm.domain.value;
+                }
+                if (document.cardForm.cardInfo.value != "") {
+                    message.cardInfo = document.cardForm.cardInfo.value;
+                }
+                if (document.cardForm.companyServerIp.value != "") {
+                    message.companyServerIp = document.cardForm.companyServerIp.value;
+                }
+                if (document.cardForm.mallBusinessNumber.value != "") {
+                    message.mallBusinessNumber = document.cardForm.mallBusinessNumber.value;
+                }
+                if (document.cardForm.additionalInfo.value != "") {
+                    message.additionalInfo = document.cardForm.additionalInfo.value;
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeEasyPayRequest() {
+                var type = document.easypayForm.querySelector('input[name=transactionType]:checked').value;
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById("tid").value,
+                    installment : parseInt(document.easypayForm.installment.value),
+                    amount : parseInt(document.easypayForm.amount.value),
+                    amountService : parseInt(document.easypayForm.amountService.value),
+                    amountTax : parseInt(document.easypayForm.amountTax.value)
+                };                                                      
+                if (type == "E1") {
+                    message.approvalNumber = document.easypayForm.approvalNumber.value;
+                    message.approvalDate = parseInt(document.easypayForm.approvalDate.value);
+                }
+                if (document.easypayForm.companyInfo.value != "") {
+                    message.companyInfo = document.easypayForm.companyInfo.value;
+                }
+                if (document.easypayForm.barcodeNumber.value != "") {
+                    message.barcodeNumber = document.easypayForm.barcodeNumber.value;
+                }
+                if (document.easypayForm.multiBusinessApproval.value != "") {
+                    message.multiBusinessApproval = document.easypayForm.multiBusinessApproval.value;
+                }
+                if (document.easypayForm.signOption.value != "") {
+                    message.signOption = document.easypayForm.signOption.value;
+                }
+                if (document.easypayForm.additionalInfo.value != "") {
+                    message.additionalInfo = document.easypayForm.additionalInfo.value;
+                }
+                if (document.easypayForm.reserved.value != "") {
+                    message.reserved = document.easypayForm.reserved.value;
+                }
+
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeCashRequest() {
+                var type = document.cashForm.querySelector('input[name=transactionType]:checked').value;
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById("tid").value,
+                    cashType: parseInt(document.cashForm.cashType.value),
+                    amount : parseInt(document.cashForm.amount.value),
+                    amountService : parseInt(document.cashForm.amountService.value),
+                    amountTax : parseInt(document.cashForm.amountTax.value)
+                };
+                if (type == "C1") {
+                    message.approvalNumber = document.cashForm.approvalNumber.value;
+                    message.approvalDate = document.cashForm.approvalDate.value;
+                    message.cancelReasonCode = document.cashForm.cancelReasonCode.value;
+                }
+                if (document.cashForm.reserved.value != "") {
+                    message.reserved = document.cashForm.reserved.value;
+                }
+                if (document.cashForm.keyInType.value != "") {
+                    message.keyInType = document.cashForm.keyInType.value;
+                }
+                if (document.cashForm.otherInfo.value != "") {
+                    message.otherInfo = document.cashForm.otherInfo.value;
+                }
+                if (document.cashForm.companyInfo.value != "") {
+                    message.companyInfo = document.cashForm.companyInfo.value;
+                }
+                if (parseInt(document.cashForm.transactionNumber.value) > 0) {
+                    message.transactionNumber = parseInt(document.cashForm.transactionNumber.value);
+                }
+                if (document.cashForm.productCode.value != "") {
+                    message.productCode = document.cashForm.productCode.value;
+                }
+                if (document.cashForm.shopId.value != "") {
+                    message.shopId = document.cashForm.shopId.value;
+                }
+                if (document.cashForm.shopData.value != "") {
+                    message.shopData = document.cashForm.shopData.value;
+                }
+                if (document.cashForm.keyInInfo.value != "") {
+                    message.keyInInfo = document.cashForm.keyInInfo.value;
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeCashIcRequest() {
+                var type = document.cashIcForm.transactionType.value;
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById("tid").value,
+                    amount : parseInt(document.cashIcForm.amount.value),
+                    amountService : parseInt(document.cashIcForm.amountService.value),
+                    amountTax : parseInt(document.cashIcForm.amountTax.value)
+                };
+                if (type == "H1" || type == "H3" || type == "H4") {
+                    message.approvalNumber = document.cashIcForm.approvalNumber.value;
+                    message.approvalDate = document.cashIcForm.approvalDate.value;
+                }
+                if (document.cashIcForm.streamlinedTransaction.value != "") {
+                    message.streamlinedTransaction = document.cashIcForm.streamlinedTransaction.value;
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeCheckRequest() {
+                var message = {
+                    transactionType : "DK",
+                    tid : document.getElementById("tid").value,
+                    checkNumber : document.checkForm.checkNumber.value,
+                    publishedBankCode : document.checkForm.publishedBankCode.value,
+                    publishedBranchCode : document.checkForm.publishedBranchCode.value,
+                    amountCode : document.checkForm.amountCode.value,
+                    amount : parseInt(document.checkForm.amount.value),
+                    publishedDate : document.checkForm.publishedDate.value
+                };
+                if (document.checkForm.accountSerialNumber.value != "") {
+                    message.accountSerialNumber = document.checkForm.accountSerialNumber.value;
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeDownloadRequest() {
+                var message = {
+                    transactionType : "DN",
+                    tid : document.getElementById("tid").value,
+                    businessNumber : document.downloadForm.businessNumber.value
+                };
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeIcReaderRequest() {
+                var type = document.icReaderForm.transactionType.value;
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById('tid').value
+                };
+                if (type == "I1" || type == "I2" || type == "I3" || type == "I4") {
+                    if (document.icReaderForm.icReaderIndex.value != "") {
+                        message.icReaderIndex = document.icReaderForm.icReaderIndex.value;
+                    }
+                }
+                if (type == "I5") {
+                    if (document.icReaderForm.display.value != "") {
+                        message.display = document.icReaderForm.display.value;
+                    }
+                    if (document.icReaderForm.displayMessage.value != "") {
+                        message.displayMessage = document.icReaderForm.displayMessage.value;
+                    }
+                }
+                if (type == "I6") {
+                    if (document.icReaderForm.cardEjectionTime.value != "") {
+                        message.cardEjectionTime = document.icReaderForm.cardEjectionTime.value;
+                    }
+                    if (document.icReaderForm.useCardEjection.value != "") {
+                        message.useCardEjection = document.icReaderForm.useCardEjection.value;
+                    }
+                    if (document.icReaderForm.additionalInfo.value != "") {
+                        message.additionalInfo = document.icReaderForm.additionalInfo.value;
+                    }
+                }
+                if (type == "I7") {
+                    if (document.icReaderForm.settingType.value != "") {
+                        message.settingType = document.icReaderForm.settingType.value;
+                    }
+                    if (document.icReaderForm.settingValue.value != "") {
+                        message.settingValue = document.icReaderForm.settingValue.value;
+                    }
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeLine(str, lineLen) {
+                var i = 0;
+                var strLen = getTextLength(str);
+
+                if (lineLen >= strLen) {
+                    for(i = 0; i < (lineLen - strLen); i++) {
+                        str = str + " ";
+                    }
+                }
+                else {
+                    var etcLen = parseInt(strLen / lineLen);
+                    strLen = strLen - (lineLen * etcLen);
+
+                    for (i = 0; i < (lineLen - strLen); i++) {
+                        str = str + " ";
+                    }
+                }
+                return str;
+            }
+
+            function makeNetCancelRequest() {
+                var type = "Q0";
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById("tid").value,
+                    amount : parseInt(document.netCancelForm.amount.value),
+                    approvalNumber : document.netCancelForm.approvalNumber.value,
+                    approvalDate : document.netCancelForm.approvalDate.value
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makePointRequest() {
+                var type = document.pointForm.transactionType.value;
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById("tid").value,
+                    salesType : parseInt(document.pointForm.salesType.value),
+                    pointType : document.pointForm.pointType.value,
+                    amount : parseInt(document.pointForm.amount.value)
+                };
+                if (type == "Y1" || type == "Y3" || type == "Y5") {
+                    message.approvalNumber = document.pointForm.approvalNumber.value;
+                    message.approvalDate = document.pointForm.approvalDate.value;
+                }
+                if (document.pointForm.reserved.value != "") {
+                    message.reserved = document.pointForm.reserved.value;
+                }
+                if (document.pointForm.campaignInfo.value != "") {
+                    message.campaignInfo = document.pointForm.campaignInfo.value;
+                }
+                if (document.pointForm.otherInfo.value != "") {
+                    message.otherInfo = document.pointForm.otherInfo.value;
+                }
+                if (document.pointForm.keyInType.value != "") {
+                    message.keyInType = document.pointForm.keyInType.value;
+                }
+                if (document.pointForm.enterPassword.value != "") {
+                    message.enterPassword = document.pointForm.enterPassword.value;
+                }
+                if (document.pointForm.companyInfo.value != "") {
+                    message.companyInfo = document.pointForm.companyInfo.value;
+                }
+                if (parseInt(document.pointForm.transactionNumber.value) > 0) {
+                    message.transactionNumber = parseInt(document.pointForm.transactionNumber.value);
+                }
+                if (document.pointForm.productCode.value != "") {
+                    message.productCode = document.pointForm.productCode.value;
+                }
+                if (document.pointForm.otcData.value != "") {
+                    message.otcData = document.pointForm.otcData.value;
+                }
+                if (type == "Y2" && document.pointForm.additionalInfo.value != "") {
+                    message.additionalInfo = document.pointForm.additionalInfo.value;
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makePrintRequest() {
+                var message = {
+                    type : document.utilitiesForm.type.value,
+                    printerPort : document.utilitiesForm.printerPort.value,
+                    printerBaudRate : parseInt(document.utilitiesForm.printerBaudRate.value)
+                };  
+
+                var content = "";
+                var line = "";
+                var maxColumnCount = 48;
+                var title = "";
+
+                // 프린터 초기화
+                message.printData  = "1B40";
+                message.printData += "1B6401";
+
+                // 타이틀
+                title = "1D2110";   // 가로 확대
+                title += convertUtf8StringToAnsiString(makeLine("       영 수 증", maxColumnCount));
+                title += "1D2100";      // 가로 확대 제거
+                message.printData += title;
+                message.printData += "0A";
+
+                // 출력물 내용
+                line = convertUtf8StringToAnsiString(makeLine("------------------------------------------------", maxColumnCount));
+                message.printData += line;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("SPC NETWORKS      대표자:홍길동     113-86-10017", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("TID:PCR0000001                  TEL:02-2276-1234", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("주소: 서울시 강남구 남부순환로 355길 12", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                message.printData += line;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("거래일시 : 2020-08-05 17:52:12", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("카드종류 : BC카드", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("가맹번호 : 1234567890", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("승인번호 : 12345678", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                message.printData += line;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("금  액: 913", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("부가세: 91", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                content = convertUtf8StringToAnsiString(makeLine("봉사료: 0", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                message.printData += line;
+                message.printData += "0A";
+                message.printData += "1D2110";
+                content = convertUtf8StringToAnsiString(makeLine("결제금액: 1,004", maxColumnCount));
+                message.printData += content;
+                message.printData += "0A";
+                message.printData += "1D2100";
+
+                message.printData += "1B6402";  // Line feed
+                message.printData += "1B69";    // Cut
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+
+                var host = document.getElementById('host').value;
+                host += ':';
+                host += document.getElementById('port').value;
+                host += "/s9/virtual-pos/v1/utilities/print";
+
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.onreadystatechange = function() {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                        parseResponseData(httpRequest);
+                    }
+                }
+                httpRequest.open("POST", host);
+                httpRequest.setRequestHeader("Content-Type", "application/json");
+                httpRequest.send(JSON.stringify(message));
+            }
+
+            function makeRfReaderRequest() {
+                var message = {
+                    transactionType : document.rfReaderForm.transactionType.value,
+                    tid : document.getElementById('tid').value
+                };
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeSettingsRequest() {
+                var message = {
+                    icReaderPort : document.settingsForm.icReaderPort.value,
+                    icReaderBaudRate : parseInt(document.settingsForm.icReaderBaudRate.value),
+                    signPadPort : document.settingsForm.signPadPort.value,
+                    signPadBaudRate : parseInt(document.settingsForm.signPadBaudRate.value)
+                };
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+
+                var host = document.getElementById('host').value;
+                host += ':';
+                host += document.getElementById('port').value;
+                host += "/s9/virtual-pos/v1/settings/devices";
+                
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.onreadystatechange = function() {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                        parseResponseData(httpRequest);
+                    }
+                }
+                httpRequest.open("POST", host);
+                httpRequest.setRequestHeader("Content-Type", "application/json");
+                httpRequest.send(JSON.stringify(message));
+            }
+
+            function makeSignDataRequest() {
+                var message = {
+                    type : document.utilitiesForm.type.value
+                };
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                
+
+                var host = document.getElementById('host').value;
+                host += ':';
+                host += document.getElementById('port').value;
+                host += "/s9/virtual-pos/v1";
+                host += "/utilities/sign-data";
+                
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.onreadystatechange = function() {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                        parseResponseData(httpRequest);
+                    }
+                }
+                httpRequest.open("POST", host);
+                httpRequest.setRequestHeader("Content-Type", "application/json");
+                httpRequest.send(JSON.stringify(message));
+            }
+
+            function makeSignPadRequest() {
+                var type = document.signPadForm.querySelector('input[name=transactionType]:checked').value;
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById('tid').value
+                };
+                if (type == "P0") {
+                    message.amount = parseInt(document.signPadForm.amount.value);
+                    if (document.signPadForm.pathToSave.value != "") {
+                        message.pathToSave = document.signPadForm.pathToSave.value;
+                    }
+                    if (document.signPadForm.fileName.value != "") {
+                        message.fileName = document.signPadForm.fileName.value;
+                    }
+                }
+                if (type == "P1") {
+                    message.displayType = document.signPadForm.displayType.value;
+                    message.maxInputLength = parseInt(document.signPadForm.maxInputLength.value);
+                    if (document.signPadForm.displayMessage.value != "") {
+                        message.displayMessage = document.signPadForm.displayMessage.value;
+                    }
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeTokenRequest() {
+                var type = "T0";
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById("tid").value,
+                    transactionDetailCode : document.tokenForm.transactionDetailCode.value,
+                    amount : parseInt(document.tokenForm.amount.value),
+                    amountService : parseInt(document.tokenForm.amountService.value),
+                    amountTax : parseInt(document.tokenForm.amountTax.value)
+                };
+                if (document.tokenForm.companyInfo.value != "") {
+                    message.companyInfo = document.tokenForm.companyInfo.value;
+                }
+                if (parseInt(document.tokenForm.transactionNumber.value) > 0) {
+                    message.transactionNumber = paserInt(document.tokenForm.transactionNumber.value);
+                }
+                if (document.tokenForm.posEntryMode.value != "") {
+                    message.posEntryMode = document.tokenForm.posEntryMode.value;
+                }
+                if (document.tokenForm.track2Data.value != "") {
+                    message.track2Data = document.tokenForm.track2Data.value;
+                }
+                if (document.tokenForm.productCode.value != "") {
+                    message.productCode = document.tokenForm.productCode.value;
+                }
+                if (document.tokenForm.userInfo.value != "") {
+                    message.userInfo = document.tokenForm.userInfo.value;
+                }
+                if (document.tokenForm.mallBusinessNumber.value != "") {
+                    message.mallBusinessNumber = document.tokenForm.mallBusinessNumber.value;
+                }
+                if (document.tokenForm.reserved.value != "") {
+                    message.reserved = document.tokenForm.reserved.value;
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+
+            function makeZeropayRequest() {
+                var type = document.zeropayForm.querySelector('input[name=transactionType]:checked').value;
+                var message = {
+                    transactionType : type,
+                    tid : document.getElementById("tid").value,
+                };
+                if (type == "Z0" || type == "Z1") {
+                    message.transactionNumber = parseInt(document.zeropayForm.transactionNumber.value);
+                    if (document.zeropayForm.posEntryMode.value != "") {
+                        message.posEntryMode = document.zeropayForm.posEntryMode.value;
+                    }
+                    if (document.zeropayForm.paymentData.value != "") {
+                        message.paymentData = document.zeropayForm.paymentData.value;
+                    }
+                    if (document.zeropayForm.shopAdditionalInfo.value != "") {
+                        message.shopAdditionalInfo = document.zeropayForm.shopAdditionalInfo.value;
+                    }
+                    message.amount = parseInt(document.zeropayForm.amount.value);
+                    message.amountService = parseInt(document.zeropayForm.amountService.value);
+                    message.amountTax = parseInt(document.zeropayForm.amountTax.value);
+                }
+                if (type == "Z1" || type == "Z2") {
+                    message.approvalDate = document.zeropayForm.approvalDate.value;
+                    message.approvalNumber = document.zeropayForm.approvalNumber.value;
+                }
+                if (type == "Z1") {
+                    message.cancelType = document.zeropayForm.cancelType.value;
+                }
+                if (document.zeropayForm.reserved.value != "") {
+                    message.reserved = document.zeropayForm.reserved.value;
+                }
+                document.getElementById('sendMessage').value = JSON.stringify(message);
+                sendRequest(message);
+            }
+            
+            function openPage(pageName, element) {
+                var i, tabcontent;
+                tabcontent = document.getElementsByClassName('tabContent');
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                document.getElementById(pageName).style.display = "block";
+            }
+
+            function parseResponseData(xhrObject) {
+                if (xhrObject.readyState == XMLHttpRequest.DONE) {
+                    document.getElementById('recvMessage').value = xhrObject.responseText;
+                    if (xhrObject.status == 200) {
+                        const message = JSON.parse(xhrObject.responseText);
+                        if (message.transactionType == "SA") {
+                            document.cardForm.approvalDate.value = message.approvalDate.substr(0, 6);
+                            document.cardForm.approvalNumber.value = message.approvalNumber;
+                        }
+                        else if (message.transactionType == "CA") {
+                            document.cashForm.approvalDate.value = message.approvalDate.substr(0, 6);
+                            document.cashForm.approvalNumber.value = message.approvalNumber;
+                        }
+                        else if (message.transactionType == "ZA") {
+                            document.zeropayForm.approvalDate.value = message.approvalDate.substr(0, 6);
+                            document.zeropayForm.approvalNumber.value = message.approvalNumber;
+                        }
+                        else if (message.transactionType == "HA") {
+                            document.cashIcForm.approvalDate.value = message.approvalDate.substr(0, 8);
+                            document.cashIcForm.approvalNumber.value = message.approvalNumber;
+                        }  
+                        else if (message.transactionType == "EA") {
+                            document.easypayForm.approvalDate.value = message.approvalDate.substr(0, 6);
+                            document.easypayForm.approvalNumber.value = message.approvalNumber;
+                        }                     
+                    }
+                }
+            }
+
+            function sendRequest(message) {
+                console.log(typeof(message));
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.onreadystatechange = function() {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                        parseResponseData(httpRequest);
+                    }
+                }
+                httpRequest.open("POST", getURL(message));
+                httpRequest.setRequestHeader("Content-Type", "application/json");
+                httpRequest.send(JSON.stringify(message));
+            }
+        </script>
+    </body>
+</html>
