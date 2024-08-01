@@ -85,6 +85,10 @@
                         {% endif %}
                     </div>
                     <div class="col-md-12">
+                      <label for="main_tid">TID</label>
+                      <input type="text" name="main_tid" class="form-control" id="main_tid" value="{{data.main_tid}}" readonly>
+                    </div>
+                    <div class="col-md-12">
                       <label for="waiting_time">팀 당 입장시간(분)</label>
                       <input type="number" name="waiting_time" class="form-control" id="waiting_time" placeholder="팀 당 입장시간(분)" value="{{data.waiting_time}}" readonly>
                     </div>

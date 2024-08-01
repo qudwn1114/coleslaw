@@ -89,6 +89,8 @@ class ShopCreateView(View):
         address_detail = request.POST['address_detail'].strip()
         zipcode = request.POST['zipcode']
         image = request.FILES.get("image")
+        main_tid = request.POST['main_tid'].strip()
+        waiting_time = int(request.POST['waiting_time'])
         logo_image1 = request.FILES.get("logo_image1")
         entry_image1 = request.FILES.get("entry_image1")
         logo_image2 = request.FILES.get("logo_image2")
@@ -129,6 +131,8 @@ class ShopCreateView(View):
                     address_detail=address_detail,
                     zipcode=zipcode,
                     image=image,
+                    main_tid=main_tid,
+                    waiting_time=waiting_time,
                     logo_image1=logo_image1,
                     entry_image1=entry_image1,
                     logo_image2=logo_image2,
@@ -137,6 +141,7 @@ class ShopCreateView(View):
                 ShopTable.objects.create(
                     shop = shop,
                     table_no = 0,
+                    tid=main_tid,
                     name = 'DEFAULT'
                 )
                 AgencyShop.objects.create(
@@ -214,6 +219,8 @@ class ShopEditView(View):
         address_detail = request.POST['address_detail'].strip()
         zipcode = request.POST['zipcode']
         image = request.FILES.get("image")
+        main_tid = request.POST['main_tid'].strip()
+        waiting_time = int(request.POST['waiting_time'])
         logo_image1 = request.FILES.get("logo_image1")
         entry_image1 = request.FILES.get("entry_image1")
         logo_image2 = request.FILES.get("logo_image2")
@@ -236,28 +243,37 @@ class ShopEditView(View):
         if Shop.objects.filter(name_en=shop_name_en).exclude(pk=shop.pk).exists():
             return JsonResponse({'message': '이미 존재하는 가맹점 영문명 입니다.'}, status=400)
         
-        shop.agency = agency
-        shop.shop_category = shop_category
-        shop.name_kr = shop_name_kr
-        shop.name_en = shop_name_en
-        shop.description = description
-        shop.representative = representative
-        shop.phone = phone
-        shop.registration_no = registration_no
-        shop.address = address
-        shop.address_detail = address_detail
-        shop.zipcode = zipcode
-        if image:
-            shop.image = image
-        if logo_image1:
-            shop.logo_image1 = logo_image1
-        if entry_image1:
-            shop.entry_image1 = entry_image1
-        if logo_image2:
-            shop.logo_image2 = logo_image2
-        if entry_image2:
-            shop.entry_image2 = entry_image2
-        shop.save()
+        try:
+            with transaction.atomic():
+                shop.shop_category = shop_category
+                shop.name_kr = shop_name_kr
+                shop.name_en = shop_name_en
+                shop.description = description
+                shop.representative = representative
+                shop.phone = phone
+                shop.registration_no = registration_no
+                shop.address = address
+                shop.address_detail = address_detail
+                shop.zipcode = zipcode
+                shop.main_tid = main_tid
+                shop.waiting_time = waiting_time
+                if image:
+                    shop.image = image
+                if logo_image1:
+                    shop.logo_image1 = logo_image1
+                if entry_image1:
+                    shop.entry_image1 = entry_image1
+                if logo_image2:
+                    shop.logo_image2 = logo_image2
+                if entry_image2:
+                    shop.entry_image2 = entry_image2
+                shop.save()
+                
+                main_pos = ShopTable.objects.get(shop=shop, table_no = 0)
+                main_pos.tid = main_tid
+                main_pos.save()
+        except:
+            return JsonResponse({'message': '수정오류'}, status=400)
 
         return JsonResponse({'message' : '수정 되었습니다.', 'url':reverse("system_manage:shop_detail", kwargs={"pk" : shop.id})},  status = 202)
 

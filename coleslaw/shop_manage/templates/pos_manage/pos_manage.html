@@ -53,6 +53,7 @@
               <thead>
                 <tr>
                   <th>이름</th>
+                  <th>TID</th>
                   <th></th>
                 </tr>
                 
@@ -67,6 +68,16 @@
                         <button class="btn btn-outline-secondary" type="button" onclick="editName({{i.id}}, this)">수정</button>
                     </div>
                    </td>
+                   <td>
+                    {% if i.table_no != 0 %}
+                    <div class="input-group">
+                        <input type="text" id="table_tid_{{i.id}}" class="form-control" placeholder="TID" value="{{i.tid}}">
+                        <button class="btn btn-outline-secondary" type="button" onclick="editTid({{i.id}}, this)">수정</button>
+                    </div>
+                    {% else %}
+                    <span>{{i.tid}}</span>
+                    {% endif %}
+                   </td>
                   <td class="text-end">
                     {% if i.table_no != 0 %}
                         <button class="btn btn-danger" onclick="deleteTable({{i.id}})">삭제</button>
@@ -76,7 +87,7 @@
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='1'>내용이 없습니다.</td>
+                    <td colspan='3'>내용이 없습니다.</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -91,5 +102,5 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script src="{% static 'js/script_pagination.js' %}"></script>
-<script src="{% static 'shop/js/pos_manage/script_pos_manage.js' %}"></script>
+<script src="{% static 'shop/js/pos_manage/script_pos_manage.js' %}?v=20240801"></script>
 {% endblock javascripts %}
