@@ -541,7 +541,7 @@ class ShopTableCheckoutView(View):
                 for i in cart_list:
                     total = 0
                     goodsId = i['goodsId']
-                    goodsName = i['name']
+                    goodsName = i['name_kr']
                     goodsPrice = i['price']
                     quantity = i['quantity']
                     optionName = i['optionName']
