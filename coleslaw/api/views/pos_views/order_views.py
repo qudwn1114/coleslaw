@@ -291,6 +291,60 @@ class ShopPosOrderCreateView(View):
         return HttpResponse(return_data, content_type = "application/json")
     
 
+class ShopPosCheckoutOrderDetailView(View):
+    '''
+        pos checkout order detail api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        order_id = kwargs.get('order_id')
+        code = kwargs.get('code')
+
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            order = Order.objects.get(pk=order_id, shop=shop, code=code)
+        except:
+            return_data = {'data': {},'msg': 'order data 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        data = {}
+        if order.shop_member:
+            data['shop_member_id'] = order.shop_member.pk
+            data['membername'] = order.shop_member.membername
+        else:
+            data['shop_member_id'] = None
+            data['membername'] = None
+
+        data['final_price'] = order.final_price
+        data['final_discount'] = order.final_discount
+        data['final_additional'] = order.final_additional
+        order_detail = order.order_goods.all().values(
+            'id',
+            'name_kr',
+            'quantity',
+            'total_price'
+        )        
+        for i in order_detail:
+            i['option_detail'] = list(OrderGoodsOption.objects.filter(pk=i['id']).annotate(
+                name_kr = F('goods_option_detail__name_kr'),
+            ).values('name_kr'))
+        data['order_detail'] = list(order_detail)
+
+        return_data = {
+            'data': data,
+            'resultCd': '0000',
+            'msg': f'checkout 상세정보',
+        }
+
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
 
 
 class ShopPosOrderCompleteView(View):

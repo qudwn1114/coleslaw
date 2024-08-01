@@ -526,6 +526,11 @@ class ShopTableCheckoutView(View):
             return_data = {'data': {},'msg': '상품이 없습니다.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
+        if shop_table.shop_member:
+            shop_member_id = shop_table.shop_member
+        else:
+            shop_member_id = None
 
         code = uuid.uuid4().hex
         try:
@@ -599,6 +604,7 @@ class ShopTableCheckoutView(View):
                     
             return_data = {
                 'data': {
+                    'shop_member_id' : shop_member_id,
                     'shop_id':shop.pk,
                     'checkout_id':checkout.pk,
                     'code':checkout.code,
