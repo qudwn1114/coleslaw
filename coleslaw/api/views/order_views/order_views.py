@@ -339,7 +339,7 @@ class ShopOrderCompleteView(View):
                         'type': 'chat_message',
                         'message_type' : 'ORDER',
                         'title': '* 주문접수 * ',
-                        'message': f'[{order.order_no}] {order.order_name}'
+                        'message': f'[{order.order_no}] {order.order_name_kr}'
                     }
                 )
             except:
