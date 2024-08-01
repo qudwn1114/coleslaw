@@ -12,6 +12,103 @@ from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGood
 
 import traceback, json, datetime, uuid, logging
 
+
+class ShopPosOrderListView(View):
+    '''
+        pos order list
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        paginate_by = 50
+        page = int(request.GET.get('page', 1))
+        date = request.GET.get('date', '')
+        if date:
+            date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+        else:
+            date = timezone.now().date()
+
+        startnum = 0 + (page-1)*paginate_by
+        endnum = startnum+paginate_by
+
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            queryset = Order.objects.filter(shop=shop, date=date).exclude(status='0').annotate(
+                createdAt=Func(
+                    F('created_at'),
+                    V('%y.%m.%d %H:%i'),
+                    function='DATE_FORMAT',
+                    output_field=CharField()
+                )
+            ).values(
+                'id',
+                'final_price',
+                'order_name_kr',
+                'status',
+                'createdAt'
+            ).order_by('-id')
+
+            return_data = {
+                'data': list(queryset[startnum:endnum]),
+                'paginate_by': paginate_by,
+                'resultCd': '0000',
+                'msg': '가맹점 주문 리스트',
+                'totalCnt' : queryset.count()
+            }
+        except:
+            print(traceback.format_exc())
+            return_data = {
+                'data': [],
+                'msg': '오류!',
+                'resultCd': '0001',
+            }
+    
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopPosOrderDetailView(View):
+    '''
+        pos order detail
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        order_id = kwargs.get('order_id')
+        try:
+            order = Order.objects.get(pk=order_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '주문 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        data = {}
+        data['final_price'] = order.final_price
+        data['final_additional'] = order.final_additional
+        data['final_discount'] = order.final_discount
+
+        data['order_name_kr'] = order.order_name_kr
+        data['order_name_en'] = order.order_name_en
+
+        data['order_code'] = order.order_code
+        data['order_no'] = order.order_no
+        data['status'] = order.status
+        data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
+
+        return_data = {
+            'data': data,
+            'resultCd': '0000',
+            'msg': '주문상세',
+        }
+
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+
+
+
 class ShopPosOrderCreateView(View):
     '''
         shop pos 주문생성
