@@ -10,7 +10,7 @@ from django.db import transaction
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from system_manage.decorators import permission_required
-from system_manage.models import Order, OrderGoods, ShopAdmin
+from system_manage.models import Order, OrderGoods, ShopAdmin, OrderPayment
 from system_manage.utils import ResponseToXlsx
 from shop_manage.views.shop_manage_views.auth_views import check_shop
 from api.views.sms_views.sms_views import send_sms
@@ -70,8 +70,12 @@ class OrderManageView(View):
         if excel:
             filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
             filename = f"주문 목록_{timezone.now().strftime('%Y%m%d%H%M')}"
-            columns = ['상품명', '옵션명', '판매가격', '옵션가격', '수량', '날짜', '상태', '총금액', '주문타입']
-            queryset = OrderGoods.objects.filter(**filter_dict).annotate(
+            columns = ['주문번호', '거래번호', '승인번호', '날짜', '총금액', '상태',  '주문타입']
+            queryset = OrderPayment.objects.filter(**filter_dict).annotate(
+                signedAmount=Case(
+                    When(order__status='2', then= Cast(F('amount'), IntegerField()) * 0),
+                    default=F('amount'), output_field=IntegerField()
+                ),
                 orderStatus=Case(
                     When(order__status='1', then=V('결제완료')),
                     When(order__status='2', then=V('취소')),
@@ -79,24 +83,18 @@ class OrderManageView(View):
                     When(order__status='4', then=V('주문완료')),
                     When(order__status='5', then=V('수령완료')),
                 ),
-                signedTotalPrice=Case(
-                    When(order__status='2', then= Cast(F('total_price'), IntegerField()) * -1),
-                    default=F('total_price'), output_field=IntegerField()
-                ),
                 orderType=Case(
                     When(order__order_type='0', then=V('POS')),
                     When(order__order_type='1', then=V('QR')),
                     When(order__order_type='2', then=V('KIOSK'))
                 ),     
             ).values(
-                'name_kr',
-                'option_kr',
-                'price',
-                'option_price',
-                'quantity',
+                'mbrRefNo',
+                'refNo',
+                'applNo',
                 'order__created_at',
+                'signedAmount',
                 'orderStatus',
-                'signedTotalPrice',
                 'orderType'
             ).order_by('-id')
             xlsx_download = ResponseToXlsx(columns=columns, queryset=queryset)
