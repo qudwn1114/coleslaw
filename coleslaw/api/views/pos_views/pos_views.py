@@ -528,7 +528,7 @@ class ShopTableCheckoutView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         if shop_table.shop_member:
-            shop_member_id = shop_table.shop_member
+            shop_member_id = shop_table.shop_member.pk
         else:
             shop_member_id = None
 
