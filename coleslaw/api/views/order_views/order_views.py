@@ -219,8 +219,6 @@ class ShopOrderCompleteView(View):
             else:
                 greenDepositAmount = int(greenDepositAmount)
             installment = request.POST.get('installment', '')
-            custormerName = request.POST.get('custormerName', '')
-            customerTelNo = request.POST.get('customerTelNo', '')
             applNo = request.POST.get('applNo', '')
             cardNo = request.POST.get('cardNo', '')
             issueCompanyNo = request.POST.get('issueCompanyNo', '')
@@ -265,6 +263,7 @@ class ShopOrderCompleteView(View):
                 return HttpResponse(return_data, content_type = "application/json")
             
             order.payment_method = 'CARD'
+            order.payment_price = order.final_price
             order.status = '1'
             order.save()
 
@@ -282,7 +281,7 @@ class ShopOrderCompleteView(View):
                 taxFreeAmount = taxFreeAmount,
                 greenDepositAmount = greenDepositAmount,
                 installment = installment,
-                custormerName = custormerName,
+                custormerName = customerName,
                 customerTelNo = customerTelNo,
                 applNo = applNo,
                 cardNo = cardNo,
