@@ -308,7 +308,7 @@ class ShopPosCheckoutOrderDetailView(View):
             return HttpResponse(return_data, content_type = "application/json")
 
         try:
-            order = Order.objects.get(pk=order_id, shop=shop, order_no=code)
+            order = Order.objects.get(pk=order_id, shop=shop, order_code=code)
         except:
             return_data = {'data': {},'msg': 'order data 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
