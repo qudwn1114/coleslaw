@@ -254,3 +254,34 @@ class ShopTableLogoutView(View):
         return_data = {'data': {},'msg': '회원이 로그아웃 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+    
+
+
+class ShopMainPosTidView(View):
+    '''
+        shop main pos tid api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        if shop_table.table_no > 0:
+            return_data = {'data': {},'msg': 'table no 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        data = {}
+        data['tid'] = shop_table.tid        
+
+        return_data = {
+            'data': data,
+            'resultCd': '0000',
+            'msg': 'tid 정보',
+        }
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
