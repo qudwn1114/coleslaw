@@ -107,6 +107,8 @@ class Shop(models.Model):
     entry_email = models.BooleanField(default=False)
     entry_car_plate_no = models.BooleanField(default=False)
 
+    main_tid = models.CharField(default='', max_length=20, verbose_name='메인 tid')
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
@@ -197,6 +199,7 @@ class ShopTable(models.Model):
     total_price = models.PositiveIntegerField(default=0, verbose_name='총 결제 금액')
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     entry_time = models.DateTimeField(null=True, verbose_name='입장시간')
+    tid = models.CharField(default='', max_length=20, verbose_name='tid')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
