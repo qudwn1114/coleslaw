@@ -92,62 +92,66 @@ class ShopPosOrderCreateView(View):
                     raise ValueError("주문생성실패")
                 order_name_kr = ''
                 order_name_en = ''
-                for i in checkout.checkout_detail.all():
-                    if order_name_kr == '':
-                        if total_quantity == 1:
-                            order_name_kr = f"{i.goods.name_kr} {total_quantity}개"
-                            order_name_en = f"{i.goods.name_en} {total_quantity}"
-                        else:
-                            order_name_kr = f"{i.goods.name_kr} 외 {total_quantity-1}개"
-                            order_name_en = f"{i.goods.name_en} and {total_quantity-1} others"
+                if checkout.checkout_detail.all().exists():
+                    for i in checkout.checkout_detail.all():
+                        if order_name_kr == '':
+                            if total_quantity == 1:
+                                order_name_kr = f"{i.goods.name_kr} {total_quantity}개"
+                                order_name_en = f"{i.goods.name_en} {total_quantity}"
+                            else:
+                                order_name_kr = f"{i.goods.name_kr} 외 {total_quantity-1}개"
+                                order_name_en = f"{i.goods.name_en} and {total_quantity-1} others"
 
-                    if i.goods.soldout:
-                        raise ValueError(f"{i.goods.name} 상품이 판매 중단되었습니다.")
-                    
-                    if i.goods.stock_flag:
-                         if i.goods.stock < i.quantity:
-                            raise ValueError(f'{i.goods.name_kr} Out of Stock')
+                        if i.goods.soldout:
+                            raise ValueError(f"{i.goods.name} 상품이 판매 중단되었습니다.")
+                        
+                        if i.goods.stock_flag:
+                            if i.goods.stock < i.quantity:
+                                raise ValueError(f'{i.goods.name_kr} Out of Stock')
 
-                    order_goods = OrderGoods.objects.create(
-                        order=order, 
-                        goods=i.goods,
-                        price=i.price, 
-                        name_kr=i.goods.name_kr, 
-                        name_en=i.goods.name_en,
-                        quantity=i.quantity,
-                        option_kr=None, 
-                        option_en=None, 
-                        option_price=0, 
-                        total_price=i.price*i.quantity
-                    )
+                        order_goods = OrderGoods.objects.create(
+                            order=order, 
+                            goods=i.goods,
+                            price=i.price, 
+                            name_kr=i.goods.name_kr, 
+                            name_en=i.goods.name_en,
+                            quantity=i.quantity,
+                            option_kr=None, 
+                            option_en=None, 
+                            option_price=0, 
+                            total_price=i.price*i.quantity
+                        )
 
-                    option_price = 0
-                    if i.checkout_detail_option.all().exists():
-                        option_kr = [] 
-                        option_en = [] 
-                        order_goods_option_bulk_list = []
-                        for j in i.checkout_detail_option.all():
-                            if j.goods_option_detail.soldout:
-                                raise ValueError(f"{i.goods.name_kr} {j.goods_option_detail.name_kr} Option Soldout")
-                            
-                            if j.goods_option_detail.stock_flag:
-                                if j.goods_option_detail.stock < i.quantity:
-                                    raise ValueError(f'{i.goods.name_kr} {j.goods_option_detail.name_kr} Out of Stock')
-                            
-                            option_kr.append(f"{j.goods_option_detail.goods_option.name_kr} : {j.goods_option_detail.name_kr}")
-                            option_en.append(f"{j.goods_option_detail.goods_option.name_en} : {j.goods_option_detail.name_en}")
-                            option_price += j.goods_option_detail.price
+                        option_price = 0
+                        if i.checkout_detail_option.all().exists():
+                            option_kr = [] 
+                            option_en = [] 
+                            order_goods_option_bulk_list = []
+                            for j in i.checkout_detail_option.all():
+                                if j.goods_option_detail.soldout:
+                                    raise ValueError(f"{i.goods.name_kr} {j.goods_option_detail.name_kr} Option Soldout")
+                                
+                                if j.goods_option_detail.stock_flag:
+                                    if j.goods_option_detail.stock < i.quantity:
+                                        raise ValueError(f'{i.goods.name_kr} {j.goods_option_detail.name_kr} Out of Stock')
+                                
+                                option_kr.append(f"{j.goods_option_detail.goods_option.name_kr} : {j.goods_option_detail.name_kr}")
+                                option_en.append(f"{j.goods_option_detail.goods_option.name_en} : {j.goods_option_detail.name_en}")
+                                option_price += j.goods_option_detail.price
 
-                            order_goods_option_bulk_list.append(OrderGoodsOption(order_goods=order_goods, goods_option_detail=j.goods_option_detail))
+                                order_goods_option_bulk_list.append(OrderGoodsOption(order_goods=order_goods, goods_option_detail=j.goods_option_detail))
 
-                        OrderGoodsOption.objects.bulk_create(order_goods_option_bulk_list)
-                        option_kr = ' / '.join(option_kr)
-                        option_en = ' / '.join(option_en)
-                        order_goods.option_kr = option_kr
-                        order_goods.option_en = option_en
-                        order_goods.option_price = option_price
-                        order_goods.total_price += option_price
-                        order_goods.save()
+                            OrderGoodsOption.objects.bulk_create(order_goods_option_bulk_list)
+                            option_kr = ' / '.join(option_kr)
+                            option_en = ' / '.join(option_en)
+                            order_goods.option_kr = option_kr
+                            order_goods.option_en = option_en
+                            order_goods.option_price = option_price
+                            order_goods.total_price += option_price
+                            order_goods.save()
+                else:
+                    order_name_kr = '추가요금'
+                    order_name_en = 'Additional Fee'
 
                 order.order_name_kr=order_name_kr
                 order.order_name_en=order_name_en
