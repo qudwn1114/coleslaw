@@ -61,7 +61,7 @@ class ShopTableAddView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -191,7 +191,7 @@ class ShopTableUpdateView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -257,7 +257,7 @@ class ShopTableDeleteView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -316,7 +316,7 @@ class ShopTableClearView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -350,7 +350,7 @@ class ShopTableDiscountView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -392,7 +392,7 @@ class ShopTableDiscountCancelView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -428,7 +428,7 @@ class ShopTableCheckoutView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
         try:
             shop = Shop.objects.get(pk=shop_id)
         except:

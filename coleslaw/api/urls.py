@@ -39,22 +39,22 @@ urlpatterns = [
 
     # 테이블
     path('shop/<int:shop_id>/table-list/', ShopTableListView.as_view()),
-    path('shop/<int:shop_id>/table-detail/<int:table_no>/', ShopTableDetailView.as_view()),
-    path('shop/<int:shop_id>/table-assign/<int:table_no>/', ShopTableAssignView.as_view()),
-    path('shop/<int:shop_id>/table-exit/<int:table_no>/', ShopTableExitView.as_view()),
+    path('shop/<int:shop_id>/table-detail/<str:table_no>/', ShopTableDetailView.as_view()),
+    path('shop/<int:shop_id>/table-assign/<str:table_no>/', ShopTableAssignView.as_view()),
+    path('shop/<int:shop_id>/table-exit/<str:table_no>/', ShopTableExitView.as_view()),
     
     # pos
     path('shop/<int:shop_id>/pos-list/', ShopPosListView.as_view()),
     path('shop/<int:shop_id>/member-list/', ShopMemberListView.as_view()),
     path('shop/<int:shop_id>/member-create/', ShopMemberCreateView.as_view()),
-    path('shop/<int:shop_id>/table/<int:table_no>/add/', ShopTableAddView.as_view()),
-    path('shop/<int:shop_id>/table/<int:table_no>/update/', ShopTableUpdateView.as_view()),
-    path('shop/<int:shop_id>/table/<int:table_no>/delete/', ShopTableDeleteView.as_view()),
-    path('shop/<int:shop_id>/table/<int:table_no>/clear/', ShopTableClearView.as_view()),
-    path('shop/<int:shop_id>/table/<int:table_no>/discount/', ShopTableDiscountView.as_view()),
-    path('shop/<int:shop_id>/table/<int:table_no>/discount-cancel/', ShopTableDiscountCancelView.as_view()),
+    path('shop/<int:shop_id>/table/<str:table_no>/add/', ShopTableAddView.as_view()),
+    path('shop/<int:shop_id>/table/<str:table_no>/update/', ShopTableUpdateView.as_view()),
+    path('shop/<int:shop_id>/table/<str:table_no>/delete/', ShopTableDeleteView.as_view()),
+    path('shop/<int:shop_id>/table/<str:table_no>/clear/', ShopTableClearView.as_view()),
+    path('shop/<int:shop_id>/table/<str:table_no>/discount/', ShopTableDiscountView.as_view()),
+    path('shop/<int:shop_id>/table/<str:table_no>/discount-cancel/', ShopTableDiscountCancelView.as_view()),
 
-    path('shop/<int:shop_id>/table/<int:table_no>/checkout/', ShopTableCheckoutView.as_view()),
+    path('shop/<int:shop_id>/table/<str:table_no>/checkout/', ShopTableCheckoutView.as_view()),
     
     path('shop/<int:shop_id>/pos/checkout/<int:checkout_id>/<str:code>/', PosCheckoutDetailView.as_view()),
     path('shop/<int:shop_id>/pos/order/<int:checkout_id>/<str:code>/', ShopPosOrderCreateView.as_view()),

@@ -87,7 +87,7 @@ class ShopTableAssignView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -142,7 +142,7 @@ class ShopTableExitView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -179,7 +179,8 @@ class ShopTableDetailView(View):
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        table_no = kwargs.get('table_no')
+        table_no = int(kwargs.get('table_no'))
+        
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
