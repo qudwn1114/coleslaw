@@ -83,6 +83,7 @@ class ShopPosOrderCreateView(View):
                         order_code = order_code,
                         order_no=order_no,
                         final_price = checkout.final_price,
+                        final_additional = checkout.final_additional,
                         final_discount=checkout.final_discount
                     )
                 except IntegrityError:
@@ -164,6 +165,7 @@ class ShopPosOrderCreateView(View):
                     'order_name_en':order_name_en,
                     'order_code':order_code,
                     'final_price':checkout.final_price,
+                    'final_additional':checkout.final_additional,
                     'final_discount':checkout.final_discount,
                     'shop_member_id' : shop_member_id,
                     'membername' : membername

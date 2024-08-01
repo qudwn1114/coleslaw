@@ -588,11 +588,12 @@ class ShopTableCheckoutView(View):
                     # 총결제금액 합산
                     final += total
 
-            final = final - shop_table.total_discount
+            final = final + shop_table.total_additional - shop_table.total_discount 
             if final < 0:
                 raise ValueError('Final Price Error')
 
             checkout.final_price = final
+            checkout.final_additional = shop_table.total_additional
             checkout.final_discount = shop_table.total_discount
             checkout.save()
                     
@@ -601,8 +602,9 @@ class ShopTableCheckoutView(View):
                     'shop_id':shop.pk,
                     'checkout_id':checkout.pk,
                     'code':checkout.code,
-                    'final_price':checkout.final_price,
-                    'final_discount':checkout.final_discount
+                    'final_price':final,
+                    'final_additional':shop_table.total_additional,
+                    'final_discount':shop_table.total_discount
                 },
                 'msg': '주문정보 생성완료',
                 'resultCd': '0000',

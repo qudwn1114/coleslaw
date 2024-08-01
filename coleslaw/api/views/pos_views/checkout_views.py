@@ -49,6 +49,7 @@ class PosCheckoutDetailView(View):
 
         data['final_price'] = checkout.final_price
         data['final_discount'] = checkout.final_discount
+        data['final_additional'] = checkout.final_additional
         checkout_detail = checkout.checkout_detail.all().annotate(
             name_kr = F('goods__name_kr'),
         ).values(

@@ -14,7 +14,7 @@ import traceback, json, datetime, uuid
 
 class ShopCheckoutView(View):
     '''
-        shop checkout
+        shop checkout QR
     '''
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -59,6 +59,7 @@ class ShopCheckoutView(View):
                     code = code,
                     table_no = None,
                     shop_member = None,
+                    final_additional=0,
                     final_discount=0
                 )
                 final = 0
