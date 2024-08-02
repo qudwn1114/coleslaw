@@ -98,6 +98,7 @@ class ShopCheckoutView(View):
                                         
                     # 옵션있을경우 옵션 유효 체크
                     total = goods.sale_price * quantity
+
                     if goods.option_flag:
                         checkout_option_bulk_list = []
 
@@ -135,14 +136,14 @@ class ShopCheckoutView(View):
                         checkout_detail.total_price = total
                         checkout_detail.save()
                         # 총결제금액 합산
-                        final += total
+                    final += total
 
-                if final != finalPrice:
-                    raise ValueError(f'Final Price Error')
+                    if final != finalPrice:
+                        raise ValueError(f'Final Price Error')
                 
                 checkout.final_price = final
                 checkout.save()
-                    
+                
             return_data = {
                 'data': {
                     'shop_id':shop.pk,
