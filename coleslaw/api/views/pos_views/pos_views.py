@@ -229,6 +229,7 @@ class ShopTableUpdateView(View):
                 data['cart_total_discount'] = 0
             else:
                 data['cart_total_discount'] = shop_table.total_discount
+            data['cart_total_additional'] = shop_table.total_additional
 
             cart_list = json.dumps(cart_list, ensure_ascii=False)
             shop_table.cart = cart_list
