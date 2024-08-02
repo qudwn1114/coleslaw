@@ -450,7 +450,7 @@ class ShopPosOrderCompleteView(View):
             order.status = '1'
             order.save()
 
-            OrderPayment.objects.create(
+            order_payment = OrderPayment.objects.create(
                 order = order,
 
                 status=True,
@@ -499,6 +499,7 @@ class ShopPosOrderCompleteView(View):
             return_data = {
                 'data': {
                     'order_id':order.pk,
+                    'order_payment_id': order_payment.pk,
                     'order_code':order.order_code,
                     'left_price':left_price
                 },
