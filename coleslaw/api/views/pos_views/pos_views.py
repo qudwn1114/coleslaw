@@ -486,19 +486,22 @@ class ShopTableDiscountCancelView(View):
             cart_list = json.loads(shop_table.cart)
             for i in cart_list:
                 i['discount'] = 0
-        
-        total_price = shop_table.total_price
-        total_discount = shop_table.total_discount
-        new_total_price = total_price + total_discount
-
-        shop_table.total_price = new_total_price
-        shop_table.total_discount = 0
-        shop_table.save()
 
         data = {}
         data['cart_list'] = cart_list
         data['cart_total_price'] = new_total_price
         data['cart_total_discount'] = 0
+
+        total_discount = shop_table.total_discount
+        new_total_price = total_price + total_discount
+
+        cart_list = json.dumps(cart_list, ensure_ascii=False)
+        shop_table.cart = cart_list               
+        total_price = shop_table.total_price
+        shop_table.total_price = new_total_price
+        shop_table.total_discount = 0
+        shop_table.save()
+
 
         return_data = {'data': data,'msg': '할인이 취소 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
