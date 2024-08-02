@@ -144,7 +144,7 @@ class ShopPosOrderDetailView(View):
             'issueCompanyName',
             'approvalDate',
             'approvalNumber',
-            'cardNo'
+            'cardNo',
             'amount',
             'taxAmount'
             'createdAt'
