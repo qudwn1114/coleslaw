@@ -137,6 +137,7 @@ class ShopPosOrderDetailView(View):
         elif order.status == '6':
             data['orderStatus'] = '부분취소'
 
+        data['status'] = order.status
         data['order_code'] = order.order_code
         data['order_no'] = order.order_no
         data['order_name_kr'] = order.order_name_kr
@@ -172,6 +173,7 @@ class ShopPosOrderDetailView(View):
         ).order_by('id').values(
             'id',
             'tid',
+            'status',
             'issueCompanyName',
             'approvalDate',
             'approvalNumber',
