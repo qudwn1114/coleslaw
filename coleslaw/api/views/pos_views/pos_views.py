@@ -223,7 +223,7 @@ class ShopTableUpdateView(View):
                 adjusted_quantity = quantity - cart_list[index]['quantity']
                 cart_list[index]['quantity'] = quantity
                 total_price = shop_table.total_price + ((price+optionPrice)* adjusted_quantity) - (discount*adjusted_quantity)
-                total_discount = shop_table.total_price + (discount*adjusted_quantity)
+                total_discount = shop_table.total_discount + (discount*adjusted_quantity)
             except IndexError:
                 return_data = {'data': {},'msg': 'Index Error','resultCd': '0001'}
                 return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -655,6 +655,7 @@ class ShopTableCheckoutView(View):
                         checkout = checkout,
                         goods = goods,
                         quantity = quantity,
+                        sale_price = goodsPrice,
                         price = goodsPrice,
                         total_price = total
                     )
