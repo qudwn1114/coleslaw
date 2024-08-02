@@ -6,7 +6,7 @@ from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderComp
 
 from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView, ShopTableDetailView, ShopTableLogoutView, ShopMainPosTidView
-from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableAdditionalView, ShopTableAdditionalCancelView, ShopTableCheckoutView
+from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableGoodsDiscountView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableAdditionalView, ShopTableAdditionalCancelView, ShopTableCheckoutView
 from api.views.pos_views.order_views import ShopPosOrderCreateView, ShopPosCheckoutOrderDetailView, ShopPosOrderCompleteView, ShopPosOrderListView, ShopPosOrderDetailView
 from api.views.pos_views.receipt_views import ShopOrderReceiptView
 from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView
@@ -53,6 +53,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/table/<str:table_no>/update/', ShopTableUpdateView.as_view()),
     path('shop/<int:shop_id>/table/<str:table_no>/delete/', ShopTableDeleteView.as_view()),
     path('shop/<int:shop_id>/table/<str:table_no>/clear/', ShopTableClearView.as_view()),
+    path('shop/<int:shop_id>/table/<str:table_no>/goods-discount/', ShopTableGoodsDiscountView.as_view()),
     path('shop/<int:shop_id>/table/<str:table_no>/discount/', ShopTableDiscountView.as_view()),
     path('shop/<int:shop_id>/table/<str:table_no>/discount-cancel/', ShopTableDiscountCancelView.as_view()),
     path('shop/<int:shop_id>/table/<str:table_no>/additional/', ShopTableAdditionalView.as_view()),
