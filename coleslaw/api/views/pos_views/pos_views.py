@@ -702,7 +702,7 @@ class ShopTableCheckoutView(View):
 
                     # 총결제금액 합산
                     final += total
-
+            final -= shop_table.total_discount
             if final < 0:
                 raise ValueError('Final Price Error')
 
