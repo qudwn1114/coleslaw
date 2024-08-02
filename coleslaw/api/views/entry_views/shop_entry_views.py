@@ -509,6 +509,7 @@ class ShopEntryPaymentView(View):
                 data['goodsId'] = i.goods.pk
                 data['name_kr'] = i.goods.name_kr
                 data['price'] = i.goods.price
+                data['discount'] = 0
                 data['quantity'] = i.quantity
                 data['optionName'] = ''
                 data['optionPrice'] = 0
@@ -531,6 +532,8 @@ class ShopEntryPaymentView(View):
         cart_list = json.dumps(cart_list, ensure_ascii=False)
         shop_table.cart = cart_list
         shop_table.total_price = total_price
+        shop_table.total_additional = 0
+        shop_table.total_discount = 0
         shop_table.shop_member = entry_queue.shop_member
         shop_table.save()
         
