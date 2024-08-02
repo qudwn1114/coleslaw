@@ -128,15 +128,14 @@ class ShopCheckoutView(View):
                         total += option_price
                         CheckoutDetailOption.objects.bulk_create(checkout_option_bulk_list)
 
-                    if total != totalPrice:
-                        raise ValueError(f'{goodsId} Goods total price Error ...{total}')
-                    
-                    checkout_detail.sale_option_price =option_price
-                    checkout_detail.total_price = total
-                    checkout_detail.save()
-                    
-                    # 총결제금액 합산
-                    final += total
+                        if total != totalPrice:
+                            raise ValueError(f'{goodsId} Goods total price Error ...{total}')
+                        
+                        checkout_detail.sale_option_price =option_price
+                        checkout_detail.total_price = total
+                        checkout_detail.save()
+                        # 총결제금액 합산
+                        final += total
 
                 if final != finalPrice:
                     raise ValueError(f'Final Price Error')
