@@ -50,6 +50,16 @@ class ShopPosOrderListView(View):
         filter_dict['shop'] = shop
         try:
             queryset = Order.objects.filter(**filter_dict).exclude(status='0').annotate(
+                orderStatus=Case(
+                    When(status='0', then=V('결제대기')),
+                    When(status='1', then=V('결제완료')),
+                    When(status='2', then=V('취소')),
+                    When(status='3', then=V('준비중')),
+                    When(status='4', then=V('주문완료')),
+                    When(status='5', then=V('수령완료')),
+                    When(status='6', then=V('부분취소')),
+                    default=V('결제완료'), output_field=CharField()
+                ),
                 createdAt=Func(
                     F('created_at'),
                     V('%y.%m.%d %H:%i'),
@@ -58,6 +68,7 @@ class ShopPosOrderListView(View):
                 )
             ).values(
                 'id',
+                'orderStatus',
                 'final_price',
                 'order_name_kr',
                 'status',
@@ -105,6 +116,26 @@ class ShopPosOrderDetailView(View):
         else:
             data['shop_member_id'] = None
             data['membername'] = None      
+
+        if order.payment_method == '0':
+            data['order_payment_method'] = '카드'
+        elif order.payment_method == '1':
+            data['order_payment_method'] = '현금'
+        elif order.payment_method == '2':
+            data['order_payment_method'] = '카드/현금'
+
+        if order.status == '1':
+            data['orderStatus'] = '결제완료'
+        elif order.status == '2':
+            data['orderStatus'] = '취소'
+        elif order.status == '3':
+            data['orderStatus'] = '준비중'    
+        elif order.status == '4':
+            data['orderStatus'] = '주문완료'
+        elif order.status == '5':
+            data['orderStatus'] = '수령완료'
+        elif order.status == '6':
+            data['orderStatus'] = '부분취소'
 
         data['order_code'] = order.order_code
         data['order_no'] = order.order_no
