@@ -126,6 +126,11 @@ class ShopPosOrderDetailView(View):
         data['order_detail'] = list(order_detail)
 
         order_payment = order.order_payment.all().annotate(
+            paymentMethod=Case(
+                When(payment_method='0', then=V('카드')),
+                When(payment_method='1', then=V('현금')),
+                default=V('카드'), output_field=CharField()
+            ),
             approvalDate = F('tranDate'),
             createdAt=Func(
                 F('created_at'),
