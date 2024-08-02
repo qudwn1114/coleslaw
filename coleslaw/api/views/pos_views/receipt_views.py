@@ -62,13 +62,10 @@ class ShopOrderReceiptView(View):
         order_detail = order_payment.order.order_goods.all().values(
             'id',
             'name_kr',
+            'option_kr',
             'quantity',
             'total_price'
         )        
-        for i in order_detail:
-            i['option_detail'] = list(OrderGoodsOption.objects.filter(pk=i['id']).annotate(
-                name_kr = F('goods_option_detail__name_kr'),
-            ).values('name_kr'))
         data['order_detail'] = list(order_detail)
         
         return_data = {
