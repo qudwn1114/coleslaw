@@ -53,6 +53,7 @@ class ShopOrderReceiptView(View):
         data['cardNo'] = order_payment.cardNo
         data['issueCompanyName'] = order_payment.issueCompanyName
         data['cardNo'] = order_payment.cardNo
+        data['approvalNumber'] = order_payment.approvalNumber
 
         
         return_data = {
