@@ -269,6 +269,8 @@ class ShopOrderCompleteView(View):
 
             OrderPayment.objects.create(
                 order = order,
+                status=True,
+                payment_method='0', #카드
                 refNo = refNo,
                 mbrNo = mbrNo,
                 mbrRefNo = mbrRefNo,

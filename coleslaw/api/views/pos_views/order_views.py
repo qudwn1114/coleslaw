@@ -21,23 +21,36 @@ class ShopPosOrderListView(View):
         shop_id = kwargs.get('shop_id')
         paginate_by = 50
         page = int(request.GET.get('page', 1))
-        date = request.GET.get('date', '')
-        if date:
-            date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+
+        start_date = request.GET.get('start_date', '')
+        end_date = request.GET.get('end_date', '')
+
+        filter_dict = {}
+        
+        if start_date and end_date:
+            start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+            end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+            end_date = datetime.datetime.combine(end_date, datetime.time.max) 
         else:
-            date = timezone.now().date()
+            start_date = timezone.now()
+            end_date = datetime.datetime.combine(start_date, datetime.time.max)
 
         startnum = 0 + (page-1)*paginate_by
         endnum = startnum+paginate_by
-
+    
         try:
             shop = Shop.objects.get(pk=shop_id)
         except:
             return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
+        filter_dict['shop'] = shop
+        filter_dict['created_at__lte'] = end_date
+        filter_dict['created_at__gte'] = start_date
+
         try:
-            queryset = Order.objects.filter(shop=shop, date=date).exclude(status='0').annotate(
+            queryset = Order.objects.filter(**filter_dict).exclude(status='0').annotate(
                 createdAt=Func(
                     F('created_at'),
                     V('%y.%m.%d %H:%i'),
@@ -369,7 +382,11 @@ class ShopPosOrderCompleteView(View):
         logger = logging.getLogger('my')
         try:
             paymentMethod = request.POST.get('paymentMethod', '')
-            if paymentMethod not in ['CARD', 'CASH']:
+            if paymentMethod == 'CARD':
+                payment_method = '0'
+            elif paymentMethod == 'CASH':
+                payment_method = '1'
+            else:
                 return_data = {'data': {},'msg': '옳바르지 않은 payment method','resultCd': '0001'}
                 return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
@@ -421,11 +438,22 @@ class ShopPosOrderCompleteView(View):
             order.payment_price = payment_price
             if not paymentMethod:
                 order.payment_method = paymentMethod
+            else:
+                payment_method_list = list(order.order_payment.all().values_list('payment_method', flat=True))
+                payment_method_list.append(payment_method)
+                payment_method_list = list(set(payment_method_list))
+                if len(payment_method_list) > 1:
+                    paymentMethod = 'MIXED'
+
             order.status = '1'
             order.save()
 
             OrderPayment.objects.create(
                 order = order,
+
+                status=True,
+                payment_method=payment_method,
+
                 tid = tid,
                 installment=installment,
                 approvalNumber = approvalNumber,
