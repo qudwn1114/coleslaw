@@ -30,10 +30,12 @@ class ShopPosOrderListView(View):
         if start_date and end_date:
             start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
             end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-            end_date = datetime.datetime.combine(end_date, datetime.time.max) 
+            end_date = datetime.datetime.combine(end_date, datetime.time.max)
+            filter_dict['created_at__lte'] = end_date
+            filter_dict['created_at__gte'] = start_date
         else:
-            start_date = timezone.now()
-            end_date = datetime.datetime.combine(start_date, datetime.time.max)
+            date = timezone.now().date()
+            filter_dict['date'] = date
 
         startnum = 0 + (page-1)*paginate_by
         endnum = startnum+paginate_by
@@ -46,9 +48,6 @@ class ShopPosOrderListView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         filter_dict['shop'] = shop
-        filter_dict['created_at__lte'] = end_date
-        filter_dict['created_at__gte'] = start_date
-
         try:
             queryset = Order.objects.filter(**filter_dict).exclude(status='0').annotate(
                 createdAt=Func(
