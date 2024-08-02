@@ -222,7 +222,7 @@ class ShopTableUpdateView(View):
                 discount = cart_list[index]['discount']
                 adjusted_quantity = quantity - cart_list[index]['quantity']
                 cart_list[index]['quantity'] = quantity
-                total_price = shop_table.total_price + ((price+optionPrice)* adjusted_quantity) - (discount*adjusted_quantity)
+                total_price = shop_table.total_price + ((price+optionPrice-discount)* adjusted_quantity) - (discount*adjusted_quantity)
                 total_discount = shop_table.total_discount + (discount*adjusted_quantity)
             except IndexError:
                 return_data = {'data': {},'msg': 'Index Error','resultCd': '0001'}
