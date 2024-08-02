@@ -121,7 +121,7 @@ class ShopTableAddView(View):
             for i in cart_list:
                 if i['goodsId'] == goods.pk:
                     # 이미 담긴 상품일때
-                    if i['optionList'] == optionList:
+                    if i['optionList'] == optionList and i['discount'] == 0:
                         is_new = False
                         i['quantity'] += quantity
                         additional_price = quantity * (i['price'] + i['optionPrice'])
@@ -294,7 +294,7 @@ class ShopTableDeleteView(View):
                 if total_price < total_discount:
                     for i in cart_list:
                         i['discount'] = 0
-                        
+
                     total_price += total_discount    
                     total_discount = 0
                     
