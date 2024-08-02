@@ -8,7 +8,7 @@ from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, ShopMember
+from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, ShopMember, ShopTable
 
 import traceback, json, datetime, uuid, logging
 
@@ -560,7 +560,17 @@ class ShopPosOrderCompleteView(View):
             )
 
             # 재고관리
-            if left_price == 0:
+            if left_price <= 0:
+                try:
+                    shop_table = ShopTable.objects.get(shop=shop, table_no=order.table_no)
+                    shop_table.cart = None
+                    shop_table.total_price = 0
+                    shop_table.total_discount = 0
+                    shop_table.total_additional = 0
+                    shop_table.save()
+                except:
+                    pass
+
                 for i in order.order_goods.all():
                     if i.goods.stock_flag:
                         if i.goods.stock - i.quantity <= 0:
