@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.db.models.functions import Concat
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
+from django.utils import timezone
 from django.core.serializers.json import DjangoJSONEncoder
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -172,6 +173,7 @@ class ShopOrderCancelView(View):
 
         try:
             order = Order.objects.get(pk=order_id, shop=shop)
+            order_payment = OrderPayment.objects.get(order=order)
         except:
             return_data = {
                 'data': {},
@@ -183,6 +185,10 @@ class ShopOrderCancelView(View):
         
         order.status = '2'
         order.save()
+        
+        order_payment.status = False
+        order_payment.cancelled_at = timezone.now()
+        order_payment.save()
 
         try:
             channel_layer = get_channel_layer()

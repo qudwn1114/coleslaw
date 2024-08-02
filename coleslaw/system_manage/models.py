@@ -506,6 +506,10 @@ class OrderPayment(models.Model):
     approvalNumber = models.CharField(max_length=20, null=True)
     additionalInfo = models.CharField(max_length=300, null=True)
     posEntryMode = models.CharField(max_length=10, default='')
+    
+    cancelled_at = models.DateTimeField(null=True, verbose_name='취소일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     class Meta:
         db_table='order_payment'
