@@ -10,6 +10,7 @@ from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, Sho
 from api.views.pos_views.order_views import ShopPosOrderCreateView, ShopPosCheckoutOrderDetailView, ShopPosOrderCompleteView, ShopPosOrderListView, ShopPosOrderDetailView, ShopPosOrderPaymentCancelView
 from api.views.pos_views.receipt_views import ShopOrderReceiptView
 from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView
+from api.views.kiosk_views.order_views import ShopKioskOrderCreateView
 
 app_name='api'
 urlpatterns = [
@@ -69,4 +70,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/pos/order/<int:checkout_id>/<str:code>/', ShopPosOrderCreateView.as_view()),
     path('shop/<int:shop_id>/pos/order-complete/<int:order_id>/<str:code>/', ShopPosOrderCompleteView.as_view()),
     path('shop/<int:shop_id>/pos/receipt/<int:order_payment_id>/', ShopOrderReceiptView.as_view()),
+
+    # kiosk
+    path('shop/<int:shop_id>/order/<int:checkout_id>/<str:code>/', ShopKioskOrderCreateView.as_view()),
 ]
