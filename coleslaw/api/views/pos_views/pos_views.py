@@ -496,6 +496,7 @@ class ShopTableDiscountCancelView(View):
         shop_table.save()
 
         data = {}
+        data['cart_list'] = cart_list
         data['cart_total_price'] = new_total_price
         data['cart_total_discount'] = 0
 
@@ -651,15 +652,18 @@ class ShopTableCheckoutView(View):
                     if quantity <= 0:
                         raise ValueError(f'{goodsId} Goods quantity error')
                     
+                    price = goodsPrice + optionPrice - discount
+                    total = price * quantity
+
                     checkout_detail = CheckoutDetail.objects.create(
                         checkout = checkout,
                         goods = goods,
                         quantity = quantity,
+                        price = price,
                         sale_price = goodsPrice,
-                        price = goodsPrice,
+                        sale_option_price = optionPrice,
                         total_price = total
                     )
-                    total = goods.sale_price * quantity
                     # 옵션있을경우 옵션 유효 체크
                     if optionList:
                         option_total = 0
@@ -670,7 +674,6 @@ class ShopTableCheckoutView(View):
                             except:
                                 raise ValueError(f'{goodsId} Goods Option Error')
                             option_total += goods_option_detail.price
-                            total += goods_option_detail.price * quantity
                             checkout_option_bulk_list.append(CheckoutDetailOption(checkout_detail=checkout_detail, goods_option_detail=goods_option_detail))
 
                         if option_total != optionPrice:
@@ -678,8 +681,6 @@ class ShopTableCheckoutView(View):
                         
                         CheckoutDetailOption.objects.bulk_create(checkout_option_bulk_list)
 
-                    checkout_detail.total_price = total
-                    checkout_detail.save()
                     # 총결제금액 합산
                     final += total
 
