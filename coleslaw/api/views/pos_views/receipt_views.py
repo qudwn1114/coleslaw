@@ -57,7 +57,7 @@ class ShopOrderReceiptView(View):
         return_data = {
             'data': data,
             'resultCd': '0000',
-            'msg': 'tid 정보',
+            'msg': 'receipt 정보',
         }
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
