@@ -146,7 +146,7 @@ class ShopPosOrderDetailView(View):
             'approvalNumber',
             'cardNo',
             'amount',
-            'taxAmount'
+            'taxAmount',
             'createdAt'
         )
         data['order_payment'] = list(order_payment)
