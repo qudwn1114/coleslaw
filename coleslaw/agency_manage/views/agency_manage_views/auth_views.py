@@ -42,8 +42,8 @@ def agency_main_sales(request: HttpRequest, *args, **kwargs):
         return JsonResponse({}, status = 400)
 
     daily_order = Order.objects.filter(agency=agency, date=timezone.now().date()).exclude(status='0')
-    card_sales = daily_order.filter(payment_method="CARD")
-    cash_sales = daily_order.filter(payment_method="CASH")
+    card_sales = daily_order.filter(payment_method="0")
+    cash_sales = daily_order.filter(payment_method="1")
     cancel_sales = daily_order.filter(status='2')
     total_sales = daily_order.all().exclude(status='2')
 

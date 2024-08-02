@@ -262,7 +262,7 @@ class ShopOrderCompleteView(View):
                 return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
             
-            order.payment_method = 'CARD'
+            order.payment_method = '0'
             order.payment_price = order.final_price
             order.status = '1'
             order.save()

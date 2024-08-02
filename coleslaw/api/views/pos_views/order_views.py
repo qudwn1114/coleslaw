@@ -383,8 +383,10 @@ class ShopPosOrderCompleteView(View):
         try:
             paymentMethod = request.POST.get('paymentMethod', '')
             if paymentMethod == 'CARD':
+                paymentMethod = '0'
                 payment_method = '0'
             elif paymentMethod == 'CASH':
+                paymentMethod = '1'
                 payment_method = '1'
             else:
                 return_data = {'data': {},'msg': '옳바르지 않은 payment method','resultCd': '0001'}
@@ -443,7 +445,7 @@ class ShopPosOrderCompleteView(View):
                 payment_method_list.append(payment_method)
                 payment_method_list = list(set(payment_method_list))
                 if len(payment_method_list) > 1:
-                    paymentMethod = 'MIXED'
+                    paymentMethod = '2'
 
             order.status = '1'
             order.save()

@@ -418,7 +418,7 @@ class Order(models.Model):
     final_additional = models.PositiveIntegerField(default=0, verbose_name='총 추가 금액')
 
     payment_price = models.PositiveIntegerField(default=0, verbose_name='실제결제금액')
-    payment_method = models.CharField(max_length=10, verbose_name='결제수단', default='')  #CARD, #CASH, #MIXED
+    payment_method = models.CharField(max_length=10, verbose_name='결제수단', default='')  #CARD 0, #CASH 1, #MIXED 2
 
     order_complete_sms = models.BooleanField(default=False, verbose_name='주문완료문자')
 
