@@ -143,6 +143,7 @@ class ShopTableAddView(View):
             data['cart_cnt'] = len(cart_list)
             data['cart_total_price'] = shop_table.total_price + additional_price
             data['cart_total_discount'] = shop_table.total_discount
+            data['cart_total_additional'] = shop_table.total_additional
             
             cart_list = json.dumps(cart_list, ensure_ascii=False)
             shop_table.cart = cart_list
@@ -169,6 +170,7 @@ class ShopTableAddView(View):
             data['cart_cnt'] = len(cart_list)
             data['cart_total_price'] = (goods.sale_price + optionPrice) * quantity
             data['cart_total_discount'] = 0
+            data['cart_total_additional'] = 0
 
             cart_list = json.dumps(cart_list, ensure_ascii=False)
             shop_table.total_price = (goods.sale_price + optionPrice) * quantity
@@ -328,12 +330,14 @@ class ShopTableClearView(View):
         shop_table.cart = None
         shop_table.total_price = 0
         shop_table.total_discount = 0
+        shop_table.total_additional = 0
         shop_table.save()
 
         data['cart_list'] = []
         data['cart_cnt'] = 0
         data['cart_total_price'] = 0
         data['cart_total_discount'] = 0
+        data['cart_total_addtional'] = 0
 
         return_data = {'data': data,'msg': '상품이 모두 제거되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
