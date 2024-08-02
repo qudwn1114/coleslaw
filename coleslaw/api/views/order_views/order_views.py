@@ -93,21 +93,37 @@ class ShopOrderCreateView(View):
                     if i.goods.stock_flag:
                          if i.goods.stock < i.quantity:
                             raise ValueError(f'{i.goods.name_kr} Out of Stock')
+                         
+                    
+                    discount = (i.sale_price + i.sale_option_price) - i.price
+                    if discount == 0: #할인없을때
+                        price = i.sale_price
+                        option_price = i.sale_option_price
+                    elif discount > 0:
+                        if i.sale_price <= discount:
+                            price = 0
+                            option_price = i.sale_option_price - (discount - i.sale_price)
+                        else:
+                            price = i.sale_price - discount
+                            option_price = i.sale_option_price
+                    else:
+                        raise ValueError(f"Check Out Error")
 
                     order_goods = OrderGoods.objects.create(
                         order=order, 
                         goods=i.goods,
-                        price=i.price, 
+                        price=price, 
+                        option_price=option_price, 
+                        sale_option_price=i.sale_option_price,
+                        sale_price=i.sale_price,
                         name_kr=i.goods.name_kr, 
                         name_en=i.goods.name_en,
                         quantity=i.quantity,
                         option_kr=None, 
                         option_en=None, 
-                        option_price=0, 
-                        total_price=i.price*i.quantity
+                        total_price=i.total_price
                     )
 
-                    option_price = 0
                     if i.checkout_detail_option.all().exists():
                         option_kr = [] 
                         option_en = [] 
@@ -122,8 +138,6 @@ class ShopOrderCreateView(View):
                             
                             option_kr.append(f"{j.goods_option_detail.goods_option.name_kr} : {j.goods_option_detail.name_kr}")
                             option_en.append(f"{j.goods_option_detail.goods_option.name_en} : {j.goods_option_detail.name_en}")
-                            option_price += j.goods_option_detail.price
-
                             order_goods_option_bulk_list.append(OrderGoodsOption(order_goods=order_goods, goods_option_detail=j.goods_option_detail))
 
                         OrderGoodsOption.objects.bulk_create(order_goods_option_bulk_list)
@@ -131,8 +145,6 @@ class ShopOrderCreateView(View):
                         option_en = ' / '.join(option_en)
                         order_goods.option_kr = option_kr
                         order_goods.option_en = option_en
-                        order_goods.option_price = option_price
-                        order_goods.total_price += option_price
                         order_goods.save()
 
                 order.order_name_kr=order_name_kr

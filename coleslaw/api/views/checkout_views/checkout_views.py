@@ -91,7 +91,9 @@ class ShopCheckoutView(View):
                         goods = goods,
                         quantity = quantity,
                         price = goodsPrice,
-                        total_price = total
+                        sale_price = goodsPrice,
+                        sale_option_price = 0,
+                        total_price = total,
                     )
                                         
                     # 옵션있을경우 옵션 유효 체크
@@ -100,6 +102,7 @@ class ShopCheckoutView(View):
                         checkout_option_bulk_list = []
 
                         option = i['option']
+                        option_price = 0
                         for j in option:
                             optionId = j['optionId']
                             optionName = j['optionName']
@@ -120,16 +123,15 @@ class ShopCheckoutView(View):
                             if goods_option_detail.stock_flag:
                                 if goods_option_detail.stock < quantity:
                                     raise ValueError(f'{goods.name_kr} {goods_option_detail.name_kr} Out of Stock')
-
-                            total += optionDetailPrice * quantity
-
+                            option_price += optionDetailPrice * quantity
                             checkout_option_bulk_list.append(CheckoutDetailOption(checkout_detail=checkout_detail, goods_option_detail=goods_option_detail))
-
+                        total += option_price
                         CheckoutDetailOption.objects.bulk_create(checkout_option_bulk_list)
 
                     if total != totalPrice:
                         raise ValueError(f'{goodsId} Goods total price Error ...{total}')
-                      
+                    
+                    checkout_detail.sale_option_price =option_price
                     checkout_detail.total_price = total
                     checkout_detail.save()
                     
