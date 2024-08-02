@@ -172,6 +172,8 @@ class ShopPosOrderDetailView(View):
             )
         ).order_by('id').values(
             'id',
+            'paymentMethod',
+            'payment_method',
             'tid',
             'status',
             'issueCompanyName',
