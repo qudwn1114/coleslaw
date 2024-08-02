@@ -98,27 +98,61 @@ class ShopPosOrderDetailView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         data = {}
-        data['final_price'] = order.final_price
-        data['final_additional'] = order.final_additional
-        data['final_discount'] = order.final_discount
 
-        data['order_name_kr'] = order.order_name_kr
-        data['order_name_en'] = order.order_name_en
+        if order.shop_member:
+            data['shop_member_id'] = order.shop_member.pk
+            data['membername'] = order.shop_member.membername
+        else:
+            data['shop_member_id'] = None
+            data['membername'] = None      
 
         data['order_code'] = order.order_code
         data['order_no'] = order.order_no
-        data['status'] = order.status
+        data['order_name_kr'] = order.order_name_kr
+        data['final_price'] = order.final_price
+        data['final_discount'] = order.final_discount
+        data['final_additional'] = order.final_additional
         data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
+        order_detail = order.order_goods.all().values(
+            'id',
+            'name_kr',
+            'quantity',
+            'total_price'
+        )        
+        for i in order_detail:
+            i['option_detail'] = list(OrderGoodsOption.objects.filter(pk=i['id']).annotate(
+                name_kr = F('goods_option_detail__name_kr'),
+            ).values('name_kr'))
+        data['order_detail'] = list(order_detail)
+
+        order_payment = order.order_payment.all().annotate(
+            approvalDate = F('tranDate'),
+            createdAt=Func(
+                F('created_at'),
+                V('%y.%m.%d %H:%i'),
+                function='DATE_FORMAT',
+                output_field=CharField()
+            )
+        ).order_by('id').values(
+            'id',
+            'tid',
+            'issueCompanyName',
+            'approvalDate',
+            'approvalNumber',
+            'cardNo'
+            'amount',
+            'taxAmount'
+            'createdAt'
+        )
+        data['order_payment'] = list(order_payment)
 
         return_data = {
             'data': data,
             'resultCd': '0000',
-            'msg': '주문상세',
+            'msg': '주문상세 정보',
         }
-
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
-
 
 
 class ShopPosOrderCreateView(View):
@@ -365,7 +399,7 @@ class ShopPosCheckoutOrderDetailView(View):
         return_data = {
             'data': data,
             'resultCd': '0000',
-            'msg': f'checkout 상세정보',
+            'msg': f'주문 상세정보',
         }
 
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
