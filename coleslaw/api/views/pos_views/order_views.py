@@ -418,10 +418,11 @@ class ShopPosCheckoutOrderDetailView(View):
         else:
             data['shop_member_id'] = None
             data['membername'] = None
-
+        
         data['final_price'] = order.final_price
         data['final_discount'] = order.final_discount
         data['final_additional'] = order.final_additional
+        data['left_price'] = order.final_price - order.payment_price
         order_detail = order.order_goods.all().values(
             'id',
             'name_kr',
@@ -509,7 +510,6 @@ class ShopPosOrderCompleteView(View):
 
             additionalInfo = request.POST.get('additionalInfo', '')
             posEntryMode = request.POST.get('posEntryMode', '')
-
         
             try:
                 order = Order.objects.get(pk=order_id, order_code=code)
