@@ -7,7 +7,7 @@ from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderComp
 from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView, ShopTableDetailView, ShopTableLogoutView, ShopMainPosTidView
 from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableGoodsDiscountView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableAdditionalView, ShopTableAdditionalCancelView, ShopTableCheckoutView
-from api.views.pos_views.order_views import ShopPosOrderCreateView, ShopPosCheckoutOrderDetailView, ShopPosOrderCompleteView, ShopPosOrderListView, ShopPosOrderDetailView
+from api.views.pos_views.order_views import ShopPosOrderCreateView, ShopPosCheckoutOrderDetailView, ShopPosOrderCompleteView, ShopPosOrderListView, ShopPosOrderDetailView, ShopPosOrderPaymentCancelView
 from api.views.pos_views.receipt_views import ShopOrderReceiptView
 from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView
 
@@ -64,6 +64,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/pos/checkout/order-detail/<int:order_id>/<str:code>/', ShopPosCheckoutOrderDetailView.as_view()),
     path('shop/<int:shop_id>/pos/order-list/', ShopPosOrderListView.as_view()),
     path('shop/<int:shop_id>/pos/order-detail/<int:order_id>/', ShopPosOrderDetailView.as_view()),
+    path('shop/<int:shop_id>/pos/order/payment-cancel/<int:order_payment_id>/', ShopPosOrderPaymentCancelView.as_view()),
 
     path('shop/<int:shop_id>/pos/order/<int:checkout_id>/<str:code>/', ShopPosOrderCreateView.as_view()),
     path('shop/<int:shop_id>/pos/order-complete/<int:order_id>/<str:code>/', ShopPosOrderCompleteView.as_view()),

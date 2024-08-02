@@ -568,3 +568,30 @@ class ShopPosOrderCompleteView(View):
 
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+
+
+class ShopPosOrderPaymentCancelView(View):
+    '''
+        shop pos order cancel
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopPosOrderPaymentCancelView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        order_payment_id = kwargs.get('order_payment_id')
+        try:
+            order_payment = OrderPayment.objects.get(pk=order_payment_id, order__shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'order payment id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        order_payment.cancelled_at = timezone.now()
+        order_payment.status = False
+        order_payment.save()
+
+        return_data = {'data': {},'msg': '취소되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
