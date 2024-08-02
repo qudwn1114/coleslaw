@@ -627,6 +627,8 @@ class ShopPosOrderPaymentCancelView(View):
         order_payment.status = False
         order_payment.save()
 
-        return_data = {'data': {},'msg': '취소되었습니다.','resultCd': '0000'}
+        return_data = {'data': {
+            'order_id':order_payment.order.pk
+        },'msg': '취소되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
