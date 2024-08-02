@@ -48,7 +48,7 @@ class ShopOrderReceiptView(View):
         data['installment'] = order_payment.installment
         data['tranDate'] = order_payment.tranDate
         if order_payment.tranTime:
-            tranTime = order_payment.tranTime[:2] + " : " + order_payment.tranTime[:2]
+            tranTime = order_payment.tranTime[:2] + ":" + order_payment.tranTime[:2]
         else:
             tranTime = ''
 
