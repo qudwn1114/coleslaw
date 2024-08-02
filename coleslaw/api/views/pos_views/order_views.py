@@ -424,6 +424,7 @@ class ShopPosCheckoutOrderDetailView(View):
         data['final_price'] = order.final_price
         data['final_discount'] = order.final_discount
         data['final_additional'] = order.final_additional
+        data['payment_price'] = order.payment_price
         data['left_price'] = order.final_price - order.payment_price
         order_detail = order.order_goods.all().values(
             'id',
@@ -499,7 +500,7 @@ class ShopPosOrderCompleteView(View):
                 tranDate = approvalDate[:6]
                 tranTime = approvalDate[6:]
             else:
-                tranDate = ''
+                tranDate = str(timezone.now().date())
                 tranTime = ''
 
             cardNo = request.POST.get('maskingCardNumber', '') #마스킹 되어진 카드번호
