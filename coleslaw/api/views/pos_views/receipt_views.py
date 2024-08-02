@@ -38,6 +38,7 @@ class ShopOrderReceiptView(View):
         data['shopName'] = shop.name_kr
         data['shopDescription'] = shop.description
         data['shopRepresentative'] = shop.representative
+        data['shopRegistrationNo'] = shop.registration_no
         data['shopPhone'] = shop.phone
         data['shopAddress'] = shop.address
         data['shopAddressDetail'] = shop.address_detail
