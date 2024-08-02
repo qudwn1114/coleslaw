@@ -1,6 +1,7 @@
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch, Sum
+from django.db.models.functions import Coalesce
 from django.db import transaction, IntegrityError
 from django.core.serializers.json import DjangoJSONEncoder
 from system_manage.views.system_manage_views.auth_views import validate_phone
@@ -637,6 +638,14 @@ class ShopPosOrderPaymentCancelView(View):
         order_payment.cancelled_at = timezone.now()
         order_payment.status = False
         order_payment.save()
+
+        order = order_payment.order
+        total_cancelled = OrderPayment.objects.filter(order=order, status=False).aggregate(sum=Coalesce(Sum('amount'), 0)).get('sum')
+        if total_cancelled ==order.payment_price:
+            order.status = '2'
+        else:
+             order.status = '6'
+        order.save()
 
         return_data = {'data': {
             'order_id':order_payment.order.pk
