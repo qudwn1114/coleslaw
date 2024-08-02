@@ -27,7 +27,7 @@ class ShopOrderReceiptView(View):
             return HttpResponse(return_data, content_type = "application/json")
 
         try:
-            order_payment = OrderPayment.objects.get(pk=order_payment_id, shop=shop)
+            order_payment = OrderPayment.objects.get(pk=order_payment_id, order__shop=shop)
         except:
             return_data = {'data': {},'msg': '결제정보 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
