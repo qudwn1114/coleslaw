@@ -623,6 +623,11 @@ class ShopTableCheckoutView(View):
         
         if shop_table.cart:
             cart_list = json.loads(shop_table.cart)
+            if not cart_list:
+                if shop_table.total_price == 0:
+                    return_data = {'data': {},'msg': '결제 금액이 부족합니다.','resultCd': '0001'}
+                    return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+                    return HttpResponse(return_data, content_type = "application/json")
         else:
             cart_list = []
             if shop_table.total_price == 0:
