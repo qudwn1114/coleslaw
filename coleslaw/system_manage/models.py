@@ -369,7 +369,7 @@ class Checkout(models.Model):
     table_no = models.IntegerField(default=None, null=True)
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제금액')
-    final_discount = models.PositiveIntegerField(default=0, verbose_name='최종 할인 금액')
+    final_discount = models.PositiveIntegerField(default=0, verbose_name='전체 할인 금액')
     final_additional = models.PositiveIntegerField(default=0, verbose_name='총 추가 금액')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
@@ -382,6 +382,8 @@ class CheckoutDetail(models.Model):
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1, verbose_name='수량')
     price = models.PositiveIntegerField(verbose_name='가격')
+    sale_option_price = models.PositiveIntegerField(verbose_name='당시옵션판매가격', default=0)
+    sale_price = models.PositiveIntegerField(verbose_name='당시상품판매가격', default=0)
     total_price = models.PositiveIntegerField(verbose_name='총가격')
     
     class Meta:

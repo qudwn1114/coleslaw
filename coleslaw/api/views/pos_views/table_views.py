@@ -106,7 +106,7 @@ class ShopTableAssignView(View):
                 return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
             
-        if shop_table.shop_member or shop_table.entry_time or shop_table.cart:
+        if shop_table.shop_member or shop_table.entry_time:
             return_data = {'data': {},'msg': '테이블을 비워주세요.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
@@ -115,6 +115,9 @@ class ShopTableAssignView(View):
             with transaction.atomic():
                 shop_table.shop_member = shop_member
                 shop_table.total_price = 0
+                shop_table.total_additional = 0
+                shop_table.total_discount = 0
+                shop_table.cart = None
                 shop_table.entry_time = timezone.now()
                 shop_table.save()
 
