@@ -382,8 +382,8 @@ class CheckoutDetail(models.Model):
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1, verbose_name='수량')
     price = models.PositiveIntegerField(verbose_name='가격')
-    sale_option_price = models.PositiveIntegerField(verbose_name='당시옵션판매가격', default=0)
-    sale_price = models.PositiveIntegerField(verbose_name='당시상품판매가격', default=0)
+    sale_option_price = models.PositiveIntegerField(verbose_name='당시옵션판매가격')
+    sale_price = models.PositiveIntegerField(verbose_name='당시상품판매가격')
     total_price = models.PositiveIntegerField(verbose_name='총가격')
     
     class Meta:
@@ -446,6 +446,8 @@ class OrderGoods(models.Model):
     option_kr = models.CharField(max_length=255, verbose_name='옵션한글명', null=True)
     option_en = models.CharField(max_length=255, verbose_name='옵션영문명', null=True)
     option_price = models.PositiveIntegerField(default=0, verbose_name='옵션추가비용')
+    sale_option_price = models.PositiveIntegerField(verbose_name='당시옵션판매가격')
+    sale_price = models.PositiveIntegerField(verbose_name='당시상품판매가격')
     quantity = models.PositiveIntegerField(default=1, verbose_name='주문수량')
     total_price = models.PositiveIntegerField(default=0, verbose_name='총가격')
     
