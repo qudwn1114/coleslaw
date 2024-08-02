@@ -7,7 +7,7 @@ from system_manage.views.system_manage_views.auth_views import validate_phone
 from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from system_manage.models import OrderPayment, Shop
+from system_manage.models import OrderPayment, Shop, OrderGoodsOption
 
 import json
 
@@ -51,7 +51,6 @@ class ShopOrderReceiptView(View):
             tranTime = order_payment.tranTime[:2] + ":" + order_payment.tranTime[:2]
         else:
             tranTime = ''
-
         data['tranTime'] = tranTime
         data['amount'] = order_payment.amount
         data['taxAmount'] = order_payment.taxAmount
@@ -60,6 +59,17 @@ class ShopOrderReceiptView(View):
         data['cardNo'] = order_payment.cardNo
         data['approvalNumber'] = order_payment.approvalNumber
 
+        order_detail = order_payment.order.order_goods.all().values(
+            'id',
+            'name_kr',
+            'quantity',
+            'total_price'
+        )        
+        for i in order_detail:
+            i['option_detail'] = list(OrderGoodsOption.objects.filter(pk=i['id']).annotate(
+                name_kr = F('goods_option_detail__name_kr'),
+            ).values('name_kr'))
+        data['order_detail'] = list(order_detail)
         
         return_data = {
             'data': data,
