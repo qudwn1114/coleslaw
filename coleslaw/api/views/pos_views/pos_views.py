@@ -229,6 +229,13 @@ class ShopTableUpdateView(View):
                 return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
                         
+            if total_price < total_discount:
+                for i in cart_list:
+                    i['discount'] = 0
+                total_price += total_discount
+                total_discount = 0
+
+
             data = {}
             data['cart_list'] = cart_list
             data['cart_cnt'] = len(cart_list)
@@ -236,11 +243,9 @@ class ShopTableUpdateView(View):
             data['cart_total_discount'] = total_discount
             data['cart_total_additional'] = shop_table.total_additional
 
+
             cart_list = json.dumps(cart_list, ensure_ascii=False)
             shop_table.cart = cart_list
-            # if total_price < shop_table.total_discount:
-            #     total_price += shop_table.total_discount
-            #     shop_table.total_discount = 0
                 
             shop_table.total_discount = total_discount
             shop_table.total_price = total_price
@@ -286,6 +291,13 @@ class ShopTableDeleteView(View):
                 total_price = shop_table.total_price - (price + optionPrice) + discount
                 total_discount = shop_table.total_discount - discount
 
+                if total_price < total_discount:
+                    for i in cart_list:
+                        i['discount'] = 0
+                        
+                    total_price += total_discount    
+                    total_discount = 0
+                    
                 del cart_list[index]
             except IndexError:
                 return_data = {'data': {},'msg': 'Index Error','resultCd': '0001'}
@@ -300,8 +312,7 @@ class ShopTableDeleteView(View):
             data['cart_total_additional'] = shop_table.total_additional            
 
             cart_list = json.dumps(cart_list, ensure_ascii=False)
-            shop_table.cart = cart_list
-
+            shop_table.cart = cart_list              
             shop_table.total_discount = total_discount
             shop_table.total_price = total_price
             shop_table.save()
