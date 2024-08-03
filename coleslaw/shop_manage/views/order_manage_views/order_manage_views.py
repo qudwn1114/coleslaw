@@ -69,19 +69,16 @@ class OrderManageView(View):
         excel = request.GET.get('excel', None)
         if excel:
             filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
-            filename = f"주문 목록_{timezone.now().strftime('%Y%m%d%H%M')}"
-            columns = ['주문번호', '거래번호', '승인번호', '날짜', '총금액', '상태',  '주문타입']
+            filename = f"{shop.name_kr} 결제내역"
+            columns = ['주문 ID', '주문번호(QR)', '거래번호(QR)', '승인번호(QR)', '승인번호(POS)', '승인날짜', '승인시간', '날짜', '발급사명', '카드정보', '주문정보', '부가세', '결제금액', '상태', '주문타입']
             queryset = OrderPayment.objects.filter(**filter_dict).annotate(
                 signedAmount=Case(
                     When(order__status='2', then= Cast(F('amount'), IntegerField()) * 0),
                     default=F('amount'), output_field=IntegerField()
                 ),
-                orderStatus=Case(
-                    When(order__status='1', then=V('결제완료')),
-                    When(order__status='2', then=V('취소')),
-                    When(order__status='3', then=V('준비중')),
-                    When(order__status='4', then=V('주문완료')),
-                    When(order__status='5', then=V('수령완료')),
+                paymentStatus=Case(
+                    When(status=True, then=V('결제완료')),
+                    When(status=False, then=V('결제취소')),
                 ),
                 orderType=Case(
                     When(order__order_type='0', then=V('POS')),
@@ -89,12 +86,20 @@ class OrderManageView(View):
                     When(order__order_type='2', then=V('KIOSK'))
                 ),     
             ).values(
+                'order_id',
                 'mbrRefNo',
                 'refNo',
                 'applNo',
-                'order__created_at',
+                'approvalNumber',
+                'tranDate',
+                'tranTime',
+                'created_at',
+                'issueCompanyName',
+                'cardNo',
+                'order__order_name_kr',
+                'taxAmount',
                 'signedAmount',
-                'orderStatus',
+                'paymentStatus',
                 'orderType'
             ).order_by('-id')
             xlsx_download = ResponseToXlsx(columns=columns, queryset=queryset)
