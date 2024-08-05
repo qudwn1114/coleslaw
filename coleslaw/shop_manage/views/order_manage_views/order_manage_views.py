@@ -76,7 +76,7 @@ class OrderManageView(View):
         if aggregate:
             new_filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
             filename = f"{shop.name_kr} 판매내역"
-            headers = ['상품명', '옵션명', '상품가격', '옵션가격', '총가격', '수량']
+            headers = ['대분류', '소분류', '상품명', '옵션명', '상품가격', '옵션가격', '총가격', '수량']
             queryset = OrderGoods.objects.filter(**new_filter_dict)
 
             response = HttpResponse(content_type='application/ms-excel')
@@ -88,21 +88,21 @@ class OrderManageView(View):
             # Add headers
             ws.append(headers)
             # Add data from the model
-            complete_queryset = queryset.filter(order__status__in=['1', '3', '4', '5']).annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('name_kr', '-total_quantity')
+            complete_queryset = queryset.filter(order__status__in=['1', '3', '4', '5']).annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("goods__sub_category__main_category__name_kr", "goods__sub_category__name_kr", "name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('goods__sub_category__main_category__name_kr', 'goods__sub_category__name_kr', 'name_kr', '-total_quantity')
             for i in complete_queryset:
-                ws.append([i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
+                ws.append([i["goods__sub_category__main_category__name_kr"], i["goods__sub_category__name_kr"], i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
 
             ws1 = wb.create_sheet('취소 현황')
             ws1.append(headers)
-            cancel_queryset = queryset.filter(order__status='2').annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('name_kr', '-total_quantity')
+            cancel_queryset = queryset.filter(order__status='2').annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("goods__sub_category__main_category__name_kr", "goods__sub_category__name_kr", "name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('goods__sub_category__main_category__name_kr', 'goods__sub_category__name_kr', 'name_kr', '-total_quantity')
             for i in cancel_queryset:
-                ws1.append([i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
+                ws1.append([i["goods__sub_category__main_category__name_kr"], i["goods__sub_category__name_kr"], i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
 
             ws2 = wb.create_sheet('부분 취소 현황')
             ws2.append(headers)
-            cancel_queryset2 = queryset.filter(order__status='6').annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('name_kr', '-total_quantity')
+            cancel_queryset2 = queryset.filter(order__status='6').annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("goods__sub_category__main_category__name_kr", "goods__sub_category__name_kr", "name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('goods__sub_category__main_category__name_kr', 'goods__sub_category__name_kr', 'name_kr', '-total_quantity')
             for i in cancel_queryset2:
-                ws2.append([i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
+                ws2.append([i["goods__sub_category__main_category__name_kr"], i["goods__sub_category__name_kr"], i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
 
             # Save the workbook to the HttpResponse
             wb.save(response)
