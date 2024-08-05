@@ -34,11 +34,12 @@ class OrderManageView(View):
         page = request.GET.get('page', '1')
         search_type = request.GET.get('search_type', '')
         search_keyword = request.GET.get('search_keyword', '')
+        condition = request.GET.get('condition', '')
 
         filter_dict = {}
         filter_dict['shop'] = shop
 
-        if request.GET:
+        if condition:
             order_date_no = request.GET.get('order_date_no', '0') 
             dates = request.GET.get('dates', '')
             context['dates'] = dates
@@ -52,11 +53,6 @@ class OrderManageView(View):
                 endDate = datetime.datetime.combine(endDate, datetime.time.max)
                 filter_dict['created_at__lte'] = endDate
                 filter_dict['created_at__gte'] = startDate
-            else:
-                order_date_no = '1'
-                today = timezone.now().strftime("%m/%d/%Y")
-                context['dates'] = f"{today} - {today}"
-                filter_dict['date'] = timezone.now().date()
         else:
             order_date_no = '1'
             today = timezone.now().strftime("%m/%d/%Y")
