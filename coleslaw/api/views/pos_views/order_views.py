@@ -527,7 +527,7 @@ class ShopPosOrderCompleteView(View):
             left_price = order.final_price - payment_price
             
             order.payment_price = payment_price
-            if not paymentMethod:
+            if not order.payment_method:
                 order.payment_method = paymentMethod
             else:
                 payment_method_list = list(order.order_payment.all().values_list('payment_method', flat=True))
