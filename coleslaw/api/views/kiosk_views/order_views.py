@@ -119,7 +119,7 @@ class ShopKioskOrderCreateView(View):
                             option_kr = [] 
                             option_en = [] 
                             order_goods_option_bulk_list = []
-                            for j in i.checkout_detail_option.all():
+                            for j in i.checkout_detail_option.all().order_by('id'):
                                 if j.goods_option_detail.soldout:
                                     raise ValueError(f"{i.goods.name_kr} {j.goods_option_detail.name_kr} Option Soldout")
                                 

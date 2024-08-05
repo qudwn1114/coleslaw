@@ -48,4 +48,4 @@ class ResponseToXlsx:
             response["Content-type"] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'%s.xlsx' % urllib.parse.quote(filename.encode('utf-8'))
 
-        return response
+        return response    

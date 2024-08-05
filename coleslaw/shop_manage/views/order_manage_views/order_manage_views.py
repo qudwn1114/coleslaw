@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse
+from django.http.response import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.db.models import CharField, F, Value as V, Func, Sum, Case, When, IntegerField
 from django.db.models.functions import Coalesce, Cast
@@ -15,7 +16,10 @@ from system_manage.utils import ResponseToXlsx
 from shop_manage.views.shop_manage_views.auth_views import check_shop
 from api.views.sms_views.sms_views import send_sms
 
+from openpyxl import Workbook
+from openpyxl.styles import Font
 import json, datetime
+import urllib.parse
 
 class OrderManageView(View):
     '''
@@ -68,12 +72,48 @@ class OrderManageView(View):
             context['search_keyword'] = search_keyword
             filter_dict[search_type + '__icontains'] = search_keyword
 
+        aggregate = request.GET.get('aggregate', None)
+        if aggregate:
+            new_filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
+            filename = f"{shop.name_kr} 판매내역"
+            headers = ['상품명', '옵션명', '상품가격', '옵션가격', '총가격', '수량']
+            queryset = OrderGoods.objects.filter(**new_filter_dict)
+
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'%s.xlsx' % urllib.parse.quote(filename.encode('utf-8'))
+
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "판매완료 현황"
+            # Add headers
+            ws.append(headers)
+            # Add data from the model
+            complete_queryset = queryset.filter(order__status__in=['1', '3', '4', '5']).annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('name_kr', '-total_quantity')
+            for i in complete_queryset:
+                ws.append([i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
+
+            ws1 = wb.create_sheet('취소 현황')
+            ws1.append(headers)
+            cancel_queryset = queryset.filter(order__status='2').annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('name_kr', '-total_quantity')
+            for i in cancel_queryset:
+                ws1.append([i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
+
+            ws2 = wb.create_sheet('부분 취소 현황')
+            ws2.append(headers)
+            cancel_queryset2 = queryset.filter(order__status='6').annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('name_kr', '-total_quantity')
+            for i in cancel_queryset2:
+                ws2.append([i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
+
+            # Save the workbook to the HttpResponse
+            wb.save(response)
+            return response
+
         excel = request.GET.get('excel', None)
         if excel:
-            filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
+            new_filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
             filename = f"{shop.name_kr} 결제내역"
             columns = ['주문 ID', '주문번호(QR)', '거래번호(QR)', '승인번호(QR)', '승인번호(POS)', '승인날짜', '승인시간', '날짜', '발급사명', '카드정보', '주문정보', '부가세', '결제금액', '상태', '주문타입']
-            queryset = OrderPayment.objects.filter(**filter_dict).annotate(
+            queryset = OrderPayment.objects.filter(**new_filter_dict).annotate(
                 signedAmount=Case(
                     When(order__status='2', then= Cast(F('amount'), IntegerField()) * 0),
                     default=F('amount'), output_field=IntegerField()

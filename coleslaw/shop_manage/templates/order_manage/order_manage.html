@@ -87,7 +87,8 @@
               <div class="col-auto">
                 <div class="icon mt-3 me-3">
                   {% if page_obj %}
-                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload();"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a>
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('aggregate');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> 판매현황</a>
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('excel');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> 결제내역</a>
                   {% endif %}
                 </div>
               </div>
@@ -173,5 +174,5 @@
 <script src="{% static 'js/script_pagination.js' %}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}?v=2024072817"></script>
+<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}?v=20240805"></script>
 {% endblock javascripts %}
