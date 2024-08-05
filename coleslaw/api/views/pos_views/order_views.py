@@ -69,6 +69,7 @@ class ShopPosOrderListView(View):
                 )
             ).values(
                 'id',
+                'order_no',
                 'orderStatus',
                 'final_price',
                 'order_name_kr',
