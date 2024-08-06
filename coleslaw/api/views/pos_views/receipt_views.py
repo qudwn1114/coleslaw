@@ -54,14 +54,15 @@ class ShopOrderReceiptView(View):
         else:
             tranTime = ''
         data['tranTime'] = tranTime
-        data['amount'] = order_payment.amount
-        data['taxAmount'] = order_payment.taxAmount
+        data['amount'] = order_payment.amount # 결제금액
+        data['taxAmount'] = order_payment.taxAmount # 결제금액 부가세
         data['cardNo'] = order_payment.cardNo
         data['issueCompanyName'] = order_payment.issueCompanyName
         data['cardNo'] = order_payment.cardNo
         data['approvalNumber'] = order_payment.approvalNumber
 
-        data['orderFinalPrice'] = order_payment.order.final_price
+        data['orderFinalPrice'] = order_payment.order.final_price # 합계
+        data['orderFianlTaxPrice'] = round(order_payment.order.final_price/1.1) # 합계부가세
 
         order_detail = order_payment.order.order_goods.all().values(
             'id',
