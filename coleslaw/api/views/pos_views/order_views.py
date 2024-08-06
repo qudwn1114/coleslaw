@@ -552,6 +552,7 @@ class ShopPosOrderCompleteView(View):
                 payment_method_list = list(set(payment_method_list))
                 if len(payment_method_list) > 1:
                     paymentMethod = '2'
+                    order.payment_method = paymentMethod
 
             order.status = '1'
             order.save()
