@@ -120,6 +120,14 @@
                       <label for="receipt">영수증 내용</label>
                       <input type="text" name="receipt" class="form-control" id="receipt" placeholder="영수증 하단 내용">
                     </div>
+                    <div class="row mt-3 mb-3 mx-2">
+                      <div class="form-check col-sm-3">
+                        <input class="form-check-input" type="checkbox" value="1" id="shop_receipt_flag" name="shop_receipt_flag" checked>
+                        <label class="form-check-label" for="shop_receipt_flag">
+                          가맹점용 영수증 발행
+                        </label>
+                      </div>
+                    </div>
                 </div>
                 <div class="col-sm-12 text-center">
                     <button type="button" id="btn-submit" class="btn btn-success">등록</button>
@@ -132,5 +140,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20240806"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=2024080613"></script>
 {% endblock javascripts %}
