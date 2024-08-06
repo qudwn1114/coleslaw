@@ -61,6 +61,8 @@ class ShopOrderReceiptView(View):
         data['cardNo'] = order_payment.cardNo
         data['approvalNumber'] = order_payment.approvalNumber
 
+        data['orderFinalPrice'] = order_payment.order.final_price
+
         order_detail = order_payment.order.order_goods.all().values(
             'id',
             'name_kr',
