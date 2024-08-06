@@ -228,6 +228,8 @@ def order_complete_sms(request: HttpRequest, *args, **kwargs):
         return JsonResponse({"message":"권한이 없습니다."}, status = 400)    
     if order.order_complete_sms:
         return JsonResponse({"message":"이미 문자 발송 처리된 주문입니다."}, status = 400)
+    if not order.order_phone:
+        return JsonResponse({"message":"연락처가 없습니다."}, status = 400)
     
     message=f'[{shop.name_kr}]\n주문번호 [{order.order_no}] 회원님 주문하신거 수령하세요~\n'
     sms_response = send_sms(phone=order.order_phone, message=message)
