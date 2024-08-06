@@ -61,6 +61,10 @@ class ShopOrderReceiptView(View):
         data['issueCompanyName'] = order_payment.issueCompanyName
         data['cardNo'] = order_payment.cardNo
         data['approvalNumber'] = order_payment.approvalNumber
+        if order_payment.cancelled_at:
+            data['cancelledAt'] = order_payment.cancelled_at.strftime('%Y-%m-%d %H:%M')
+        else:
+            data['cancelledAt'] = None
 
         data['orderFinalPrice'] = order_payment.order.final_price # 합계
         data['orderFianlTaxPrice'] = round(order_payment.order.final_price/1.1*0.1) # 합계부가세
