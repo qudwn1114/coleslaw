@@ -519,8 +519,8 @@ class ShopPosOrderCompleteView(View):
                 tranDate = approvalDate[:6]
                 tranTime = approvalDate[6:]
             else:
-                tranDate = str(timezone.now().date())
-                tranTime = timezone.now().strftime('%H:%M')
+                tranDate = timezone.now().strftime("%y%m%d")
+                tranTime = timezone.now().strftime('%H%M')
 
             cardNo = request.POST.get('maskingCardNumber', '') #마스킹 되어진 카드번호
 
