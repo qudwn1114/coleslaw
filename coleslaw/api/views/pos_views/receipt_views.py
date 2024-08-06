@@ -64,7 +64,9 @@ class ShopOrderReceiptView(View):
         order_detail = order_payment.order.order_goods.all().values(
             'id',
             'name_kr',
+            'price',
             'option_kr',
+            'option_price'
             'quantity',
             'total_price'
         )        
