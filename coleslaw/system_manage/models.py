@@ -109,6 +109,8 @@ class Shop(models.Model):
 
     main_tid = models.CharField(default='', max_length=20, verbose_name='메인 tid')
 
+    receipt = models.TextField(default='', verbose_name='영수증내용')
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 

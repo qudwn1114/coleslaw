@@ -43,6 +43,7 @@ class ShopOrderReceiptView(View):
         data['shopAddress'] = shop.address
         data['shopAddressDetail'] = shop.address_detail
         data['shopZipcode'] = shop.zipcode
+        data['shopReceipt'] = shop.receipt
         
         data['order_no'] = order_payment.order.order_no
         data['tid'] = order_payment.tid

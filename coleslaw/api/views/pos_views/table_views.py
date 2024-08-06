@@ -280,6 +280,16 @@ class ShopMainPosTidView(View):
 
         data = {}
         data['tid'] = shop_table.tid        
+        data['agencyName'] = shop_table.shop.agency.name
+        data['shopName'] = shop_table.shop.name_kr
+        data['shopDescription'] = shop_table.shop.description
+        data['shopRepresentative'] = shop_table.shop.representative
+        data['shopRegistrationNo'] = shop_table.shop.registration_no
+        data['shopPhone'] = shop_table.shop.phone
+        data['shopAddress'] = shop_table.shop.address
+        data['shopAddressDetail'] = shop_table.shop.address_detail
+        data['shopZipcode'] = shop_table.shop.zipcode
+        data['shopReceipt'] = shop_table.shop.receipt
 
         return_data = {
             'data': data,
