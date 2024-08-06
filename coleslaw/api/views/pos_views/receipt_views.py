@@ -35,6 +35,7 @@ class ShopOrderReceiptView(View):
         
         data = {}
         data['agencyName'] = shop.agency.name
+        data['shopReceiptFlag'] = shop.shop_receipt_flag
         data['shopName'] = shop.name_kr
         data['shopDescription'] = shop.description
         data['shopRepresentative'] = shop.representative
