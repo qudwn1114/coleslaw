@@ -165,7 +165,16 @@ class ShopPosOrderDetailView(View):
                 When(payment_method='1', then=V('현금')),
                 default=V('카드'), output_field=CharField()
             ),
-            approvalDate = F('tranDate'),
+            approvalDate = F('tranDate'),                            
+            cancelledAt=Case(
+                When(cancelled_at=None, then=None),
+                default=Func(
+                    F('cancelled_at'),
+                    V('%y.%m.%d %H:%i'),
+                    function='DATE_FORMAT',
+                    output_field=CharField()
+                )
+            ),
             createdAt=Func(
                 F('created_at'),
                 V('%y.%m.%d %H:%i'),
@@ -184,6 +193,7 @@ class ShopPosOrderDetailView(View):
             'cardNo',
             'amount',
             'taxAmount',
+            'cancelledAt',
             'createdAt'
         )
         data['order_payment'] = list(order_payment)
