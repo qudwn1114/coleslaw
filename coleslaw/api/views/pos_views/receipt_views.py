@@ -67,6 +67,7 @@ class ShopOrderReceiptView(View):
             data['cancelledAt'] = None
 
         data['orderFinalDiscount'] = order_payment.order.final_discount # 총할인
+        data['orderFinalAdditional'] = order_payment.order.final_additional # 총추가금액
         data['orderFinalPrice'] = order_payment.order.final_price # 합계
         data['orderFianlTaxPrice'] = round(order_payment.order.final_price/1.1*0.1) # 합계부가세
 
