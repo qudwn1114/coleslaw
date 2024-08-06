@@ -112,6 +112,8 @@ class ShopCreateView(View):
         logo_image2 = request.FILES.get("logo_image2")
         entry_image2 = request.FILES.get("entry_image2")
 
+        receipt = request.POST['receipt'].strip()
+
         try:
             agency = Agency.objects.get(pk=agency_id)
         except:
@@ -153,6 +155,7 @@ class ShopCreateView(View):
                     entry_image1=entry_image1,
                     logo_image2=logo_image2,
                     entry_image2=entry_image2,
+                    receipt=receipt
                 )
                 ShopTable.objects.create(
                     shop = shop,
@@ -258,6 +261,8 @@ class ShopEditView(View):
         logo_image2 = request.FILES.get("logo_image2")
         entry_image2 = request.FILES.get("entry_image2")
 
+        receipt = request.POST['receipt'].strip()
+
         try:
             shop_category = ShopCategory.objects.get(pk=shop_category_id)
         except:
@@ -282,6 +287,7 @@ class ShopEditView(View):
                 shop.zipcode = zipcode
                 shop.main_tid = main_tid
                 shop.waiting_time = waiting_time
+                shop.receipt = receipt
                 if image:
                     shop.image = image
                 if logo_image1:

@@ -111,6 +111,10 @@
                       <label for="entry_image2">입장 이미지 2 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
                       <input type="file" id="entry_image2" name="entry_image2" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
+                    <div class="col-md-12">
+                      <label for="receipt">영수증 내용</label>
+                      <textarea class="form-control" id="receipt" name="receipt" rows="3">{{data.receipt}}</textarea>
+                    </div>
                 </div>
                 <div class="col-sm-12 text-center">
                     <a href="{% url 'system_manage:shop_detail' data.pk %}" class="btn btn-danger">취소</a>
@@ -124,5 +128,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_edit.js' %}?v=20240801"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_edit.js' %}?v=20240806"></script>
 {% endblock javascripts %}

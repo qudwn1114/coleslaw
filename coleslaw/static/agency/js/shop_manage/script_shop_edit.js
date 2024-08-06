@@ -17,6 +17,7 @@ const logo_image1 = document.getElementById("logo_image1");
 const entry_image1 = document.getElementById("entry_image1");
 const logo_image2 = document.getElementById("logo_image2");
 const entry_image2 = document.getElementById("entry_image2");
+const receipt = document.getElementById("receipt");
 
 btn_submit.addEventListener("click", () => {
     if(!validation()){
@@ -45,6 +46,7 @@ btn_submit.addEventListener("click", () => {
     entry_image1.disabled=true;
     logo_image2.disabled=true;
     entry_image2.disabled=true;
+    receipt.disabled=true;
     $.ajax({
         type: "POST",
         url: "",
@@ -79,6 +81,7 @@ btn_submit.addEventListener("click", () => {
             entry_image1.disabled=false;
             logo_image2.disabled=false;
             entry_image2.disabled=false;
+            receipt.disabled=false;
             if(error.status == 401){
                 alert('로그인 해주세요.');
             }

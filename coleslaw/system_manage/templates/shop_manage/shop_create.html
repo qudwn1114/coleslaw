@@ -116,6 +116,10 @@
                       <label for="entry_image2">입장 이미지2 <small class="form-text text-muted">필수 x</small></label>
                       <input type="file" id="entry_image2" name="entry_image2" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
+                    <div class="col-md-12">
+                      <label for="receipt">영수증 내용</label>
+                      <textarea class="form-control" id="receipt" name="receipt" rows="3"></textarea>
+                    </div>
                 </div>
                 <div class="col-sm-12 text-center">
                     <button type="button" id="btn-submit" class="btn btn-success">등록</button>
@@ -128,5 +132,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20240801"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20240806"></script>
 {% endblock javascripts %}

@@ -128,6 +128,10 @@
                         없음
                     {% endif %}
                 </div>
+                <div class="col-md-12">
+                  <label for="receipt">영수증 내용</label>
+                  <textarea class="form-control" id="receipt" name="receipt" rows="3">{{data.receipt}}</textarea>
+                </div>
                 </div>
                 <div class="col-sm-12 text-center">
                     <a href="{% url 'agency_manage:shop_edit' agency.pk data.id %}" class="btn btn-warning">Edit</a>
