@@ -57,6 +57,29 @@ class ShopTableListView(View):
                     'total_price',
                     'entryTime',
                 ).order_by('table_no')
+            
+            now_time = timezone.now()
+            for i in queryset:
+                if shop.table_time > 0:
+                    if i['entry_time']:
+                        end_time = i['entry_time'] + datetime.timedelta(minutes=shop.table_time)
+                        diff = end_time - now_time
+                        diff_sec = round(diff.total_seconds())
+                        day = divmod(diff_sec, 3600)[0]
+                        minute = divmod(diff_sec - (day*3600), 60)[0]
+                        if diff_sec > 0:                            
+                            i['leftTime'] = f"{day}:{str(minute).zfill(2)}"
+                            i['overTime'] = None
+                        else:
+                            i['leftTime'] = None
+                            i['overTime'] =  f"{day}:{str(minute).zfill(2)}"
+                    else:
+                        i['leftTime'] = None
+                        i['overTime'] = None
+                else:
+                    i['overTime'] = None
+                    i['leftTime'] = None
+
 
             return_data = {
                 'data': list(queryset[startnum:endnum]),
