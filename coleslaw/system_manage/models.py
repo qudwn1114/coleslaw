@@ -113,7 +113,7 @@ class Shop(models.Model):
     shop_receipt_flag = models.BooleanField(default=True, verbose_name='매장용 영수증')
 
     table_time = models.PositiveIntegerField(default=0, verbose_name='테이블이용시간') #0: 무제한
-    additional_fee_time = models.PositiveIntegerField(default=10, verbose_name='테이블이용시간') #10: 10분
+    additional_fee_time = models.PositiveIntegerField(default=10, verbose_name='추가요금 시간') #10: 10분
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
