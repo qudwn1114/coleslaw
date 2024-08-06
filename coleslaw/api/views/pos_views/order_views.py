@@ -61,6 +61,12 @@ class ShopPosOrderListView(View):
                     When(status='6', then=V('부분취소')),
                     default=V('결제완료'), output_field=CharField()
                 ),
+                paymentMethod = Case(
+                    When(payment_method='0', then=V('키드결제')),
+                    When(payment_method='1', then=V('현금결제')),
+                    When(payment_method='2', then=V('분할결제')),
+                    default=V('키드결제'), output_field=CharField()
+                ),
                 createdAt=Func(
                     F('created_at'),
                     V('%y.%m.%d %H:%i'),
@@ -74,6 +80,7 @@ class ShopPosOrderListView(View):
                 'final_price',
                 'order_name_kr',
                 'status',
+                'paymentMethod',
                 'createdAt'
             ).order_by('-id')
 
