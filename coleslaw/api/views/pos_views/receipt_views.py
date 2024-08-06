@@ -66,7 +66,7 @@ class ShopOrderReceiptView(View):
             'name_kr',
             'price',
             'option_kr',
-            'option_price'
+            'option_price',
             'quantity',
             'total_price'
         )        
