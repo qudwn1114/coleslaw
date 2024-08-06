@@ -108,8 +108,9 @@ class Shop(models.Model):
     entry_car_plate_no = models.BooleanField(default=False)
 
     main_tid = models.CharField(default='', max_length=20, verbose_name='메인 tid')
-
     receipt = models.CharField(default='',  max_length=255, verbose_name='영수증내용')
+
+    shop_receipt_flag = models.BooleanField(default=True, verbose_name='매장용 영수증')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
