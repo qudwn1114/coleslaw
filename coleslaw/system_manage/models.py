@@ -494,8 +494,6 @@ class OrderPayment(models.Model):
     cardAmount = models.IntegerField(default=0)
     pointAmount = models.IntegerField(default=0)
     couponAmount = models.IntegerField(default=0)
-    custormmerName = models.CharField(max_length=50, default='')
-    custormmerTelNo = models.CharField(max_length=50, default='')
     cardPointAmount = models.IntegerField(default=0)
     cardPointApplNo = models.CharField(max_length=20, default='')
     bankCode = models.CharField(max_length=20, null=True)
