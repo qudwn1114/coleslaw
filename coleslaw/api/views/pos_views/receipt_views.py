@@ -62,7 +62,7 @@ class ShopOrderReceiptView(View):
         data['approvalNumber'] = order_payment.approvalNumber
 
         data['orderFinalPrice'] = order_payment.order.final_price # 합계
-        data['orderFianlTaxPrice'] = round(order_payment.order.final_price/1.1) # 합계부가세
+        data['orderFianlTaxPrice'] = round(order_payment.order.final_price/1.1*0.1) # 합계부가세
 
         order_detail = order_payment.order.order_goods.all().values(
             'id',
