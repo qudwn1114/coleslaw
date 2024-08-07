@@ -105,8 +105,6 @@ class ShopCloseReceiptView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         date = request.GET.get('date', str(timezone.now().date()))
-        print(date)
-        date = datetime.datetime.strptime(date, '%Y-%m-%d')
         filter_dict = {}
 
         status_list = ['1', '3', '4', '5']
@@ -154,7 +152,7 @@ class ShopCloseReceiptView(View):
         return_data = {
             'data': data,
             'resultCd': '0000',
-            'msg': f'{date} receipt 마감 정보',
+            'msg': f'{shop.name_kr} {date} 마감 영수증 정보',
         }
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
