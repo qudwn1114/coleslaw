@@ -230,7 +230,7 @@ class ShopOrderCompleteView(View):
                 greenDepositAmount = 0
             else:
                 greenDepositAmount = int(greenDepositAmount)
-            installment = request.POST.get('installment', '')
+            installment = request.POST.get('installment', '0')
             applNo = request.POST.get('applNo', '')
             cardNo = request.POST.get('cardNo', '')
             issueCompanyNo = request.POST.get('issueCompanyNo', '')

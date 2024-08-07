@@ -501,7 +501,7 @@ class ShopPosOrderCompleteView(View):
                 return HttpResponse(return_data, content_type = "application/json")
             
             tid = request.POST.get('tid', '')
-            installment = request.POST.get('installment', '')
+            installment = request.POST.get('installment', '0')
             amount = request.POST.get('amount', '')
             if not amount:
                 amount = 0
