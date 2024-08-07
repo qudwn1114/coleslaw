@@ -1,15 +1,15 @@
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch, Sum
-from django.db import transaction, IntegrityError
+from django.db.models.functions import Coalesce
 from django.core.serializers.json import DjangoJSONEncoder
 from system_manage.views.system_manage_views.auth_views import validate_phone
 from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from system_manage.models import OrderPayment, Shop, OrderGoodsOption
+from system_manage.models import OrderPayment, Shop, OrderGoods
 
-import json
+import json, datetime
 
 
 class ShopOrderReceiptView(View):
@@ -86,6 +86,75 @@ class ShopOrderReceiptView(View):
             'data': data,
             'resultCd': '0000',
             'msg': 'receipt 정보',
+        }
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopCloseReceiptView(View):
+    '''
+        shop pos 마감 영수증 api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        date = request.GET.get('date', str(timezone.now().date()))
+        print(date)
+        date = datetime.datetime.strptime(date, '%Y-%m-%d')
+        filter_dict = {}
+
+        status_list = ['1', '3', '4', '5']
+        filter_dict['order__status__in'] = status_list
+        filter_dict['order__date'] = date
+
+        order_goods = OrderGoods.objects.filter(**filter_dict).annotate(
+            sale_total_price=F('sale_price') + F('sale_option_price')
+            ).values(
+                "name_kr", 
+                "option_kr", 
+                "sale_price", 
+                "sale_option_price", 
+                "sale_total_price"
+            ).annotate(total_quantity=Sum("quantity")).order_by('name_kr', '-total_quantity')
+
+        data = {}
+        data['agencyName'] = shop.agency.name
+        data['shopName'] = shop.name_kr
+        data['shopDescription'] = shop.description
+        data['shopRepresentative'] = shop.representative
+        data['shopRegistrationNo'] = shop.registration_no
+        data['shopPhone'] = shop.phone
+        data['shopAddress'] = shop.address
+        data['shopAddressDetail'] = shop.address_detail
+        data['shopZipcode'] = shop.zipcode
+        data['shopReceipt'] = shop.receipt
+        
+        data['order_goods_list'] = list(order_goods)
+
+
+        order_payment = OrderPayment.objects.filter(order__date=date, status=True)
+
+        card_total_amount = order_payment.filter(payment_method='0').aggregate(sum=Coalesce(Sum('amount'), 0)).get('sum')
+        card_total_tax_amount = order_payment.filter(payment_method='0').aggregate(sum=Coalesce(Sum('taxAmount'), 0)).get('sum')
+        
+        cash_total_amount = order_payment.filter(payment_method='1').aggregate(sum=Coalesce(Sum('amount'), 0)).get('sum')
+        cash_total_tax_amount = order_payment.filter(payment_method='1').aggregate(sum=Coalesce(Sum('taxAmount'), 0)).get('sum')
+
+        data['card_total_amount'] = card_total_amount
+        data['card_total_tax_amount'] = card_total_tax_amount
+        data['cash_total_amount'] = cash_total_amount
+        data['cash_total_tax_amount'] = cash_total_tax_amount
+        
+        return_data = {
+            'data': data,
+            'resultCd': '0000',
+            'msg': f'{date} receipt 마감 정보',
         }
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
