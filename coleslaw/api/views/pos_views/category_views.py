@@ -1,30 +1,20 @@
-from django.conf import settings
 from django.views.generic import View
-from django.urls import reverse
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from django.db.models.functions import Concat
-from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db import transaction, IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from django.utils import timezone
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
 
-from system_manage.models import Shop, ShopMember, ShopTable, SubCategory
-from system_manage.views.system_manage_views.auth_views import validate_phone
+from system_manage.models import Shop, ShopTable, SubCategory
 
+import json
 
-import traceback, json, datetime
-
-class PosCatgoryFixView(View):
+class ShopPosCatgoryFixView(View):
     '''
         상품담기
     '''
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        return super(PosCatgoryFixView, self).dispatch(request, *args, **kwargs)
+        return super(ShopPosCatgoryFixView, self).dispatch(request, *args, **kwargs)
     
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
@@ -57,7 +47,7 @@ class PosCatgoryFixView(View):
         
         shop_table.fixed_category_id = sub_category
         shop_table.save()
-        
+
         return_data = {'data': {},'msg': '고정되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")

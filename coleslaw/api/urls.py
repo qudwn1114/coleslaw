@@ -10,6 +10,7 @@ from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, Sho
 from api.views.pos_views.order_views import ShopPosOrderCreateView, ShopPosCheckoutOrderDetailView, ShopPosOrderCompleteView, ShopPosOrderListView, ShopPosOrderDetailView, ShopPosOrderPaymentCancelView
 from api.views.pos_views.receipt_views import ShopOrderReceiptView
 from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView
+from api.views.pos_views.category_views import ShopPosCatgoryFixView
 from api.views.kiosk_views.order_views import ShopKioskOrderCreateView
 
 app_name='api'
@@ -50,6 +51,9 @@ urlpatterns = [
     path('shop/<int:shop_id>/pos-list/', ShopPosListView.as_view()),
     path('shop/<int:shop_id>/member-list/', ShopMemberListView.as_view()),
     path('shop/<int:shop_id>/member-create/', ShopMemberCreateView.as_view()),
+
+    path('shop/<int:shop_id>/category-fix/<str:mainpos_id>/', ShopPosCatgoryFixView.as_view()),
+
     path('shop/<int:shop_id>/table/<str:table_no>/add/', ShopTableAddView.as_view()),
     path('shop/<int:shop_id>/table/<str:table_no>/update/', ShopTableUpdateView.as_view()),
     path('shop/<int:shop_id>/table/<str:table_no>/delete/', ShopTableDeleteView.as_view()),
