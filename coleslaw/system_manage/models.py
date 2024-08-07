@@ -210,6 +210,8 @@ class ShopTable(models.Model):
     total_price = models.PositiveIntegerField(default=0, verbose_name='총 결제 금액')
     total_additional = models.PositiveIntegerField(default=0, verbose_name='총 추가 금액')
 
+    fixed_category_id = models.PositiveIntegerField(default=0, verbose_name='고정 서브 카테고리')
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
