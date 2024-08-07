@@ -77,8 +77,11 @@ class ShopTableListView(View):
                         i['leftTime'] = None
                         i['overTime'] = None
                 else:
+                    if i['entry_time']:
+                        i['leftTime'] = '무제한'
+                    else:
+                        i['leftTime'] = None
                     i['overTime'] = None
-                    i['leftTime'] = None
 
 
             return_data = {
