@@ -78,5 +78,5 @@ urlpatterns = [
     path('shop/<int:shop_id>/pos/close-receipt/', ShopCloseReceiptView.as_view()),
 
     # kiosk
-    path('shop/<int:shop_id>/order/<int:checkout_id>/<str:code>/', ShopKioskOrderCreateView.as_view()),
+    path('shop/<int:shop_id>/kiosk/order/<int:checkout_id>/<str:code>/', ShopKioskOrderCreateView.as_view()),
 ]
