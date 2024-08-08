@@ -9,7 +9,7 @@ from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, ShopMember, ShopTable
+from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, ShopMember, ShopTable, Goods
 
 import traceback, json, datetime, uuid, logging
 
@@ -292,6 +292,9 @@ class ShopPosOrderCreateView(View):
                     raise ValueError("주문번호 중복 다시 시도해주세요.")
                 except:
                     raise ValueError("주문생성실패")
+                
+                after_payment_cart = {}
+
                 order_name_kr = ''
                 order_name_en = ''
                 if checkout.checkout_detail.all().exists():
@@ -325,6 +328,14 @@ class ShopPosOrderCreateView(View):
                                 option_price = i.sale_option_price
                         else:
                             raise ValueError(f"Check Out Error")
+                        
+                        # 결제후 상품
+                        if i.goods.after_payment_goods:
+                            after_payment_goods_id =i.goods.after_payment_goods
+                            if after_payment_goods_id in after_payment_cart:
+                                after_payment_cart[f'{i.goods.after_payment_goods}'] += i.quantity
+                            else:
+                                after_payment_cart[f'{i.goods.after_payment_goods}'] += i.quantity
 
                         order_goods = OrderGoods.objects.create(
                             order=order, 
@@ -367,6 +378,10 @@ class ShopPosOrderCreateView(View):
                 else:
                     order_name_kr = '추가요금'
                     order_name_en = 'Additional Fee'
+
+                # 추가 상품저장
+                if after_payment_cart:
+                    order.after_payment_cart = json.dumps(after_payment_cart, ensure_ascii=False)
 
                 order.order_name_kr=order_name_kr
                 order.order_name_en=order_name_en
@@ -588,6 +603,32 @@ class ShopPosOrderCompleteView(View):
                     shop_table.total_discount = 0
                     shop_table.total_additional = 0
                     shop_table.save()
+
+                    if shop_table.table_no > 0:
+                        if order.after_payment_cart:
+                            after_payment_cart = json.loads(order.after_payment_cart)
+                            cart_list = []
+                            after_payment_cart_total_price = 0
+                            for k, v in after_payment_cart.items():
+                                cart={}
+                                try:
+                                    after_payment_goods = Goods.objects.get(pk=k)
+                                    cart['goodsId'] = after_payment_goods.pk
+                                    cart['name_kr'] = after_payment_goods.name_kr
+                                    cart['price'] = after_payment_goods.sale_price
+                                    cart['discount'] = 0
+                                    cart['quantity'] = int(v)
+                                    cart['optionName'] = ''
+                                    cart['optionPrice'] = 0
+                                    cart['optionList'] = []
+                                    cart_list.append(cart)
+                                    after_payment_cart_total_price += after_payment_goods.sale_price
+                                except:
+                                    pass
+                            cart_list = json.dumps(cart_list, ensure_ascii=False)
+                            shop_table.cart = cart_list
+                            shop_table.total_price = after_payment_cart_total_price
+                            shop_table.save()
                 except:
                     pass
 
@@ -663,7 +704,7 @@ class ShopPosOrderPaymentCancelView(View):
         if total_cancelled ==order.payment_price:
             order.status = '2'
         else:
-             order.status = '6'
+            order.status = '6'
         order.save()
 
         return_data = {'data': {

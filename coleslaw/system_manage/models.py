@@ -435,6 +435,8 @@ class Order(models.Model):
 
     order_complete_sms = models.BooleanField(default=False, verbose_name='주문완료문자')
 
+    after_payment_cart = models.TextField(verbose_name='결제이후 장바구니 상품', null=True) # json
+
     date = models.DateField(auto_now_add=True, verbose_name='날짜')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
