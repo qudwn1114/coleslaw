@@ -31,7 +31,7 @@ class ShopPosMainCategoryListView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         fixed_category_id = shop_table.fixed_category_id
-
+        fixed_main_category_id = None
         if fixed_category_id == 0:
             fixed = True
         else:
@@ -58,11 +58,13 @@ class ShopPosMainCategoryListView(View):
                 if not fixed:
                     for j in i['sub_category']:
                         if j['id'] == fixed_category_id:
+                            fixed_main_category_id = i['id']
                             j['fixed'] = True
                             fixed = True
                             break
             return_data = {
                 'data': list(queryset),
+                'fixed_main_category_id' : fixed_main_category_id,
                 'resultCd': '0000',
                 'msg': '가맹점 POS 카테고리 리스트',
                 'totalCnt' : queryset.count()
