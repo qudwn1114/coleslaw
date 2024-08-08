@@ -110,6 +110,7 @@ class ShopCloseReceiptView(View):
         status_list = ['1', '3', '4', '5']
         filter_dict['order__status__in'] = status_list
         filter_dict['order__date'] = date
+        filter_dict['order__shop'] = shop
 
         order_goods = OrderGoods.objects.filter(**filter_dict).annotate(
             sale_total_price=F('sale_price') + F('sale_option_price')
