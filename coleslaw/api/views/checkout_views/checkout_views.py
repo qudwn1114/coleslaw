@@ -139,7 +139,8 @@ class ShopCheckoutView(View):
                     final += total
 
                     if final != finalPrice:
-                        raise ValueError(f'Final Price Error')
+                        
+                        raise ValueError(f'Final Price Error {final}')
                 
                 checkout.final_price = final
                 checkout.save()
