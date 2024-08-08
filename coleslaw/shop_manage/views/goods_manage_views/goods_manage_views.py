@@ -237,6 +237,7 @@ class GoodsEditView(View):
         soldout = bool(request.POST.get('soldout', None))
         stock_flag = bool(request.POST.get('stock_flag', None))
         option_flag = bool(request.POST.get('option_flag', None))
+        after_payment_goods_id = request.POST['after_payment_goods_id']
 
         try:
             sub_category = SubCategory.objects.get(pk=sub_category_id)
@@ -246,6 +247,15 @@ class GoodsEditView(View):
         if option_flag:
             if not goods.option.all().exists():
                 return JsonResponse({'message' : '옵션사용을 하시려면 옵션등록이 되어있어야합니다.'},status = 400)
+        if after_payment_goods_id:
+            try:
+                after_payment_goods = Goods.objects.get(pk=after_payment_goods_id, shop=shop).pk
+                if after_payment_goods == goods.pk:
+                    return JsonResponse({'message' : '결제후 상품은 동일상품으로 불가능합니다.'},status = 400)
+            except:
+                after_payment_goods = None
+        else:
+            after_payment_goods = None
 
         try:
             goods.sub_category  = sub_category
@@ -257,6 +267,7 @@ class GoodsEditView(View):
             goods.soldout = soldout
             goods.stock_flag = stock_flag
             goods.option_flag = option_flag
+            goods.after_payment_goods = after_payment_goods
             if image:
                 crop_img = resize_with_padding(img=Image.open(image), expected_size=(800, 800), fill=(255,255,255))
                 img_io = BytesIO()
