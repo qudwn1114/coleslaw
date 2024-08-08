@@ -273,6 +273,7 @@ class Goods(models.Model):
     soldout = models.BooleanField(default=False, verbose_name='품절') #True:품절
 
     after_payment_goods = models.PositiveBigIntegerField(null=True, verbose_name='결제후들어갈상품 ID')
+    additional_fee_goods = models.PositiveBigIntegerField(null=True, verbose_name='추가요금 상품 ID')
 
     delete_flag = models.BooleanField(default=False, verbose_name='삭제처리')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
