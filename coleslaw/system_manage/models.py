@@ -271,6 +271,9 @@ class Goods(models.Model):
     stock_flag = models.BooleanField(default=False, verbose_name='재고관리사용여부') #재고 관리 사용 여부
     option_flag = models.BooleanField(default=False, verbose_name='옵션사용여부') #옵션 사용 여부에 따라 옵션재고 수량을수 있음.
     soldout = models.BooleanField(default=False, verbose_name='품절') #True:품절
+
+    after_payment_goods = models.PositiveBigIntegerField(null=True, verbose_name='결제후들어갈상품 ID')
+
     delete_flag = models.BooleanField(default=False, verbose_name='삭제처리')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
