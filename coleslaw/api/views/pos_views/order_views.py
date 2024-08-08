@@ -612,7 +612,7 @@ class ShopPosOrderCompleteView(View):
                             for k, v in after_payment_cart.items():
                                 cart={}
                                 try:
-                                    after_payment_goods = Goods.objects.get(pk=k)
+                                    after_payment_goods = Goods.objects.get(pk=k, shop=shop)
                                     cart['goodsId'] = after_payment_goods.pk
                                     cart['name_kr'] = after_payment_goods.name_kr
                                     cart['price'] = after_payment_goods.sale_price
