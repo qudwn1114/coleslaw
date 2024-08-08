@@ -12,7 +12,7 @@ from django.utils import timezone
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-from system_manage.models import Shop, ShopTable, ShopMember, ShopTableLog
+from system_manage.models import Shop, ShopTable, ShopMember, ShopTableLog, Goods
 from system_manage.views.system_manage_views.auth_views import validate_phone
 
 
@@ -229,6 +229,27 @@ class ShopTableDetailView(View):
         else:
             membername = None
             phone = None
+
+        # 가맹점 이용시간 사용시
+        additional_fee = 0
+        additional_dict = {}
+
+        if shop_table.shop.table_time > 0:
+            if shop_table.entry_time:
+                now_time = timezone.now()
+                end_time = shop_table.entry_time + datetime.timedelta(minutes=shop_table.shop.table_time)
+                diff = end_time - now_time
+                diff_sec = round(diff.total_seconds())
+                if diff_sec < 0:
+                    if shop_table.cart:
+                        cart_list = json.loads(shop_table.cart)
+                        for i in cart_list:
+                            try:
+                                goods = Goods.objects.get(pk=i['goodsId'], shop_id=shop_id)
+                            except:
+                                pass
+                            
+                            
 
         data['membername'] = membername
         data['phone'] = phone

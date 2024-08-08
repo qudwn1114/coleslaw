@@ -63,6 +63,7 @@ class ShopCheckoutView(View):
                     final_discount=0
                 )
                 final = 0
+                raise ValueError(f'{checkoutList}')
                 for i in checkoutList:
                     total = 0
                     goodsId = i['goodsId']
