@@ -329,13 +329,13 @@ class ShopPosOrderCreateView(View):
                         else:
                             raise ValueError(f"Check Out Error")
                         
-                        # 결제후 상품
-                        if i.goods.after_payment_goods:
-                            after_payment_goods_id =i.goods.after_payment_goods
-                            if after_payment_goods_id in after_payment_cart:
-                                after_payment_cart[f'{i.goods.after_payment_goods}'] += i.quantity
-                            else:
-                                after_payment_cart[f'{i.goods.after_payment_goods}'] += i.quantity
+                        # # 결제후 상품
+                        # if i.goods.after_payment_goods:
+                        #     after_payment_goods_id =i.goods.after_payment_goods
+                        #     if after_payment_goods_id in after_payment_cart:
+                        #         after_payment_cart[f'{i.goods.after_payment_goods}'] += i.quantity
+                        #     else:
+                        #         after_payment_cart[f'{i.goods.after_payment_goods}'] += i.quantity
 
                         order_goods = OrderGoods.objects.create(
                             order=order, 
