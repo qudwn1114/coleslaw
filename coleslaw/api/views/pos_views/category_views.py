@@ -120,7 +120,7 @@ class ShopPosCatgoryFixView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
-        shop_table.fixed_category_id = sub_category
+        shop_table.fixed_category_id = sub_category.pk
         shop_table.save()
 
         return_data = {'data': {},'msg': '고정되었습니다.','resultCd': '0000'}
