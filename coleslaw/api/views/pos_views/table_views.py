@@ -63,16 +63,20 @@ class ShopTableListView(View):
                 if shop.table_time > 0:
                     if i['entry_time']:
                         end_time = i['entry_time'] + datetime.timedelta(minutes=shop.table_time)
-                        diff = end_time - now_time
-                        diff_sec = round(diff.total_seconds())
-                        day = divmod(diff_sec, 3600)[0]
-                        minute = divmod(diff_sec - (day*3600), 60)[0]
-                        if diff_sec > 0:                            
-                            i['leftTime'] = f"{day}:{str(minute).zfill(2)}"
-                            i['overTime'] = None
-                        else:
+                        if now_time > end_time: # 초과
+                            diff = now_time - end_time
+                            diff_sec = round(diff.total_seconds())
+                            day = divmod(diff_sec, 3600)[0]
+                            minute = divmod(diff_sec - (day*3600), 60)[0]
                             i['leftTime'] = None
-                            i['overTime'] =  f"{day}:{str(minute).zfill(2)}"
+                            i['overTime'] = f"{day}:{str(minute).zfill(2)}"
+                        else:
+                            diff = end_time - now_time
+                            diff_sec = round(diff.total_seconds())
+                            day = divmod(diff_sec, 3600)[0]
+                            minute = divmod(diff_sec - (day*3600), 60)[0]
+                            i['leftTime'] = f"{day}:{str(minute).zfill(2)}"
+                            i['overTime'] =  None
                     else:
                         i['leftTime'] = None
                         i['overTime'] = None
@@ -231,26 +235,68 @@ class ShopTableDetailView(View):
             phone = None
 
         # 가맹점 이용시간 사용시
-        additional_fee = 0
+        additional_price = 0
         additional_dict = {}
 
         if shop_table.shop.table_time > 0:
             if shop_table.entry_time:
                 now_time = timezone.now()
                 end_time = shop_table.entry_time + datetime.timedelta(minutes=shop_table.shop.table_time)
-                diff = end_time - now_time
-                diff_sec = round(diff.total_seconds())
-                if diff_sec < 0:
-                    if shop_table.cart:
-                        cart_list = json.loads(shop_table.cart)
-                        for i in cart_list:
-                            try:
-                                goods = Goods.objects.get(pk=i['goodsId'], shop_id=shop_id)
-                            except:
-                                pass
-                            
-                            
+                if now_time > end_time:                      
+                    diff = now_time - end_time
+                    diff_sec = round(diff.total_seconds())
+                    minutes = divmod(diff_sec, 60)[0]
+                    if shop_table.shop.additional_fee_time > 0:
+                        over_count = divmod(minutes, shop_table.shop.additional_fee_time)[0]
+                        if over_count > 0:
+                            if shop_table.cart:
+                                cart_list = json.loads(shop_table.cart)
+                                for i in cart_list:
+                                    try:
+                                        goods = Goods.objects.get(pk=i['goodsId'], shop_id=shop_id)
+                                        if goods.additional_fee_goods:
+                                            additional_fee_goods = Goods.objects.get(pk=goods.additional_fee_goods, shop_id=shop_id)
+                                            if additional_fee_goods.pk in additional_dict:
+                                                additional_dict[f'{additional_fee_goods.pk}'] += i['quantity']
+                                            else:
+                                                additional_dict[f'{additional_fee_goods.pk}'] = i['quantity']
+                                    except:
+                                        pass
+                                if additional_dict:
+                                    for k, v in additional_dict.items():
+                                        cart={}
+                                        try:
+                                            is_new = True
+                                            additional_goods = Goods.objects.get(pk=k, shop=shop_table.shop)
+                                            for i in cart_list:
+                                                if i['goodsId'] == additional_goods.pk:
+                                                    # 이미 담긴 상품일때
+                                                    if not i['optionList'] and i['discount'] == 0:
+                                                        is_new = False
+                                                        adjusted_quantity = int(v) * over_count - i['quantity']
+                                                        i['quantity'] = int(v) * over_count
+                                                        additional_price += adjusted_quantity * i['price']
+                                                        break
+                                            if is_new:
+                                                cart['goodsId'] = additional_goods.pk
+                                                cart['name_kr'] = additional_goods.name_kr
+                                                cart['price'] = additional_goods.sale_price
+                                                cart['discount'] = 0
+                                                cart['quantity'] = int(v) * over_count
+                                                cart['optionName'] = ''
+                                                cart['optionPrice'] = 0
+                                                cart['optionList'] = []
+                                                cart_list.append(cart)
+                                                additional_price += int(v) * over_count * additional_goods.sale_price
+                                        except:
+                                            pass
 
+                                    cart_list = json.dumps(cart_list, ensure_ascii=False)
+                                    shop_table.cart = cart_list
+                                    shop_table.total_price += additional_price
+                                    shop_table.save()
+                                    cart_list = json.loads(cart_list)       
+                                                          
         data['membername'] = membername
         data['phone'] = phone
         data['cart_list'] = cart_list
