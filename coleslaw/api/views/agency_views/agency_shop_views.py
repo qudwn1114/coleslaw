@@ -221,7 +221,7 @@ class ShopGoodsListView(View):
                     'option_flag',
                     'soldout',
                     'goodsImageThumbnailUrl'
-                ).order_by('-id')
+                ).order_by('-sale_price', 'name_kr')
 
             return_data = {
                 'data': list(queryset),

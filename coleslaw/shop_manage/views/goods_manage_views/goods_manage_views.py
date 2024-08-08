@@ -238,6 +238,7 @@ class GoodsEditView(View):
         stock_flag = bool(request.POST.get('stock_flag', None))
         option_flag = bool(request.POST.get('option_flag', None))
         after_payment_goods_id = request.POST['after_payment_goods_id']
+        additional_fee_goods_id = request.POST['additional_fee_goods_id']
 
         try:
             sub_category = SubCategory.objects.get(pk=sub_category_id)
@@ -256,6 +257,16 @@ class GoodsEditView(View):
                 after_payment_goods = None
         else:
             after_payment_goods = None
+        
+        if additional_fee_goods_id:
+            try:
+                additional_fee_goods = Goods.objects.get(pk=additional_fee_goods_id, shop=shop).pk
+                if additional_fee_goods == goods.pk:
+                    return JsonResponse({'message' : '결제후 상품은 동일상품으로 불가능합니다.'},status = 400)
+            except:
+                additional_fee_goods = None
+        else:
+            additional_fee_goods = None
 
         try:
             goods.sub_category  = sub_category
@@ -268,6 +279,7 @@ class GoodsEditView(View):
             goods.stock_flag = stock_flag
             goods.option_flag = option_flag
             goods.after_payment_goods = after_payment_goods
+            goods.additional_fee_goods = additional_fee_goods
             if image:
                 crop_img = resize_with_padding(img=Image.open(image), expected_size=(800, 800), fill=(255,255,255))
                 img_io = BytesIO()
