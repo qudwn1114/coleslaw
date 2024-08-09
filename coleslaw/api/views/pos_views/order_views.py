@@ -648,11 +648,11 @@ class ShopPosOrderCompleteView(View):
                 try:
                     channel_layer = get_channel_layer()
                     async_to_sync(channel_layer.group_send)(
-                        f'shop_order_{shop_id}',
+                        f'shop_entry_{shop_id}',
                         {
                             'type': 'chat_message',
                             'message_type' : 'KIOSK',
-                            'title': '* KIOSK 주문접수 * ',
+                            'title': '* KIOSK 주문접수 *',
                             'message': receipt_data
                         }
                     )
