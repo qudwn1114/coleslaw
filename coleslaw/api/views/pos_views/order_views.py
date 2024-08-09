@@ -333,7 +333,7 @@ class ShopPosOrderCreateView(View):
                         
                         # # 결제후 상품
                         if i.goods.after_payment_goods:
-                            after_payment_goods_id = i.goods.after_payment_goods
+                            after_payment_goods_id = str(i.goods.after_payment_goods)
                             if after_payment_goods_id in after_payment_cart:
                                 after_payment_cart[f'{after_payment_goods_id}'] += i.quantity
                             else:
