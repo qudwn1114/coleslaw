@@ -256,7 +256,7 @@ class ShopTableDetailView(View):
                                         goods = Goods.objects.get(pk=i['goodsId'], shop_id=shop_id)
                                         if goods.additional_fee_goods:
                                             additional_fee_goods = Goods.objects.get(pk=goods.additional_fee_goods, shop_id=shop_id)
-                                            if additional_fee_goods.pk in additional_dict:
+                                            if str(additional_fee_goods.pk) in additional_dict:
                                                 additional_dict[f'{additional_fee_goods.pk}'] += i['quantity']
                                             else:
                                                 additional_dict[f'{additional_fee_goods.pk}'] = i['quantity']
