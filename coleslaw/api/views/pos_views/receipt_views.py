@@ -143,7 +143,7 @@ class ShopCloseReceiptView(View):
         payment_filter_dict['status'] = True
     
 
-        order_payment = OrderPayment.objects.filter(order__date=date, status=True)
+        order_payment = OrderPayment.objects.filter(**payment_filter_dict)
 
         card_total_amount = order_payment.filter(payment_method='0').aggregate(sum=Coalesce(Sum('amount'), 0)).get('sum')
         card_total_tax_amount = order_payment.filter(payment_method='0').aggregate(sum=Coalesce(Sum('taxAmount'), 0)).get('sum')
