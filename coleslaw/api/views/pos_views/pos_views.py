@@ -495,6 +495,8 @@ class ShopTableDiscountCancelView(View):
             cart_list = json.loads(shop_table.cart)
             for i in cart_list:
                 i['discount'] = 0
+        else:
+            cart_list = []
         
         total_price = shop_table.total_price
         total_discount = shop_table.total_discount
