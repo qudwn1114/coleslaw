@@ -598,53 +598,8 @@ class ShopPosOrderCompleteView(View):
 
             if order.order_type == '2':
                 receipt_data = {}
-                receipt_data['agencyName'] = shop.agency.name
-                receipt_data['shopReceiptFlag'] = shop.shop_receipt_flag
-                receipt_data['shopName'] = shop.name_kr
-                receipt_data['shopDescription'] = shop.description
-                receipt_data['shopRepresentative'] = shop.representative
-                receipt_data['shopRegistrationNo'] = shop.registration_no
-                receipt_data['shopPhone'] = shop.phone
-                receipt_data['shopAddress'] = shop.address
-                receipt_data['shopAddressDetail'] = shop.address_detail
-                receipt_data['shopZipcode'] = shop.zipcode
-                receipt_data['shopReceipt'] = shop.receipt
-                
-                receipt_data['order_no'] = order.order_no
-                receipt_data['tid'] = order_payment.tid
-                receipt_data['installment'] = order_payment.installment
-                receipt_data['tranDate'] = order_payment.tranDate
-                if order_payment.tranTime:
-                    tranTime = order_payment.tranTime[:2] + ":" + order_payment.tranTime[2:]
-                else:
-                    tranTime = ''
-                receipt_data['tranTime'] = tranTime
-                receipt_data['amount'] = order_payment.amount # 결제금액
-                receipt_data['taxAmount'] = order_payment.taxAmount # 결제금액 부가세
-                receipt_data['cardNo'] = order_payment.cardNo
-                receipt_data['issueCompanyName'] = order_payment.issueCompanyName
-                receipt_data['cardNo'] = order_payment.cardNo
-                receipt_data['approvalNumber'] = order_payment.approvalNumber
-                if order_payment.cancelled_at:
-                    receipt_data['cancelledAt'] = order_payment.cancelled_at.strftime('%Y-%m-%d %H:%M')
-                else:
-                    receipt_data['cancelledAt'] = None
+                receipt_data['order_payment_id'] = order_payment.pk
 
-                receipt_data['orderFinalDiscount'] = order.final_discount # 총할인
-                receipt_data['orderFinalAdditional'] = order.final_additional # 총추가금액
-                receipt_data['orderFinalPrice'] = order.final_price # 합계
-                receipt_data['orderFianlTaxPrice'] = round(order.final_price/1.1*0.1) # 합계부가세
-
-                order_detail = order.order_goods.all().values(
-                    'id',
-                    'name_kr',
-                    'price',
-                    'option_kr',
-                    'option_price',
-                    'quantity',
-                    'total_price'
-                )        
-                receipt_data['order_detail'] = list(order_detail)
                 try:
                     channel_layer = get_channel_layer()
                     async_to_sync(channel_layer.group_send)(
