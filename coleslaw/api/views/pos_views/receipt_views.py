@@ -106,6 +106,7 @@ class ShopCloseReceiptView(View):
         
         date = request.GET.get('date', str(timezone.now().date()))
         filter_dict = {}
+        date = '2024-08-08'
 
         status_list = ['1', '3', '4', '5']
         filter_dict['order__status__in'] = status_list
