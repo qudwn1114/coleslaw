@@ -706,13 +706,14 @@ class ShopTableCheckoutView(View):
 
                     # 총결제금액 합산
                     final += total
-            final -= shop_table.total_discount
+            final_discount = shop_table.total_discount - goods_total_discount
+            final -= final_discount
             if final < 0:
                 raise ValueError('Final Price Error')
 
             checkout.final_price = final
             checkout.final_additional = shop_table.total_additional
-            checkout.final_discount = shop_table.total_discount - goods_total_discount
+            checkout.final_discount = shop_table.total_discount - final_discount
             checkout.save()
                     
             return_data = {
