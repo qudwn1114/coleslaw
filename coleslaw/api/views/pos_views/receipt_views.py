@@ -134,6 +134,7 @@ class ShopCloseReceiptView(View):
         data['shopAddressDetail'] = shop.address_detail
         data['shopZipcode'] = shop.zipcode
         data['shopReceipt'] = shop.receipt
+        data['date'] = date
         
         data['order_goods_list'] = list(order_goods)
 
