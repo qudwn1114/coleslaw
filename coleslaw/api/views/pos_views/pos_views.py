@@ -653,6 +653,7 @@ class ShopTableCheckoutView(View):
                     table_no = shop_table.table_no,
                     shop_member = shop_table.shop_member
                 )
+                goods_total_discount = 0
                 for i in cart_list:
                     total = 0
                     goodsId = i['goodsId']
@@ -675,6 +676,7 @@ class ShopTableCheckoutView(View):
                     
                     price = goodsPrice + optionPrice - discount
                     total = price * quantity
+                    goods_total_discount = discount * quantity
 
                     checkout_detail = CheckoutDetail.objects.create(
                         checkout = checkout,
@@ -710,7 +712,7 @@ class ShopTableCheckoutView(View):
 
             checkout.final_price = final
             checkout.final_additional = shop_table.total_additional
-            checkout.final_discount = shop_table.total_discount
+            checkout.final_discount = shop_table.total_discount - goods_total_discount
             checkout.save()
                     
             return_data = {
