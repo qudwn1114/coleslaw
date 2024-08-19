@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from django.contrib.auth.views import LogoutView
-from shop_manage.views.shop_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, shop_main_sales, shop_main_orders, UserPasswordEditView
+from shop_manage.views.shop_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, shop_main_sales, shop_main_orders, shop_sales_report, UserPasswordEditView
 from shop_manage.views.entry_manage_views.person_type_manage_views import PersonTypeManageView, PersonTypeCreateView, PersonTypeDetailView, PersonTypeEditView, PersonTypeGoodsManageView
 from shop_manage.views.entry_manage_views.entry_option_manage_views import ShopEntryOptionManageView, ShopEntryOptionDetailManageView, ShopEntryOptionDetailImageView
 from shop_manage.views.table_manage_views.table_manage_views import ShopTableManageView, ShopTableCreateView
@@ -16,6 +16,7 @@ urlpatterns = [
     path('<int:shop_id>/', HomeView.as_view(), name='home'),
     path('<int:shop_id>/main/sales/', shop_main_sales),
     path('<int:shop_id>/main/orders/', shop_main_orders),
+    path('<int:shop_id>/main/report/', shop_sales_report),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='shop_manage:login'), name='logout'),
     path('login/', LoginView.as_view(), name='login'),

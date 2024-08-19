@@ -12,10 +12,8 @@
     <div class="row">
       <div class="col" bis_skin_checked="1">
         <div class="card mb-4 rounded-3 shadow-sm" bis_skin_checked="1">
-          <div class="card-header py-3" bis_skin_checked="1">
-            <h4 class="my-0 fw-normal">최근 주문내역 (10개)</h4>
-          </div>
           <div class="card-body" bis_skin_checked="1">
+            <h5 class="card-title">최근 주문내역</h5>
             <table class='table table-hover'>
               <thead>
                 <tr>
@@ -37,12 +35,40 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <h5 class="card-title">Reports <span id="report_title_en">/Today</span></h5>
+              </div>
+              <div class="col-auto">
+                <div class="filter mt-3">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <span>Filter</span>
+                    </li>
+                    <li><a class="dropdown-item" onclick="report('TODAY')">일별</a></li>
+                    <li><a class="dropdown-item" onclick="report('WEEK')">주간별</a></li>
+                    <li><a class="dropdown-item" onclick="report('MONTH')">월별</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">This Year</a></li> -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div id="salesChart" style="min-height: 365px;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
       <div class="col" bis_skin_checked="1">
         <div class="card mb-4 rounded-3 shadow-sm" bis_skin_checked="1">
-          <div class="card-header py-3" bis_skin_checked="1">
-            <h4 class="my-0 fw-normal">일 매출</h4>
-          </div>
           <div class="card-body" bis_skin_checked="1">
+            <h5 class="card-title">일 매출</h5>
             <div class="row mt-3">
               <div class="col-sm-6">
                 <div class="card">
@@ -116,6 +142,7 @@
 </main>
 {% endblock %}
 {% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
   const shop_id = {{shop.pk}};
   const order_audio = new Audio('/static/shop/assets/audio/order_alert.mp3')
@@ -125,5 +152,6 @@
   });
 </script>
 <script src="{% static 'shop/js/shop_manage/script_shop_manage_main.js' %}?v=2024072817"></script>
+<script src="{% static 'shop/js/shop_manage/script_shop_manage_chart.js' %}"></script>
 {% endblock javascripts %}
 
