@@ -706,6 +706,7 @@ class ShopTableCheckoutView(View):
 
                     # 총결제금액 합산
                     final += total
+            final += shop_table.total_additional                    
             final_discount = shop_table.total_discount - goods_total_discount
             final -= final_discount
             if final < 0:
