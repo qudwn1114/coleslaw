@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.contrib.auth.views import LogoutView
-from agency_manage.views.agency_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, agency_main_sales, agency_sales_report, UserPasswordEditView
+from agency_manage.views.agency_manage_views.auth_views import HomeView, LoginView, PermissionDeniedView, NotFoundView, agency_main_sales, agency_sales_report, agency_shop_sales_report, UserPasswordEditView
 from agency_manage.views.user_manage_views.user_manage_views import UserManageView, UserCreateView, UserDetailView, UserEditView
 from agency_manage.views.shop_manage_views.shop_manage_views import ShopManageView, ShopCreateView, ShopDetailView, ShopEditView
 from agency_manage.views.shop_manage_views.shop_admin_manage_views import ShopAdminManageView
@@ -11,6 +11,7 @@ urlpatterns = [
     path('<int:agency_id>/', HomeView.as_view(), name='home'),
     path('<int:agency_id>/main/sales/', agency_main_sales),
     path('<int:agency_id>/main/report/', agency_sales_report),
+    path('<int:agency_id>/main/shop/report/', agency_shop_sales_report),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='agency_manage:login'), name='logout'),
     path('login/', LoginView.as_view(), name='login'),

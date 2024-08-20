@@ -37,6 +37,35 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <h5 class="card-title">Shop Reports <span>/</span><span id="shop_report_title_en">Today</span></h5>
+              </div>
+              <div class="col-auto">
+                <div class="filter mt-3">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <span><i class="bi bi-filter-left"></i>Filter</span>
+                    </li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="shop_report('TODAY')">오늘</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="shop_report('MONTH')">이번달</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="shop_report('YEAR')">올해</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div id="shopSalesChart" style="min-height: 365px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
       <div class="col" bis_skin_checked="1">
         <div class="card mb-4 rounded-3 shadow-sm" bis_skin_checked="1">
           <div class="card-body" bis_skin_checked="1">
@@ -101,6 +130,6 @@
   const agency_id = {{agency.pk}};
 </script>
 <script src="{% static 'agency/js/agency_manage/script_agency_manage_main.js' %}?v=20240727"></script>
-<script src="{% static 'agency/js/agency_manage/script_agency_manage_chart.js' %}"></script>
+<script src="{% static 'agency/js/agency_manage/script_agency_manage_chart.js' %}?v=20240820"></script>
 {% endblock javascripts %}
 

@@ -12,7 +12,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth import update_session_auth_hash
 from django.utils.decorators import method_decorator
 from system_manage.decorators import  permission_required
-from system_manage.models import Agency, AgencyAdmin, Order
+from system_manage.models import Agency, AgencyAdmin, Order, Shop
 
 from dateutil.relativedelta import relativedelta
 import datetime
@@ -138,6 +138,71 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
             
         data['title'] = '월간 매출'
         data['title_en'] = 'Month'
+        data['series_data'] =  series_data
+        
+    return JsonResponse(data, status = 200)
+
+
+@require_http_methods(["GET"])
+def agency_shop_sales_report(request: HttpRequest, *args, **kwargs):
+    '''
+        판매현황
+    '''
+    agency_id = kwargs.get('agency_id')
+    agency = check_agency(pk=agency_id)
+    if not agency:
+        return JsonResponse({}, status = 400)
+    data = {}
+    report_type = request.GET.get('report_type', 'TODAY')
+    today = timezone.now().date()
+    shop = {}
+    shop_list = list(Shop.objects.filter(agency=agency).values_list('name_kr', flat=True).order_by('id'))
+    for i in shop_list:
+        shop[f"{i}"] = 0
+    if report_type == 'TODAY':        
+        order = Order.objects.filter(agency=agency, date=today).exclude(status__in=['0','2']).values('shop__name_kr').annotate(sum=Sum('final_price')).values('shop__name_kr', 'sum')
+        for i in order:
+            shop[i['shop__name_kr']] = i['sum']
+        series_data = []
+        for k, v in shop.items():
+            x = k
+            y = v
+            series_data.append({"x":x, "y":y})
+        series_data = sorted(series_data, key=lambda x : x['y'], reverse=True) 
+        data['title'] = '가맹점 별 일 매출'
+        data['title_en'] = 'Today'
+        data['series_data'] =  series_data
+
+    elif report_type == 'MONTH':
+        start_date = today.replace(day=1)
+        end_date = today
+        order = Order.objects.filter(agency=agency, date__range=[start_date, end_date]).exclude(status__in=['0','2']).values('shop__name_kr').annotate(sum=Sum('final_price')).values('shop__name_kr', 'sum')
+        for i in order:
+            shop[i['shop__name_kr']] = i['sum']
+        series_data = []
+        for k, v in shop.items():
+            x = k
+            y = v
+            series_data.append({"x":x, "y":y})
+        series_data = sorted(series_data, key=lambda x : x['y'], reverse=True) 
+        data['title'] = '가맹점 별 월 매출'
+        data['title_en'] = 'Month'
+        data['series_data'] =  series_data
+
+    elif report_type == 'YEAR':
+        start_date = today.replace(month=1, day=1)
+        end_date = today
+        order = Order.objects.filter(agency=agency, date__range=[start_date, end_date]).exclude(status__in=['0','2']).values('shop__name_kr').annotate(sum=Sum('final_price')).values('shop__name_kr', 'sum')
+        for i in order:
+            shop[i['shop__name_kr']] = i['sum']
+        series_data = []
+        for k, v in shop.items():
+            x = k
+            y = v
+            series_data.append({"x":x, "y":y})
+        series_data = sorted(series_data, key=lambda x : x['y'], reverse=True) 
+        data['title'] = '가맹점 별 연 매출'
+        data['title_en'] = 'Year'
         data['series_data'] =  series_data
         
     return JsonResponse(data, status = 200)
