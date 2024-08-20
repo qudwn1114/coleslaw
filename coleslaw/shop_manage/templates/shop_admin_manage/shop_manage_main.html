@@ -40,18 +40,18 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">Reports <span id="report_title_en">/Today</span></h5>
+                <h5 class="card-title">Reports <span>/</span><span id="report_title_en">Today</span></h5>
               </div>
               <div class="col-auto">
                 <div class="filter mt-3">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
-                      <span>Filter</span>
+                      <span><i class="bi bi-filter-left"></i>Filter</span>
                     </li>
-                    <li><a class="dropdown-item" onclick="report('TODAY')">일별</a></li>
-                    <li><a class="dropdown-item" onclick="report('WEEK')">주간별</a></li>
-                    <li><a class="dropdown-item" onclick="report('MONTH')">월별</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="report('TODAY')">일별</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="report('WEEK')">주간별</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="report('MONTH')">월별</a></li>
                     <!-- <li><a class="dropdown-item" href="#">This Year</a></li> -->
                   </ul>
                 </div>
@@ -62,7 +62,6 @@
           </div>
         </div>
       </div>
-
     </div>
     <div class="row">
       <div class="col" bis_skin_checked="1">

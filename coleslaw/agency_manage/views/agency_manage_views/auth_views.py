@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.generic import View, TemplateView
 from django.http import HttpRequest, JsonResponse
 from django.db.models import F, Sum, Value as V, Func, CharField
-from django.db.models.functions import Coalesce
+from django.db.models.functions import Coalesce, TruncMonth, TruncHour
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
@@ -13,6 +13,9 @@ from django.contrib.auth import update_session_auth_hash
 from django.utils.decorators import method_decorator
 from system_manage.decorators import  permission_required
 from system_manage.models import Agency, AgencyAdmin, Order
+
+from dateutil.relativedelta import relativedelta
+import datetime
 
 
 # Create your views here.
@@ -58,6 +61,88 @@ def agency_main_sales(request: HttpRequest, *args, **kwargs):
         'total_count' : total_sales.count()
     }
     return JsonResponse(data, status = 200)
+
+
+@require_http_methods(["GET"])
+def agency_sales_report(request: HttpRequest, *args, **kwargs):
+    '''
+        판매현황
+    '''
+    agency_id = kwargs.get('agency_id')
+    agency = check_agency(pk=agency_id)
+    if not agency:
+        return JsonResponse({}, status = 400)
+    data = {}
+    report_type = request.GET.get('report_type', 'TODAY')
+    today = timezone.now().date()
+    dates = {}
+    if report_type == 'TODAY':        
+        order = Order.objects.filter(agency=agency, date=today).exclude(status__in=['0','2']).annotate(hour=TruncHour('updated_at')).values('hour').annotate(sum=Sum('final_price')).values('hour', 'sum').order_by('hour')
+        max_hour =  timezone.now().hour
+        for i in range(max_hour+1):
+            dates[f"{format(i, '02')}"] = 0
+        for i in range(max_hour+1, 24):
+            dates[f"{format(i, '02')}"] = None
+        for i in order:
+            dates[i['hour'].strftime('%H')] = i['sum']
+        series_data = []
+        categories = []
+        for k, v in dates.items():
+            x = k
+            y = v
+            series_data.append({"x":x, "y":y})
+
+        data['title'] = '일 매출'
+        data['title_en'] = 'Today'
+        data['series_data'] =  series_data
+
+    elif report_type == 'WEEK':
+        week = ['월','화','수','목','금','토','일']
+        days = 8
+        start_date = today - datetime.timedelta(days=days-1)
+        end_date = today
+        for i in range(days):
+            dates[start_date + datetime.timedelta(days=i)] = 0
+        order = Order.objects.filter(agency=agency, date__range=[start_date, end_date]).exclude(status__in=['0','2']).values('date').annotate(sum=Sum('final_price')).values('date', 'sum').order_by('date')
+        for i in order:
+            dates[i['date']] = i['sum']
+        series_data = []
+        for k, v in dates.items():
+            if today == k:
+                x= f'오늘({week[k.weekday()]})'
+            else:
+                x= f'{k.strftime("%m.%d")}({week[k.weekday()]})'
+            y = v
+            series_data.append({"x":x, "y":y})
+
+        data['title'] = '주간 매출'
+        data['title_en'] = 'Week'
+        data['series_data'] =  series_data
+
+    elif report_type == 'MONTH':
+        months = 8
+        start_date = today.replace(day=1) - relativedelta(months=months-1)
+        end_date = today
+        order = Order.objects.filter(agency=agency, date__range=[start_date, end_date]).exclude(status__in=['0','2']).annotate(month=TruncMonth('date')).values('month').annotate(sum=Sum('final_price')).values('month', 'sum').order_by('month')
+        
+        for i in range(months):
+            month = start_date + relativedelta(months=i)
+            dates[f"{format(month.month, '02')}"] = 0
+        for i in order:
+            dates[i['month'].strftime("%m")] = i['sum']
+        series_data = []
+        
+        for k, v in dates.items():
+            x = k
+            y = v
+            series_data.append({"x":x, "y":y})
+            
+        data['title'] = '월간 매출'
+        data['title_en'] = 'Month'
+        data['series_data'] =  series_data
+        
+    return JsonResponse(data, status = 200)
+
 
 class LoginView(View):
     '''

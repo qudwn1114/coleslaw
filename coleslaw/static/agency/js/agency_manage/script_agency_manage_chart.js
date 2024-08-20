@@ -1,12 +1,13 @@
-report('TODAY');
+report('WEEK');
 function report(report_type){
       $.ajax({
           type: "GET",
-          url: `/shop-manage/${shop_id}/main/report/?report_type=${report_type}`,
+          url: `/agency-manage/${agency_id}/main/report/?report_type=${report_type}`,
           headers: {
               'X-CSRFToken': csrftoken
           },
           success: function(data) {
+            console.log(data);
             document.getElementById("report_title_en").innerText = data.title_en;
             chart.updateSeries([{
                 name: '매출',
