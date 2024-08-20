@@ -7,6 +7,8 @@ from system_manage.views.system_manage_views.auth_views import validate_phone
 from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 from system_manage.models import ShopTable, Goods, GoodsOption, GoodsOptionDetail, Shop, Checkout, CheckoutDetail, CheckoutDetailOption
 from api.views.sms_views.sms_views import send_sms
@@ -62,6 +64,14 @@ class ShopTableAddView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+          
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -154,6 +164,21 @@ class ShopTableAddView(View):
             shop_table.total_discount -= discount_price
             shop_table.save()
 
+            try:
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    f'shop_{shop_id}_{mainpos.table_no}',
+                    {
+                        'type': 'chat_message',
+                        'message_type' : 'UPDATE',
+                        'title': 'POS 듀얼 모니터',
+                        'message': {"table_no":table_no}
+                    }
+                )
+            except:
+                pass
+
+
             return_data = {'data': data,'msg': '상품이 추가 되었습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
@@ -182,6 +207,19 @@ class ShopTableAddView(View):
             shop_table.total_discount = 0
             shop_table.cart = cart_list
             shop_table.save()
+            try:
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    f'shop_{shop_id}_{mainpos.table_no}',
+                    {
+                        'type': 'chat_message',
+                        'message_type' : 'UPDATE',
+                        'title': 'POS 듀얼 모니터',
+                        'message': {"table_no":table_no}
+                    }
+                )
+            except:
+                pass
             
             return_data = {'data': data,'msg': '상품이 담겼습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -199,6 +237,13 @@ class ShopTableUpdateView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -248,6 +293,19 @@ class ShopTableUpdateView(View):
             shop_table.total_discount = total_discount
             shop_table.total_price = total_price
             shop_table.save()
+            try:
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    f'shop_{shop_id}_{mainpos.table_no}',
+                    {
+                        'type': 'chat_message',
+                        'message_type' : 'UPDATE',
+                        'title': 'POS 듀얼 모니터',
+                        'message': {"table_no":table_no}
+                    }
+                )
+            except:
+                pass
 
             return_data = {'data': data,'msg': '상품 수량이 업데이트 되었습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -271,6 +329,13 @@ class ShopTableDeleteView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -315,6 +380,21 @@ class ShopTableDeleteView(View):
             shop_table.total_price = total_price
             shop_table.save()
 
+            try:
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    f'shop_{shop_id}_{mainpos.table_no}',
+                    {
+                        'type': 'chat_message',
+                        'message_type' : 'UPDATE',
+                        'title': 'POS 듀얼 모니터',
+                        'message': {"table_no":table_no}
+                    }
+                )
+            except:
+                pass
+
+
             return_data = {'data': data,'msg': '상품이 제거되었습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
@@ -336,6 +416,13 @@ class ShopTableClearView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -356,6 +443,20 @@ class ShopTableClearView(View):
         data['cart_total_discount'] = 0
         data['cart_total_addtional'] = 0
 
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_{shop_id}_{mainpos.table_no}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'UPDATE',
+                    'title': 'POS 듀얼 모니터',
+                    'message': {"table_no":table_no}
+                }
+            )
+        except:
+            pass
+
         return_data = {'data': data,'msg': '상품이 모두 제거되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
@@ -373,6 +474,13 @@ class ShopTableGoodsDiscountView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -421,6 +529,21 @@ class ShopTableGoodsDiscountView(View):
             shop_table.total_price = total_price
             shop_table.save()
 
+            try:
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    f'shop_{shop_id}_{mainpos.table_no}',
+                    {
+                        'type': 'chat_message',
+                        'message_type' : 'UPDATE',
+                        'title': 'POS 듀얼 모니터',
+                        'message': {"table_no":table_no}
+                    }
+                )
+            except:
+                pass
+
+
             return_data = {'data': data,'msg': '상품 할인이 업데이트 되었습니다.','resultCd': '0000'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
@@ -442,6 +565,13 @@ class ShopTableDiscountView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -468,6 +598,20 @@ class ShopTableDiscountView(View):
         data['cart_total_price'] = total_price
         data['cart_total_discount'] = total_discount
 
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_{shop_id}_{mainpos.table_no}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'UPDATE',
+                    'title': 'POS 듀얼 모니터',
+                    'message': {"table_no":table_no}
+                }
+            )
+        except:
+            pass
+
         return_data = {'data': data,'msg': '할인이 적용 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
@@ -484,6 +628,13 @@ class ShopTableDiscountCancelView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -515,6 +666,19 @@ class ShopTableDiscountCancelView(View):
         shop_table.total_discount = 0
         shop_table.save()
 
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_{shop_id}_{mainpos.table_no}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'UPDATE',
+                    'title': 'POS 듀얼 모니터',
+                    'message': {"table_no":table_no}
+                }
+            )
+        except:
+            pass
 
         return_data = {'data': data,'msg': '할인이 취소 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -532,6 +696,13 @@ class ShopTableAdditionalView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -557,6 +728,20 @@ class ShopTableAdditionalView(View):
         data['cart_total_price'] = total_price
         data['cart_total_additional'] = total_additional
 
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_{shop_id}_{mainpos.table_no}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'UPDATE',
+                    'title': 'POS 듀얼 모니터',
+                    'message': {"table_no":table_no}
+                }
+            )
+        except:
+            pass
+
         return_data = {'data': data,'msg': '추가요금이 적용 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
@@ -573,6 +758,13 @@ class ShopTableAdditionalCancelView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         try:
             shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
         except:
@@ -591,6 +783,20 @@ class ShopTableAdditionalCancelView(View):
         data = {}
         data['cart_total_price'] = new_total_price
         data['total_additional'] = 0
+
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_{shop_id}_{mainpos.table_no}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'UPDATE',
+                    'title': 'POS 듀얼 모니터',
+                    'message': {"table_no":table_no}
+                }
+            )
+        except:
+            pass
 
         return_data = {'data': data,'msg': '추가요금이 취소 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
