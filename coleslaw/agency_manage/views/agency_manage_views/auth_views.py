@@ -86,9 +86,8 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
         for i in order:
             dates[i['hour'].strftime('%H')] = i['sum']
         series_data = []
-        categories = []
         for k, v in dates.items():
-            x = k
+            x = f"{k}시"
             y = v
             series_data.append({"x":x, "y":y})
 
@@ -133,7 +132,7 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
         series_data = []
         
         for k, v in dates.items():
-            x = k
+            x = f"{k}월"
             y = v
             series_data.append({"x":x, "y":y})
             
