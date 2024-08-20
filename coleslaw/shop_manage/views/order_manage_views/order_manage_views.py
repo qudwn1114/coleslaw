@@ -168,8 +168,13 @@ class OrderManageView(View):
             'createdAt'
         )
 
-        total_price = obj_list.exclude(status='2').aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum')
-        context['total_price'] = total_price
+        total_card_price = obj_list.exclude(status='2').filter(payment_method='0').aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum')
+        total_cash_price = obj_list.exclude(status='2').filter(payment_method='1').aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum')
+        total_mixed_price = obj_list.exclude(status='2').filter(payment_method='2').aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum')
+        
+        context['total_card_price'] = total_card_price
+        context['total_cash_price'] = total_cash_price
+        context['total_mixed_price'] = total_mixed_price
 
         paginator = Paginator(obj_list, paginate_by)
         try:
