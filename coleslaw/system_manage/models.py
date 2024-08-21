@@ -523,6 +523,7 @@ class OrderPayment(models.Model):
     additionalInfo = models.CharField(max_length=300, null=True)
     posEntryMode = models.CharField(max_length=10, default='')
 
+    cashResceiptStatus = models.BooleanField(default=False, verbose_name='추가현금영수증여부')
     cashReceiptcardNo = models.CharField(max_length=50, default='')
     cashReceiptApprovalNumber = models.CharField(max_length=20, null=True)
     
