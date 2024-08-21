@@ -99,7 +99,7 @@ class ShopPosOrderListView(View):
             pagelist = paginator.get_elided_page_range(page, on_each_side=3, on_ends=1)
             return_data = {
                 'data': list(page_obj),
-                'pagelist': pagelist,
+                'pagelist': list(pagelist),
                 'paginate_by': paginate_by,
                 'resultCd': '0000',
                 'msg': '가맹점 주문 리스트',
