@@ -118,6 +118,7 @@ class ShopCreateView(View):
             return JsonResponse({'message': '이미 존재하는 가맹점 영문명 입니다.'}, status=400)
         except:
             pass
+        default_pos_ad_video = 'video/pos_ad/default.mp4'
         try:
             with transaction.atomic():
                 shop = Shop.objects.create(
@@ -141,6 +142,7 @@ class ShopCreateView(View):
                     entry_image2=entry_image2,
                     table_time=table_time,
                     additional_fee_time=additional_fee_time,
+                    pos_ad_video = default_pos_ad_video
                 )
                 ShopTable.objects.create(
                     shop = shop,
