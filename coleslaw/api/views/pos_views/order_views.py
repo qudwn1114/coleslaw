@@ -4,7 +4,7 @@ from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetc
 from django.db.models.functions import Coalesce
 from django.db import transaction, IntegrityError
 from django.core.serializers.json import DjangoJSONEncoder
-from system_manage.views.system_manage_views.auth_views import validate_phone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -40,9 +40,6 @@ class ShopPosOrderListView(View):
             date = timezone.now().date()
             filter_dict['date'] = date
 
-        startnum = 0 + (page-1)*paginate_by
-        endnum = startnum+paginate_by
-    
         try:
             shop = Shop.objects.get(pk=shop_id)
         except:
@@ -86,8 +83,23 @@ class ShopPosOrderListView(View):
                 'createdAt'
             ).order_by('-id')
 
+            paginator = Paginator(queryset, paginate_by)
+            try:
+                page_obj = paginator.page(page)
+            except PageNotAnInteger:
+                page = 1
+                page_obj = paginator.page(page)
+            except EmptyPage:
+                page = 1
+                page_obj = paginator.page(page)
+            except InvalidPage:
+                page = 1
+                page_obj = paginator.page(page)
+
+            pagelist = paginator.get_elided_page_range(page, on_each_side=3, on_ends=1)
             return_data = {
-                'data': list(queryset[startnum:endnum]),
+                'data': list(page_obj),
+                'pagelist': pagelist,
                 'paginate_by': paginate_by,
                 'resultCd': '0000',
                 'msg': '가맹점 주문 리스트',
