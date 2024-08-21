@@ -522,6 +522,9 @@ class OrderPayment(models.Model):
     approvalNumber = models.CharField(max_length=20, null=True)
     additionalInfo = models.CharField(max_length=300, null=True)
     posEntryMode = models.CharField(max_length=10, default='')
+
+    cashReceiptcardNo = models.CharField(max_length=50, default='')
+    cashReceiptApprovalNumber = models.CharField(max_length=20, null=True)
     
     cancelled_at = models.DateTimeField(null=True, verbose_name='취소일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
