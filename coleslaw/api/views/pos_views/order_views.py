@@ -279,6 +279,7 @@ class ShopPosOrderCreateView(View):
                         agency=checkout.agency,
                         shop=shop,
                         table_no=checkout.table_no,
+                        mainpos_id=checkout.mainpos_id,
                         shop_member=shop_member,
                         order_type='0',
                         order_membername='',

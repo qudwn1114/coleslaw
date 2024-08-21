@@ -815,6 +815,13 @@ class ShopTableCheckoutView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         table_no = int(kwargs.get('table_no'))
+        mainpos_id = int(kwargs.get('mainpos_id'))
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         try:
             shop = Shop.objects.get(pk=shop_id)
         except:
@@ -857,7 +864,8 @@ class ShopTableCheckoutView(View):
                     shop = shop,
                     code = code,
                     table_no = shop_table.table_no,
-                    shop_member = shop_table.shop_member
+                    shop_member = shop_table.shop_member,
+                    mainpos_id = mainpos_id
                 )
                 goods_total_discount = 0
                 for i in cart_list:
@@ -967,7 +975,7 @@ class ShopPosDetailView(View):
                 data['shopPosAdVideoUrl'] = settings.SITE_URL + shop.pos_ad_video.url
             else:
                 data['shopPosAdVideoUrl'] = None 
-                
+
             return_data = {
                 'data': data,
                 'resultCd': '0000',
