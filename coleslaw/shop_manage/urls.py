@@ -5,7 +5,7 @@ from shop_manage.views.shop_manage_views.auth_views import HomeView, LoginView, 
 from shop_manage.views.entry_manage_views.person_type_manage_views import PersonTypeManageView, PersonTypeCreateView, PersonTypeDetailView, PersonTypeEditView, PersonTypeGoodsManageView
 from shop_manage.views.entry_manage_views.entry_option_manage_views import ShopEntryOptionManageView, ShopEntryOptionDetailManageView, ShopEntryOptionDetailImageView
 from shop_manage.views.table_manage_views.table_manage_views import ShopTableManageView, ShopTableCreateView
-from shop_manage.views.pos_manage_views.pos_manage_views import ShopPosManageView, ShopPosCreateView
+from shop_manage.views.pos_manage_views.pos_manage_views import ShopPosManageView, ShopPosCreateView, ShopPosDetailView, ShopPosEditView
 from shop_manage.views.goods_manage_views.goods_manage_views import GoodsManageView, GoodsCreateView, GoodsDetailView, GoodsEditView, goods
 from shop_manage.views.goods_manage_views.option_manage_views import OptionManageView, OptionDetailManageView
 from shop_manage.views.order_manage_views.order_manage_views import OrderManageView, order_complete_sms, order_goods
@@ -39,6 +39,9 @@ urlpatterns = [
 
     path('<int:shop_id>/pos-manage/', ShopPosManageView.as_view(), name='pos_manage'),
     path('<int:shop_id>/pos-create/', ShopPosCreateView.as_view(), name='pos_create'),
+
+    path('<int:shop_id>/shop-pos-detail/', ShopPosDetailView.as_view(), name='shop_pos_detail'),
+    path('<int:shop_id>/shop-pos-edit/', ShopPosEditView.as_view(), name='shop_pos_edit'),
 
     path('<int:shop_id>/goods-manage/', GoodsManageView.as_view(), name='goods_manage'),
     path('<int:shop_id>/goods-create/', GoodsCreateView.as_view(), name='goods_create'),

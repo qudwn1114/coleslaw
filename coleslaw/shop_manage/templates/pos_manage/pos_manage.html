@@ -21,6 +21,7 @@
           <div class="card-body">
             <h5 class="card-title">POS Manage</h5>
             <a class="btn btn-primary" href="{% url 'shop_manage:pos_create' shop.id %}">등록</a>
+            <a class="btn btn-outline-primary" href="{% url 'shop_manage:shop_pos_detail' shop.id %}">포스 관리</a>
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
                 <label for="item" class="col-sm-2 col-form-label">검색 분류</label>

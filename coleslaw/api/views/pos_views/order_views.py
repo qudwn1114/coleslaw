@@ -685,6 +685,20 @@ class ShopPosOrderCompleteView(View):
                 'msg': '결제완료',
                 'resultCd': '0000',
             }
+            try:
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    f'shop_{shop_id}_{order.mainpos_id}',
+                    {
+                        'type': 'chat_message',
+                        'message_type' : 'COMPLETE',
+                        'title': 'POS 듀얼 모니터',
+                        'message': 'CLEAR'
+                    }
+                )
+            except:
+                pass
+
         except:
             logger.error(str(dict(request.POST)))
             logger.error(traceback.format_exc())

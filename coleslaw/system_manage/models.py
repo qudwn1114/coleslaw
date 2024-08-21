@@ -115,6 +115,8 @@ class Shop(models.Model):
     table_time = models.PositiveIntegerField(default=0, verbose_name='테이블이용시간') #0: 무제한
     additional_fee_time = models.PositiveIntegerField(default=10, verbose_name='추가요금 시간') #10: 10분
 
+    pos_ad_video = models.FileField(max_length=300, null=True, upload_to='video/pos_ad/', verbose_name='포스광고')
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
@@ -379,6 +381,7 @@ class Checkout(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     code = models.CharField(max_length=100, unique=True)
     table_no = models.IntegerField(default=None, null=True)
+    mainpos_id = models.IntegerField(default=0)
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제금액')
     final_discount = models.PositiveIntegerField(default=0, verbose_name='전체 할인 금액')
@@ -415,6 +418,7 @@ class Order(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     
     table_no = models.IntegerField(default=None, null=True)
+    mainpos_id = models.IntegerField(default=0)
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
 
     order_type = models.CharField(max_length=10, verbose_name='주문방식', default='0') # 0: pos, 1: QR, 2: 키오스크

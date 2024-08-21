@@ -1,0 +1,59 @@
+{% extends "layouts/shop_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>상품 상세</h1>
+        <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
+              <li class="breadcrumb-item">Pos Manage</li>
+              <li class="breadcrumb-item active">Shop Pos Detail</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h5 class="card-title">가맹점 POS 상세</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="icon mt-3"><a href="{% url 'shop_manage:pos_manage' shop.id %}"><i class="bi bi-list"></i> 목록</a></div>
+                </div>
+            </div>
+            <form id="data-form" method="post" onsubmit="return false">
+                <div class="row mt-3 mb-3">
+                    <label for="pos_ad_video" class="col-sm-2 col-form-label">광고 비디오</label>
+                    <div class="col-sm-10">
+                      {% if shop.pos_ad_video %}
+                          <video src="{{shop.pos_ad_video.url}}" controls style="width:480px;" class="form-control"></video>
+                      {% else %}
+                          비디오 없음
+                      {% endif %}                  
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-12 text-center">
+                        <a class="btn btn-warning" href="{% url 'shop_manage:shop_pos_edit' shop.id %}">Edit</a>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'shop/js/goods_manage/script_goods_detail.js' %}"></script>
+{% endblock javascripts %}
+
