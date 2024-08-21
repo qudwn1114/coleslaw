@@ -116,7 +116,10 @@ class ShopCloseReceiptView(View):
             start_date = timezone.now().date()
             end_date = datetime.datetime.combine(start_date, datetime.time.max)
 
-        date = f"{start_date} ~ {end_date}"
+        if start_date.strftime('%Y-%m-%d') == end_date.strftime('%Y-%m-%d'):
+            date = f"{start_date.strftime('%Y-%m-%d')}"
+        else:
+            date = f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}"
         filter_dict['order__created_at__gte'] = start_date
         filter_dict['order__created_at__lte'] = end_date
 
