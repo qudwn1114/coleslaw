@@ -52,6 +52,7 @@ class ShopTableListView(View):
                 ).values(
                     'table_no',
                     'name',
+                    'exit_color',
                     'entry_time',
                     'membername',
                     'total_price',
@@ -182,13 +183,14 @@ class ShopTableExitView(View):
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
-            
+        default_exit_color = '2c70f5'
         try:
             with transaction.atomic():
                 shop_table.shop_member = None
                 shop_table.entry_time = None
                 shop_table.cart = None
                 shop_table.total_price = 0
+                shop_table.exit_color = default_exit_color
                 shop_table.save()
                 ShopTableLog.objects.create(
                     shop_table=shop_table,

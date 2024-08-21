@@ -751,3 +751,68 @@ class ShopPosOrderPaymentCancelView(View):
         },'msg': '취소되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+    
+class ShopPosOrderPaymentCashReceiptCompleteView(View):
+    '''
+        shop pos order complete
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopPosOrderPaymentCashReceiptCompleteView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        order_payment_id = kwargs.get('order_payment_id')
+        try:
+            order_payment = OrderPayment.objects.get(pk=order_payment_id, order__shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'order payment id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        approvalNumber = request.POST.get('approvalNumber', '')
+        approvalDate = request.POST.get('approvalDate', '')
+        cardNo = request.POST.get('maskingCardNumber', '') #마스킹 되어진 카드번호
+        
+        order_payment.cashReceiptCardNo = cardNo
+        order_payment.cashReceiptApprovalNumber = approvalNumber
+        order_payment.cashReceiptApprovalDate = approvalDate
+        order_payment.cashResceiptStatus = True
+        order_payment.save()
+
+        return_data = {'data': {
+            'order_id':order_payment.order.pk
+        },'msg': '현금영수증 처리되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopPosOrderPaymentCashReceiptCancelView(View):
+    '''
+        shop pos order cancel
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopPosOrderPaymentCashReceiptCancelView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        order_payment_id = kwargs.get('order_payment_id')
+        try:
+            order_payment = OrderPayment.objects.get(pk=order_payment_id, order__shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'order payment id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        order_payment.cashReceiptCardNo = ''
+        order_payment.cashReceiptApprovalNumber = None
+        order_payment.cashReceiptApprovalDate = ''
+        order_payment.cashResceiptStatus = False
+        order_payment.save()
+
+        return_data = {'data': {
+            'order_id':order_payment.order.pk
+        },'msg': '현금영수증 취소되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")

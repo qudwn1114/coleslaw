@@ -202,6 +202,7 @@ class ShopTable(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     table_no = models.IntegerField()
     name = models.CharField(max_length=100, verbose_name='테이블명')
+    exit_color = models.CharField(default='2c70f5', max_length=20, verbose_name='퇴장하기 버튼 색')
     
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     entry_time = models.DateTimeField(null=True, verbose_name='입장시간')
@@ -524,8 +525,9 @@ class OrderPayment(models.Model):
     posEntryMode = models.CharField(max_length=10, default='')
 
     cashResceiptStatus = models.BooleanField(default=False, verbose_name='추가현금영수증여부')
-    cashReceiptcardNo = models.CharField(max_length=50, default='')
+    cashReceiptCardNo = models.CharField(max_length=50, default='')
     cashReceiptApprovalNumber = models.CharField(max_length=20, null=True)
+    cashReceiptApprovalDate = models.CharField(max_length=20, default='')
     
     cancelled_at = models.DateTimeField(null=True, verbose_name='취소일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
