@@ -945,6 +945,20 @@ class ShopTableCheckoutView(View):
                 'resultCd': '0000',
             }
 
+            try:
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    f'shop_{shop_id}_{mainpos.table_no}',
+                    {
+                        'type': 'chat_message',
+                        'message_type' : 'UPDATE',
+                        'title': 'POS 듀얼 모니터 CHECKOUT',
+                        'message': {"table_no":table_no}
+                    }
+                )
+            except:
+                pass
+
         except ValueError as e:
             return_data = {
                 'data': {},
