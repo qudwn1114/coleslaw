@@ -188,7 +188,7 @@ class ShopPosEditView(View):
     
     @method_decorator(permission_required(raise_exception=True))
     def post(self, request: HttpRequest, *args, **kwargs):
-        VIDEO_MAX_UPLOAD_SIZE = 52428800
+        VIDEO_MAX_UPLOAD_SIZE = 209715200
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
@@ -200,7 +200,7 @@ class ShopPosEditView(View):
 
         if pos_ad_video:
             if pos_ad_video.size > VIDEO_MAX_UPLOAD_SIZE:
-                return JsonResponse({"message": "광고 비디오 용량은 50mb 제한입니다."}, status=400)
+                return JsonResponse({"message": "광고 비디오 용량은 200mb 제한입니다."}, status=400)
         
         shop.receipt = receipt
         shop.shop_receipt_flag = shop_receipt_flag
