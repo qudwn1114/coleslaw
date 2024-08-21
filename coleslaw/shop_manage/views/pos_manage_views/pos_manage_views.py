@@ -193,12 +193,17 @@ class ShopPosEditView(View):
         shop = check_shop(pk=shop_id)
         if not shop:
             return JsonResponse({'message' : '가맹점 오류'},status = 400)
+        
         pos_ad_video = request.FILES.get("pos_ad_video")
+        receipt = request.POST['receipt'].strip()
+        shop_receipt_flag = bool(request.POST.get('shop_receipt_flag', None))
 
         if pos_ad_video:
             if pos_ad_video.size > VIDEO_MAX_UPLOAD_SIZE:
                 return JsonResponse({"message": "광고 비디오 용량은 50mb 제한입니다."}, status=400)
         
+        shop.receipt = receipt
+        shop.shop_receipt_flag = shop_receipt_flag
         if pos_ad_video:
             shop.pos_ad_video = pos_ad_video
 

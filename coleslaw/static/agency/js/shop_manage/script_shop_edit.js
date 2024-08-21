@@ -17,8 +17,6 @@ const logo_image1 = document.getElementById("logo_image1");
 const entry_image1 = document.getElementById("entry_image1");
 const logo_image2 = document.getElementById("logo_image2");
 const entry_image2 = document.getElementById("entry_image2");
-const receipt = document.getElementById("receipt");
-const shop_receipt_flag = document.getElementById("shop_receipt_flag");
 const table_time = document.getElementById('table_time');
 const additional_fee_time = document.getElementById('additional_fee_time');
 
@@ -49,8 +47,6 @@ btn_submit.addEventListener("click", () => {
     entry_image1.disabled=true;
     logo_image2.disabled=true;
     entry_image2.disabled=true;
-    receipt.disabled=true;
-    shop_receipt_flag.disabled=true;
     table_time.disabled=true;
     additional_fee_time.disabled=true;
     
@@ -88,8 +84,6 @@ btn_submit.addEventListener("click", () => {
             entry_image1.disabled=false;
             logo_image2.disabled=false;
             entry_image2.disabled=false;
-            receipt.disabled=false;
-            shop_receipt_flag.disabled=false;
             table_time.disabled=false;
             additional_fee_time.disabled=false;
             if(error.status == 401){
