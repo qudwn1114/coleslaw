@@ -6,7 +6,7 @@ from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderComp
 
 from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView, ShopTableDetailView, ShopTableLogoutView, ShopMainPosTidView
-from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableGoodsDiscountView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableAdditionalView, ShopTableAdditionalCancelView, ShopTableCheckoutView
+from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableGoodsDiscountView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableAdditionalView, ShopTableAdditionalCancelView, ShopTableCheckoutView, ShopPosDetailView
 from api.views.pos_views.order_views import ShopPosOrderCreateView, ShopPosCheckoutOrderDetailView, ShopPosOrderCompleteView, ShopPosOrderListView, ShopPosOrderDetailView, ShopPosOrderPaymentCancelView
 from api.views.pos_views.receipt_views import ShopOrderReceiptView, ShopCloseReceiptView
 from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView
@@ -49,6 +49,7 @@ urlpatterns = [
     
     # pos
     path('shop/<int:shop_id>/pos-list/', ShopPosListView.as_view()),
+    path('shop/<int:shop_id>/pos-detail/', ShopPosDetailView.as_view()),
     path('shop/<int:shop_id>/member-list/', ShopMemberListView.as_view()),
     path('shop/<int:shop_id>/member-create/', ShopMemberCreateView.as_view()),
 

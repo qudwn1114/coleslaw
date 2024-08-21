@@ -4,7 +4,7 @@ from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetc
 from django.db import transaction, IntegrityError
 from django.core.serializers.json import DjangoJSONEncoder
 from system_manage.views.system_manage_views.auth_views import validate_phone
-from django.utils import timezone, dateformat
+from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from asgiref.sync import async_to_sync
@@ -950,5 +950,36 @@ class ShopTableCheckoutView(View):
                 'resultCd': '0001',
             }
 
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopPosDetailView(View):
+    '''
+        shop pos detail
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+            data = {}            
+            if shop.pos_ad_video:
+                data['shopPosAdVideoUrl'] = settings.SITE_URL + shop.pos_ad_video.url
+            else:
+                data['shopPosAdVideoUrl'] = None 
+                
+            return_data = {
+                'data': data,
+                'resultCd': '0000',
+                'msg': '가맹점 포스 듀얼 모니터 정보',
+            }
+        except:
+            print(traceback.format_exc())
+            return_data = {
+                'data': {},
+                'msg': '오류!',
+                'resultCd': '0001',
+            }
+    
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
