@@ -66,7 +66,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/table/<str:table_no>/additional/<str:mainpos_id>/', ShopTableAdditionalView.as_view()),
     path('shop/<int:shop_id>/table/<str:table_no>/additional-cancel/<str:mainpos_id>/', ShopTableAdditionalCancelView.as_view()),
 
-    path('shop/<int:shop_id>/table/<str:table_no>/checkout/', ShopTableCheckoutView.as_view()),
+    path('shop/<int:shop_id>/table/<str:table_no>/checkout/<str:mainpos_id>/', ShopTableCheckoutView.as_view()),
     
     path('shop/<int:shop_id>/pos/checkout/order-detail/<int:order_id>/<str:code>/', ShopPosCheckoutOrderDetailView.as_view()),
     path('shop/<int:shop_id>/pos/order-list/', ShopPosOrderListView.as_view()),
