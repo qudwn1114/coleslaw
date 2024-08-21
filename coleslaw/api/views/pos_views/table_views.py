@@ -206,6 +206,32 @@ class ShopTableExitView(View):
         return_data = {'data': {},'msg': '테이블이 정리 되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+
+class ShopTableExitColorView(View):
+    '''
+        shop 테이블 퇴장버튼 변경
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopTableExitColorView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = int(kwargs.get('table_no'))
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        exit_color = request.POST['exit_color']
+        shop_table.exit_color = exit_color
+        shop_table.save()
+
+        return_data = {'data': {},'msg': '테이블 퇴장 버튼 색상이 변경 되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
     
 
 class ShopTableDetailView(View):
