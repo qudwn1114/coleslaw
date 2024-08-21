@@ -327,6 +327,7 @@ class ShopTableDetailView(View):
                                                           
         data['membername'] = membername
         data['phone'] = phone
+        data['exit_color'] = shop_table.exit_color
         data['cart_list'] = cart_list
         data['cart_cnt'] = len(cart_list)
         data['cart_total_discount'] = shop_table.total_discount
