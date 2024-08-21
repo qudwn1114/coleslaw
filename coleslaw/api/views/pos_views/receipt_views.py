@@ -103,14 +103,25 @@ class ShopCloseReceiptView(View):
             return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
-        
-        date = request.GET.get('date', str(timezone.now().date()))
+
+        start_date = request.GET.get('start_date', '')
+        end_date = request.GET.get('end_date', '')
+
         filter_dict = {}
+        if start_date and end_date:
+            start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+            end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+            end_date = datetime.datetime.combine(end_date, datetime.time.max)
+        else:
+            start_date = timezone.now().date()
+            end_date = datetime.datetime.combine(start_date, datetime.time.max)
+
+        date = f"{start_date} ~ {end_date}"
+        filter_dict['order__created_at__gte'] = start_date
+        filter_dict['order__created_at__lte'] = end_date
 
         status_list = ['1', '3', '4', '5']
         filter_dict['order__status__in'] = status_list
-        filter_dict['order__date'] = date
-        filter_dict['order__shop'] = shop
         filter_dict['order__shop'] = shop
 
         order_goods = OrderGoods.objects.filter(**filter_dict).annotate(
@@ -139,7 +150,8 @@ class ShopCloseReceiptView(View):
         data['order_goods_list'] = list(order_goods)
 
         payment_filter_dict = {}
-        payment_filter_dict['order__date'] = date
+        payment_filter_dict['order__created_at__gte'] = start_date
+        payment_filter_dict['order__created_at__lte'] = end_date
         payment_filter_dict['order__shop'] = shop
         payment_filter_dict['status'] = True
     
