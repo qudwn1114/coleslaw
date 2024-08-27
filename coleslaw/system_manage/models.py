@@ -313,7 +313,8 @@ class ShopPersonType(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     person_type = models.ForeignKey(PersonType, on_delete=models.CASCADE)
     description = models.CharField(default='', max_length=255, verbose_name='설명')
-    goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, null=True)
+    weekday_goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, null=True, related_name='shop_person_type_weekday')
+    weekend_goods = models.ForeignKey(Goods, on_delete=models.SET_NULL, null=True, related_name='shop_person_type_weekend')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 

@@ -36,7 +36,7 @@
               <div class="row mb-3">
                 <div class="text-center">
                     <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
-                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:person_type_goods' shop.id shop_person_type.pk %}">초기화</a>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:person_type_goods' shop.id shop_person_type.pk week_type %}">초기화</a>
                 </div>
               </div>
             </form>
@@ -54,6 +54,7 @@
                 <tr>
                   <th>이미지</th>
                   <th>이름</th>
+                  <th>판매가격</th>
                   <th></th>
                 </tr>
               </thead>
@@ -63,15 +64,28 @@
                 <tr>
                     <td><img src="{{i.imageThumbnailUrl}}"  style="width:80px;"></td>
                     <td>{{i.name_kr}}</td>
+                    <td>{{i.sale_price|intcomma}}</td>
                     <td>
-                        {% if shop_person_type.goods %}
-                            {% if shop_person_type.goods.id == i.id %}
-                            <button class="btn btn-warning" onclick="personTypeGoods({{i.id}})">취소</button>
-                            {% else %}
-                            <button class="btn btn-primary" onclick="personTypeGoods({{i.id}})">지정</button>
-                            {% endif %}
+                        {% if week_type == 'weekday' %}
+                          {% if shop_person_type.weekday_goods %}
+                              {% if shop_person_type.weekday_goods.id == i.id %}
+                              <button class="btn btn-warning" onclick="personTypeGoods({{i.id}})">취소</button>
+                              {% else %}
+                              <button class="btn btn-primary" onclick="personTypeGoods({{i.id}})">지정</button>
+                              {% endif %}
+                          {% else %}
+                              <button class="btn btn-primary" onclick="personTypeGoods({{i.id}})">지정</button>
+                          {% endif %}
                         {% else %}
-                            <button class="btn btn-primary" onclick="personTypeGoods({{i.id}})">지정</button>
+                          {% if shop_person_type.weekend_goods %}
+                              {% if shop_person_type.weekend_goods.id == i.id %}
+                              <button class="btn btn-warning" onclick="personTypeGoods({{i.id}})">취소</button>
+                              {% else %}
+                              <button class="btn btn-primary" onclick="personTypeGoods({{i.id}})">지정</button>
+                              {% endif %}
+                          {% else %}
+                              <button class="btn btn-primary" onclick="personTypeGoods({{i.id}})">지정</button>
+                          {% endif %}
                         {% endif %}
                     </td>
                 </tr>

@@ -97,7 +97,8 @@
                 <tr>
                   <th>이름</th>
                   <th>설명</th>
-                  <th>상품(필수아님)</th>
+                  <th>평일 상품</th>
+                  <th>주말 상품</th>
                 </tr>
               </thead>
               <tbody>
@@ -107,11 +108,19 @@
                   <td><a href="{% url 'shop_manage:person_type_detail' shop.id  i.id %}">{{i.person_type__name}}</a></td>
                   <td>{{i.description}}</td>
                   <td>
-                    {% if i.goods %}
-                      <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id %}">수정</a>
-                      ( {{i.goods__name_kr}} )
+                    {% if i.weekday_goods %}
+                      {{i.weekday_goods__name_kr}}
+                      <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id 'weekday' %}">수정</a>
                     {% else %}
-                      <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id %}">매칭</a>
+                      <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id 'weekday' %}">매칭</a>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if i.weekend_goods %}
+                      {{i.weekend_goods__name_kr}}
+                      <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id 'weekend' %}">수정</a>
+                    {% else %}
+                      <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id 'weekend' %}">매칭</a>
                     {% endif %}
                   </td>
                 </tr>

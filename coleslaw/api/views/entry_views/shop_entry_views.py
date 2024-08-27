@@ -174,11 +174,16 @@ class ShopEntryQueueCreateView(View):
 
         optionList = request.POST['optionList']
         optionList = json.loads(optionList)
-
+        
         if not peopleList:
             return_data = {'data': {},'msg': '인원수를 선택해주세요.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
+        if timezone.now().weekday() < 5:
+            weekday = True
+        else:
+            weekday = False
 
         try:
             with transaction.atomic():
@@ -218,7 +223,11 @@ class ShopEntryQueueCreateView(View):
                             shop_person_type = ShopPersonType.objects.get(pk=shopPersonTypeId, shop=shop)
                         except:
                             raise ValueError(f'{shopPersonTypeId} Person Type ID error')
-                        entry_queue_detail_bulk_list.append(EntryQueueDetail(entry_queue=entry_queue, name=shop_person_type.person_type.name, goods=shop_person_type.goods, quantity=quantity))
+                        #평일일때
+                        if weekday:
+                            entry_queue_detail_bulk_list.append(EntryQueueDetail(entry_queue=entry_queue, name=shop_person_type.person_type.name, goods=shop_person_type.weekday_goods, quantity=quantity))
+                        else:
+                            entry_queue_detail_bulk_list.append(EntryQueueDetail(entry_queue=entry_queue, name=shop_person_type.person_type.name, goods=shop_person_type.weekend_goods, quantity=quantity))
                 
                 if entry_queue_detail_bulk_list:
                     EntryQueueDetail.objects.bulk_create(entry_queue_detail_bulk_list)

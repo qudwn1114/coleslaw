@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import View
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, JsonResponse, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.db.models import CharField, F, Value as V, Func, Sum, When, Case, Q, FloatField, Count, Exists, OuterRef
 from django.db.models.functions import Cast, Concat
@@ -46,8 +46,10 @@ class PersonTypeManageView(View):
             'id',
             'person_type__name',
             'description',
-            'goods',
-            'goods__name_kr',
+            'weekday_goods',
+            'weekday_goods__name_kr',
+            'weekend_goods',
+            'weekend_goods__name_kr',
             'created_at'
         ).order_by('id')
 
@@ -249,13 +251,17 @@ class PersonTypeGoodsManageView(View):
         context = {}
         shop_id = kwargs.get('shop_id')
         pk = kwargs.get('pk')
+        week_type = kwargs.get('week_type')
         shop = check_shop(pk=shop_id)
         if not shop:
             return redirect('shop_manage:notfound')
         context['shop'] = shop
         shop_person_type = get_object_or_404(ShopPersonType, pk=pk, shop=shop)
         context['shop_person_type'] = shop_person_type
-        
+        if week_type not in ['weekday', 'weekend']:
+            raise Http404("week type error!!")
+        context['week_type'] = week_type
+
         paginate_by = '20'
         page = request.GET.get('page', '1')
         search_type = request.GET.get('search_type', '')
@@ -279,6 +285,7 @@ class PersonTypeGoodsManageView(View):
         ).values(
             'id',
             'imageThumbnailUrl',
+            'sale_price',
             'name_kr',
             'name_en',
         ).order_by('id')
@@ -315,21 +322,30 @@ class PersonTypeGoodsManageView(View):
             shop_person_type= ShopPersonType.objects.get(pk=pk, shop=shop)
         except:
             return JsonResponse({'message' : '데이터 오류'},  status = 400)
+        week_type = kwargs.get('week_type')
+        if week_type not in ['weekday', 'weekend']:
+            return JsonResponse({'message' : '데이터 오류'},  status = 400)
         
         request.PUT = json.loads(request.body)
         goods_id = request.PUT['goods_id']
-
         try:
             goods = Goods.objects.get(pk=goods_id, shop=shop)
         except:
             return JsonResponse({'message' : '상품 데이터 오류'},  status = 400)
         
-        if shop_person_type.goods:
-            if shop_person_type.goods.pk == goods.pk:
-                shop_person_type.goods = None
-                shop_person_type.save()
-                return JsonResponse({'message' : '수정완료'},  status = 201)
-
-        shop_person_type.goods = goods
+        if week_type == 'weekday':
+            if shop_person_type.weekday_goods:
+                if shop_person_type.weekday_goods.pk == goods.pk:
+                    shop_person_type.weekday_goods = None
+                    shop_person_type.save()
+                    return JsonResponse({'message' : '수정완료'},  status = 201)
+            shop_person_type.weekday_goods = goods
+        else:
+            if shop_person_type.weekend_goods:
+                if shop_person_type.weekend_goods.pk == goods.pk:
+                    shop_person_type.weekend_goods = None
+                    shop_person_type.save()
+                    return JsonResponse({'message' : '수정완료'},  status = 201)
+            shop_person_type.weekend_goods = goods
         shop_person_type.save()
         return JsonResponse({'message' : '수정완료'},  status = 201)
