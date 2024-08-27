@@ -470,7 +470,7 @@ class ShopEntryCallView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
 
-        message=f'[{entry_queue.shop.name_kr}]\n입장번호 {entry_queue.order} 고객님 입장해주세요~'
+        message=f'[{entry_queue.shop.name_kr}]\n입장번호 : {entry_queue.order}\n고객님 지금 입장해주세요~'
         sms_response = send_sms(phone=entry_queue.phone, message=message)
 
         try:
