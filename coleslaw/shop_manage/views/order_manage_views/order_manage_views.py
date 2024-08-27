@@ -11,13 +11,12 @@ from django.db import transaction
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from system_manage.decorators import permission_required
-from system_manage.models import Order, OrderGoods, ShopAdmin, OrderPayment
+from system_manage.models import Order, OrderGoods, ShopAdmin, OrderPayment, SmsLog
 from system_manage.utils import ResponseToXlsx
 from shop_manage.views.shop_manage_views.auth_views import check_shop
 from api.views.sms_views.sms_views import send_sms
 
 from openpyxl import Workbook
-from openpyxl.styles import Font
 import json, datetime
 import urllib.parse
 
@@ -239,6 +238,14 @@ def order_complete_sms(request: HttpRequest, *args, **kwargs):
     message=f'[{shop.name_kr}]\n주문번호 [{order.order_no}] 회원님 주문하신거 수령하세요~\n'
     sms_response = send_sms(phone=order.order_phone, message=message)
     if sms_response.status_code != 202:
+        SmsLog.objects.create(
+            shop=shop,
+            shop_name=shop.name_kr,
+            phone=order.order_phone,
+            message=message
+        )
+
+
         return JsonResponse({"message":"전송실패.."}, status = 200)
     
     order.order_complete_sms = True

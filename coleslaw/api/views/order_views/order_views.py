@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment
+from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, SmsLog
 from api.views.sms_views.sms_views import send_sms
 
 import traceback, json, datetime, uuid, logging
@@ -344,6 +344,13 @@ class ShopOrderCompleteView(View):
             if order.agency:
                 message=f'[{shop.name_kr}]\n주문번호 [{order.order_no}] 입니다.'
                 sms_response = send_sms(phone=order.order_phone, message=message)
+                SmsLog.objects.create(
+                    shop=shop,
+                    shop_name=shop.name_kr,
+                    phone=order.order_phone,
+                    message=message
+                )
+                
             
             try:
                 channel_layer = get_channel_layer()

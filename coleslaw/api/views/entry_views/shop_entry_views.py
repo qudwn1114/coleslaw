@@ -13,7 +13,7 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from api.views.sms_views.sms_views import send_sms
 
-from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDetail, ShopEntryOptionDetail, ShopMember, ShopTable
+from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDetail, ShopEntryOptionDetail, ShopMember, ShopTable, SmsLog
 from system_manage.views.system_manage_views.auth_views import validate_phone
 
 
@@ -472,6 +472,12 @@ class ShopEntryCallView(View):
 
         message=f'[{entry_queue.shop.name_kr}]\n입장번호 : {entry_queue.order}\n고객님 지금 입장해주세요~'
         sms_response = send_sms(phone=entry_queue.phone, message=message)
+        SmsLog.objects.create(
+            shop=entry_queue.shop,
+            shop_name=entry_queue.shop.name_kr,
+            phone=entry_queue.phone,
+            message=message
+        )
 
         try:
             channel_layer = get_channel_layer()

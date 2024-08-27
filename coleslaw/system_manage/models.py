@@ -537,3 +537,14 @@ class OrderPayment(models.Model):
 
     class Meta:
         db_table='order_payment'
+
+
+class SmsLog(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True)
+    shop_name = models.CharField(max_length=100, verbose_name='가맹점한글명', null=True)
+    phone = models.CharField(max_length=30, verbose_name='전화번호', null=True)
+    message = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+
+    class Meta:
+        db_table='sms_log'
