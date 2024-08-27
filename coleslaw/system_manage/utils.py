@@ -5,6 +5,7 @@ from PIL import ImageOps, Image, ImageFile
 from io import BytesIO
 import urllib.parse
 import pandas as pd
+import uuid, base64, codecs
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -48,4 +49,9 @@ class ResponseToXlsx:
             response["Content-type"] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'%s.xlsx' % urllib.parse.quote(filename.encode('utf-8'))
 
-        return response    
+        return response
+    
+def generate_code(length=8):
+    return base64.urlsafe_b64encode(
+        codecs.encode(uuid.uuid4().bytes, "base64").rstrip()
+    ).decode()[:length]

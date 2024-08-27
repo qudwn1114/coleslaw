@@ -6,11 +6,11 @@ from django.db.models import CharField, F, Value as V, Func, Sum, When, Case, Q,
 from django.db.models.functions import Cast, Concat
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.conf import settings
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.views.decorators.http import require_http_methods
 from django.utils.decorators import method_decorator
 from django.core.files.base import ContentFile
-from system_manage.utils import resize_with_padding
+from system_manage.utils import resize_with_padding, generate_code
 from system_manage.decorators import  permission_required
 from system_manage.models import Shop, ShopAdmin, SubCategory, Goods, MainCategory
 
@@ -106,6 +106,8 @@ class GoodsCreateView(View):
         if not shop:
             return JsonResponse({'message' : '가맹점 오류'},status = 400)
         
+        code = "ROOTME_"+generate_code()
+        
         sub_category_id = request.POST['sub_category']
         name_kr = request.POST['goods_name_kr'].strip()
         name_en = request.POST['goods_name_en'].strip()
@@ -132,6 +134,7 @@ class GoodsCreateView(View):
         try:
             with transaction.atomic():
                 goods = Goods.objects.create(
+                    code=code,
                     shop=shop,
                     sub_category=sub_category,
                     name_kr=name_kr,
@@ -144,7 +147,9 @@ class GoodsCreateView(View):
                     status=status,
                     soldout=soldout,
                     stock_flag=stock_flag
-                )     
+                )
+        except IntegrityError:
+            return JsonResponse({'message' : '잠시후 다시 시도해주세요.'},status = 400)
         except:
             return JsonResponse({'message' : '등록오류'},status = 400)
         

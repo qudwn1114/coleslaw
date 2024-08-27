@@ -261,7 +261,7 @@ class SubCategory(models.Model):
 
 # 상품
 class Goods(models.Model):
-    code = models.CharField(max_length=20, verbose_name='상품코드', null=True)
+    code = models.CharField(max_length=20, verbose_name='상품코드', unique=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT)
     name_kr = models.CharField(max_length=100, verbose_name='상품한글명')
