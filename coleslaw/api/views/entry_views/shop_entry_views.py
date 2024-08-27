@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from api.views.sms_views.sms_views import send_sms
 
 from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDetail, ShopEntryOptionDetail, ShopMember, ShopTable
 from system_manage.views.system_manage_views.auth_views import validate_phone
@@ -468,6 +469,10 @@ class ShopEntryCallView(View):
             return_data = {'data': {},'msg': '데이터 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+
+        message=f'[{entry_queue.shop.name_kr}]\n입장번호 {entry_queue.order} 고객님 입장해주세요~'
+        sms_response = send_sms(phone=entry_queue.phone, message=message)
+
         try:
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(
