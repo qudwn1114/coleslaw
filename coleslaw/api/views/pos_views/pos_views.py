@@ -716,9 +716,13 @@ class ShopTableAdditionalView(View):
             return_data = {'data': {},'msg': '추가금액은 0원보다 커야합니다.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
+        total_price = shop_table.total_price
+        total_additional = shop_table.total_additional
+        new_additional = total_additional - additional
 
-        total_price = shop_table.total_price + additional
-        total_additional = shop_table.total_discount + additional
+        total_price = shop_table.total_price - new_additional
+        total_additional = shop_table.total_additional - new_additional
 
         shop_table.total_price = total_price
         shop_table.total_additional = total_additional
