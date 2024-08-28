@@ -928,7 +928,7 @@ class ShopTableCheckoutView(View):
 
             checkout.final_price = final
             checkout.final_additional = shop_table.total_additional
-            checkout.final_discount = shop_table.total_discount - final_discount
+            checkout.final_discount = final_discount
             checkout.save()
                     
             return_data = {
