@@ -712,8 +712,8 @@ class ShopTableAdditionalView(View):
         
         additional = int(request.POST['additional'])
 
-        if additional <= 0:
-            return_data = {'data': {},'msg': '추가금액은 0원보다 커야합니다.','resultCd': '0001'}
+        if additional < 0:
+            return_data = {'data': {},'msg': '추가금액은 0원이상이어야 합니다.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
@@ -721,16 +721,16 @@ class ShopTableAdditionalView(View):
         total_additional = shop_table.total_additional
         new_additional = total_additional - additional
 
-        total_price = shop_table.total_price - new_additional
-        total_additional = shop_table.total_additional - new_additional
+        new_total_price = shop_table.total_price - new_additional
+        new_total_additional = shop_table.total_additional - new_additional
 
-        shop_table.total_price = total_price
-        shop_table.total_additional = total_additional
+        shop_table.total_price = new_total_price
+        shop_table.total_additional = new_total_additional
         shop_table.save()
 
         data = {}
-        data['cart_total_price'] = total_price
-        data['cart_total_additional'] = total_additional
+        data['cart_total_price'] = new_total_price
+        data['cart_total_additional'] = new_total_additional
 
         try:
             channel_layer = get_channel_layer()
