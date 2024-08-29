@@ -4,6 +4,7 @@ from agency_manage.views.agency_manage_views.auth_views import HomeView, LoginVi
 from agency_manage.views.user_manage_views.user_manage_views import UserManageView, UserCreateView, UserDetailView, UserEditView
 from agency_manage.views.shop_manage_views.shop_manage_views import ShopManageView, ShopCreateView, ShopDetailView, ShopEditView
 from agency_manage.views.shop_manage_views.shop_admin_manage_views import ShopAdminManageView
+from agency_manage.views.sales_report_manage_views.sales_report_manage_views import AgencySalesReportManage
 
 
 app_name='agency_manage'
@@ -32,4 +33,6 @@ urlpatterns = [
     path('<int:agency_id>/shop-edit/<int:pk>/', ShopEditView.as_view(), name='shop_edit'),
 
     path('<int:agency_id>/shop-admin-manage/<int:pk>/', ShopAdminManageView.as_view(), name='shop_admin_manage'),
+
+    path('<int:agency_id>/sales-report-manage/', AgencySalesReportManage.as_view(), name='sales_report_manage'),
 ]

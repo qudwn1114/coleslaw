@@ -1,0 +1,87 @@
+{% extends "layouts/agency_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Sales Report Manage</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'agency_manage:home' agency.pk %}">Home</a></li>
+            <li class="breadcrumb-item active">Sales Report</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{year_month}} 일자별 매출 현황</h5>
+            <form id="search-form" class="p-2" method="get" action="">
+                <div class="row mb-2">
+                    <label for="order_date" class="col-sm-2 col-form-label">기준 월</label>
+                    <div class="col-sm-2">
+                        <input type="month" class="form-control" id="year_month" name="year_month" min="2024-07" value="{{year_month}}" onchange="selectYearMonth();"/>
+                    </div>
+                </div>   
+            </form>
+          </div>
+        </div>
+        <div class="card mb-3" >
+          <div class="card-body">
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <h5 class="card-title">매출 {{sum_total_price|intcomma}}₩</h5>
+              </div>
+              <div class="col-auto">
+                <div class="icon mt-3 me-3">
+                  {% if sales_report_list %}
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('excel');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <table class='table table-hover'>
+              <thead>
+                <tr>
+                  <th>일자별</th>
+                  <th>가맹점명</th>
+                  <th>카드매출</th>
+                  <th>현금매출</th>
+                  <th>합계</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% if sales_report_list %}
+                {% for i in sales_report_list %}
+                <tr>
+                  <td>{{i.date|date:"Y.m.d"}}</td>
+                  <td>{{i.name_kr}}</td>
+                  <td>{{i.card|intcomma}}</td>
+                  <td>{{i.cash|intcomma}}</td>
+                  <td class="text-primary">{{i.total|intcomma}}</td>
+                </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                    <td colspan='5'>데이터가 없습니다.</td>
+                </tr>
+              {% endif %}
+              </tbody>
+            </table>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="{% static 'agency/js/sales_report_manage/script_sales_report_manage.js' %}?v=20240805"></script>
+{% endblock javascripts %}
