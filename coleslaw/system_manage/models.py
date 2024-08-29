@@ -435,8 +435,8 @@ class Order(models.Model):
     status = models.CharField(max_length=10, verbose_name='결제상태', default='0') #'0':주문요청 '1':결제완료 '2':취소, '3': 준비중, '4': 주문완료, 5: '수령완료', 6: '부분취소'
 
     final_price = models.PositiveIntegerField(default=0, verbose_name='최종결제요청금액')
-    final_discount = models.PositiveIntegerField(default=0, verbose_name='최종 할인 금액')
-    final_additional = models.PositiveIntegerField(default=0, verbose_name='총 추가 금액')
+    final_discount = models.PositiveIntegerField(default=0, verbose_name='최종 할인 금액') #전체할인 (개별할인 포함 x)
+    final_additional = models.PositiveIntegerField(default=0, verbose_name='총 추가 금액') #전체추가요금
 
     payment_price = models.PositiveIntegerField(default=0, verbose_name='실제결제금액')
     payment_method = models.CharField(max_length=10, verbose_name='결제수단', default='')  #CARD 0, #CASH 1, #MIXED 2

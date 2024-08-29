@@ -75,7 +75,7 @@ class OrderManageView(View):
         if aggregate:
             new_filter_dict = {'order__' + str(key): val for key, val in filter_dict.items()}
             filename = f"{shop.name_kr} 판매내역"
-            headers = ['대분류', '소분류', '상품명', '옵션명', '상품가격', '옵션가격', '총가격', '수량']
+            headers = ['대분류', '소분류', '상품명', '옵션명', '상품가격', '옵션가격', '상품+옵션 가격', '할인', '수량', '합계']
             queryset = OrderGoods.objects.filter(**new_filter_dict)
 
             response = HttpResponse(content_type='application/ms-excel')
@@ -87,21 +87,93 @@ class OrderManageView(View):
             # Add headers
             ws.append(headers)
             # Add data from the model
-            complete_queryset = queryset.filter(order__status__in=['1', '3', '4', '5']).annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("goods__sub_category__main_category__name_kr", "goods__sub_category__name_kr", "name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('goods__sub_category__main_category__name_kr', 'goods__sub_category__name_kr', 'name_kr', '-total_quantity')
+            complete_queryset = queryset.filter(order__status__in=['1', '3', '4', '5']).annotate(
+                    sale_total_price=F('sale_price') + F('sale_option_price'),
+                    discount_total_price=F('sale_price') + F('sale_option_price') - F('price') - F('option_price'),
+                ).values(
+                    "goods__sub_category__main_category__name_kr", 
+                    "goods__sub_category__name_kr", 
+                    "name_kr", 
+                    "option_kr", 
+                    "sale_price", 
+                    "sale_option_price", 
+                    "sale_total_price",
+                    "discount_total_price"
+                    ).annotate(
+                        total_quantity=Sum("quantity")
+                        ).order_by('goods__sub_category__main_category__name_kr', 'goods__sub_category__name_kr', 'name_kr', '-total_quantity')
             for i in complete_queryset:
-                ws.append([i["goods__sub_category__main_category__name_kr"], i["goods__sub_category__name_kr"], i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
+                #상품+옵션 합계
+                sum_sale_total_price = i["total_quantity"] * i["sale_total_price"]
+                sum_discount_total_price = i["total_quantity"] * i["discount_total_price"]
+                sum_aggregate_price = sum_sale_total_price - sum_discount_total_price
 
+                ws.append([i["goods__sub_category__main_category__name_kr"], i["goods__sub_category__name_kr"], i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['discount_total_price'], i['total_quantity'], sum_aggregate_price])
+
+            filter_dict['status__in'] = ['1', '3', '4', '5']
+            sum_final_discount = Order.objects.filter(**filter_dict).aggregate(sum=Coalesce(Sum('final_discount'), 0)).get('sum')
+            sum_final_additional = Order.objects.filter(**filter_dict).aggregate(sum=Coalesce(Sum('final_additional'), 0)).get('sum')
+            ws.append(['-','-','전체추가요금','-', 0, 0, 0, 0, 0, sum_final_additional])
+            ws.append(['-','-','전체할인요금','-', 0, 0, 0, 0, 0, -sum_final_discount]) 
+        
             ws1 = wb.create_sheet('취소 현황')
             ws1.append(headers)
-            cancel_queryset = queryset.filter(order__status='2').annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("goods__sub_category__main_category__name_kr", "goods__sub_category__name_kr", "name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('goods__sub_category__main_category__name_kr', 'goods__sub_category__name_kr', 'name_kr', '-total_quantity')
+            cancel_queryset = queryset.filter(order__status='2').annotate(
+                    sale_total_price=F('sale_price') + F('sale_option_price'),
+                    discount_total_price=F('sale_price') + F('sale_option_price') - F('price') - F('option_price'),
+                ).values(
+                    "goods__sub_category__main_category__name_kr", 
+                    "goods__sub_category__name_kr", 
+                    "name_kr", 
+                    "option_kr", 
+                    "sale_price", 
+                    "sale_option_price", 
+                    "sale_total_price",
+                    "discount_total_price"
+                    ).annotate(
+                        total_quantity=Sum("quantity")
+                        ).order_by('goods__sub_category__main_category__name_kr', 'goods__sub_category__name_kr', 'name_kr', '-total_quantity')
             for i in cancel_queryset:
-                ws1.append([i["goods__sub_category__main_category__name_kr"], i["goods__sub_category__name_kr"], i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
+                sum_sale_total_price = i["total_quantity"] * i["sale_total_price"]
+                sum_discount_total_price = i["total_quantity"] * i["discount_total_price"]
+                sum_aggregate_price = sum_sale_total_price - sum_discount_total_price
+
+                ws1.append([i["goods__sub_category__main_category__name_kr"], i["goods__sub_category__name_kr"], i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['discount_total_price'], i['total_quantity'], sum_aggregate_price])
+
+            filter_dict['status__in'] = ['2']
+            sum_final_discount = Order.objects.filter(**filter_dict).aggregate(sum=Coalesce(Sum('final_discount'), 0)).get('sum')
+            sum_final_additional = Order.objects.filter(**filter_dict).aggregate(sum=Coalesce(Sum('final_additional'), 0)).get('sum')
+            ws1.append(['-','-','전체추가요금','-', 0, 0, 0, 0, 0, sum_final_additional])
+            ws1.append(['-','-','전체할인요금','-', 0, 0, 0, 0, 0, -sum_final_discount])
 
             ws2 = wb.create_sheet('부분 취소 현황')
             ws2.append(headers)
-            cancel_queryset2 = queryset.filter(order__status='6').annotate(sale_total_price=F('sale_price') + F('sale_option_price')).values("goods__sub_category__main_category__name_kr", "goods__sub_category__name_kr", "name_kr", "option_kr", "sale_price", "sale_option_price", "sale_total_price").annotate(total_quantity=Sum("quantity")).order_by('goods__sub_category__main_category__name_kr', 'goods__sub_category__name_kr', 'name_kr', '-total_quantity')
+            cancel_queryset2 = queryset.filter(order__status='6').annotate(
+                    sale_total_price=F('sale_price') + F('sale_option_price'),
+                    discount_total_price=F('sale_price') + F('sale_option_price') - F('price') - F('option_price'),
+                ).values(
+                    "goods__sub_category__main_category__name_kr", 
+                    "goods__sub_category__name_kr", 
+                    "name_kr", 
+                    "option_kr", 
+                    "sale_price", 
+                    "sale_option_price", 
+                    "sale_total_price",
+                    "discount_total_price"
+                    ).annotate(
+                        total_quantity=Sum("quantity")
+                        ).order_by('goods__sub_category__main_category__name_kr', 'goods__sub_category__name_kr', 'name_kr', '-total_quantity')
             for i in cancel_queryset2:
-                ws2.append([i["goods__sub_category__main_category__name_kr"], i["goods__sub_category__name_kr"], i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['total_quantity']])
+                sum_sale_total_price = i["total_quantity"] * i["sale_total_price"]
+                sum_discount_total_price = i["total_quantity"] * i["discount_total_price"]
+                sum_aggregate_price = sum_sale_total_price - sum_discount_total_price
+                ws2.append([i["goods__sub_category__main_category__name_kr"], i["goods__sub_category__name_kr"], i['name_kr'], i['option_kr'], i['sale_price'], i['sale_option_price'], i['sale_total_price'], i['discount_total_price'], i['total_quantity'], sum_aggregate_price])
+            
+            filter_dict['status__in'] = ['6']
+            sum_final_discount = Order.objects.filter(**filter_dict).aggregate(sum=Coalesce(Sum('final_discount'), 0)).get('sum')
+            sum_final_additional = Order.objects.filter(**filter_dict).aggregate(sum=Coalesce(Sum('final_additional'), 0)).get('sum')
+            ws2.append(['-','-','전체추가요금','-', 0, 0, 0, 0, 0, sum_final_additional])
+            ws2.append(['-','-','전체할인요금','-', 0, 0, 0, 0, 0, -sum_final_discount])
 
             # Save the workbook to the HttpResponse
             wb.save(response)
@@ -166,7 +238,6 @@ class OrderManageView(View):
             'order_complete_sms',
             'createdAt'
         )
-
         total_card_price = obj_list.exclude(status='2').filter(payment_method='0').aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum')
         total_cash_price = obj_list.exclude(status='2').filter(payment_method='1').aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum')
         total_mixed_price = obj_list.exclude(status='2').filter(payment_method='2').aggregate(sum=Coalesce(Sum('final_price'), 0)).get('sum')
