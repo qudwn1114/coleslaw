@@ -50,7 +50,8 @@
                   <th>일자별</th>
                   <th>가맹점명</th>
                   <th>카드매출</th>
-                  <th>현금매출</th>
+                  <th>현금매출(O)</th>
+                  <th>현금매출(X)</th>
                   <th>합계</th>
                 </tr>
               </thead>
@@ -58,16 +59,17 @@
               {% if sales_report_list %}
                 {% for i in sales_report_list %}
                 <tr>
-                  <td>{{i.date|date:"Y.m.d"}}</td>
+                  <td>{{i.date}}</td>
                   <td>{{i.name_kr}}</td>
                   <td>{{i.card|intcomma}}</td>
-                  <td>{{i.cash|intcomma}}</td>
+                  <td>{{i.cash1|intcomma}}</td>
+                  <td>{{i.cash2|intcomma}}</td>
                   <td class="text-primary">{{i.total|intcomma}}</td>
                 </tr>
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='5'>데이터가 없습니다.</td>
+                    <td colspan='6'>데이터가 없습니다.</td>
                 </tr>
               {% endif %}
               </tbody>
