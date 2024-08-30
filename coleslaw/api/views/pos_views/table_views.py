@@ -234,9 +234,9 @@ class ShopTableExitColorView(View):
         return HttpResponse(return_data, content_type = "application/json")
     
 
-class ShopTableDetailView(View):
+class ShopTableManageDetailView(View):
     '''
-        shop table detail api
+        shop table manage detail api
     '''
     def get(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
@@ -325,6 +325,116 @@ class ShopTableDetailView(View):
                                     shop_table.save()
                                     cart_list = json.loads(cart_list)       
                                                           
+        data['membername'] = membername
+        data['phone'] = phone
+        data['exit_color'] = shop_table.exit_color
+        data['cart_list'] = cart_list
+        data['cart_cnt'] = len(cart_list)
+        data['cart_total_discount'] = shop_table.total_discount
+        data['cart_total_price'] = shop_table.total_price
+        data['cart_total_additional'] = shop_table.total_additional
+
+        return_data = {
+            'data': data,
+            'resultCd': '0000',
+            'msg': f'[no.{shop_table.table_no}] 테이블 회원 및 장바구니 정보',
+        }
+
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopTableDetailView(View):
+    '''
+        shop table detail api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        table_no = int(kwargs.get('table_no'))
+        
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+        except:
+            return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        data = {}
+
+        if shop_table.cart:
+            cart_list = json.loads(shop_table.cart)
+        else:
+            cart_list = []
+
+        if shop_table.shop_member:
+            membername = shop_table.shop_member.membername
+            phone = shop_table.shop_member.phone
+        else:
+            membername = None
+            phone = None
+
+                # 가맹점 이용시간 사용시
+        additional_price = 0
+        additional_dict = {}
+
+        if shop_table.shop.table_time > 0:
+            if shop_table.entry_time:
+                now_time = timezone.now()
+                end_time = shop_table.entry_time + datetime.timedelta(minutes=shop_table.shop.table_time)
+                if now_time > end_time:                      
+                    diff = now_time - end_time
+                    diff_sec = round(diff.total_seconds())
+                    minutes = divmod(diff_sec, 60)[0]
+                    if shop_table.shop.additional_fee_time > 0:
+                        over_count = divmod(minutes, shop_table.shop.additional_fee_time)[0]
+                        if over_count > 0:
+                            if shop_table.cart:
+                                cart_list = json.loads(shop_table.cart)
+                                for i in cart_list:
+                                    try:
+                                        goods = Goods.objects.get(pk=i['goodsId'], shop_id=shop_id)
+                                        if goods.additional_fee_goods:
+                                            additional_fee_goods = Goods.objects.get(pk=goods.additional_fee_goods, shop_id=shop_id)
+                                            if str(additional_fee_goods.pk) in additional_dict:
+                                                additional_dict[f'{additional_fee_goods.pk}'] += i['quantity']
+                                            else:
+                                                additional_dict[f'{additional_fee_goods.pk}'] = i['quantity']
+                                    except:
+                                        pass
+                                if additional_dict:
+                                    for k, v in additional_dict.items():
+                                        cart={}
+                                        try:
+                                            is_new = True
+                                            additional_goods = Goods.objects.get(pk=k, shop=shop_table.shop)
+                                            for i in cart_list:
+                                                if i['goodsId'] == additional_goods.pk:
+                                                    # 이미 담긴 상품일때
+                                                    if not i['optionList'] and i['discount'] == 0:
+                                                        is_new = False
+                                                        adjusted_quantity = int(v) * over_count - i['quantity']
+                                                        i['quantity'] = int(v) * over_count
+                                                        additional_price += adjusted_quantity * i['price']
+                                                        break
+                                            if is_new:
+                                                cart['goodsId'] = additional_goods.pk
+                                                cart['name_kr'] = additional_goods.name_kr
+                                                cart['price'] = additional_goods.sale_price
+                                                cart['discount'] = 0
+                                                cart['quantity'] = int(v) * over_count
+                                                cart['optionName'] = ''
+                                                cart['optionPrice'] = 0
+                                                cart['optionList'] = []
+                                                cart_list.append(cart)
+                                                additional_price += int(v) * over_count * additional_goods.sale_price
+                                        except:
+                                            pass
+
+                                    cart_list = json.dumps(cart_list, ensure_ascii=False)
+                                    shop_table.cart = cart_list
+                                    shop_table.total_price += additional_price
+                                    shop_table.save()
+                                    cart_list = json.loads(cart_list)       
+                       
         data['membername'] = membername
         data['phone'] = phone
         data['exit_color'] = shop_table.exit_color
