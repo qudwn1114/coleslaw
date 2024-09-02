@@ -25,6 +25,7 @@ $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
     order_date_no.value= '0';
     search_form.submit();
 });
+
 //오늘
 document.getElementById('order_date1').addEventListener('click', function(){
     let startDate = moment().format('MM/DD/YYYY')

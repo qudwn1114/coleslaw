@@ -3,6 +3,7 @@
 {% load humanize %}
 
 {% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 {% endblock stylesheets %}
 
 {% block main %}
@@ -19,14 +20,53 @@
     <section class="section">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{year_month}} 일자별 매출 현황</h5>
+            <h5 class="card-title">{{date_name}} 일자별 매출 현황</h5>
+            
             <form id="search-form" class="p-2" method="get" action="">
-                <div class="row mb-2">
-                    <label for="order_date" class="col-sm-2 col-form-label">기준 월</label>
-                    <div class="col-sm-2">
-                        <input type="month" class="form-control" id="year_month" name="year_month" min="2024-07" value="{{year_month}}" onchange="selectYearMonth();"/>
+              <div class="row mb-2">
+                  <input type="hidden" name="condition" id="condition" value="true">
+                  <input type="hidden" class="btn-check" name="order_date_no" id="order_date_no" value="{{order_date_no}}">
+                  <label for="order_date" class="col-sm-2 col-form-label">기준 날짜</label>
+                  <div class="col-sm-4">
+                  <div class="btn-group mt-2" role="group">
+                      <input type="radio" class="btn-check" name="order_date" id="order_date1" {% if order_date_no == '1' %}checked{% endif %}>
+                      <label class="btn btn-sm btn-outline-primary" for="order_date1">오늘</label>
+                  
+                      <input type="radio" class="btn-check" name="order_date" id="order_date2" {% if order_date_no == '2' %}checked{% endif %}>
+                      <label class="btn btn-sm btn-outline-primary" for="order_date2">일주일</label>
+
+                      <input type="radio" class="btn-check" name="order_date" id="order_date3" {% if order_date_no == '3' %}checked{% endif %}>
+                      <label class="btn btn-sm  btn-outline-primary" for="order_date3">1개월</label>
+
+                      <input type="radio" class="btn-check" name="order_date" id="order_date4" {% if order_date_no == '4' %}checked{% endif %}>
+                      <label class="btn btn-sm  btn-outline-primary" for="order_date4">3개월</label>
+                  </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="input-group mt-2">
+                        <span class="input-group-text">
+                        <i class="bi bi-calendar"></i>
+                        </span>
+                        <input type="text" name="dates" class="form-control" placeholder="기간을 선택해주세요." readonly value="{{dates}}">
+                        
                     </div>
-                </div>   
+                    <strong>기간을 3개월 이내로만 설정 하실 수 있습니다.</strong>
+                  </div>
+              </div> 
+              <div class="p-3">
+                {% for i in shop %}
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="shop_{{i.id}}" name="shop" value="{{i.id}}" {% if i.id in shop_id_list %}checked{% endif %}>
+                  <label class="form-check-label" for="shop_{{i.id}}">{{i.name_kr}}</label>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="row mb-3">
+                <div class="text-center">
+                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'agency_manage:sales_report_manage' agency.pk %}">초기화</a>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -85,5 +125,7 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="{% static 'agency/js/sales_report_manage/script_sales_report_manage.js' %}?v=20240805"></script>
 {% endblock javascripts %}

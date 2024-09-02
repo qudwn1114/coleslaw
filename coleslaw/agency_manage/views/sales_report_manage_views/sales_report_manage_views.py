@@ -12,11 +12,10 @@ from system_manage.utils import ResponseToXlsx
 from system_manage.decorators import permission_required
 from agency_manage.views.agency_manage_views.auth_views import check_agency
 from system_manage.models import OrderPayment, Shop
-import datetime, calendar
+from dateutil.relativedelta import relativedelta
+import datetime, pandas
 from openpyxl import Workbook
 import urllib.parse
-
-
 
 class AgencySalesReportManage(View):
     '''
@@ -31,34 +30,43 @@ class AgencySalesReportManage(View):
             return redirect('agency_manage:notfound')
         context['agency'] = agency
 
-        year_month = request.GET.get('year_month', '')
+        condition = request.GET.get('condition', '')
         excel = request.GET.get('excel', None)
 
+        shop = Shop.objects.filter(agency=agency).values('id', 'name_kr').order_by('name_kr')
+        context['shop'] = shop
+
         filter_dict = {}
+        if condition:
+            order_date_no = request.GET.get('order_date_no', '0') 
+            dates = request.GET.get('dates', '')
+            context['dates'] = dates
+            startDate = dates.split(' - ')[0].strip()
+            endDate = dates.split(' - ')[1].strip()
+            format = '%m/%d/%Y'
+            startDate = datetime.datetime.strptime(startDate, format).date()
+            endDate = datetime.datetime.strptime(endDate, format).date()
+            if startDate < endDate - relativedelta(months=3):
+                raise Exception('3달 이상은 안됩니다!')
+            date_list = pandas.date_range(startDate, endDate, freq='d')
+            date_name = f"{startDate} ~ {endDate}"
+            shop_id_list = request.GET.getlist('shop', None) 
+            shop_id_list = list(map(int, shop_id_list))
+        else:
+            order_date_no = '1'
+            today = timezone.now()
+            context['dates'] = f'{today.strftime("%m/%d/%Y")} - {today.strftime("%m/%d/%Y")}'
+            date_list = [today]
+            date_name = f"{today.date()} ~ {today.date()}"
+            shop_id_list = list(shop.values_list('id', flat=True))
+        context['date_name'] = date_name
+        context['order_date_no'] = order_date_no
         filter_dict['order__agency'] = agency
-        if year_month:
-            try:
-                datetime.datetime.strptime(year_month, '%Y-%m')
-            except Exception as e:
-                raise ValueError(e) 
-        else:
-            year_month = timezone.now().strftime('%Y-%m')
 
-        context['year_month'] = year_month
-        year = int(year_month.split('-')[0])
-        month = int(year_month.split('-')[1])
-
-        #이번달
-        if year_month == timezone.now().strftime('%Y-%m'):
-            days = int(timezone.now().day)
-        #이번달 이후
-        elif timezone.now() < datetime.datetime.strptime(year_month, '%Y-%m'):
-            days = 0
-        #지난달
-        else:
-            days = calendar.monthrange(year=year, month=month)[1]
-
-        shop_list = Shop.objects.filter(agency=agency).annotate(
+        shop = Shop.objects.filter(agency=agency, id__in=shop_id_list).values('id', 'name_kr').order_by('name_kr')
+        context['shop_id_list'] = shop_id_list
+        
+        shop_list =shop.annotate(
             card=V(0),
             cash1=V(0),
             cash2=V(0),
@@ -72,8 +80,8 @@ class AgencySalesReportManage(View):
         sum_total_price = 0
 
         if shop_list:
-            for i in range(1,  days+1):
-                d = f"{year_month}-{format(i, '02')}"
+            for i in date_list:
+                d = i.date()
                 filter_dict['status']=True
                 filter_dict['amount__gt']=0
                 filter_dict['order__date'] = d
@@ -127,12 +135,12 @@ class AgencySalesReportManage(View):
                 sum_cash1_price += i['cash1']
                 sum_cash2_price += i['cash2']
                 sum_total_price += i['total']
-                sales_report_list.append({"date":year_month, "name_kr":i['name_kr'], "card":i['card'], "cash1":i['cash1'], "cash2": i['cash2'], "total":i['total']}) 
+                sales_report_list.append({"date":"전체기간", "name_kr":i['name_kr'], "card":i['card'], "cash1":i['cash1'], "cash2": i['cash2'], "total":i['total']}) 
 
             sales_report_list.append({"date":"", "name_kr":"전체합계", "card":sum_card_price, "cash1":sum_cash1_price, "cash2":sum_cash2_price, "total":sum_total_price}) 
 
         if excel:
-            filename = f"{agency.name} {year_month} 가맹점 별 매출"
+            filename = f"{agency.name} {date_name} 가맹점 별 매출"
             headers = ['일자별', '가맹점', '카드매출', '현금매출(O)', '현금매출(X)', '합계']
             response = HttpResponse(content_type='application/ms-excel')
             response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'%s.xlsx' % urllib.parse.quote(filename.encode('utf-8'))
