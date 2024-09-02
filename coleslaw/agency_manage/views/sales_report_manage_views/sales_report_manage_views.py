@@ -113,9 +113,12 @@ class AgencySalesReportManage(View):
                             cash2 = k['total_sale_price']
                             day_cash2 += cash2
                             j['cash2'] += cash2
-                        total = k['total_sale_price']
-                        day_total += total
-                        j['total'] += total
+
+                        _total = k['total_sale_price']
+                        total += _total
+                        day_total += _total
+                        j['total'] += _total
+
                     sales_report_list.append({"date":d, "name_kr": j['name_kr'], "card":card, "cash1": cash1, "cash2": cash2, "total": total})
                 sales_report_list.append({"date":"", "name_kr":"합계", "card":day_card, "cash1":day_cash1, "cash2": day_cash2, "total":day_total}) 
 
