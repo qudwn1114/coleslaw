@@ -366,6 +366,7 @@ def goods(request: HttpRequest, *args, **kwargs):
         )
     ).values(
         'id',
+        'code',
         'imageThumbnailUrl',
         'name_kr',
         'price',

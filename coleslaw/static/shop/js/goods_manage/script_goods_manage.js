@@ -133,7 +133,7 @@ $(document).ready(function () {
         search: {
             return: true,
         },
-        order: [[9, 'desc']],
+        order: [[10, 'desc']],
         searching : false,
         processing: true,
         serverSide: true,
@@ -150,6 +150,7 @@ $(document).ready(function () {
         columns: [
             { "data": "id", orderable: true },
             { "data": "name_kr", orderable: true },
+            { "data": "code", orderable: false },
             { "data": function(data, type, row){
                     return `<img src="${data.imageThumbnailUrl}" width="50px"/>`;
                 },
@@ -221,14 +222,14 @@ $(document).ready(function () {
                 }
             },
             {
-                targets: 3,
+                targets: 4,
                 render: function (data, type, row) {
                     return `<div class="input-group"><input class="form-control" type="number" value="${row.sale_price}" id="SALE_PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'SALE_PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_SALE_PRICE_${row.id}" onclick="setValue(${row.id}, 'SALE_PRICE', this)">저장</button></div><div class="input-group"><input class="form-control" type="number" value="${data}" id="PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_PRICE_${row.id}" onclick="setValue(${row.id}, 'PRICE', this)">저장</button></div>`;
                 },
                 width: 200,
             },
             {
-                targets: 6,
+                targets: 7,
                 width: 200,
             },
 
