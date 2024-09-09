@@ -242,7 +242,7 @@ class GoodsEditView(View):
         soldout = bool(request.POST.get('soldout', None))
         stock_flag = bool(request.POST.get('stock_flag', None))
         option_flag = bool(request.POST.get('option_flag', None))
-        after_payment_goods_id = request.POST['after_payment_goods_id']
+        after_payment_goods_id_list = request.POST['after_payment_goods_id_list']
         additional_fee_goods_id = request.POST['additional_fee_goods_id']
 
         try:
@@ -253,12 +253,21 @@ class GoodsEditView(View):
         if option_flag:
             if not goods.option.all().exists():
                 return JsonResponse({'message' : '옵션사용을 하시려면 옵션등록이 되어있어야합니다.'},status = 400)
-        if after_payment_goods_id:
-            try:
-                after_payment_goods = Goods.objects.get(pk=after_payment_goods_id, shop=shop).pk
-                if after_payment_goods == goods.pk:
-                    return JsonResponse({'message' : '결제후 상품은 동일상품으로 불가능합니다.'},status = 400)
-            except:
+        after_payment_goods_id_list = after_payment_goods_id_list.replace(' ', '')            
+        if after_payment_goods_id_list:
+            after_payment_goods = ''
+            after_payment_goods_id_list = after_payment_goods_id_list.split(',')
+            for i in after_payment_goods_id_list:
+                try:
+                    g = Goods.objects.get(pk=int(i), shop=shop).pk
+                    if g == goods.pk:
+                        return JsonResponse({'message' : '결제후 상품은 동일상품으로 불가능합니다.'},status = 400)
+                    after_payment_goods += f"{i},"
+                except:
+                    return JsonResponse({'message' : '결제 후 상품 형식 오류..'},status = 400)
+            if after_payment_goods:
+                after_payment_goods = after_payment_goods.strip().rstrip(',')
+            else:
                 after_payment_goods = None
         else:
             after_payment_goods = None
