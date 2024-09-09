@@ -276,7 +276,7 @@ class Goods(models.Model):
     option_flag = models.BooleanField(default=False, verbose_name='옵션사용여부') #옵션 사용 여부에 따라 옵션재고 수량을수 있음.
     soldout = models.BooleanField(default=False, verbose_name='품절') #True:품절
 
-    after_payment_goods = models.PositiveBigIntegerField(null=True, verbose_name='결제후들어갈상품 ID')
+    after_payment_goods = models.CharField(null=True, verbose_name='결제후들어갈상품 ID list', max_length=100)
     additional_fee_goods = models.PositiveBigIntegerField(null=True, verbose_name='추가요금 상품 ID')
 
     delete_flag = models.BooleanField(default=False, verbose_name='삭제처리')
