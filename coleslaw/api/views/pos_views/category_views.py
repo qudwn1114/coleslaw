@@ -38,7 +38,7 @@ class ShopPosMainCategoryListView(View):
             fixed = False
 
         try:
-            shop_sub_category = Goods.objects.filter(shop=shop, delete_flag=False).values('sub_category').distinct()
+            shop_sub_category = Goods.objects.filter(shop=shop, delete_flag=False, status=True).values('sub_category').distinct()
             shop_sub_category_id_list = list(shop_sub_category.values_list('sub_category', flat=True))
             shop_main_category_id_list = list(shop_sub_category.values_list('sub_category__main_category', flat=True))
             queryset = MainCategory.objects.filter(id__in=shop_main_category_id_list).values(
