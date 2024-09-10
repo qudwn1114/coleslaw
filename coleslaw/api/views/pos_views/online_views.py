@@ -35,26 +35,32 @@ class ShopOnlineEnterView(View):
         code_list = code_list.strip().rstrip(',')
         code_list = code_list.split(',')
         code_dict = Counter(code_list)
-
-        cart_list = []
-        cart_total_price = 0
-        for code, num in code_dict.items():
-            cart={}
-            # code, num
-            try:
-                goods = Goods.objects.get(code=code)
-                cart['goodsId'] = goods.pk
-                cart['name_kr'] = goods.name_kr
-                cart['price'] = goods.sale_price
-                cart['discount'] = 0
-                cart['quantity'] = int(num)
-                cart['optionName'] = ''
-                cart['optionPrice'] = 0
-                cart['optionList'] = []
-                cart_list.append(cart)
-                cart_total_price += goods.sale_price
-            except:
-                return_data = {'data': {},'msg': f'{code} 온라인 상품등록이 필요합니다.','resultCd': '0001'}
+        if code_dict:
+            cart_list = []
+            cart_total_price = 0
+            for code, num in code_dict.items():
+                cart={}
+                # code, num
+                try:
+                    goods = Goods.objects.get(code=code)
+                    cart['goodsId'] = goods.pk
+                    cart['name_kr'] = goods.name_kr
+                    cart['price'] = goods.sale_price
+                    cart['discount'] = 0
+                    cart['quantity'] = int(num)
+                    cart['optionName'] = ''
+                    cart['optionPrice'] = 0
+                    cart['optionList'] = []
+                    cart_list.append(cart)
+                    cart_total_price += goods.sale_price
+                except:
+                    return_data = {'data': {},'msg': f'{code} 온라인 상품등록이 필요합니다.','resultCd': '0001'}
+                    return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+                    return HttpResponse(return_data, content_type = "application/json")
+        else:
+            return_data = {'data': {},'msg': f'{code_list} // {code_dict}','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
 
         cart_list = json.dumps(cart_list, ensure_ascii=False)
         shop_table.cart = cart_list
