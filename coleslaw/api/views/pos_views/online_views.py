@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 
 from system_manage.models import Shop, ShopTable
 from collections import Counter
-import traceback, json, ast    
+import traceback, json    
 
 class ShopOnlineEnterView(View):
     '''
@@ -32,7 +32,8 @@ class ShopOnlineEnterView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
-        code_list = ast.literal_eval(code_list)
+        code_list = code_list.strip().rstrip(',')
+        code_list = code_list.split(',')
         code_dict = Counter(code_list)
         for code, num in code_dict.items():
             # code, num
