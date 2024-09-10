@@ -189,6 +189,8 @@ class ShopTableExitView(View):
                 shop_table.shop_member = None
                 shop_table.entry_time = None
                 shop_table.cart = None
+                shop_table.total_discount = 0
+                shop_table.total_additional = 0
                 shop_table.total_price = 0
                 shop_table.exit_color = default_exit_color
                 shop_table.save()
