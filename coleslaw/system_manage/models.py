@@ -270,7 +270,9 @@ class Goods(models.Model):
     price = models.PositiveIntegerField(verbose_name='제품가격', default=0)
     image = models.ImageField(max_length=300, upload_to="image/goods/%Y/%m/%d/", verbose_name='상품이미지')
     image_thumbnail = models.ImageField(max_length=300, upload_to="image/goods/%Y/%m/%d/", verbose_name='상품이미지 썸네일 정사각형')
-    status = models.BooleanField(default=True, verbose_name='판매상태') #True:판매중 False:판매중단
+    status = models.BooleanField(default=True, verbose_name='판매상태') #True:판매 False:판매중단
+    kiosk_display = models.BooleanField(default=True, verbose_name='키오스크 표시') #True:표시 False:표시안함
+
     stock = models.IntegerField(verbose_name='재고수량', default=0)
     stock_flag = models.BooleanField(default=False, verbose_name='재고관리사용여부') #재고 관리 사용 여부
     option_flag = models.BooleanField(default=False, verbose_name='옵션사용여부') #옵션 사용 여부에 따라 옵션재고 수량을수 있음.
