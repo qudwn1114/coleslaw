@@ -117,6 +117,7 @@ class GoodsCreateView(View):
         status = bool(request.POST.get('status', None))
         soldout = bool(request.POST.get('soldout', None))
         stock_flag = bool(request.POST.get('stock_flag', None))
+        kiosk_display = bool(request.POST.get('kiosk_display', None))
         image = request.FILES.get('image', None)
 
         try:
@@ -146,6 +147,7 @@ class GoodsCreateView(View):
                     image_thumbnail=image_thumbnail,
                     status=status,
                     soldout=soldout,
+                    kiosk_display=kiosk_display,
                     stock_flag=stock_flag
                 )
         except IntegrityError:
@@ -242,6 +244,7 @@ class GoodsEditView(View):
         soldout = bool(request.POST.get('soldout', None))
         stock_flag = bool(request.POST.get('stock_flag', None))
         option_flag = bool(request.POST.get('option_flag', None))
+        kiosk_display = bool(request.POST.get('kiosk_display', None))
         after_payment_goods_id_list = request.POST['after_payment_goods_id_list']
         additional_fee_goods_id = request.POST['additional_fee_goods_id']
 
@@ -292,6 +295,7 @@ class GoodsEditView(View):
             goods.soldout = soldout
             goods.stock_flag = stock_flag
             goods.option_flag = option_flag
+            goods.kiosk_display = kiosk_display
             goods.after_payment_goods = after_payment_goods
             goods.additional_fee_goods = additional_fee_goods
             if image:

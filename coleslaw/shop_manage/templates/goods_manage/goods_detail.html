@@ -92,7 +92,7 @@
                   </div>
                 </div>
                 <div class="row mt-3 mb-3 mx-2">
-                  <div class="form-check col-sm-3">
+                  <div class="form-check col-sm-2">
                     {% if goods.status %}
                     <input class="form-check-input" type="checkbox" value="1" id="status" name="status" checked disabled>
                     {% else %}
@@ -102,7 +102,7 @@
                     판매 여부
                     </label>
                   </div>
-                  <div class="form-check col-sm-3">
+                  <div class="form-check col-sm-2">
                     {% if goods.soldout %}
                     <input class="form-check-input" type="checkbox" value="1" id="soldout" name="soldout" checked disabled>
                     {% else %}
@@ -112,7 +112,17 @@
                     품절 여부
                     </label>
                   </div>
-                  <div class="form-check col-sm-3">
+                  <div class="form-check col-sm-2">
+                    {% if goods.kiosk_display %}
+                    <input class="form-check-input" type="checkbox" value="1" id="kiosk_display" name="kiosk_display" checked disabled>
+                    {% else %}
+                    <input class="form-check-input" type="checkbox" value="0" id="kiosk_display" name="kiosk_display" disabled>
+                    {% endif %}
+                    <label class="form-check-label" for="kiosk_display">
+                      키오스크 여부
+                    </label>
+                  </div>
+                  <div class="form-check col-sm-2">
                     {% if goods.stock_flag %}
                     <input class="form-check-input" type="checkbox" value="1" id="stock_flag" name="stock_flag" checked disabled>
                     {% else %}
@@ -122,7 +132,7 @@
                     재고 관리 사용 여부
                     </label>
                   </div>
-                  <div class="form-check col-sm-3">
+                  <div class="form-check col-sm-2">
                     {% if goods.option_flag %}
                     <input class="form-check-input" type="checkbox" value="1" id="option_flag" name="option_flag" checked disabled>
                     {% else %}
