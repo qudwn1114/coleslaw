@@ -489,9 +489,8 @@ class ShopTableGoodsDiscountView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         index = int(request.POST['index'])
-        discount = int(request.POST['discount'])
+        discount = int(float(request.POST['discount']))
 
-        discount = int(request.POST['discount'])
         if shop_table.total_price < discount:
             return_data = {'data': {},'msg': '결제 금액보다 할인금액을 높게 설정할 수 없습니다.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -579,7 +578,7 @@ class ShopTableDiscountView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
-        discount = int(request.POST['discount'])
+        discount = int(float(request.POST['discount']))
 
         if shop_table.total_price < discount:
             return_data = {'data': {},'msg': '결제 금액보다 할인금액을 높게 설정할 수 없습니다.','resultCd': '0001'}
