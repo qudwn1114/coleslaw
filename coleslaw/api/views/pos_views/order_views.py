@@ -75,7 +75,7 @@ class ShopPosOrderListView(View):
             ).values(
                 'id',
                 'order_no',
-                'orderStatus',
+                'order_type',
                 'final_price',
                 'order_name_kr',
                 'status',
@@ -161,6 +161,7 @@ class ShopPosOrderDetailView(View):
             data['orderStatus'] = '부분취소'
 
         data['status'] = order.status
+        data['order_type'] = order.order_type
         data['order_code'] = order.order_code
         data['order_no'] = order.order_no
         data['order_name_kr'] = order.order_name_kr
