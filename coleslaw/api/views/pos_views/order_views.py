@@ -79,6 +79,7 @@ class ShopPosOrderListView(View):
                 'final_price',
                 'order_name_kr',
                 'status',
+                'orderStatus',
                 'paymentMethod',
                 'createdAt'
             ).order_by('-id')
