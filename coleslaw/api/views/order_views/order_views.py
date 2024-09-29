@@ -202,6 +202,7 @@ class ShopOrderCompleteView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         logger = logging.getLogger('my')
+        logger.error(str(dict(request.POST)))
         try:
             refNo = request.POST.get('refNo', '')
             mbrNo = request.POST.get('mbrNo', '')
@@ -273,12 +274,7 @@ class ShopOrderCompleteView(View):
                 return_data = {'data': {},'msg': 'order id/code 오류','resultCd': '0001'}
                 return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
-            
-            order.payment_method = '0'
-            order.payment_price = order.final_price
-            order.status = '1'
-            order.save()
-
+        
             OrderPayment.objects.create(
                 order = order,
                 status=True,
@@ -315,6 +311,10 @@ class ShopOrderCompleteView(View):
                 accountCloseDate = accountCloseDate,
                 billkey = billkey
             )
+            order.payment_method = '0'
+            order.payment_price = order.final_price
+            order.status = '1'
+            order.save()
 
             # 재고관리
             for i in order.order_goods.all():
@@ -379,7 +379,6 @@ class ShopOrderCompleteView(View):
                 'resultCd': '0000',
             }
         except:
-            logger.error(str(dict(request.POST)))
             logger.error(traceback.format_exc())
             return_data = {
                 'data': {},
