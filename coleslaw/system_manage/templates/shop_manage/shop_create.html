@@ -90,6 +90,10 @@
                         <label for="image">가맹점 이미지 <small class="form-text text-muted">필수 x</small></label>
                         <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
+                    <div class="col-md-12">
+                      <label for="location_image">가맹점 위치 정보 이미지 <small class="form-text text-muted">필수 x</small></label>
+                      <input type="file" id="location_image" name="location_image" class="form-control" accept="image/png, image/jpg, image/jpeg">
+                    </div>
 
                     <div class="col-md-12">
                       <label for="main_tid">TID</label>
@@ -136,5 +140,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20240821"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20241003"></script>
 {% endblock javascripts %}

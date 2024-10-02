@@ -85,6 +85,15 @@
                         {% endif %}
                     </div>
                     <div class="col-md-12">
+                      <label for="location_image">가맹점 위치정보 이미지</label>
+                      <br>
+                      {% if data.location_image %}
+                          <img src="{{data.location_image.url}}"  style="width:200px;">
+                      {% else %}
+                          없음
+                      {% endif %}
+                    </div>
+                    <div class="col-md-12">
                       <label for="main_tid">TID</label>
                       <input type="text" name="main_tid" class="form-control" id="main_tid" placeholder="메인 TID" value="{{data.main_tid}}" readonly>
                     </div>

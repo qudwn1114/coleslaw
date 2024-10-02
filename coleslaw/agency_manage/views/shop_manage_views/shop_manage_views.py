@@ -105,6 +105,7 @@ class ShopCreateView(View):
         address_detail = request.POST['address_detail'].strip()
         zipcode = request.POST['zipcode']
         image = request.FILES.get("image")
+        location_image = request.FILES.get("location_image")
         main_tid = request.POST['main_tid'].strip()
         waiting_time = int(request.POST['waiting_time'])
         logo_image1 = request.FILES.get("logo_image1")
@@ -149,6 +150,7 @@ class ShopCreateView(View):
                     address_detail=address_detail,
                     zipcode=zipcode,
                     image=image,
+                    location_image=location_image,
                     main_tid=main_tid,
                     waiting_time=waiting_time,
                     logo_image1=logo_image1,
@@ -256,6 +258,7 @@ class ShopEditView(View):
         address_detail = request.POST['address_detail'].strip()
         zipcode = request.POST['zipcode']
         image = request.FILES.get("image")
+        location_image = request.FILES.get("location_image")
         main_tid = request.POST['main_tid'].strip()
         waiting_time = int(request.POST['waiting_time'])
         logo_image1 = request.FILES.get("logo_image1")
@@ -293,6 +296,8 @@ class ShopEditView(View):
                 shop.additional_fee_time=additional_fee_time
                 if image:
                     shop.image = image
+                if location_image:
+                    shop.location_image = location_image
                 if logo_image1:
                     shop.logo_image1 = logo_image1
                 if entry_image1:

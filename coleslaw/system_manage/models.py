@@ -94,6 +94,7 @@ class Shop(models.Model):
 
     registration_no = models.CharField(null=True, max_length=20, verbose_name='가맹점사업자등록번호')
     image = models.ImageField(max_length=300, null=True, upload_to="image/shop/", verbose_name='가맹점이미지')
+    location_image = models.ImageField(max_length=300, null=True, upload_to="image/shop_location/", verbose_name='가맹점위치 이미지')
 
     waiting_time = models.PositiveIntegerField(default=10, verbose_name='팀 당 예상 대기시간')
 
