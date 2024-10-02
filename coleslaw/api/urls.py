@@ -1,9 +1,9 @@
 from django.urls import path, include
+from api.views.agency_views.agency_views import AgencyDetailView
 from api.views.agency_views.agency_shop_views import AgencyShopCategoryListView, AgencyShopListView, ShopMainCategoryListView, ShopGoodsListView, ShopGoodsDetailView
 from api.views.agency_views.agency_shop_user_views import AgencyShopUserOrderListView, AgencyShopUserOrderDetailView, ShopOrderCancelView
 from api.views.checkout_views.checkout_views import ShopCheckoutView
 from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderCompleteView
-
 from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView, ShopTableManageDetailView, ShopTableDetailView, ShopTableLogoutView, ShopMainPosTidView, ShopTableExitColorView
 from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableGoodsDiscountView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableAdditionalView, ShopTableAdditionalCancelView, ShopTableCheckoutView, ShopPosDetailView
@@ -16,6 +16,7 @@ from api.views.kiosk_views.order_views import ShopKioskOrderCreateView
 
 app_name='api'
 urlpatterns = [
+    path('agency/<int:agency_id>/', AgencyDetailView.as_view()),
     path('agency/<int:agency_id>/shop-category-list/', AgencyShopCategoryListView.as_view()),
     path('agency/<int:agency_id>/shop-list/<int:shop_category_id>/', AgencyShopListView.as_view()),
     path('shop/<int:shop_id>/category-list/', ShopMainCategoryListView.as_view()),
