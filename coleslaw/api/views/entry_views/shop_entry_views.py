@@ -48,6 +48,10 @@ class ShopDetailView(View):
                 data['shopImageUrl'] = settings.SITE_URL + shop.image.url
             else:
                 data['shopImageUrl'] = None 
+            if shop.location_image:
+                data['shopLocationImageUrl'] = settings.SITE_URL + shop.location_image.url
+            else:
+                data['shopLocationImageUrl'] = None 
             if shop.logo_image1:
                 data['shopLogoImageUrl1'] = settings.SITE_URL + shop.logo_image1.url
             else:
