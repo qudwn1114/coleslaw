@@ -401,3 +401,92 @@ class ShopOrderCompleteView(View):
         return HttpResponse(return_data, content_type = "application/json")
 
     
+class ShopOrderStatusView(View):
+    '''
+        shop status
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopOrderStatusView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        order_id = kwargs.get('order_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        order_status = request.POST['order_status']
+        status = ['1', '3', '4', '5']
+        try:
+            order = Order.objects.get(pk=order_id, shop=shop)
+        except:
+            return_data = {'data': {},'msg': 'order id/code 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        if order_status not in status:
+            return_data = {'data': {},'msg': '상태 값 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        order.status = order_status
+        order.save()
+
+        return_data = {'data': {}, 'msg': '상태가 변경되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+
+class ShopOrderCompleteSmsView(View):
+    '''
+        shop complete sms
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopOrderCompleteSmsView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        order_id = kwargs.get('order_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            order = Order.objects.get(pk=order_id, shop=shop)
+        except:
+            return_data = {'data': {},'msg': 'order id/code 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        if order.order_complete_sms:
+            return_data = {'data': {},'msg': '이미 문자 발송 처리된 주문입니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        if not order.order_phone:
+            return_data = {'data': {},'msg': '연락처가 없습니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        message=f'[{shop.name_kr}]\n주문번호 [{order.order_no}] 회원님 주문하신거 수령하세요~\n'
+        sms_response = send_sms(phone=order.order_phone, message=message)
+        SmsLog.objects.create(
+            shop=shop,
+            shop_name=shop.name_kr,
+            phone=order.order_phone,
+            message=message
+        )
+        if sms_response.status_code != 202:
+            return_data = {'data': {},'msg': '전송실패','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        order.order_complete_sms = True
+        order.save()
+        
+
+        return_data = {'data': {}, 'msg': '상태가 변경되었습니다.','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
+
+        
