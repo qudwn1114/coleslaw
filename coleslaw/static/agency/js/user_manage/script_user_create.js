@@ -116,25 +116,25 @@ function validation(){
         password.focus();
         return false;
     }
-    if(!regPhone(phone.value)){
-        phone.focus();
-        return false;
-    }
-    if(birth.value == ''){
-        birth.focus();
-        return false;
-    }
-    if(address.value == ''){
-        address.focus();
-        return false;
-    }
-    if(address_detail.value == ''){
-        address_detail.focus();
-        return false;
-    }
-    if(zipcode.value == ''){
-        zipcode.focus();
-        return false;
-    }
+    // if(!regPhone(phone.value)){
+    //     phone.focus();
+    //     return false;
+    // }
+    // if(birth.value == ''){
+    //     birth.focus();
+    //     return false;
+    // }
+    // if(address.value == ''){
+    //     address.focus();
+    //     return false;
+    // }
+    // if(address_detail.value == ''){
+    //     address_detail.focus();
+    //     return false;
+    // }
+    // if(zipcode.value == ''){
+    //     zipcode.focus();
+    //     return false;
+    // }
     return true;
 }

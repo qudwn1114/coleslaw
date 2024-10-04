@@ -141,11 +141,11 @@ class UserCreateView(View):
         except:
             pass
 
-        if not validate_phone(phone):
-            return JsonResponse({"message": "유효하지 않은 전화번호 형식입니다."},status=400)
+        # if not validate_phone(phone):
+        #     return JsonResponse({"message": "유효하지 않은 전화번호 형식입니다."},status=400)
         
-        if not validate_birth(birth):
-            return JsonResponse({"message": "유효하지 않은 날짜 형식입니다. ex) 1990-01-01"}, status=400)
+        # if not validate_birth(birth):
+        #     return JsonResponse({"message": "유효하지 않은 날짜 형식입니다. ex) 1990-01-01"}, status=400)
         
         try:
             with transaction.atomic(): 
