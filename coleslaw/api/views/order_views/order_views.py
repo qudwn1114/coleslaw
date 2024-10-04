@@ -275,7 +275,7 @@ class ShopOrderCompleteView(View):
                 return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
         
-            OrderPayment.objects.create(
+            order_payment = OrderPayment.objects.create(
                 order = order,
                 status=True,
                 payment_method='0', #카드
@@ -361,6 +361,17 @@ class ShopOrderCompleteView(View):
                         'message_type' : 'ORDER',
                         'title': '* 주문접수 * ',
                         'message': f'[{order.order_no}] {order.order_name_kr}'
+                    }
+                )
+                receipt_data = {}
+                receipt_data['order_payment_id'] = order_payment.pk
+                async_to_sync(channel_layer.group_send)(
+                    f'shop_entry_{shop_id}',
+                    {
+                        'type': 'chat_message',
+                        'message_type' : 'QR',
+                        'title': '* QR 주문접수 *',
+                        'message': receipt_data
                     }
                 )
             except:
