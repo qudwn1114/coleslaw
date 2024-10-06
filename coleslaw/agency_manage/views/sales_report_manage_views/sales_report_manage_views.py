@@ -90,8 +90,8 @@ class AgencySalesReportManage(View):
                 queryset = OrderPayment.objects.filter(**filter_dict).annotate(
                     paymentMethod = Case(
                         When(payment_method='0', then=V('0')),
-                        When(Q(payment_method='1') & Q(approvalNumber=''), then=V('1')),
-                        When(Q(payment_method='1'), then=V('1-1')),
+                        When(Q(payment_method='1') & Q(approvalNumber=''), then=V('1-1')),
+                        When(Q(payment_method='1'), then=V('1')),
                         default=V('0'), output_field=CharField()
                     ),
                 ).values(
@@ -104,9 +104,10 @@ class AgencySalesReportManage(View):
                 day_card = 0
                 day_cash = 0
                 day_cash1 = 0
-                day_cash2 = 0
+                day_cash2 = 0 
                 for j in shop_list:
                     new_queryset = queryset.filter(order__shop_id=j['id'])
+                    print(new_queryset)
                     total = 0 
                     card = 0
                     cash = 0
