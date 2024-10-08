@@ -149,7 +149,17 @@ def shop_main_orders(request: HttpRequest, *args, **kwargs):
     except InvalidPage:
         page = 1
         page_obj = paginator.page(page)
-
+    
+    order_detail = request.GET.get('detail')
+    if order_detail:
+        for i in page_obj:
+            order = Order.objects.get(pk=i['id'])
+            order_goods = order.order_goods.all().values( 
+                'name_kr',
+                'option_kr',
+                'quantity',
+            ).order_by('id')
+            i['order_goods'] = list(order_goods)            
     data = {
         'order_list' : list(page_obj)
     }
