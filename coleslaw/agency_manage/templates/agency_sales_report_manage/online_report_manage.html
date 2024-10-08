@@ -1,0 +1,120 @@
+{% extends "layouts/agency_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Online Sales Report Manage</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'agency_manage:home' agency.pk %}">Home</a></li>
+            <li class="breadcrumb-item active">Sales Report</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{date_name}} 일자별 온라인 매출 현황 (티브릿지)</h5>
+            <h5 class="card-title"><i class="bi bi-cone-striped"></i>작업중입니다..<i class="bi bi-cone-striped"></i></h5>
+            <form id="search-form" class="p-2" method="get" action="">
+              <div class="row mb-2">
+                  <input type="hidden" name="condition" id="condition" value="true">
+                  <input type="hidden" class="btn-check" name="order_date_no" id="order_date_no" value="{{order_date_no}}">
+                  <label for="order_date" class="col-sm-2 col-form-label">기준 날짜</label>
+                  <div class="col-sm-4">
+                  <div class="btn-group mt-2" role="group">
+                      <input type="radio" class="btn-check" name="order_date" id="order_date1" {% if order_date_no == '1' %}checked{% endif %}>
+                      <label class="btn btn-sm btn-outline-primary" for="order_date1">오늘</label>
+                  
+                      <input type="radio" class="btn-check" name="order_date" id="order_date2" {% if order_date_no == '2' %}checked{% endif %}>
+                      <label class="btn btn-sm btn-outline-primary" for="order_date2">일주일</label>
+
+                      <input type="radio" class="btn-check" name="order_date" id="order_date3" {% if order_date_no == '3' %}checked{% endif %}>
+                      <label class="btn btn-sm  btn-outline-primary" for="order_date3">1개월</label>
+
+                      <input type="radio" class="btn-check" name="order_date" id="order_date4" {% if order_date_no == '4' %}checked{% endif %}>
+                      <label class="btn btn-sm  btn-outline-primary" for="order_date4">3개월</label>
+                  </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="input-group mt-2">
+                        <span class="input-group-text">
+                        <i class="bi bi-calendar"></i>
+                        </span>
+                        <input type="text" name="dates" class="form-control" placeholder="기간을 선택해주세요." readonly value="{{dates}}">
+                        
+                    </div>
+                    <strong>기간을 3개월 이내로만 설정 하실 수 있습니다.</strong>
+                  </div>
+              </div> 
+              <div class="p-3">
+                {% for i in shop %}
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="shop_{{i.id}}" name="shop" value="{{i.id}}" {% if i.id in shop_id_list %}checked{% endif %}>
+                  <label class="form-check-label" for="shop_{{i.id}}">{{i.name_kr}}</label>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="row mb-3">
+                <div class="text-center">
+                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'agency_manage:online_report_manage' agency.pk %}">초기화</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card mb-3" >
+          <div class="card-body">
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <h5 class="card-title">매출 {{sum_total_price|intcomma}}₩</h5>
+              </div>
+              <div class="col-auto">
+                <div class="icon mt-3 me-3">
+                  {% if online_report_list %}
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('excel');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <table class='table table-hover'>
+              <thead>
+                <tr>
+                  <th>일자별</th>
+                  <th>가맹점명</th>
+                  <th>판매금액</th>
+                  <th>취소금액</th>
+                  <th>확정금액</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% if online_report_list %}
+              {% else %}
+                <tr>
+                    <td colspan='5'>데이터가 없습니다.</td>
+                </tr>
+              {% endif %}
+              </tbody>
+            </table>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="{% static 'agency/js/sales_report_manage/script_online_report_manage.js' %}?v=20240805"></script>
+{% endblock javascripts %}

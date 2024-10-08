@@ -118,6 +118,8 @@ class Shop(models.Model):
 
     pos_ad_video = models.FileField(max_length=300, null=True, upload_to='video/pos_ad/', verbose_name='포스광고')
 
+    tbridge = models.BooleanField(default=False, verbose_name='티브릿지 연동')
+    
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
