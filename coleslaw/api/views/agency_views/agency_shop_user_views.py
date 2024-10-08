@@ -198,7 +198,7 @@ class ShopOrderCancelView(View):
                     'type': 'chat_message',
                     'message_type' : 'CANCEL',
                     'title': '! 주문취소 ! ',
-                    'message': f'[{order.order_no}] {order.order_name}'
+                    'message': f'[{order.order_no}] {order.order_name_kr}'
                 }
             )
         except:
