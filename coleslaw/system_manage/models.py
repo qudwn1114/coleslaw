@@ -18,6 +18,7 @@ class Agency(models.Model):
     description = models.CharField(default='', max_length=255, verbose_name='설명')
     image = models.ImageField(max_length=300, null=True, upload_to="image/agency/", verbose_name='에이전시이미지')
     status = models.BooleanField(default=True, verbose_name='상태')
+    qr_link = models.CharField(max_length=300, null=True, verbose_name='qr주문 링크')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
@@ -119,7 +120,7 @@ class Shop(models.Model):
     pos_ad_video = models.FileField(max_length=300, null=True, upload_to='video/pos_ad/', verbose_name='포스광고')
 
     tbridge = models.BooleanField(default=False, verbose_name='티브릿지 연동')
-    
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 

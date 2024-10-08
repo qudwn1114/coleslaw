@@ -50,6 +50,10 @@
                             없음
                         {% endif %}
                     </div>
+                    <div class="col-md-12">
+                      <label for="qr_link">QR 사이트 링크</label>
+                      <input type="text" name="qr_link" class="form-control" id="qr_link" placeholder="QR Link" value="{{data.qr_link|default_if_none:''}}" readonly>
+                    </div>
                 </div>
                 <div class="col-sm-12 text-center">
                     <a href="{% url 'system_manage:agency_edit' data.id %}" class="btn btn-warning">Edit</a>

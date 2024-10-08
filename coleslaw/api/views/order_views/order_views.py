@@ -342,7 +342,7 @@ class ShopOrderCompleteView(View):
             
             #에이전시 행사때만 문자발송!
             if order.agency:
-                message=f'[{shop.name_kr}]\n주문번호 [{order.order_no}] 입니다.'
+                message=f'[{shop.name_kr[:5]}] 주문번호[{order.order_no}]\n▼주문내역\n{order.agency.qr_link}'
                 sms_response = send_sms(phone=order.order_phone, message=message)
                 SmsLog.objects.create(
                     shop=shop,
@@ -350,7 +350,6 @@ class ShopOrderCompleteView(View):
                     phone=order.order_phone,
                     message=message
                 )
-                
             
             try:
                 channel_layer = get_channel_layer()

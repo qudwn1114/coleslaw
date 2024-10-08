@@ -87,7 +87,7 @@ class AgencyCreateView(View):
         agency_name = request.POST['agency_name'].strip()
         description = request.POST['description'].strip()
         image = request.FILES.get("image")
-
+        
         try:
             Agency.objects.get(name=agency_name)
             return JsonResponse({'message': '이미 존재하는 에이전시 명 입니다.'}, status=400)
@@ -153,12 +153,14 @@ class AgencyEditView(View):
         agency_name = request.POST['agency_name'].strip()
         description = request.POST['description'].strip()
         image = request.FILES.get("image")
+        qr_link = request.POST['qr_link'].strip()
     
         if Agency.objects.filter(name=agency_name).exclude(pk=agency.pk).exists():
             return JsonResponse({'message': '이미 존재하는 에이전시 명 입니다.'}, status=400)
         
         agency.name = agency_name
         agency.description = description
+        agency.qr_link = qr_link
         if image:
             agency.image = image
         agency.save()

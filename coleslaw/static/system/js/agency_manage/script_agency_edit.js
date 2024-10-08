@@ -2,6 +2,7 @@ const btn_submit = document.getElementById("btn-submit");
 const btn_address = document.getElementById("btn-address")
 const agency_name = document.getElementById("agency_name");
 const description = document.getElementById("description");
+const qr_link = document.getElementById('qr_link');
 const image = document.getElementById("image");
 
 btn_submit.addEventListener("click", () => {
@@ -16,6 +17,7 @@ btn_submit.addEventListener("click", () => {
     agency_name.disabled=true;
     description.disabled=true;
     image.disabled=true;
+    qr_link.disabled=true;
     $.ajax({
         type: "POST",
         url: "",
@@ -35,6 +37,7 @@ btn_submit.addEventListener("click", () => {
             agency_name.disabled=false;
             description.disabled=false;
             image.disabled=false;
+            qr_link.disabled=false;
             if(error.status == 401){
                 alert('로그인 해주세요.');
             }
