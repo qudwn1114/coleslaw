@@ -34,19 +34,20 @@ class ShopCheckoutView(View):
             return HttpResponse(return_data, content_type = "application/json")
 
         try:
-            agencyId = request.POST.get('agencyId', None)
+            agencyId = request.POST.get('agencyId')
             checkoutList = request.POST['checkoutList']
             checkoutList = json.loads(checkoutList)
             finalPrice  = int(request.POST['finalPrice'])
 
-            if agencyId:
-                try:
-                    agency = AgencyShop.objects.get(agency_id=agencyId, shop=shop).agency
-                except:
-                    return_data = json.dumps({'data': {},'msg': f'주문 가능한 상점이 아닙니다.','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
-                    return HttpResponse(return_data, content_type = "application/json")
-            else:
-                agency = None
+            if not agencyId:
+                return_data = json.dumps({'data': {},'msg': f'Agency ID를 넣어주세요.','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
+                return HttpResponse(return_data, content_type = "application/json")
+
+            try:
+                agency = AgencyShop.objects.get(agency_id=agencyId, shop=shop).agency
+            except:
+                return_data = json.dumps({'data': {},'msg': f'주문 가능한 상점이 아닙니다.','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
+                return HttpResponse(return_data, content_type = "application/json")
             if finalPrice <= 0:
                 return_data = json.dumps({'data': {},'msg': f'0이하 결제금액.','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
