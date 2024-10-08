@@ -488,4 +488,37 @@ class ShopOrderCompleteSmsView(View):
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
 
-        
+    
+class ShopOrderAlertTestView(View):
+    '''
+        주문 알림테스트
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopOrderAlertTestView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        logger = logging.getLogger('my')
+        shop_id = kwargs.get('shop_id')
+        try:
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'shop_order_{shop_id}',
+                {
+                    'type': 'chat_message',
+                    'message_type' : 'ORDER',
+                    'title': '* 주문접수 * ',
+                    'message': f'주문테스트~~~~'
+                }
+            )
+        except:
+            logger.error(traceback.format_exc())
+            return_data = {
+                'data': {},
+                'msg': traceback.format_exc(),
+                'resultCd': '0001',
+            }
+
+        return_data = {'data': {}, 'msg': 'good','resultCd': '0000'}
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
