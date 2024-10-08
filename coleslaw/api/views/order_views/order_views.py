@@ -342,7 +342,7 @@ class ShopOrderCompleteView(View):
             
             #에이전시 행사때만 문자발송!
             if order.agency:
-                message=f'[{shop.name_kr}]\n주문번호 [{order.order_no}] 입니다.\n아래링크에서 주문하신 매장으로 이동하여 주문내역을 확인하세요.\nhttps://baumrootme.com/coleslaw/?Id={order.agency.pk}'
+                message=f'[{shop.name_kr}]\n주문번호 [{order.order_no}] 입니다.'
                 sms_response = send_sms(phone=order.order_phone, message=message)
                 SmsLog.objects.create(
                     shop=shop,
