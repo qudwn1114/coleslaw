@@ -126,6 +126,7 @@ class GoodsCreateView(View):
         stock_flag = bool(request.POST.get('stock_flag', None))
         kiosk_display = bool(request.POST.get('kiosk_display', None))
         image = request.FILES.get('image', None)
+        after_payment_goods_id_list = request.POST['after_payment_goods_id_list']
 
         try:
             sub_category = SubCategory.objects.get(pk=sub_category_id)
@@ -139,6 +140,24 @@ class GoodsCreateView(View):
         else:
             image = 'image/goods/default.jpg'
             image_thumbnail='image/goods/default.jpg'
+
+        after_payment_goods_id_list = after_payment_goods_id_list.replace(' ', '')            
+        if after_payment_goods_id_list:
+            after_payment_goods = ''
+            after_payment_goods_id_list = after_payment_goods_id_list.split(',')
+            for i in after_payment_goods_id_list:
+                try:
+                    g = Goods.objects.get(pk=int(i), shop=shop).pk
+                    after_payment_goods += f"{i},"
+                except:
+                    return JsonResponse({'message' : '결제 후 상품 형식 오류..'},status = 400)
+            if after_payment_goods:
+                after_payment_goods = after_payment_goods.strip().rstrip(',')
+            else:
+                after_payment_goods = None
+        else:
+            after_payment_goods = None
+
         try:
             with transaction.atomic():
                 goods = Goods.objects.create(
@@ -155,7 +174,8 @@ class GoodsCreateView(View):
                     status=status,
                     soldout=soldout,
                     kiosk_display=kiosk_display,
-                    stock_flag=stock_flag
+                    stock_flag=stock_flag,
+                    after_payment_goods=after_payment_goods
                 )
         except IntegrityError:
             return JsonResponse({'message' : '잠시후 다시 시도해주세요.'},status = 400)
