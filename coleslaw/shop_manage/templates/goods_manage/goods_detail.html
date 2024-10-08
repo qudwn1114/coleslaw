@@ -25,7 +25,7 @@
                     <h5 class="card-title">상품 상세</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{% url 'shop_manage:goods_manage' shop.id %}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{{prev_url}}"><i class="bi bi-list"></i> 목록</a></div>
                 </div>
                 <div class="col-auto">
                     <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
@@ -43,6 +43,12 @@
                     <select  class="selectpicker form-control" id="sub_category" name="sub_category" disabled>
                         <option>{{goods.sub_category.name_kr}}</option>
                     </select>
+                  </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                  <label for="goods_id" class="col-sm-2 col-form-label">상품ID</label>
+                  <div class="col-sm-10">
+                      <input type="text" id="goods_id" name="goods_id" class="form-control" placeholder="상품ID" disabled value="{{goods.pk}}">
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
@@ -158,7 +164,7 @@
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-12 text-center">
-                        <a class="btn btn-warning" href="{% url 'shop_manage:goods_edit' shop.id goods.id %}">Edit</a>
+                        <a class="btn btn-warning" href="{% url 'shop_manage:goods_edit' shop.id goods.id %}?prev_url={{cur_url}}">Edit</a>
                     </div>
                 </div>
             </form>
@@ -171,7 +177,7 @@
                   <h5 class="card-title">옵션</h5>
               </div>
               <div class="col-auto mt-3">
-                <a class="btn btn-outline-primary" href="{% url 'shop_manage:option_manage' shop.id goods.id %}">관리</a>
+                <a class="btn btn-outline-primary" href="{% url 'shop_manage:option_manage' shop.id goods.id %}?prev_url={{cur_url}}">관리</a>
               </div>
             </div>
             {% if goods.option %}

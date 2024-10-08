@@ -3,10 +3,11 @@ from django.http import HttpRequest, JsonResponse
 from django.db import transaction
 from django.views.generic import View
 from django.utils.decorators import method_decorator
+from django.urls import reverse
 from system_manage.decorators import permission_required
 from system_manage.models import Goods, GoodsOption, GoodsOptionDetail
 from shop_manage.views.shop_manage_views.auth_views import check_shop
-
+from urllib.parse import quote
 import json
 
 class OptionManageView(View):
@@ -24,6 +25,12 @@ class OptionManageView(View):
         pk = kwargs.get("pk")
         goods = get_object_or_404(Goods, pk=pk)
         context['goods'] = goods
+        
+        context['cur_url'] = quote(request.get_full_path())
+        prev_url = request.GET.get('prev_url', None)
+        if not prev_url:
+            prev_url = reverse('shop_manage:goods_detail', kwargs={'shop_id':shop.id, 'pk':goods.id})
+        context['prev_url'] = prev_url
 
         return render(request, 'goods_manage/option_manage.html', context)
     

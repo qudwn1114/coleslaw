@@ -149,8 +149,17 @@ $(document).ready(function () {
         },
         columns: [
             { "data": "id", orderable: true },
-            { "data": "name_kr", orderable: true },
-            { "data": "code", orderable: false },
+            { "data": function(data, type, row){
+                return `${data.mainCategoryNameKr}<br>${data.subCategoryNameKr}`;
+                },
+                orderable:false
+            },
+
+            { "data": function(data, type, row){
+                    return `<a href="/shop-manage/${shop_id}/goods-detail/${data.id}?prev_url=${cur_url}">${truncateStr(data.name_kr, 18)}</a><p>${data.code}</p>`;
+                }, 
+                orderable: false 
+            },
             { "data": function(data, type, row){
                     return `<img src="${data.imageThumbnailUrl}" width="50px"/>`;
                 },
@@ -214,12 +223,6 @@ $(document).ready(function () {
             {
                 targets: 0,
                 visible:false
-            },
-            {
-                targets: 1,
-                render: function (data, type, row) {
-                    return `<a href="/shop-manage/${shop_id}/goods-detail/${row.id}">${truncateStr(data, 18)}</a>`;
-                }
             },
             {
                 targets: 4,

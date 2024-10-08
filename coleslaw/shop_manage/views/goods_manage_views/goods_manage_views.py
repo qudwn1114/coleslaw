@@ -16,6 +16,7 @@ from system_manage.models import Shop, ShopAdmin, SubCategory, Goods, MainCatego
 
 from shop_manage.views.shop_manage_views.auth_views import check_shop
 
+from urllib.parse import quote
 from PIL import Image
 from io import BytesIO
 import json
@@ -33,6 +34,7 @@ class GoodsManageView(View):
         if not shop:
             return redirect('shop_manage:notfound')
         context['shop'] = shop
+        context['cur_url'] = quote(request.get_full_path())
         
         return render(request, 'goods_manage/goods_manage.html', context)
     
@@ -96,6 +98,11 @@ class GoodsCreateView(View):
         if not shop:
             return redirect('shop_manage:notfound')
         context['shop'] = shop
+        context['cur_url'] = quote(request.get_full_path())
+        prev_url = request.GET.get('prev_url', None)
+        if not prev_url:
+            prev_url = reverse("shop_manage:goods_manage", kwargs={'shop_id':shop.pk})
+        context['prev_url'] = prev_url
 
         return render(request, 'goods_manage/goods_create.html', context)
     
@@ -155,7 +162,10 @@ class GoodsCreateView(View):
         except:
             return JsonResponse({'message' : '등록오류'},status = 400)
         
-        return JsonResponse({'message' : '생성 완료', 'url':reverse('shop_manage:goods_detail', kwargs={'shop_id':shop.id, 'pk':goods.id})},  status = 201)
+        prev_url = request.GET.get('prev_url', None)
+        next_url = reverse('shop_manage:goods_detail', kwargs={'shop_id':shop.id, 'pk':goods.id})
+        
+        return JsonResponse({'message' : '생성 완료', 'url': f"{next_url}?prev_url={prev_url}" if prev_url else next_url},  status = 201)
     
 
 class GoodsDetailView(View):
@@ -175,6 +185,12 @@ class GoodsDetailView(View):
         
         goods = get_object_or_404(Goods, pk=pk, shop=shop)
         context['goods'] = goods
+
+        context['cur_url'] = quote(request.get_full_path())
+        prev_url = request.GET.get('prev_url', None)
+        if not prev_url:
+            prev_url = reverse("shop_manage:goods_manage", kwargs={'shop_id':shop.pk})
+        context['prev_url'] = prev_url
 
         return render(request, 'goods_manage/goods_detail.html', context)
     
@@ -215,6 +231,11 @@ class GoodsEditView(View):
         
         goods = get_object_or_404(Goods, pk=pk, shop=shop)
         context['goods'] = goods
+        context['cur_url'] = quote(request.get_full_path())
+        prev_url = request.GET.get('prev_url', None)
+        if not prev_url:
+            prev_url = reverse('shop_manage:goods_detail', kwargs={'shop_id':shop.id, 'pk':goods.id})
+        context['prev_url'] = prev_url
 
         context['main_category'] = MainCategory.objects.all().order_by('name_kr').values('id', 'name_kr')
         context['sub_category'] = SubCategory.objects.filter(main_category=goods.sub_category.main_category).order_by('name_kr').values('id', 'name_kr')
@@ -312,8 +333,11 @@ class GoodsEditView(View):
         except:
             return JsonResponse({'message' : '수정오류'},status = 400)
 
-        return JsonResponse({'message' : '수정 완료', 'url':reverse('shop_manage:goods_detail', kwargs={'shop_id':shop.id, 'pk':goods.id})},  status = 201)
+        prev_url = request.GET.get('prev_url', None)
+        if not prev_url:
+            prev_url = reverse('shop_manage:goods_detail', kwargs={'shop_id':shop.id, 'pk':goods.id})
 
+        return JsonResponse({'message' : '수정 완료', 'url':prev_url},  status = 201)
         
 
 @require_http_methods(["GET"])
