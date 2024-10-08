@@ -122,17 +122,21 @@ function getMainOrders(){
             `<tr>
                 <td>${data.order_list[i].order_no}</td>
                 <td>
-                  <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#orderGoodsModal" data-order-id="${data.order_list[i].id}">** MENU **</a><br>`;
+                  <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#orderGoodsModal" data-order-id="${data.order_list[i].id}">${truncateStr(data.order_list[i].order_name_kr, 16)}</a>
+                  <br>
+                  `;
                   for(let j=0; j<data.order_list[i].order_goods.length; j++){
                     let goods_name = data.order_list[i].order_goods[j].name_kr;
                     let goods_option = data.order_list[i].order_goods[j].option_kr;
                     let goods_quantity = data.order_list[i].order_goods[j].quantity;
                     let menu = goods_name;
-                    if(goods_option){
-                      menu += ` <span class='text-warning bg-dark'>[옵션]</span> (${goods_option})`;
+                    if(goods_quantity > 1){
+                      menu += ` x ${goods_quantity}`;
                     }
-                    menu += ` x ${goods_quantity}`
-                    tag += `- ${menu}<br>`;
+                    if(goods_option){
+                      menu += `<br><small>&nbsp;&nbsp;&#8627;	(${goods_option})</small>`;
+                    }
+                    tag += `<span>- ${menu}</span><br>`;
                   }
                 tag +=  
                 `</td>
