@@ -68,7 +68,7 @@
                       </div>
                       <div class="col-md-12">
                         <label for="phone">연락처</label>
-                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="연락처">
+                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="연락처"  onkeyup="SetNum(this);">
                         <small class="form-text text-muted">예시) 0200001234 or 01000005678</small>
                       </div>
                       <div class="col-md-12">
@@ -140,5 +140,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20241003"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_create.js' %}?v=20241011"></script>
 {% endblock javascripts %}

@@ -148,10 +148,6 @@ function validation(){
         shop_category_id.focus();
         return false;
     }
-    if(representative.value == ''){
-        representative.focus();
-        return false;
-    }
     if(shop_name_kr.value == ''){
         shop_name_kr.focus();
         return false;
@@ -164,17 +160,12 @@ function validation(){
         phone.focus();
         return false;
     }
-    if(address.value == ''){
-        address.focus();
-        return false;
-    }
-    if(address_detail.value == ''){
-        address_detail.focus();
-        return false;
-    }
-    if(zipcode.value == ''){
-        zipcode.focus();
-        return false;
-    }
     return true;
+}
+
+
+function SetNum(obj){
+    val=obj.value;
+    re=/[^0-9]/gi;
+    obj.value=val.replace(re,""); 
 }
