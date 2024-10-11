@@ -313,7 +313,7 @@ class ShopOrderCompleteView(View):
             )
             order.payment_method = '0'
             order.payment_price = order.final_price
-            order.status = '1'
+            order.status = '3'
             order.save()
 
             # 재고관리
