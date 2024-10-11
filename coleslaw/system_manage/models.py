@@ -19,6 +19,8 @@ class Agency(models.Model):
     image = models.ImageField(max_length=300, null=True, upload_to="image/agency/", verbose_name='에이전시이미지')
     status = models.BooleanField(default=True, verbose_name='상태')
     qr_link = models.CharField(max_length=300, null=True, verbose_name='qr주문 링크')
+    qr_order_note = models.TextField(default='', null=True)
+    qr_order_message = models.CharField(max_length=200, default='', verbose_name='qr주문 문자안내')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 

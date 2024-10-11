@@ -326,13 +326,13 @@ class ShopPosOrderCreateView(View):
                             else:
                                 order_name_kr = f"{i.goods.name_kr} 외 {total_quantity-1}개"
                                 order_name_en = f"{i.goods.name_en} and {total_quantity-1} others"
-
-                        if i.goods.soldout:
-                            raise ValueError(f"{i.goods.name} 상품이 판매 중단되었습니다.")
+                        # 재고 수량 체크
+                        # if i.goods.soldout:
+                        #     raise ValueError(f"{i.goods.name} 상품이 판매 중단되었습니다.")
                         
-                        if i.goods.stock_flag:
-                            if i.goods.stock < i.quantity:
-                                raise ValueError(f'{i.goods.name_kr} Out of Stock')
+                        # if i.goods.stock_flag:
+                        #     if i.goods.stock < i.quantity:
+                        #         raise ValueError(f'{i.goods.name_kr} Out of Stock')
                         
                         discount = (i.sale_price + i.sale_option_price) - i.price
 
@@ -378,12 +378,13 @@ class ShopPosOrderCreateView(View):
                             option_en = [] 
                             order_goods_option_bulk_list = []
                             for j in i.checkout_detail_option.all().order_by('id'):
-                                if j.goods_option_detail.soldout:
-                                    raise ValueError(f"{i.goods.name_kr} {j.goods_option_detail.name_kr} Option Soldout")
+                                # 재고 수량 체크
+                                # if j.goods_option_detail.soldout:
+                                #     raise ValueError(f"{i.goods.name_kr} {j.goods_option_detail.name_kr} Option Soldout")
                                 
-                                if j.goods_option_detail.stock_flag:
-                                    if j.goods_option_detail.stock < i.quantity:
-                                        raise ValueError(f'{i.goods.name_kr} {j.goods_option_detail.name_kr} Out of Stock')
+                                # if j.goods_option_detail.stock_flag:
+                                #     if j.goods_option_detail.stock < i.quantity:
+                                #         raise ValueError(f'{i.goods.name_kr} {j.goods_option_detail.name_kr} Out of Stock')
                                 
                                 option_kr.append(f"{j.goods_option_detail.goods_option.name_kr} : {j.goods_option_detail.name_kr}")
                                 option_en.append(f"{j.goods_option_detail.goods_option.name_en} : {j.goods_option_detail.name_en}")
@@ -633,8 +634,6 @@ class ShopPosOrderCompleteView(View):
                 except:
                     pass
 
-
-            # 재고관리
             if left_price <= 0:
                 try:
                     shop_table = ShopTable.objects.get(shop=shop, table_no=order.table_no)
@@ -672,27 +671,28 @@ class ShopPosOrderCompleteView(View):
                 except:
                     pass
 
-                for i in order.order_goods.all():
-                    if i.goods.stock_flag:
-                        if i.goods.stock - i.quantity <= 0:
-                            goods_soldout = True
-                        else:
-                            goods_soldout = False
-                        g = i.goods
-                        g.stock -= i.quantity
-                        g.soldout = goods_soldout
-                        g.save()
+                # 재고관리
+                # for i in order.order_goods.all():
+                #     if i.goods.stock_flag:
+                #         if i.goods.stock - i.quantity <= 0:
+                #             goods_soldout = True
+                #         else:
+                #             goods_soldout = False
+                #         g = i.goods
+                #         g.stock -= i.quantity
+                #         g.soldout = goods_soldout
+                #         g.save()
 
-                    for j in i.order_goods_option.all():
-                        if j.goods_option_detail.stock_flag:
-                            god = j.goods_option_detail
-                            if god.stock - i.quantity <= 0:
-                                option_detail_soldout = True
-                            else:
-                                option_detail_soldout = False
-                            god.stock -= i.quantity
-                            god.soldout = option_detail_soldout
-                            god.save()
+                #     for j in i.order_goods_option.all():
+                #         if j.goods_option_detail.stock_flag:
+                #             god = j.goods_option_detail
+                #             if god.stock - i.quantity <= 0:
+                #                 option_detail_soldout = True
+                #             else:
+                #                 option_detail_soldout = False
+                #             god.stock -= i.quantity
+                #             god.soldout = option_detail_soldout
+                #             god.save()
 
             return_data = {
                 'data': {

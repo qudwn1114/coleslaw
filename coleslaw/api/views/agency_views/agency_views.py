@@ -26,6 +26,7 @@ class AgencyDetailView(View):
                 data['imageUrl'] = settings.SITE_URL + agency.image.url
             else:
                 data['imageUrl'] = None
+            data['qr_order_note'] = agency.qr_order_note
             return_data = {
                 'data': data,
                 'resultCd': '0000',
