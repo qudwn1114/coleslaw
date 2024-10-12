@@ -8,8 +8,10 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.db import transaction
 from system_manage.decorators import permission_required
+from django.db.models import Exists, OuterRef
 from system_manage.models import Shop, ShopCategory, ShopTable, Agency, AgencyShop
 from agency_manage.views.agency_manage_views.auth_views import check_agency
+import json
 
 
 class ShopManageView(View):
@@ -38,13 +40,17 @@ class ShopManageView(View):
             context['search_keyword'] = search_keyword
             filter_dict[search_type + '__icontains'] = search_keyword
 
-        obj_list = Shop.objects.filter(**filter_dict).values(
+        agency_shops = AgencyShop.objects.filter(shop=OuterRef('pk'), agency=agency, status=True)
+        obj_list = Shop.objects.filter(**filter_dict).annotate(
+            agency_shop_status=Exists(agency_shops)
+        ).values(
             'id',
             'name_kr',
             'name_en',
             'phone',
             'representative',
             'agency__name',
+            'agency_shop_status',
             'created_at',
         ).order_by('-created_at')
 
@@ -66,6 +72,28 @@ class ShopManageView(View):
         context['page_obj'] = page_obj
 
         return render(request, 'agency_shop_manage/shop_manage.html', context)
+    
+    @method_decorator(permission_required(raise_exception=True))
+    def put(self, request: HttpRequest, *args, **kwargs):
+        agency_id = kwargs.get('agency_id')
+        agency = check_agency(pk=agency_id)
+        if not agency:
+            return JsonResponse({'message': '데이터오류'}, status = 400)
+
+        request.PUT = json.loads(request.body)
+        rq_type = request.PUT['type']
+        shop_id = request.PUT['shop_id']
+        try:
+            agency_shop = AgencyShop.objects.get(shop_id=shop_id, agency=agency)
+        except:
+            return JsonResponse({"message": "데이터 오류"},status=400)
+        if rq_type == 'STATUS':
+            agency_shop.status = not agency_shop.status
+            agency_shop.save()
+        else:
+            return JsonResponse({"message": "타입 오류"},status=400)
+        
+        return JsonResponse({'message' : '변경되었습니다.'}, status = 201)
     
 
 class ShopCreateView(View):

@@ -70,6 +70,7 @@
               <thead>
                 <tr>
                   <th>메인 에이전시</th>
+                  <th>상태</th>
                   <th>가맹점명</th>
                   <th>연락처</th>
                   <th>등록일</th>
@@ -81,6 +82,9 @@
                 {% for i in page_obj %}
                 <tr>
                   <td>{{i.agency__name}}</td>
+                  <td>
+                    <input type="checkbox" {% if i.agency_shop_status %}checked{% endif %} onchange="setStatus({{i.id}}, this)"  data-toggle="toggle" data-on="활성" data-off="비활성" data-width="90">
+                  </td>
                   <td><a href="{% url 'agency_manage:shop_detail' agency.pk i.id %}">{{i.name_kr}}</a></td>
                   <td>{{i.phone}}</td>
                   <td>{{i.created_at|date:"Y.m.d"}}</td>
@@ -89,7 +93,7 @@
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='4'>가맹점이 없습니다.</td>
+                    <td colspan='5'>가맹점이 없습니다.</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -104,4 +108,5 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script src="{% static 'js/script_pagination.js' %}"></script>
+<script src="{% static 'agency/js/shop_manage/script_shop_manage.js' %}?v=20241011"></script>
 {% endblock javascripts %}
