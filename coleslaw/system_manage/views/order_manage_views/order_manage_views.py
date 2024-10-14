@@ -30,6 +30,15 @@ class OrderManageView(View):
         shop_id = request.GET.get('shop_id', '')
 
         filter_dict = {}
+        
+        order_type_list = request.GET.getlist('order_type', None)
+        if order_type_list:
+            order_type_list = list(map(int, order_type_list))
+            filter_dict['order_type__in'] = order_type_list
+            context['order_type_list'] = order_type_list
+        else:
+            context['order_type_list'] = [0, 1, 2]
+
         if agency_id:
             agency_id = int(agency_id)
             filter_dict['agency_id'] = agency_id
@@ -116,7 +125,15 @@ class OrderPaymentManageView(View):
         agency_id = request.GET.get('agency_id', '')
         shop_id = request.GET.get('shop_id', '')
 
+        order_type_list = request.GET.getlist('order_type', None)
         q = Q()
+        if order_type_list:
+            order_type_list = list(map(int, order_type_list))
+            q.add(Q(order__order_type__in=order_type_list), q.AND)
+            context['order_type_list'] = order_type_list
+        else:
+            context['order_type_list'] = [0, 1, 2]
+
         if agency_id:
             agency_id = int(agency_id)
             q.add(Q(order__agency_id=agency_id), q.AND)

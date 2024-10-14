@@ -13,3 +13,7 @@ function setAgency(){
 function setShop(){
     search_form.submit();
 }
+
+function setOrderType(){
+    search_form.submit();
+}
