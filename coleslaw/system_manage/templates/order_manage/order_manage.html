@@ -1,0 +1,154 @@
+{% extends "layouts/system_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+<link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Order Manage</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+            <li class="breadcrumb-item">Order Manage</li>
+            <li class="breadcrumb-item active">Order</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Order Manage</h5>
+            <form id="search-form" class="p-2" method="get" action="">
+              <div class="row mb-3">
+                <label for="agency_id" class="col-sm-2 col-form-label">에이전시</label>
+                <div class="col-sm-8">
+                  <select  class="selectpicker form-control" id="agency_id" name="agency_id" data-live-search="true" title="에이전시를 선택해주세요." onchange="setAgency();">
+                      {% for i in agency %}
+                      {% if agency_id == i.id %}
+                          <option value="{{i.id}}" selected>{{i.name}}</option>
+                      {% else %}
+                          <option value="{{i.id}}">{{i.name}}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="shop_id" class="col-sm-2 col-form-label">가맹점</label>
+                <div class="col-sm-8">
+                  <select  class="selectpicker form-control" id="shop_id" name="shop_id" data-live-search="true" title="가맹점을 선택해주세요." onchange="setShop();">
+                      {% for i in shop %}
+                      {% if shop_id == i.id %}
+                          <option value="{{i.id}}" selected>{{i.name_kr}}</option>
+                      {% else %}
+                          <option value="{{i.id}}">{{i.name_kr}}</option>
+                      {% endif %}
+                      {% endfor %}
+                    </select>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
+                <div class="col-sm-8">
+                    <div class="input-group">                   
+                      <select class="form-select" id="search_type" name="search_type">
+                        {% if search_type == 'order_no' %}
+                        <option value="order_no" selected>주문번호</option>
+                        {% else %}
+                        <option value="order_no">주문번호</option>
+                        {% endif %}
+                        {% if search_type == 'id' %}
+                        <option value="id" selected>ID</option>
+                        {% else %}
+                        <option value="id">ID</option>
+                        {% endif %}
+                        {% if search_type == 'final_price' %}
+                        <option value="final_price" selected>결제금액</option>
+                        {% else %}
+                        <option value="final_price">결제금액</option>
+                        {% endif %}
+                      </select>
+                    <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%" onkeyup="SetNum(this);">
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="text-center">
+                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'system_manage:order_manage' %}">초기화</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card mb-3" >
+          <div class="card-body">
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <h5 class="card-title">주문 목록</h5>
+              </div>
+              <div class="col-auto">
+                <div class="icon mt-3 me-3">
+                  {% if page_obj %}
+                    <!-- <a id="btn-excel" href="javascript:;" onclick="xlsxDownload();"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a> -->
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <table class='table table-hover'>
+              <thead>
+                <tr>
+                  <th>가맹점</th>
+                  <th>주문번호</th>
+                  <th>주문내용</th>
+                  <th>결제금액</th>
+                  <th>상태</th>
+                  <th>방식</th>
+                  <th>수단</th>
+                  <th>일시</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% if page_obj %}
+                {% for i in page_obj %}
+                <tr>
+                    <td>{{i.shop__name_kr}}</td>
+                    <td>{{i.order_no}}</td>
+                    <td>{{i.order_name_kr}}</td>
+                    <td>
+                        {{i.final_price|intcomma}}<br>
+                        {{i.payment_price|intcomma}}
+                    </td>
+                  <td>{{i.orderStatus}}</td>
+                  <td>{{i.orderType}}</td>
+                  <td>{{i.paymentMethod}}</td>
+                  <td>{{i.created_at|date:"y.m.d H:i"}}</td>
+                </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                    <td colspan='8'>내용이 없습니다.</td>
+                </tr>
+              {% endif %}
+              </tbody>
+            </table>
+            {% include 'admin_pagination.html' %}
+            </div>
+        </div>
+      </section>
+</main>
+
+
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
+<script src="{% static 'system/js/order_manage/script_order_manage.js' %}"></script>
+<script src="{% static 'js/script_pagination.js' %}"></script>
+{% endblock javascripts %}
