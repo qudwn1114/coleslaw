@@ -182,6 +182,7 @@ class OrderPaymentManageView(View):
             'orderType',
             'paymentStatus',
             'paymentMethod',
+            'cancelled_at'
         ).order_by('-id')
 
         paginator = Paginator(obj_list, paginate_by)

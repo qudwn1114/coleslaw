@@ -153,8 +153,8 @@
                   <td>{{i.orderType}}</td>
                   <td>{{i.paymentMethod}}</td>
                   <td>{{i.issueCardName}} {{i.issueCompanyName}}<br>{{i.cardNo}}</td>
-                  <td>{{i.tranDate}}</td>
-                  <td>{{i.tranTime}}</td>
+                  <td>{{i.tranDate}}<br>{% if i.cancelled_at %}<span class="text-danger">{{i.cancelled_at|date:"ymd"}}</span>{% endif %}</td>
+                  <td>{{i.tranTime}}<br>{% if i.cancelled_at %}<span class="text-danger">{{i.cancelled_at|date:"Hi"}}</span>{% endif %}</td>
                 {% endfor %}
               {% else %}
                 <tr>
