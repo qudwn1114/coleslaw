@@ -94,7 +94,7 @@ class OrderManageView(View):
         context['pagelist'] = pagelist
         context['page_obj'] = page_obj
 
-        return render(request, 'order_manage/order_manage.html', context)
+        return render(request, 'admin_order_manage/order_manage.html', context)
     
 
 class OrderPaymentManageView(View):
@@ -184,4 +184,4 @@ class OrderPaymentManageView(View):
         context['pagelist'] = pagelist
         context['page_obj'] = page_obj
 
-        return render(request, 'order_manage/order_payment_manage.html', context)
+        return render(request, 'admin_order_manage/order_payment_manage.html', context)
