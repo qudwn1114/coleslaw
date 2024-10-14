@@ -3,12 +3,13 @@ from django.urls import reverse
 from django.views.generic import View
 from django.http import HttpRequest, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
-from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.db.models import CharField, F, Value as V, Func, Case, When, Q
+from django.utils import timezone
 
 from system_manage.decorators import permission_required
 from system_manage.models import Order, OrderPayment, Agency, Shop
+import datetime
 
 class OrderManageView(View):
     '''
@@ -29,7 +30,29 @@ class OrderManageView(View):
         agency_id = request.GET.get('agency_id', '')
         shop_id = request.GET.get('shop_id', '')
 
-        filter_dict = {}
+        order_date_no = request.GET.get('order_date_no', None) 
+
+        filter_dict = {}        
+        if order_date_no:
+            dates = request.GET.get('dates', '')
+            context['dates'] = dates
+            if dates != '':
+                startDate = dates.split(' - ')[0].strip()
+                endDate = dates.split(' - ')[1].strip()
+                format = '%m/%d/%Y'
+
+                startDate = datetime.datetime.strptime(startDate, format)
+                endDate = datetime.datetime.strptime(endDate, format)
+                endDate = datetime.datetime.combine(endDate, datetime.time.max)
+                filter_dict['created_at__lte'] = endDate
+                filter_dict['created_at__gte'] = startDate
+        else:
+            order_date_no = '1'
+            today = timezone.now().strftime("%m/%d/%Y")
+            context['dates'] = f"{today} - {today}"
+            filter_dict['date'] = timezone.now().date()
+
+        context['order_date_no'] = order_date_no
         
         order_type_list = request.GET.getlist('order_type', None)
         if order_type_list:
@@ -126,7 +149,30 @@ class OrderPaymentManageView(View):
         shop_id = request.GET.get('shop_id', '')
 
         order_type_list = request.GET.getlist('order_type', None)
+
+        order_date_no = request.GET.get('order_date_no', None) 
+
         q = Q()
+        if order_date_no:
+            dates = request.GET.get('dates', '')
+            context['dates'] = dates
+            if dates != '':
+                startDate = dates.split(' - ')[0].strip()
+                endDate = dates.split(' - ')[1].strip()
+                format = '%m/%d/%Y'
+
+                startDate = datetime.datetime.strptime(startDate, format)
+                endDate = datetime.datetime.strptime(endDate, format)
+                endDate = datetime.datetime.combine(endDate, datetime.time.max)
+                q.add(Q(created_at__lte=endDate), q.AND)
+                q.add(Q(created_at__gte=startDate), q.AND)
+        else:
+            order_date_no = '1'
+            today = timezone.now().strftime("%m/%d/%Y")
+            context['dates'] = f"{today} - {today}"
+            q.add(Q(order__date=timezone.now().date()), q.AND)
+        context['order_date_no'] = order_date_no
+        
         if order_type_list:
             order_type_list = list(map(int, order_type_list))
             q.add(Q(order__order_type__in=order_type_list), q.AND)
