@@ -117,7 +117,8 @@
                   </div>
                 </div>
               </div>
-              <div class="p-3">
+              <div>
+                <label for="order_type" class="col-sm-2 col-form-label">방식</label>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="order_type_0" name="order_type" value="0" {% if 0 in order_type_list %}checked{% endif %} onchange="setOrderType()">
                   <label class="form-check-label" for="order_type_0">POS</label>
@@ -129,6 +130,17 @@
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="order_type_2" name="order_type" value="2" {% if 2 in order_type_list %}checked{% endif %} onchange="setOrderType()">
                   <label class="form-check-label" for="order_type_2">KIOSK</label>
+                </div>
+              </div>
+              <div>
+                <label for="payment_method" class="col-sm-2 col-form-label">결제수단</label>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="payment_method_0" name="payment_method" value="0" {% if "0" in payment_method_list %}checked{% endif %} onchange="setOrderType()">
+                  <label class="form-check-label" for="payment_method_0">카드</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="payment_method_1" name="payment_method" value="1" {% if "1" in payment_method_list %}checked{% endif %} onchange="setOrderType()">
+                  <label class="form-check-label" for="payment_method_1">현금</label>
                 </div>
               </div>
               <div class="row mb-3">
@@ -149,7 +161,7 @@
               <div class="col-auto">
                 <div class="icon mt-3 me-3">
                   {% if page_obj %}
-                    <!-- <a id="btn-excel" href="javascript:;" onclick="xlsxDownload();"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a> -->
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('excel');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a>
                   {% endif %}
                 </div>
               </div>

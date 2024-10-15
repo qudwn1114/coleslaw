@@ -9,6 +9,8 @@ from django.utils import timezone
 
 from system_manage.decorators import permission_required
 from system_manage.models import Order, OrderPayment, Agency, Shop
+from system_manage.utils import ResponseToXlsx
+
 import datetime
 
 class OrderManageView(View):
@@ -149,6 +151,7 @@ class OrderPaymentManageView(View):
         shop_id = request.GET.get('shop_id', '')
 
         order_type_list = request.GET.getlist('order_type', None)
+        payment_method_list = request.GET.getlist('payment_method', None)
 
         order_date_no = request.GET.get('order_date_no', None) 
 
@@ -169,7 +172,8 @@ class OrderPaymentManageView(View):
         else:
             order_date_no = '1'
             today = timezone.now().strftime("%m/%d/%Y")
-            context['dates'] = f"{today} - {today}"
+            dates = f"{today} - {today}"
+            context['dates'] = dates
             q.add(Q(order__date=timezone.now().date()), q.AND)
         context['order_date_no'] = order_date_no
         
@@ -179,6 +183,12 @@ class OrderPaymentManageView(View):
             context['order_type_list'] = order_type_list
         else:
             context['order_type_list'] = [0, 1, 2]
+        
+        if payment_method_list:
+            q.add(Q(payment_method__in=payment_method_list), q.AND)
+            context['payment_method_list'] = payment_method_list
+        else:
+            context['payment_method_list'] = ['0', '1']
 
         if agency_id:
             agency_id = int(agency_id)
@@ -225,11 +235,18 @@ class OrderPaymentManageView(View):
             'issueCardName',
             'tranDate',
             'tranTime',
+            'cancelled_at',
             'orderType',
             'paymentStatus',
-            'paymentMethod',
-            'cancelled_at'
+            'paymentMethod'
         ).order_by('-id')
+
+        excel = request.GET.get('excel', None)
+        if excel:
+            filename = f"결제내역_{timezone.now().strftime('%Y%m%d%H%M%S')}"
+            columns = ['ID', '가맹점', '주문번호', '결제금액', '카드번호', '승인번호(QR)', '승인번호(POS)', '발급사명', '발급사카드명', '승인날짜', '승인시간', '취소날짜', '주문방식', '상태', '결제수단']
+            xlsx_download = ResponseToXlsx(columns=columns, queryset=obj_list)
+            return xlsx_download.download(filename=filename)
 
         paginator = Paginator(obj_list, paginate_by)
         try:
