@@ -13,6 +13,7 @@ from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreat
 from api.views.pos_views.category_views import ShopPosMainCategoryListView, ShopPosCatgoryFixView
 from api.views.pos_views.online_views import ShopOnlineEnterView
 from api.views.kiosk_views.order_views import ShopKioskOrderCreateView
+from api.views.online_views.online_views import GoodsShopView
 
 app_name='api'
 urlpatterns = [
@@ -92,4 +93,7 @@ urlpatterns = [
 
     # kiosk
     path('shop/<int:shop_id>/kiosk/order/<int:checkout_id>/<str:code>/', ShopKioskOrderCreateView.as_view()),
+
+    # online
+    path('goods/<str:code>/', GoodsShopView.as_view()),
 ]
