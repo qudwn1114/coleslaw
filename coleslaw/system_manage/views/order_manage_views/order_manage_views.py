@@ -222,6 +222,10 @@ class OrderPaymentManageView(View):
             paymentMethod = Case(
                 When(payment_method='0', then=V('카드')),
                 When(Q(payment_method='1'), then=V('현금'))
+            ),
+            final = Case(
+                When(cancelled_at=None, then=F('amount')),
+                default=V(0)
             )
         ).filter(q).values(
             'id',
@@ -238,13 +242,14 @@ class OrderPaymentManageView(View):
             'cancelled_at',
             'orderType',
             'paymentStatus',
-            'paymentMethod'
+            'paymentMethod',
+            'final'
         ).order_by('-id')
 
         excel = request.GET.get('excel', None)
         if excel:
             filename = f"결제내역_{timezone.now().strftime('%Y%m%d%H%M%S')}"
-            columns = ['ID', '가맹점', '주문번호', '결제금액', '카드번호', '승인번호(QR)', '승인번호(POS)', '발급사명', '발급사카드명', '승인날짜', '승인시간', '취소날짜', '주문방식', '상태', '결제수단']
+            columns = ['ID', '가맹점', '주문번호', '결제금액', '카드번호', '승인번호(QR)', '승인번호(POS)', '발급사명', '발급사카드명', '승인날짜', '승인시간', '취소날짜', '주문방식', '상태', '결제수단', '최종']
             xlsx_download = ResponseToXlsx(columns=columns, queryset=obj_list)
             return xlsx_download.download(filename=filename)
 
