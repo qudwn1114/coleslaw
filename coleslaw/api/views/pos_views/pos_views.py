@@ -893,7 +893,7 @@ class ShopTableCheckoutView(View):
                     
                     price = goodsPrice + optionPrice - discount
                     total = price * quantity
-                    goods_total_discount = discount * quantity
+                    goods_total_discount += discount * quantity
 
                     checkout_detail = CheckoutDetail.objects.create(
                         checkout = checkout,
