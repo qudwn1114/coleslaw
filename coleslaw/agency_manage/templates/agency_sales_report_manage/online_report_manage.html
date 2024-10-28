@@ -13,15 +13,14 @@
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'agency_manage:home' agency.pk %}">Home</a></li>
-            <li class="breadcrumb-item active">Sales Report</li>
+            <li class="breadcrumb-item active">Online Sales Report</li>
           </ol>
         </nav>
     </div><!-- End Page Title -->
     <section class="section">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{date_name}} 일자별 온라인 매출 현황 (티브릿지)</h5>
-            <h5 class="card-title"><i class="bi bi-cone-striped"></i>작업중입니다..<i class="bi bi-cone-striped"></i></h5>
+            <h5 class="card-title">{{date_name}}<br>일자별 온라인 매출 현황 (티브릿지)</h5>
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
                   <input type="hidden" name="condition" id="condition" value="true">
@@ -74,7 +73,7 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">매출 {{sum_total_price|intcomma}}₩</h5>
+                <h5 class="card-title">매출 {{sum_total_amount|intcomma}}₩</h5>
               </div>
               <div class="col-auto">
                 <div class="icon mt-3 me-3">
@@ -91,11 +90,22 @@
                   <th>가맹점명</th>
                   <th>판매금액</th>
                   <th>취소금액</th>
+                  <th>합계</th>
                   <th>확정금액</th>
                 </tr>
               </thead>
               <tbody>
               {% if online_report_list %}
+              {% for i in online_report_list %}
+              <tr>
+                <td>{{i.date}}</td>
+                <td>{{i.shop_id}}</td>
+                <td>{{i.sale_amount|intcomma}}</td>
+                <td>{{i.cancel_amount|intcomma}}</td>
+                <td class="text-primary">{{i.total_amount|intcomma}}</td>
+                <td {% if i.total_amount == i.confirm_amount %}class="text-primary"{% else %}class="text-success"{% endif %}>{{i.confirm_amount|intcomma}}</td>
+              </tr>
+              {% endfor %}
               {% else %}
                 <tr>
                     <td colspan='5'>데이터가 없습니다.</td>

@@ -107,7 +107,6 @@ class AgencySalesReportManage(View):
                 day_cash2 = 0 
                 for j in shop_list:
                     new_queryset = queryset.filter(order__shop_id=j['id'])
-                    print(new_queryset)
                     total = 0 
                     card = 0
                     cash = 0
@@ -141,7 +140,7 @@ class AgencySalesReportManage(View):
                         j['total'] += _total
 
                     sales_report_list.append({"date":d, "name_kr": j['name_kr'], "card":card, "cash":cash, "cash1": cash1, "cash2": cash2, "total": total})
-                sales_report_list.append({"date":"", "name_kr":"합계", "card":day_card, "cash":day_cash, "cash1":day_cash1, "cash2": day_cash2, "total":day_total}) 
+                sales_report_list.append({"date":"", "name_kr":"소계", "card":day_card, "cash":day_cash, "cash1":day_cash1, "cash2": day_cash2, "total":day_total}) 
 
             for i in shop_list:
                 sum_card_price += i['card']
@@ -149,7 +148,7 @@ class AgencySalesReportManage(View):
                 sum_cash1_price += i['cash1']
                 sum_cash2_price += i['cash2']
                 sum_total_price += i['total']
-                sales_report_list.append({"date":"전체기간", "name_kr":i['name_kr'], "card":i['card'], "cash":i['cash'], "cash1":i['cash1'], "cash2": i['cash2'], "total":i['total']}) 
+                sales_report_list.append({"date":"설정기간", "name_kr":i['name_kr'], "card":i['card'], "cash":i['cash'], "cash1":i['cash1'], "cash2": i['cash2'], "total":i['total']}) 
 
             sales_report_list.append({"date":"", "name_kr":"전체합계", "card":sum_card_price,"cash":sum_cash_price, "cash1":sum_cash1_price, "cash2":sum_cash2_price, "total":sum_total_price}) 
 
