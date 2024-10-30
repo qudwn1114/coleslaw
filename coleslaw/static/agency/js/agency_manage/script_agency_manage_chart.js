@@ -139,7 +139,9 @@ var options2 = {
       enabled: false
   },
   dataLabels: {
-      enabled: false,
+    formatter: (val) => {
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+      }
   },
   plotOptions: {
     bar: {
