@@ -1,4 +1,4 @@
-report('TODAY');
+report('WEEK');
 function report(report_type){
       $.ajax({
           type: "GET",
@@ -8,10 +8,21 @@ function report(report_type){
           },
           success: function(data) {
             document.getElementById("report_title_en").innerText = data.title_en;
-            chart.updateSeries([{
-                name: '매출',
-                data: data.series_data
-            }])
+            chart.updateOptions({
+                series:[
+                    {
+                        name: '현장',
+                        data: data.pos_data
+                    },
+                    {
+                        name: '온라인',
+                        data: data.online_data
+                    },
+                ],
+                xaxis: {
+                    categories: data.categories
+                }
+            })
           },
           error: function(error) {
               if(error.status == 401){

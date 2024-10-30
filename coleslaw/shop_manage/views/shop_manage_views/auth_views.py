@@ -179,6 +179,9 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
     report_type = request.GET.get('report_type', 'TODAY')
     today = timezone.now().date()
     dates = {}
+    categories = []
+    pos_data = []
+    online_data = []
     if report_type == 'TODAY':        
         order = Order.objects.filter(shop=shop, date=today).exclude(status__in=['0','2']).annotate(hour=TruncHour('updated_at')).values('hour').annotate(sum=Sum('final_price')).values('hour', 'sum').order_by('hour')
         max_hour =  timezone.now().hour
@@ -188,15 +191,15 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
             dates[f"{format(i, '02')}"] = None
         for i in order:
             dates[i['hour'].strftime('%H')] = i['sum']
-        series_data = []
         for k, v in dates.items():
             x = f"{k}시"
             y = v
-            series_data.append({"x":x, "y":y})
+            categories.append(x)
+            pos_data.append(y)
+            online_data.append(0)
 
-        data['title'] = '일 매출'
+        data['title'] = '일 순매출'
         data['title_en'] = 'Today'
-        data['series_data'] =  series_data
 
     elif report_type == 'WEEK':
         week = ['월','화','수','목','금','토','일']
@@ -208,18 +211,18 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
         order = Order.objects.filter(shop=shop, date__range=[start_date, end_date]).exclude(status__in=['0','2']).values('date').annotate(sum=Sum('final_price')).values('date', 'sum').order_by('date')
         for i in order:
             dates[i['date']] = i['sum']
-        series_data = []
         for k, v in dates.items():
             if today == k:
                 x= f'오늘({week[k.weekday()]})'
             else:
                 x= f'{k.strftime("%m.%d")}({week[k.weekday()]})'
             y = v
-            series_data.append({"x":x, "y":y})
+            categories.append(x)
+            pos_data.append(y)
+            online_data.append(0)
 
-        data['title'] = '주간 매출'
+        data['title'] = '주간 순매출'
         data['title_en'] = 'Week'
-        data['series_data'] =  series_data
 
     elif report_type == 'MONTH':
         months = 8
@@ -232,17 +235,21 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
             dates[f"{format(month.month, '02')}"] = 0
         for i in order:
             dates[i['month'].strftime("%m")] = i['sum']
-        series_data = []
         
         for k, v in dates.items():
             x = f"{k}월"
             y = v
-            series_data.append({"x":x, "y":y})
+            categories.append(x)
+            pos_data.append(y)
+            online_data.append(0)
             
-        data['title'] = '월간 매출'
+        data['title'] = '월간 순매출'
         data['title_en'] = 'Month'
-        data['series_data'] =  series_data
-        
+    
+    data['online_data'] = online_data
+    data['pos_data'] = pos_data
+    data['categories'] =  categories
+            
     return JsonResponse(data, status = 200)
 
 

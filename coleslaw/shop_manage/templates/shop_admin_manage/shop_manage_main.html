@@ -141,7 +141,6 @@
 </main>
 {% endblock %}
 {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
   const shop_id = {{shop.pk}};
   const order_audio = new Audio('/static/shop/assets/audio/order_alert.mp3')
@@ -151,6 +150,6 @@
   });
 </script>
 <script src="{% static 'shop/js/shop_manage/script_shop_manage_main.js' %}?v=2024100901"></script>
-<script src="{% static 'shop/js/shop_manage/script_shop_manage_chart.js' %}"></script>
+<script src="{% static 'shop/js/shop_manage/script_shop_manage_chart.js' %}?v=20241030"></script>
 {% endblock javascripts %}
 

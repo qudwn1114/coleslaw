@@ -10,10 +10,21 @@ function report(report_type){
           success: function(data) {
             console.log(data);
             document.getElementById("report_title_en").innerText = data.title_en;
-            chart1.updateSeries([{
-                name: '매출',
-                data: data.series_data
-            }])
+            chart1.updateOptions({
+                series:[
+                    {
+                        name: '현장',
+                        data: data.pos_data
+                    },
+                    {
+                        name: '온라인',
+                        data: data.online_data
+                    },
+                ],
+                xaxis: {
+                    categories: data.categories
+                }
+            })
           },
           error: function(error) {
               if(error.status == 401){
@@ -87,11 +98,22 @@ function shop_report(report_type){
             'X-CSRFToken': csrftoken
         },
         success: function(data) {
-          document.getElementById("shop_report_title_en").innerText = data.title_en;
-          chart2.updateSeries([{
-              name: '매출',
-              data: data.series_data
-          }])
+            document.getElementById("shop_report_title_en").innerText = data.title_en;
+            chart2.updateOptions({
+                series:[
+                    {
+                        name: '현장',
+                        data: data.pos_data
+                    },
+                    {
+                        name: '온라인',
+                        data: data.online_data
+                    }
+                ],
+                xaxis: {
+                    categories: data.categories
+                }
+            });
         },
         error: function(error) {
             if(error.status == 401){
@@ -111,6 +133,7 @@ var options2 = {
   chart: {
       height: 350,
       type: 'bar',
+      stacked: true,
   },
   zoom: {
       enabled: false

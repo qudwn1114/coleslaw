@@ -15,7 +15,7 @@ from system_manage.decorators import  permission_required
 from system_manage.models import Agency, AgencyAdmin, Order, Shop
 
 from dateutil.relativedelta import relativedelta
-import datetime
+import datetime, requests
 
 
 # Create your views here.
@@ -76,6 +76,9 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
     report_type = request.GET.get('report_type', 'TODAY')
     today = timezone.now().date()
     dates = {}
+    categories = []
+    pos_data = []
+    online_data = []
     if report_type == 'TODAY':        
         order = Order.objects.filter(agency=agency, date=today).exclude(status__in=['0','2']).annotate(hour=TruncHour('updated_at')).values('hour').annotate(sum=Sum('final_price')).values('hour', 'sum').order_by('hour')
         max_hour =  timezone.now().hour
@@ -85,15 +88,15 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
             dates[f"{format(i, '02')}"] = None
         for i in order:
             dates[i['hour'].strftime('%H')] = i['sum']
-        series_data = []
         for k, v in dates.items():
             x = f"{k}시"
             y = v
-            series_data.append({"x":x, "y":y})
+            categories.append(x)
+            pos_data.append(y)
+            online_data.append(0)
 
-        data['title'] = '일 매출'
+        data['title'] = '일 순매출'
         data['title_en'] = 'Today'
-        data['series_data'] =  series_data
 
     elif report_type == 'WEEK':
         week = ['월','화','수','목','금','토','일']
@@ -105,18 +108,18 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
         order = Order.objects.filter(agency=agency, date__range=[start_date, end_date]).exclude(status__in=['0','2']).values('date').annotate(sum=Sum('final_price')).values('date', 'sum').order_by('date')
         for i in order:
             dates[i['date']] = i['sum']
-        series_data = []
         for k, v in dates.items():
             if today == k:
                 x= f'오늘({week[k.weekday()]})'
             else:
                 x= f'{k.strftime("%m.%d")}({week[k.weekday()]})'
             y = v
-            series_data.append({"x":x, "y":y})
+            categories.append(x)
+            pos_data.append(y)
+            online_data.append(0)
 
-        data['title'] = '주간 매출'
+        data['title'] = '주간 순매출'
         data['title_en'] = 'Week'
-        data['series_data'] =  series_data
 
     elif report_type == 'MONTH':
         months = 8
@@ -129,16 +132,20 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
             dates[f"{format(month.month, '02')}"] = 0
         for i in order:
             dates[i['month'].strftime("%m")] = i['sum']
-        series_data = []
         
         for k, v in dates.items():
             x = f"{k}월"
             y = v
-            series_data.append({"x":x, "y":y})
+            categories.append(x)
+            pos_data.append(y)
+            online_data.append(0)
             
-        data['title'] = '월간 매출'
+        data['title'] = '월간 순매출'
         data['title_en'] = 'Month'
-        data['series_data'] =  series_data
+
+    data['online_data'] = online_data
+    data['pos_data'] = pos_data
+    data['categories'] =  categories
         
     return JsonResponse(data, status = 200)
 
@@ -156,54 +163,66 @@ def agency_shop_sales_report(request: HttpRequest, *args, **kwargs):
     report_type = request.GET.get('report_type', 'TODAY')
     today = timezone.now().date()
     shop = {}
-    shop_list = list(Shop.objects.filter(agency=agency).values_list('name_kr', flat=True).order_by('id'))
+    shop_list = list(Shop.objects.filter(agency=agency).values_list('id', flat=True).order_by('id'))
     for i in shop_list:
-        shop[f"{i}"] = 0
+        shop[i] = 0
     if report_type == 'TODAY':        
-        order = Order.objects.filter(agency=agency, date=today).exclude(status__in=['0','2']).values('shop__name_kr').annotate(sum=Sum('final_price')).values('shop__name_kr', 'sum')
+        order = Order.objects.filter(agency=agency, date=today).exclude(status__in=['0','2']).values('shop_id').annotate(sum=Sum('final_price')).values('shop_id', 'sum')
         for i in order:
-            shop[i['shop__name_kr']] = i['sum']
-        series_data = []
+            shop[i['shop_id']] = i['sum']
+        series_dict = {}
         for k, v in shop.items():
             x = k
             y = v
-            series_data.append({"x":x, "y":y})
-        series_data = sorted(series_data, key=lambda x : x['y'], reverse=True) 
-        data['title'] = '가맹점 별 일 매출'
+            series_dict[x] = y
+        data['title'] = '가맹점 별 일 순매출'
         data['title_en'] = 'Today'
-        data['series_data'] =  series_data
 
     elif report_type == 'MONTH':
         start_date = today.replace(day=1)
         end_date = today
-        order = Order.objects.filter(agency=agency, date__range=[start_date, end_date]).exclude(status__in=['0','2']).values('shop__name_kr').annotate(sum=Sum('final_price')).values('shop__name_kr', 'sum')
+        order = Order.objects.filter(agency=agency, date__range=[start_date, end_date]).exclude(status__in=['0','2']).values('shop_id').annotate(sum=Sum('final_price')).values('shop_id', 'sum')
         for i in order:
-            shop[i['shop__name_kr']] = i['sum']
-        series_data = []
+            shop[i['shop_id']] = i['sum']
+        series_dict = {}
         for k, v in shop.items():
             x = k
             y = v
-            series_data.append({"x":x, "y":y})
-        series_data = sorted(series_data, key=lambda x : x['y'], reverse=True) 
-        data['title'] = '가맹점 별 월 매출'
+            series_dict[x] = y
+        data['title'] = '가맹점 별 월 순매출'
         data['title_en'] = 'Month'
-        data['series_data'] =  series_data
 
     elif report_type == 'YEAR':
         start_date = today.replace(month=1, day=1)
         end_date = today
-        order = Order.objects.filter(agency=agency, date__range=[start_date, end_date]).exclude(status__in=['0','2']).values('shop__name_kr').annotate(sum=Sum('final_price')).values('shop__name_kr', 'sum')
+        order = Order.objects.filter(agency=agency, date__range=[start_date, end_date]).exclude(status__in=['0','2']).values('shop_id').annotate(sum=Sum('final_price')).values('shop_id', 'sum')
         for i in order:
-            shop[i['shop__name_kr']] = i['sum']
-        series_data = []
+            shop[i['shop_id']] = i['sum']
+        series_dict = {}
         for k, v in shop.items():
             x = k
             y = v
-            series_data.append({"x":x, "y":y})
-        series_data = sorted(series_data, key=lambda x : x['y'], reverse=True) 
-        data['title'] = '가맹점 별 연 매출'
+            series_dict[x] = y
+        data['title'] = '가맹점 별 연 순매출'
         data['title_en'] = 'Year'
-        data['series_data'] =  series_data
+    
+    sorted_series_dict = dict(sorted(series_dict.items(), key=lambda x: x[1], reverse=True))
+    data['pos_data'] = [*sorted_series_dict.values()]
+    categories = []
+    online_data = []
+    for i in sorted_series_dict:
+        s = Shop.objects.get(pk=i)
+        categories.append(s.name_kr)
+        if s.tbridge:
+
+            URL = f'https://baumrootme.com/webpos/php/api/v1/agency_term_report.php'
+            params = {'shop_id':i, 'type':report_type.lower()}
+            response = requests.get(URL, params=params)
+            online_data.append(response.json()['list'][0]['total_amount'])
+        else:
+            online_data.append(0)
+    data['categories'] = categories
+    data['online_data'] = online_data
         
     return JsonResponse(data, status = 200)
 
