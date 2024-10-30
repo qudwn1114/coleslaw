@@ -16,7 +16,7 @@ from system_manage.decorators import  permission_required
 from system_manage.models import Shop, ShopAdmin, Order, AgencyAdmin
 
 from dateutil.relativedelta import relativedelta
-import datetime
+import datetime, requests
 
 
 # Create your views here.
@@ -182,6 +182,12 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
     categories = []
     pos_data = []
     online_data = []
+    URL = f'https://baumrootme.com/webpos/php/api/v1/agency_render_report.php'
+    if shop.tbridge:
+        shop_id_list_string = shop_id
+    else:
+        shop_id_list_string = ''
+
     if report_type == 'TODAY':        
         order = Order.objects.filter(shop=shop, date=today).exclude(status__in=['0','2']).annotate(hour=TruncHour('updated_at')).values('hour').annotate(sum=Sum('final_price')).values('hour', 'sum').order_by('hour')
         max_hour =  timezone.now().hour
@@ -196,7 +202,13 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
             y = v
             categories.append(x)
             pos_data.append(y)
-            online_data.append(0)
+        if not shop_id_list_string:
+                online_data.append(0)
+        if shop_id_list_string:
+            params = {'shop_id':shop_id_list_string, 'type':report_type.lower()}
+            response = requests.get(URL, params=params)
+            for i in response.json()['list']:
+                online_data.append(i['amount'])
 
         data['title'] = '일 순매출'
         data['title_en'] = 'Today'
@@ -219,7 +231,13 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
             y = v
             categories.append(x)
             pos_data.append(y)
-            online_data.append(0)
+            if not shop_id_list_string:
+                online_data.append(0)
+        if shop_id_list_string:
+            params = {'shop_id':shop_id_list_string, 'type':report_type.lower()}
+            response = requests.get(URL, params=params)
+            for i in response.json()['list']:
+                online_data.append(i['amount'])
 
         data['title'] = '주간 순매출'
         data['title_en'] = 'Week'
@@ -241,7 +259,13 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
             y = v
             categories.append(x)
             pos_data.append(y)
-            online_data.append(0)
+            if not shop_id_list_string:
+                online_data.append(0)
+        if shop_id_list_string:
+            params = {'shop_id':shop_id_list_string, 'type':report_type.lower()}
+            response = requests.get(URL, params=params)
+            for i in response.json()['list'][-8:]:
+                online_data.append(i['amount'])
             
         data['title'] = '월간 순매출'
         data['title_en'] = 'Month'

@@ -79,6 +79,9 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
     categories = []
     pos_data = []
     online_data = []
+    URL = f'https://baumrootme.com/webpos/php/api/v1/agency_render_report.php'
+    shop_id_list = list(agency.shop.filter(tbridge=True).values_list('id', flat=True))
+    shop_id_list_string = ','.join(map(str, shop_id_list))
     if report_type == 'TODAY':        
         order = Order.objects.filter(agency=agency, date=today).exclude(status__in=['0','2']).annotate(hour=TruncHour('updated_at')).values('hour').annotate(sum=Sum('final_price')).values('hour', 'sum').order_by('hour')
         max_hour =  timezone.now().hour
@@ -93,7 +96,13 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
             y = v
             categories.append(x)
             pos_data.append(y)
-            online_data.append(0)
+            if not shop_id_list_string:
+                online_data.append(0)
+        if shop_id_list_string:
+            params = {'shop_id':shop_id_list_string, 'type':report_type.lower()}
+            response = requests.get(URL, params=params)
+            for i in response.json()['list']:
+                online_data.append(i['amount'])
 
         data['title'] = '일 순매출'
         data['title_en'] = 'Today'
@@ -116,7 +125,13 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
             y = v
             categories.append(x)
             pos_data.append(y)
-            online_data.append(0)
+            if not shop_id_list_string:
+                online_data.append(0)
+        if shop_id_list_string:
+            params = {'shop_id':shop_id_list_string, 'type':report_type.lower()}
+            response = requests.get(URL, params=params)
+            for i in response.json()['list']:
+                online_data.append(i['amount'])
 
         data['title'] = '주간 순매출'
         data['title_en'] = 'Week'
@@ -138,7 +153,13 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
             y = v
             categories.append(x)
             pos_data.append(y)
-            online_data.append(0)
+            if not shop_id_list_string:
+                online_data.append(0)
+        if shop_id_list_string:
+            params = {'shop_id':shop_id_list_string, 'type':report_type.lower()}
+            response = requests.get(URL, params=params)
+            for i in response.json()['list'][-8:]:
+                online_data.append(i['amount'])
             
         data['title'] = '월간 순매출'
         data['title_en'] = 'Month'
@@ -214,7 +235,6 @@ def agency_shop_sales_report(request: HttpRequest, *args, **kwargs):
         s = Shop.objects.get(pk=i)
         categories.append(s.name_kr)
         if s.tbridge:
-
             URL = f'https://baumrootme.com/webpos/php/api/v1/agency_term_report.php'
             params = {'shop_id':i, 'type':report_type.lower()}
             response = requests.get(URL, params=params)

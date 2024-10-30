@@ -108,6 +108,7 @@ function getMainSales(){
 
 function getMainOrders(){
   let paginate_by = '10';
+  order_tbody.innerHTML = `<tr style="height: 600px;"><td class="text-center" colspan='7' style="vertical-align: middle;"><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...</td></tr>`;
   $.ajax({
       type: "GET",
       url: `/shop-manage/${shop_id}/main/orders/?paginate_by=${paginate_by}&detail=true`,
