@@ -56,7 +56,7 @@ var options1 = {
     },
     series: [],
     title: {
-        text: '매출',
+        text: '순매출',
         align: 'left'
     },
     noData: {
@@ -152,7 +152,7 @@ var options2 = {
   },
   series: [],
   title: {
-      text: '가맹점 별 매출',
+      text: '가맹점 별 순매출',
       align: 'left'
   },
   noData: {

@@ -54,7 +54,7 @@ var options = {
     },
     series: [],
     title: {
-        text: '매출',
+        text: '순매출',
         align: 'left'
     },
     noData: {
