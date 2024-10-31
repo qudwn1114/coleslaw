@@ -88,7 +88,7 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
         for i in range(max_hour+1):
             dates[f"{format(i, '02')}"] = 0
         for i in range(max_hour+1, 24):
-            dates[f"{format(i, '02')}"] = None
+            dates[f"{format(i, '02')}"] = 0
         for i in order:
             dates[i['hour'].strftime('%H')] = i['sum']
         for k, v in dates.items():
@@ -103,7 +103,6 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
             response = requests.get(URL, params=params)
             for i in response.json()['list']:
                 online_data.append(i['amount'])
-
         data['title'] = '일 순매출'
         data['title_en'] = 'Today'
 
