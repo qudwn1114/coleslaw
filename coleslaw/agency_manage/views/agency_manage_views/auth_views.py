@@ -238,7 +238,10 @@ def agency_shop_sales_report(request: HttpRequest, *args, **kwargs):
             URL = f'https://baumrootme.com/webpos/php/api/v1/agency_term_report.php'
             params = {'shop_id':i, 'type':report_type.lower()}
             response = requests.get(URL, params=params)
-            online_data.append(response.json()['list'][0]['total_amount'])
+            if response.json()['list']:            
+                online_data.append(response.json()['list'][0]['total_amount'])
+            else:
+                online_data.append(0)
         else:
             online_data.append(0)
     data['categories'] = categories
