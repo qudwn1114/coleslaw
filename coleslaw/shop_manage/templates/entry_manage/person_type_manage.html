@@ -21,7 +21,7 @@
           <div class="card-body">
             <h5 class="card-title">Person Type Manage</h5>
             <a class="btn btn-primary" href="{% url 'shop_manage:person_type_create' shop.id %}">등록</a>
-            <a class="btn btn-outline-primary" href="{% url 'shop_manage:entry_option_manage' shop.id %}">입장옵션관리</a>
+            <!-- <a class="btn btn-outline-primary" href="{% url 'shop_manage:entry_option_manage' shop.id %}">입장옵션관리</a> -->
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
                 <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
@@ -97,8 +97,8 @@
                 <tr>
                   <th>이름</th>
                   <th>설명</th>
-                  <th>평일 상품</th>
-                  <th>주말 상품</th>
+                  <!-- <th>평일 상품</th>
+                  <th>주말 상품</th> -->
                 </tr>
               </thead>
               <tbody>
@@ -107,7 +107,7 @@
                 <tr>
                   <td><a href="{% url 'shop_manage:person_type_detail' shop.id  i.id %}">{{i.person_type__name}}</a></td>
                   <td>{{i.description}}</td>
-                  <td>
+                  <!-- <td>
                     {% if i.weekday_goods %}
                       {{i.weekday_goods__name_kr}}
                       <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id 'weekday' %}">수정</a>
@@ -122,7 +122,7 @@
                     {% else %}
                       <a class="btn btn-primary" href="{% url 'shop_manage:person_type_goods' shop.id i.id 'weekend' %}">매칭</a>
                     {% endif %}
-                  </td>
+                  </td> -->
                 </tr>
                 {% endfor %}
               {% else %}

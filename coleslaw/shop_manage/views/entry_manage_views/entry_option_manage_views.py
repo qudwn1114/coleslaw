@@ -161,8 +161,6 @@ class ShopEntryOptionDetailImageView(View):
         option_detail_id = request.POST['option_detail_id']
         image = request.FILES.get('image', None)
 
-        print(option_detail_id)
-
         try:
             shop_entry_option_detail = ShopEntryOptionDetail.objects.get(pk=option_detail_id, shop_entry_option__shop=shop)
         except:
