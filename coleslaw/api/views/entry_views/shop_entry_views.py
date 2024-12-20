@@ -311,23 +311,9 @@ class ShopEntryQueueListView(View):
             return_data = {'data': {},'msg': '옳바르지 않은 status','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
-        
-        if status == "0":
-            status_txt = '대기'
-            order_col =  ['id', 'order']
-        elif status == "1":
-            status_txt = '완료'
-            order_col = ['-id']
-        elif status == "2":
-            status_txt = '취소'
-            order_col = ['-id']
-        
+
         try:
-            paginate_by = 10
-            page = int(request.GET.get('page', 1))
-            startnum = 0 + (page-1)*paginate_by
-            endnum = startnum+paginate_by
-            queryset = EntryQueue.objects.filter(shop=shop, status=status, date=timezone.now().date()).annotate(
+            data = EntryQueue.objects.filter(shop=shop, status='0', date=timezone.now().date()).annotate(
                     createdAt=Func(
                         F('created_at'),
                         V('%y.%m.%d %H:%i'),
@@ -342,19 +328,37 @@ class ShopEntryQueueListView(View):
                     'order',
                     'date',
                     'createdAt',
-                ).order_by(*order_col)
+                ).order_by('id', 'order')
+            
+            data2 = EntryQueue.objects.filter(shop=shop, date=timezone.now().date()).exclude(status='0').annotate(
+                    createdAt=Func(
+                        F('created_at'),
+                        V('%y.%m.%d %H:%i'),
+                        function='DATE_FORMAT',
+                        output_field=CharField()
+                    )
+                ).values(
+                    'id',
+                    'membername',
+                    'phone',
+                    'status',
+                    'order',
+                    'date',
+                    'createdAt',
+                ).order_by('-id')
 
             return_data = {
-                'data': list(queryset[startnum:endnum]),
-                'paginate_by': paginate_by,
+                'data': list(data),
+                'data2': list(data2),
                 'resultCd': '0000',
-                'msg': f'가맹점 대기열 리스트 ({status_txt})',
-                'totalCnt' : queryset.count()
+                'msg': f'가맹점 대기열 리스트',
+                'totalCnt' : data.count() + data2.count()
             }
         except:
             print(traceback.format_exc())
             return_data = {
                 'data': [],
+                'data2': [],
                 'msg': '오류!',
                 'resultCd': '0001',
             }
