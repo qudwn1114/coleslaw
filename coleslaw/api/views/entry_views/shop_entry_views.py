@@ -328,7 +328,7 @@ class ShopEntryQueueListView(View):
                     'order',
                     'date',
                     'createdAt',
-                ).order_by('id', 'order')
+                ).order_by('id')
             
             data2 = EntryQueue.objects.filter(shop=shop, date=timezone.now().date()).exclude(status='0').annotate(
                     createdAt=Func(
