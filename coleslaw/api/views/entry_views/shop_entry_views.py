@@ -302,6 +302,7 @@ class ShopEntryQueueCreateView(View):
                 
                 alimtalk_send_response = requests.post(basic_send_url, data=sms_data)
                 alimtalk_send_response_json = alimtalk_send_response.json()
+                logger.error(alimtalk_send_response_json)
                 if alimtalk_send_response_json['code'] != 0:
                     raise ValueError(f"{alimtalk_send_response_json['message']}")
 
