@@ -280,7 +280,7 @@ class ShopEntryQueueCreateView(View):
                 sms_data={'apikey': settings.ALIGO_API_KEY, #api key
                         'userid': 'rootme', # 알리고 사이트 아이디
                         'senderkey': shop.aligo_sender_key, # 발신프로파일 키
-                        'tpl_code': phone, # 템플릿 코드
+                        'tpl_code': shop.aligo_entry_template_code1, # 템플릿 코드
                         'sender' : '07080804603', # 발신자 연락처,
                         #'senddate': '19000131120130', # YYYYMMDDHHmmss
                         'receiver_1': phone, # 수신자 연락처
