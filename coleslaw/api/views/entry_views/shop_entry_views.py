@@ -296,8 +296,8 @@ class ShopEntryQueueCreateView(View):
                 
                 alimtalk_send_response = requests.post(basic_send_url, data=sms_data)
                 alimtalk_send_response_json = alimtalk_send_response.json()
-                logger.error(alimtalk_send_response_json)
-
+                if alimtalk_send_response_json['code'] != 0:
+                    return_data = {'data': {},'msg': alimtalk_send_response_json['message'],'resultCd': '0001'}
 
                 try:
                     channel_layer = get_channel_layer()
