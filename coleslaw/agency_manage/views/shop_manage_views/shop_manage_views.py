@@ -296,6 +296,10 @@ class ShopEditView(View):
         table_time = int(request.POST['table_time'])
         additional_fee_time = int(request.POST['additional_fee_time'])
 
+        aligo_sender_key= request.POST['aligo_sender_key'].strip()
+        aligo_entry_template_code1= request.POST['aligo_entry_template_code1'].strip()
+        aligo_entry_template_code2= request.POST['aligo_entry_template_code2'].strip()
+
         try:
             shop_category = ShopCategory.objects.get(pk=shop_category_id)
         except:
@@ -322,6 +326,10 @@ class ShopEditView(View):
                 shop.waiting_time = waiting_time
                 shop.table_time=table_time
                 shop.additional_fee_time=additional_fee_time
+                shop.aligo_sender_key = aligo_sender_key
+                shop.aligo_entry_template_code1 =aligo_entry_template_code1
+                shop.aligo_entry_template_code2 =aligo_entry_template_code2
+                
                 if image:
                     shop.image = image
                 if location_image:

@@ -20,6 +20,10 @@ const logo_image2 = document.getElementById("logo_image2");
 const entry_image2 = document.getElementById("entry_image2");
 const table_time = document.getElementById('table_time');
 const additional_fee_time = document.getElementById('additional_fee_time');
+const aligo_sender_key = document.getElementById('aligo_sender_key');
+const aligo_entry_template_code1 = document.getElementById('aligo_entry_template_code1');
+const aligo_entry_template_code2 = document.getElementById('aligo_entry_template_code2');
+
 
 btn_submit.addEventListener("click", () => {
     if(!validation()){
@@ -51,7 +55,10 @@ btn_submit.addEventListener("click", () => {
     entry_image2.disabled=true;
     table_time.disabled=true;
     additional_fee_time.disabled=true;
-    
+    aligo_sender_key.disabled=true;
+    aligo_entry_template_code1.disabled=true;
+    aligo_entry_template_code2.disabled=true;
+
     $.ajax({
         type: "POST",
         url: "",
@@ -89,6 +96,9 @@ btn_submit.addEventListener("click", () => {
             entry_image2.disabled=false;
             table_time.disabled=false;
             additional_fee_time.disabled=false;
+            aligo_sender_key.disabled=false;
+            aligo_entry_template_code1.disabled=false;
+            aligo_entry_template_code2.disabled=false;
             if(error.status == 401){
                 alert('로그인 해주세요.');
             }
