@@ -299,13 +299,11 @@ class ShopEntryQueueCreateView(View):
                         #'fmessage_1': '대체문자 내용', # 실패시 대체문자 내용
                         #'testMode': 'Y or N' # 테스트 모드 적용여부(기본N), 실제 발송 X
                         }
-                
                 alimtalk_send_response = requests.post(basic_send_url, data=sms_data)
                 alimtalk_send_response_json = alimtalk_send_response.json()
-                logger.error(alimtalk_send_response_json)
                 if alimtalk_send_response_json['code'] != 0:
                     raise ValueError(f"{alimtalk_send_response_json['message']}")
-
+                
                 try:
                     channel_layer = get_channel_layer()
                     async_to_sync(channel_layer.group_send)(
