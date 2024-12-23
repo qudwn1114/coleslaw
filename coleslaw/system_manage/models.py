@@ -556,6 +556,7 @@ class SmsLog(models.Model):
     shop_name = models.CharField(max_length=100, verbose_name='가맹점한글명', null=True)
     phone = models.CharField(max_length=30, verbose_name='전화번호', null=True)
     message = models.TextField(null=True)
+    message_type = models.CharField(default='0', verbose_name='0:문자, 1:알림톡', max_length=10)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     class Meta:
