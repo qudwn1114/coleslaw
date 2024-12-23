@@ -266,14 +266,20 @@ class ShopEntryQueueCreateView(View):
                 )
 
                 basic_send_url = 'https://kakaoapi.aligo.in/akv10/alimtalk/send/' # 요청을 던지는 URL, 알림톡 전송
-                button_info = {'button': [{'name':'대기현황 확인', # 버튼명
+                button_info = {'button': [
+                                    {'name': '채널추가',
+                                     'linkType': "AC",
+                                    'linkTypeName': "채널추가"
+                                    },
+                                    {'name':'대기현황 확인', # 버튼명
                                         'linkType':'WL', # DS, WL, AL, BK, MD
                                         'linkTypeName' : '웹링크', # 배송조회, 웹링크, 앱링크, 봇키워드, 메시지전달 중에서 1개
                                         'linkM': f'https://root-1.net/webpos/entercheck/index.html?id={shop.pk}', # WL일 때 필수
                                         #'linkP':'pc link', # WL일 때 필수
                                         #'linkI': 'IOS app link', # AL일 때 필수
                                         #'linkA': 'Android app link' # AL일 때 필수
-                                }]}
+                                    },
+                                ]}
                 
                 button_info = json.dumps(button_info) # button의 타입은 JSON 이어야 합니다.
 
