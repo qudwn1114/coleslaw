@@ -286,7 +286,7 @@ class ShopEntryQueueCreateView(View):
                         'receiver_1': phone, # 수신자 연락처
                         'recvname_1': membername, # 수신자 이름
                         'subject_1': '대기열 등록', # 알림톡 제목 - 수신자에게는 표기X
-                        'message_1': '알림톡 내용', # 알림톡 내용 - 등록한 템플릿이랑 개행문자 포함 동일하게 입력.
+                        'message_1': message, # 알림톡 내용 - 등록한 템플릿이랑 개행문자 포함 동일하게 입력.
                         'button_1': button_info, # 버튼 정보
                         #'failover': 'Y or N', # 실패시 대체문자 전송 여부(템플릿 신청시 대체문자 발송으로 설정하였더라도 Y로 입력해야합니다.)
                         #'fsubject_1': '대체문자 제목', # 실패시 대체문자 제목
