@@ -255,7 +255,7 @@ class ShopEntryQueueCreateView(View):
 
 
 
-                message = f"[{shop.name_kr}]\n\n{membername}님 웨이팅 등록되었습니다.\n\n대기번호: #{order}\n등록일시: {timezone.now().strftime('%Y-%m-%d %H:%M')}\n\n입장순서는 실시간으로 확인 가능합니다."
+                message = f"[{shop.name_kr}]\n\n{membername}님 웨이팅 등록되었습니다.\n\n대기번호: {order}\n등록일시: {timezone.now().strftime('%Y-%m-%d %H:%M')}\n\n입장순서는 실시간으로 확인 가능합니다."
 
                 SmsLog.objects.create(
                     shop=shop,
