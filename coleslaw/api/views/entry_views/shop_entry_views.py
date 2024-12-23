@@ -155,6 +155,7 @@ class ShopEntryQueueCreateView(View):
         return super(ShopEntryQueueCreateView, self).dispatch(request, *args, **kwargs)
     
     def post(self, request: HttpRequest, *args, **kwargs):
+        logger = logging.getLogger('my')
         shop_id = kwargs.get('shop_id')
         try:
             shop = Shop.objects.get(pk=shop_id)
@@ -292,8 +293,11 @@ class ShopEntryQueueCreateView(View):
                         #'fmessage_1': '대체문자 내용', # 실패시 대체문자 내용
                         #'testMode': 'Y or N' # 테스트 모드 적용여부(기본N), 실제 발송 X
                         }
-
+                
                 alimtalk_send_response = requests.post(basic_send_url, data=sms_data)
+                alimtalk_send_response_json = alimtalk_send_response.json()
+                logger.error(alimtalk_send_response_json)
+
 
                 try:
                     channel_layer = get_channel_layer()
@@ -331,7 +335,6 @@ class ShopEntryQueueCreateView(View):
                 'resultCd': '0001',
             }
         except:
-            logger = logging.getLogger('my')
             logger.error(traceback.format_exc())
             return_data = {'data': {},'msg': traceback.format_exc(),'resultCd': '0001'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
