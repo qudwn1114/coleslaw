@@ -123,9 +123,13 @@ class Shop(models.Model):
 
     tbridge = models.BooleanField(default=False, verbose_name='티브릿지 연동')
 
+    aligo_sender_key = models.CharField(max_length=50, null=True, verbose_name='알리고 샌더키')
+    aligo_entry_template_code1 = models.CharField(max_length=10, null=True, verbose_name='알리고 입장등록템플릿')
+    aligo_entry_template_code2 = models.CharField(max_length=10, null=True, verbose_name='알리고 호출템플릿')
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
-
+    
     class Meta : 
         db_table = 'shop'
 
