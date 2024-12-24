@@ -257,7 +257,8 @@ class ShopEntryQueueCreateView(View):
                 entry_queue.remark = remark
                 entry_queue.save()
 
-                message = f"[{shop.name_kr}]\n\n안녕하세요. [{membername}]님.\n {shop.name_kr}의 입장\n신청이 접수 되었습니다.\n\n고객님의 번호는 [{order}]입니다.\n내 차례는 아래 대기표에서 실시간으로 확인 가능합니다."
+
+                message = f"[{shop.name_kr}]\n\n안녕하세요. [{membername}]님\n{shop.name_kr}의 입장 신청이 접수 되었습니다.\n\n고객님의 번호는 [{order}] 입니다.\n내 차례는 아래 대기현황에서 실시간으로 확인 가능합니다."
 
                 SmsLog.objects.create(
                     shop=shop,
@@ -276,7 +277,7 @@ class ShopEntryQueueCreateView(View):
                                     {'name':'대기현황 확인', # 버튼명
                                         'linkType':'WL', # DS, WL, AL, BK, MD
                                         'linkTypeName' : '웹링크', # 배송조회, 웹링크, 앱링크, 봇키워드, 메시지전달 중에서 1개
-                                        'linkM': f'https://root-1.net/webpos/entercheck/now.html?id={shop.pk}', # WL일 때 필수
+                                        'linkM': f'https://root-1.net/webpos/entercheck/now.html?id={shop.pk}&queue_id={entry_queue.pk}&phone={phone}', # WL일 때 필수
                                     },
                                 ]}
                 
@@ -289,7 +290,7 @@ class ShopEntryQueueCreateView(View):
                         'sender' : '07080804603', # 발신자 연락처,
                         'receiver_1': phone, # 수신자 연락처
                         'recvname_1': membername, # 수신자 이름
-                        'subject_1': '대기열 등록', # 알림톡 제목 - 수신자에게는 표기X
+                        'subject_1': '웨이팅 등록', # 알림톡 제목 - 수신자에게는 표기X
                         'message_1': message, # 알림톡 내용 - 등록한 템플릿이랑 개행문자 포함 동일하게 입력.
                         'button_1': button_info, # 버튼 정보
                         }
@@ -539,7 +540,7 @@ class ShopEntryCallView(View):
         
         try:
             with transaction.atomic():
-                message = f"[{entry_queue.shop.name_kr}]\n안녕하세요. 대기번호 [{entry_queue.order}] {entry_queue.membername}님\n\n{entry_queue.shop.name_kr} 에 입장하실 차례입니다.\n지금 매표소로 와주세요.\n\n*호출 후 10분 동안 방문하시지 않는 경우\n웨이팅이 취소될 수 있으니 주의해주세요."        
+                message = f"[{entry_queue.shop.name_kr}]\n\n안녕하세요. 대기번호 [{entry_queue.order}] {entry_queue.membername}님\n\n{entry_queue.shop.name_kr} 에 입장하실 차례입니다.\n지금 카운터로 와주세요!\n\n*호출 후 10분 동안 방문하시지 않는 경우\n웨이팅이 취소될 수 있으니 주의해주세요."
                 SmsLog.objects.create(
                     shop=entry_queue.shop,
                     shop_name=entry_queue.shop.name_kr,
