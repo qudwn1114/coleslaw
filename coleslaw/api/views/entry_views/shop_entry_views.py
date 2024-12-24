@@ -287,7 +287,6 @@ class ShopEntryQueueCreateView(View):
                         'senderkey': shop.aligo_sender_key, # 발신프로파일 키
                         'tpl_code': shop.aligo_entry_template_code1, # 템플릿 코드
                         'sender' : '07080804603', # 발신자 연락처,
-                        'senddate': timezone.now().strftime('%Y%m%d%H%M%S'), # YYYYMMDDHHmmss
                         'receiver_1': phone, # 수신자 연락처
                         'recvname_1': membername, # 수신자 이름
                         'subject_1': '대기열 등록', # 알림톡 제목 - 수신자에게는 표기X
@@ -565,7 +564,6 @@ class ShopEntryCallView(View):
                         'senderkey': entry_queue.shop.aligo_sender_key, # 발신프로파일 키
                         'tpl_code': entry_queue.shop.aligo_entry_template_code2, # 템플릿 코드
                         'sender' : '07080804603', # 발신자 연락처,
-                        'senddate': timezone.now().strftime('%Y%m%d%H%M%S'), # YYYYMMDDHHmmss
                         'receiver_1': entry_queue.phone, # 수신자 연락처
                         'recvname_1': entry_queue.membername, # 수신자 이름
                         'subject_1': '입장 안내', # 알림톡 제목 - 수신자에게는 표기X
