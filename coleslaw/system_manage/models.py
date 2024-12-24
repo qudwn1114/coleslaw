@@ -370,6 +370,7 @@ class EntryQueue(models.Model):
     status = models.CharField(max_length=10, verbose_name='상태', default='0') #0:대기 1:입장 2:취소
     date = models.DateField(auto_now_add=True, verbose_name='날짜')
     remark = models.TextField(null=True, verbose_name='비고')
+    called_at = models.DateTimeField(null=True, verbose_name='마지막 호출일') 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 

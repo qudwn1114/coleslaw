@@ -11,7 +11,6 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-from api.views.sms_views.sms_views import send_sms
 
 from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDetail, ShopEntryOptionDetail, ShopMember, ShopTable, SmsLog
 from system_manage.views.system_manage_views.auth_views import validate_phone
@@ -191,6 +190,11 @@ class ShopEntryQueueCreateView(View):
         else:
             weekday = False
 
+        if not shop.aligo_sender_key or not shop.aligo_entry_template_code1:
+            return_data = {'data': {},'msg': '알림톡 설정이 안되어있습니다.','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
         try:
             with transaction.atomic():
                 shop_member, created = ShopMember.objects.get_or_create(
@@ -253,8 +257,6 @@ class ShopEntryQueueCreateView(View):
                 entry_queue.remark = remark
                 entry_queue.save()
 
-
-
                 message = f"[{shop.name_kr}]\n\n{membername}님 웨이팅 등록되었습니다.\n\n대기번호: {order}\n등록일시: {timezone.now().strftime('%Y-%m-%d %H:%M')}\n\n입장순서는 실시간으로 확인 가능합니다."
 
                 SmsLog.objects.create(
@@ -275,9 +277,6 @@ class ShopEntryQueueCreateView(View):
                                         'linkType':'WL', # DS, WL, AL, BK, MD
                                         'linkTypeName' : '웹링크', # 배송조회, 웹링크, 앱링크, 봇키워드, 메시지전달 중에서 1개
                                         'linkM': f'https://root-1.net/webpos/entercheck/index.html?id={shop.pk}', # WL일 때 필수
-                                        #'linkP':'pc link', # WL일 때 필수
-                                        #'linkI': 'IOS app link', # AL일 때 필수
-                                        #'linkA': 'Android app link' # AL일 때 필수
                                     },
                                 ]}
                 
@@ -288,16 +287,12 @@ class ShopEntryQueueCreateView(View):
                         'senderkey': shop.aligo_sender_key, # 발신프로파일 키
                         'tpl_code': shop.aligo_entry_template_code1, # 템플릿 코드
                         'sender' : '07080804603', # 발신자 연락처,
-                        #'senddate': '19000131120130', # YYYYMMDDHHmmss
+                        'senddate': timezone.now().strftime('%Y%m%d%H%M%S'), # YYYYMMDDHHmmss
                         'receiver_1': phone, # 수신자 연락처
                         'recvname_1': membername, # 수신자 이름
                         'subject_1': '대기열 등록', # 알림톡 제목 - 수신자에게는 표기X
                         'message_1': message, # 알림톡 내용 - 등록한 템플릿이랑 개행문자 포함 동일하게 입력.
                         'button_1': button_info, # 버튼 정보
-                        #'failover': 'Y or N', # 실패시 대체문자 전송 여부(템플릿 신청시 대체문자 발송으로 설정하였더라도 Y로 입력해야합니다.)
-                        #'fsubject_1': '대체문자 제목', # 실패시 대체문자 제목
-                        #'fmessage_1': '대체문자 내용', # 실패시 대체문자 내용
-                        #'testMode': 'Y or N' # 테스트 모드 적용여부(기본N), 실제 발송 X
                         }
                 alimtalk_send_response = requests.post(basic_send_url, data=sms_data)
                 alimtalk_send_response_json = alimtalk_send_response.json()
@@ -447,6 +442,10 @@ class ShopEntryQueueDetailView(View):
         ).order_by('id')
         data['entry_queue_detail'] = list(entry_queue_detail)
         data['remark'] = entry_queue.remark
+        if entry_queue.called_at:
+            data['calledAt'] = entry_queue.called_at.strftime('%Y-%m-%d %H:%M')
+        else:
+            data['calledAt'] = None
         data['createdAt'] = entry_queue.created_at.strftime('%Y-%m-%d %H:%M')
 
         return_data = {
@@ -530,34 +529,83 @@ class ShopEntryCallView(View):
             return_data = {'data': {},'msg': '데이터 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
 
-        message=f'[{entry_queue.shop.name_kr}]\n입장번호 : {entry_queue.order}\n고객님 지금 입장해주세요~'
-        # sms_response = send_sms(phone=entry_queue.phone, message=message)
-        SmsLog.objects.create(
-            shop=entry_queue.shop,
-            shop_name=entry_queue.shop.name_kr,
-            phone=entry_queue.phone,
-            message=message
-        )
-
-        try:
-            channel_layer = get_channel_layer()
-            async_to_sync(channel_layer.group_send)(
-                f'shop_entry_{shop_id}',
-                {
-                    'type': 'chat_message',
-                    'message_type' : 'CALL',
-                    'title': '입장 안내',
-                    'message': entry_queue.order
-                }
-            )
-        except:
-            return_data = {'data': {},'msg': '호출 오류','resultCd': '0001'}
+        if not entry_queue.shop.aligo_sender_key or not entry_queue.shop.aligo_entry_template_code2:
+            return_data = {'data': {},'msg': '알림톡 설정이 안되어있습니다.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        try:
+            with transaction.atomic():
+                message = f"[{entry_queue.shop.name_kr}]\n\nn기다려 주셔서 감사합니다.{entry_queue.membername}님 차례가 되었습니다.\n\n직원에게 해당 알림톡을 보여주시면 웨이팅 번호 순서대로 안내해 드리겠습니다."        
+                SmsLog.objects.create(
+                    shop=entry_queue.shop,
+                    shop_name=entry_queue.shop.name_kr,
+                    phone=entry_queue.phone,
+                    message=message,
+                    message_type='2'
+                )
+                
+                entry_queue.called_at = timezone.now()
+                entry_queue.save()
 
-        return_data = {'data': {},'msg': '호출 알림 전달완료','resultCd': '0000'}
+                basic_send_url = 'https://kakaoapi.aligo.in/akv10/alimtalk/send/' # 요청을 던지는 URL, 알림톡 전송
+                button_info = {'button': [
+                                    {
+                                        'name': '채널추가',
+                                        'linkType': "AC",
+                                        'linkTypeName': "채널추가"
+                                    }
+                                ]}
+                
+                button_info = json.dumps(button_info) # button의 타입은 JSON 이어야 합니다.
+                sms_data={'apikey': settings.ALIGO_API_KEY, #api key
+                        'userid': 'rootme', # 알리고 사이트 아이디
+                        'senderkey': entry_queue.shop.aligo_sender_key, # 발신프로파일 키
+                        'tpl_code': entry_queue.shop.aligo_entry_template_code2, # 템플릿 코드
+                        'sender' : '07080804603', # 발신자 연락처,
+                        'senddate': timezone.now().strftime('%Y%m%d%H%M%S'), # YYYYMMDDHHmmss
+                        'receiver_1': entry_queue.phone, # 수신자 연락처
+                        'recvname_1': entry_queue.membername, # 수신자 이름
+                        'subject_1': '입장 안내', # 알림톡 제목 - 수신자에게는 표기X
+                        'message_1': message, # 알림톡 내용 - 등록한 템플릿이랑 개행문자 포함 동일하게 입력.
+                        'button_1': button_info, # 버튼 정보
+                        }
+                alimtalk_send_response = requests.post(basic_send_url, data=sms_data)
+                alimtalk_send_response_json = alimtalk_send_response.json()
+                if alimtalk_send_response_json['code'] != 0:
+                    raise ValueError(f"{alimtalk_send_response_json['message']}")
+        
+        except ValueError as e:
+            return_data = {
+                'data': {},
+                'msg': str(e),
+                'resultCd': '0001',
+            }
+        except:
+            return_data = {'data': {},'msg': traceback.format_exc(),'resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        # try:
+        #     channel_layer = get_channel_layer()
+        #     async_to_sync(channel_layer.group_send)(
+        #         f'shop_entry_{shop_id}',
+        #         {
+        #             'type': 'chat_message',
+        #             'message_type' : 'CALL',
+        #             'title': '입장 안내',
+        #             'message': entry_queue.order
+        #         }
+        #     )
+        # except:
+        #     return_data = {'data': {},'msg': '호출 오류','resultCd': '0001'}
+        #     return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        #     return HttpResponse(return_data, content_type = "application/json")
+        
+
+        return_data = {'data': {},'msg': '호출완료','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
     
