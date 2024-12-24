@@ -520,6 +520,7 @@ class ShopEntryCallView(View):
         return super(ShopEntryCallView, self).dispatch(request, *args, **kwargs)
     
     def post(self, request: HttpRequest, *args, **kwargs):
+        logger = logging.getLogger('my')
         shop_id = kwargs.get('shop_id')
         pk = kwargs.get('pk')
         try:
@@ -576,11 +577,9 @@ class ShopEntryCallView(View):
                     raise ValueError(f"{alimtalk_send_response_json['message']}")
         
         except ValueError as e:
-            return_data = {
-                'data': {},
-                'msg': str(e),
-                'resultCd': '0001',
-            }
+            return_data = {'data': {},'msg': str(e),'resultCd': '0001',}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
         except:
             return_data = {'data': {},'msg': traceback.format_exc(),'resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
