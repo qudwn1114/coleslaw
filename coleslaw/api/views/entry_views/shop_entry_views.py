@@ -257,7 +257,7 @@ class ShopEntryQueueCreateView(View):
                 entry_queue.remark = remark
                 entry_queue.save()
 
-                message = f"[{shop.name_kr}]\n\n{membername}님 웨이팅 등록되었습니다.\n\n대기번호: {order}\n등록일시: {timezone.now().strftime('%Y-%m-%d %H:%M')}\n\n입장순서는 실시간으로 확인 가능합니다."
+                message = f"[{shop.name_kr}]\n\n안녕하세요. [{membername}]님.\n {shop.name_kr}의 입장\n신청이 접수 되었습니다.\n\n고객님의 번호는 [{order}]입니다.\n내 차례는 아래 대기표에서 실시간으로 확인 가능합니다."
 
                 SmsLog.objects.create(
                     shop=shop,
@@ -276,7 +276,7 @@ class ShopEntryQueueCreateView(View):
                                     {'name':'대기현황 확인', # 버튼명
                                         'linkType':'WL', # DS, WL, AL, BK, MD
                                         'linkTypeName' : '웹링크', # 배송조회, 웹링크, 앱링크, 봇키워드, 메시지전달 중에서 1개
-                                        'linkM': f'https://root-1.net/webpos/entercheck/index.html?id={shop.pk}', # WL일 때 필수
+                                        'linkM': f'https://root-1.net/webpos/entercheck/now.html?id={shop.pk}', # WL일 때 필수
                                     },
                                 ]}
                 
@@ -539,7 +539,7 @@ class ShopEntryCallView(View):
         
         try:
             with transaction.atomic():
-                message = f"[{entry_queue.shop.name_kr}]\n\n기다려 주셔서 감사합니다.\n{entry_queue.membername}님 차례가 되었습니다.\n\n직원에게 해당 알림톡을 보여주시면 웨이팅 번호 순서대로 안내해 드리겠습니다."        
+                message = f"[{entry_queue.shop.name_kr}]\n안녕하세요. 대기번호 [{entry_queue.order}] {entry_queue.membername}님\n\n{entry_queue.shop.name_kr} 에 입장하실 차례입니다.\n지금 매표소로 와주세요.\n\n*호출 후 10분 동안 방문하시지 않는 경우\n웨이팅이 취소될 수 있으니 주의해주세요."        
                 SmsLog.objects.create(
                     shop=entry_queue.shop,
                     shop_name=entry_queue.shop.name_kr,
