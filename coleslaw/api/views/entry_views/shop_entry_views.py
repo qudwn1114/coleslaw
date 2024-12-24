@@ -339,6 +339,57 @@ class ShopEntryQueueCreateView(View):
             return_data = {'data': {},'msg': traceback.format_exc(),'resultCd': '0001'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+
+class ShopEntryNowView(View):
+    '''
+        대기현황 api
+    '''
+    def get(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        queue_id = kwargs.get('queue_id')
+        phone = kwargs.get('phone')
+        try:
+            entry_queue = EntryQueue.objects.get(pk=queue_id, shop_id=shop_id, phone=phone)
+            data = {}
+            data['id'] = entry_queue.pk
+            data['shopNameKr'] = entry_queue.shop.name_kr
+            data['shopNameEn'] = entry_queue.shop.name_en
+            data['membername'] = entry_queue.membername
+            data['phone'] = entry_queue.phone
+            data['email'] = entry_queue.email
+            data['car_plate_no'] = entry_queue.car_plate_no
+            data['order'] = entry_queue.order
+            data['turn'] = EntryQueue.objects.filter(shop=entry_queue.shop, status='0', date=entry_queue.date, order__lt=entry_queue.order).count() + 1
+
+            entry_queue_detail = EntryQueueDetail.objects.filter(entry_queue=entry_queue).values(
+                'name',
+                'quantity'
+            ).order_by('id')
+
+            data['entry_queue_detail'] = list(entry_queue_detail)
+            data['remark'] = entry_queue.remark
+            data['status'] = entry_queue.status
+            if entry_queue.called_at:
+                data['calledAt'] = entry_queue.called_at.strftime('%Y.%m.%d %H:%M')
+            else:
+                data['calledAt'] = None
+            data['createdAt'] = entry_queue.created_at.strftime('%Y.%m.%d %H:%M')
+
+            return_data = {
+                'data': data,
+                'resultCd': '0000',
+                'msg': '대기현황',
+            }
+        except:
+            print(traceback.format_exc())
+            return_data = {
+                'data': {},
+                'msg': '오류!',
+                'resultCd': '0001',
+            }
+    
+        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return HttpResponse(return_data, content_type = "application/json")
     
 
 class ShopEntryQueueListView(View):
@@ -569,7 +620,7 @@ class ShopEntryCallView(View):
                         'sender' : '07080804603', # 발신자 연락처,
                         'receiver_1': entry_queue.phone, # 수신자 연락처
                         'recvname_1': entry_queue.membername, # 수신자 이름
-                        'subject_1': '입장 안내', # 알림톡 제목 - 수신자에게는 표기X
+                        'subject_1': '웨이팅 호출', # 알림톡 제목 - 수신자에게는 표기X
                         'message_1': message, # 알림톡 내용 - 등록한 템플릿이랑 개행문자 포함 동일하게 입력.
                         'button_1': button_info, # 버튼 정보
                         }

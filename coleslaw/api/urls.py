@@ -4,7 +4,7 @@ from api.views.agency_views.agency_shop_views import AgencyShopCategoryListView,
 from api.views.agency_views.agency_shop_user_views import AgencyShopUserOrderListView, AgencyShopUserOrderDetailView, ShopOrderCancelView
 from api.views.checkout_views.checkout_views import ShopCheckoutView
 from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderCompleteView, ShopOrderStatusView, ShopOrderCompleteSmsView, ShopOrderAlertTestView
-from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView
+from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView, ShopEntryNowView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView, ShopTableManageDetailView, ShopTableDetailView, ShopTableLogoutView, ShopMainPosTidView, ShopTableExitColorView
 from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableGoodsDiscountView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableAdditionalView, ShopTableAdditionalCancelView, ShopTableCheckoutView, ShopPosDetailView
 from api.views.pos_views.order_views import ShopPosOrderCreateView, ShopPosCheckoutOrderDetailView, ShopPosOrderCompleteView, ShopPosOrderListView, ShopPosOrderDetailView, ShopPosOrderPaymentCancelView, ShopPosOrderPaymentCashReceiptCompleteView, ShopPosOrderPaymentCashReceiptCancelView
@@ -45,7 +45,8 @@ urlpatterns = [
     path('shop/<int:shop_id>/entry-queue-status/<int:pk>/', ShopEntryQueueStatusView.as_view()),
     path('shop/<int:shop_id>/entry-call/<int:pk>/', ShopEntryCallView.as_view()),
     path('shop/<int:shop_id>/entry-payment/<int:pk>/', ShopEntryPaymentView.as_view()),
-
+    path('shop/<int:shop_id>/entry-now/<int:queue_id>/<str:phone>', ShopEntryNowView.as_view()),
+    
     # 테이블
     path('shop/<int:shop_id>/table-list/', ShopTableListView.as_view()),
     path('shop/<int:shop_id>/table-manage-detail/<str:table_no>/', ShopTableManageDetailView.as_view()),
