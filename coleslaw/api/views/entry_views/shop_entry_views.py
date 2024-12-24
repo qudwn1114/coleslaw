@@ -441,6 +441,7 @@ class ShopEntryQueueDetailView(View):
         ).order_by('id')
         data['entry_queue_detail'] = list(entry_queue_detail)
         data['remark'] = entry_queue.remark
+        data['status'] = entry_queue.status
         if entry_queue.called_at:
             data['calledAt'] = entry_queue.called_at.strftime('%Y-%m-%d %H:%M')
         else:
