@@ -45,8 +45,8 @@ urlpatterns = [
     path('shop/<int:shop_id>/entry-queue-status/<int:pk>/', ShopEntryQueueStatusView.as_view()),
     path('shop/<int:shop_id>/entry-call/<int:pk>/', ShopEntryCallView.as_view()),
     path('shop/<int:shop_id>/entry-payment/<int:pk>/', ShopEntryPaymentView.as_view()),
-    path('shop/<int:shop_id>/entry-now/<int:queue_id>/<str:phone>', ShopEntryNowView.as_view()),
-    
+    path('shop/<int:shop_id>/entry-now/<int:queue_id>/<str:phone>/', ShopEntryNowView.as_view()),
+
     # 테이블
     path('shop/<int:shop_id>/table-list/', ShopTableListView.as_view()),
     path('shop/<int:shop_id>/table-manage-detail/<str:table_no>/', ShopTableManageDetailView.as_view()),
