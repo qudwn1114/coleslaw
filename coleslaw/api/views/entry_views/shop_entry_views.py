@@ -538,7 +538,7 @@ class ShopEntryCallView(View):
         
         try:
             with transaction.atomic():
-                message = f"[{entry_queue.shop.name_kr}]\n\nn기다려 주셔서 감사합니다.{entry_queue.membername}님 차례가 되었습니다.\n\n직원에게 해당 알림톡을 보여주시면 웨이팅 번호 순서대로 안내해 드리겠습니다."        
+                message = f"[{entry_queue.shop.name_kr}]\n\n기다려 주셔서 감사합니다.{entry_queue.membername}님 차례가 되었습니다.\n\n직원에게 해당 알림톡을 보여주시면 웨이팅 번호 순서대로 안내해 드리겠습니다."        
                 SmsLog.objects.create(
                     shop=entry_queue.shop,
                     shop_name=entry_queue.shop.name_kr,
