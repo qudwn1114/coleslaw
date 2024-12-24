@@ -354,6 +354,11 @@ class ShopEntryNowView(View):
             data['id'] = entry_queue.pk
             data['shopNameKr'] = entry_queue.shop.name_kr
             data['shopNameEn'] = entry_queue.shop.name_en
+            if entry_queue.shop.logo_image1:
+                data['shopLogoImageUrl1'] = settings.SITE_URL + entry_queue.shop.logo_image1.url
+            else:
+                data['shopLogoImageUrl1'] = None
+
             data['membername'] = entry_queue.membername
             data['phone'] = entry_queue.phone
             data['email'] = entry_queue.email
