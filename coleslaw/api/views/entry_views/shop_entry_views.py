@@ -258,7 +258,7 @@ class ShopEntryQueueCreateView(View):
                 entry_queue.save()
 
 
-                message = f"[{shop.name_kr}]\n\n안녕하세요. [{membername}]님\n{shop.name_kr}의 입장 신청이 접수 되었습니다.\n\n고객님의 번호는 [{order}] 입니다.\n내 차례는 아래 대기현황에서 실시간으로 확인 가능합니다."
+                message = f"[{shop.name_kr}]\n\n안녕하세요. {membername}님\n{shop.name_kr}의 입장 신청이 접수 되었습니다.\n\n고객님의 번호는 [{order}] 입니다.\n내 차례는 아래 대기현황에서 실시간으로 확인 가능합니다."
 
                 SmsLog.objects.create(
                     shop=shop,
