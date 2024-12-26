@@ -265,7 +265,7 @@ class ShopEntryQueueCreateView(View):
                     shop_name=shop.name_kr,
                     phone=entry_queue.phone,
                     message=message,
-                    message_type='2'
+                    message_type='1'
                 )
 
                 basic_send_url = 'https://kakaoapi.aligo.in/akv10/alimtalk/send/' # 요청을 던지는 URL, 알림톡 전송
@@ -602,7 +602,7 @@ class ShopEntryCallView(View):
                     shop_name=entry_queue.shop.name_kr,
                     phone=entry_queue.phone,
                     message=message,
-                    message_type='2'
+                    message_type='1'
                 )
                 
                 entry_queue.called_at = timezone.now()
