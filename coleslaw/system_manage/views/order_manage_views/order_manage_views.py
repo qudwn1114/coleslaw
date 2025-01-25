@@ -107,6 +107,7 @@ class OrderManageView(View):
             'payment_price',
             'created_at',
             'paymentMethod',
+            'status',
             'orderStatus',
             'orderType'
         ).order_by('-id')
@@ -130,6 +131,21 @@ class OrderManageView(View):
 
         return render(request, 'admin_order_manage/order_manage.html', context)
     
+    @method_decorator(permission_required(raise_exception=True))
+    def post(self, request: HttpRequest, *args, **kwargs):
+        if not request.META.get('REMOTE_ADDR') in ['127.0.0.1', 'localhost']:
+            return JsonResponse({'message': '해당 요청은 로컬에서만 작업가능합니다.'}, status=400)
+        id = request.POST['id']
+        try:
+            order = Order.objects.get(pk=id)
+        except:
+            return JsonResponse({'message': '주문정보가 존재하지 않습니다.'}, status=400)
+        if order.status != '0':
+            return JsonResponse({'message': '대기 상태일때만 가능합니다.'}, status=400)
+        OrderPayment.objects.create(
+            order=order
+        )
+        return JsonResponse({'message' : '빈 결제정보 등록 되었습니다.'},  status = 202)
 
 class OrderPaymentManageView(View):
     '''
