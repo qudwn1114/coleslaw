@@ -9,6 +9,7 @@ from shop_manage.views.pos_manage_views.pos_manage_views import ShopPosManageVie
 from shop_manage.views.goods_manage_views.goods_manage_views import GoodsManageView, GoodsCreateView, GoodsDetailView, GoodsEditView, goods
 from shop_manage.views.goods_manage_views.option_manage_views import OptionManageView, OptionDetailManageView
 from shop_manage.views.order_manage_views.order_manage_views import OrderManageView, order_complete_sms, order_goods
+from shop_manage.views.sms_manage_views.sms_manage_view import SMSManageManageView
 
 
 app_name='shop_manage'
@@ -55,4 +56,6 @@ urlpatterns = [
     path('<int:shop_id>/order-manage/', OrderManageView.as_view(), name='order_manage'),
     path('<int:shop_id>/order-complete-sms/', order_complete_sms),
     path('<int:shop_id>/order-goods/<int:order_id>/', order_goods),
+
+    path('<int:shop_id>/sms-manage/', SMSManageManageView.as_view(), name='sms_manage')
 ]

@@ -23,5 +23,9 @@
       <li class="nav-item"> 
         <a class="nav-link collapsed" href="{% url 'shop_manage:table_manage' shop.id %}"> <i class="bi bi-window-stack"></i> <span>테이블 관리</span> </a>
       </li>
+      <li class="nav-heading">Log Data</li>
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'shop_manage:sms_manage' shop.id %}"> <i class="bi bi-mailbox"></i> <span>문자 & 알림톡 내역</span> </a>
+      </li>
     </ul>
 </aside><!-- End Sidebar-->

@@ -1,0 +1,118 @@
+{% extends "layouts/shop_base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock stylesheets %}
+
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>SMS Manage</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
+            <li class="breadcrumb-item active">SMS Manage</li>
+          </ol>
+        </nav>
+    </div><!-- End Page Title -->
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">SMS Manage</h5>
+            <form id="search-form" class="p-2" method="get" action="">
+                <div class="row mb-2">
+                    <input type="hidden" name="condition" id="condition" value="true">
+                    <input type="hidden" class="btn-check" name="order_date_no" id="order_date_no" value="{{order_date_no}}">
+                    <label for="order_date" class="col-sm-2 col-form-label">기준 날짜 (호출)</label>
+                    <div class="col-sm-4">
+                    <div class="btn-group mt-2" role="group">
+                        <input type="radio" class="btn-check" name="order_date" id="order_date1" {% if order_date_no == '1' %}checked{% endif %}>
+                        <label class="btn btn-sm btn-outline-primary" for="order_date1">이번달</label>
+                    
+                        <input type="radio" class="btn-check" name="order_date" id="order_date2" {% if order_date_no == '2' %}checked{% endif %}>
+                        <label class="btn btn-sm btn-outline-primary" for="order_date2">지난달</label>
+    
+                        <input type="radio" class="btn-check" name="order_date" id="order_date3" {% if order_date_no == '3' %}checked{% endif %}>
+                        <label class="btn btn-sm btn-outline-primary" for="order_date3">지지난달</label>
+    
+                    </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="input-group mt-2">
+                          <span class="input-group-text">
+                          <i class="bi bi-calendar"></i>
+                          </span>
+                          <input type="text" name="dates" class="form-control" placeholder="기간을 선택해주세요." readonly value="{{dates}}">
+                          
+                      </div>
+                      <strong>기간을 3개월 이내로만 설정 하실 수 있습니다.</strong>
+                    </div>
+                </div> 
+            </form>
+          </div>
+        </div>
+        <div class="card mb-3" >
+          <div class="card-body">
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <h5 class="card-title">목록 ({{total}}건) <span>SMS : {{sms|intcomma}}원 / 알림톡 : {{kakao|intcomma}}원</span></h5>
+              </div>
+              <div class="col-auto">
+                <div class="icon mt-3 me-3">
+                  {% if page_obj %}
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('excel');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> 내역</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <table class='table table-hover'>
+              <thead>
+                <tr>
+                  <th>메세지 내용</th>
+                  <th>타입</th>
+                  <th>비용</th>
+                  <th class="text-end">날짜</th>
+                </tr>
+                
+              </thead>
+              <tbody>
+              {% if page_obj %}
+                {% for i in page_obj %}
+                <tr>
+                  <td>
+                    {{i.message|truncatechars:100}}
+                   </td>
+                   <td>
+                    {{i.messageType}}
+                   </td>
+                   <td>
+                    {{i.price}}원
+                   </td>
+                  <td class="text-end">
+                    {{i.created_at}}
+                  </td>
+                </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                    <td colspan='3'>내용이 없습니다.</td>
+                </tr>
+              {% endif %}
+              </tbody>
+            </table>
+            {% include 'admin_pagination.html' %}
+            </div>
+        </div>
+      </section>
+</main>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="{% static 'js/script_pagination.js' %}"></script>
+<script src="{% static 'shop/js/sms_manage/script_sms_manage.js' %}"></script>
+{% endblock javascripts %}

@@ -33,8 +33,7 @@ def resize_with_padding(img, expected_size=(1280, 1280), fill=(255,255,255)):
 
 class ResponseToXlsx:
     def __init__(self,columns:list, queryset:QuerySet):
-        self.table = pd.DataFrame(queryset)
-        self.table.columns = columns
+        self.table = pd.DataFrame(list(queryset), columns=[col for col in queryset[0].keys()])
 
     def addData(self,index:int, column:str, data:list):
         self.table.insert(index,column,data)
