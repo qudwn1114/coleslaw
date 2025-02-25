@@ -127,6 +127,8 @@ class Shop(models.Model):
     aligo_entry_template_code1 = models.CharField(max_length=10, null=True, verbose_name='알리고 입장등록템플릿')
     aligo_entry_template_code2 = models.CharField(max_length=10, null=True, verbose_name='알리고 호출템플릿')
 
+    coupon_flag = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
     
@@ -179,10 +181,7 @@ class ShopMember(models.Model):
 # 가맹점쿠폰
 class ShopCoupon(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    coupon_type = models.CharField(max_length=10, verbose_name='쿠폰타입', default='0') # 0: 할인쿠폰, 1: 이용권
     name = models.CharField(max_length=50, verbose_name='쿠폰명')
-    discount_type = models.CharField(max_length=10, verbose_name='할인', default='0') # 0: 원, 1: 퍼센트
-    discount = models.PositiveIntegerField(verbose_name='할인', default=0) #할인 금액
     expiration_period = models.PositiveIntegerField(verbose_name='유효기간', default=365) #365일
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
@@ -193,11 +192,9 @@ class ShopCoupon(models.Model):
 
 # 가맹점회원쿠폰
 class ShopMemberCoupon(models.Model):
-    coupon_type = models.CharField(max_length=10, verbose_name='쿠폰타입', default='0') # 0: 할인쿠폰, 1: 이용권
     shop_member = models.ForeignKey(ShopMember, on_delete=models.CASCADE, related_name='shop_member_coupon')
+    shop_coupon = models.ForeignKey(ShopCoupon, on_delete=models.SET_NULL, related_name='shop_member_coupon', null=True)
     name = models.CharField(max_length=50, verbose_name='쿠폰명')
-    discount_type = models.CharField(max_length=10, verbose_name='할인', default='0') # 0: 원, 1: 퍼센트
-    discount = models.PositiveIntegerField(verbose_name='할인', default=0) #할인 금액
     status = models.CharField(max_length=10, default='0') # 0=미사용, 1=사용완료, 2=만료
     expiration_date = models.DateTimeField(verbose_name='만료일')
     used_at = models.DateTimeField(null=True, verbose_name='사용일')
