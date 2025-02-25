@@ -23,6 +23,11 @@
       <li class="nav-item"> 
         <a class="nav-link collapsed" href="{% url 'shop_manage:table_manage' shop.id %}"> <i class="bi bi-window-stack"></i> <span>테이블 관리</span> </a>
       </li>
+      {% if shop.coupon_flag %}
+      <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'shop_manage:coupon_manage' shop.id %}"> <i class="bi bi-ticket-detailed"></i> <span>이용권 관리</span> </a>
+      </li>
+      {% endif %}
       <li class="nav-heading">Log Data</li>
       <li class="nav-item"> 
         <a class="nav-link collapsed" href="{% url 'shop_manage:sms_manage' shop.id %}"> <i class="bi bi-mailbox"></i> <span>문자 & 알림톡 내역</span> </a>

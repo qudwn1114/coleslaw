@@ -10,6 +10,7 @@ from shop_manage.views.goods_manage_views.goods_manage_views import GoodsManageV
 from shop_manage.views.goods_manage_views.option_manage_views import OptionManageView, OptionDetailManageView
 from shop_manage.views.order_manage_views.order_manage_views import OrderManageView, order_complete_sms, order_goods
 from shop_manage.views.sms_manage_views.sms_manage_view import SMSManageManageView
+from shop_manage.views.coupon_manage_views.coupon_manage_views import ShopCouponManageView, ShopCouponCreateView, ShopCouponDetailView, ShopCouponEditView
 
 
 app_name='shop_manage'
@@ -57,5 +58,10 @@ urlpatterns = [
     path('<int:shop_id>/order-complete-sms/', order_complete_sms),
     path('<int:shop_id>/order-goods/<int:order_id>/', order_goods),
 
-    path('<int:shop_id>/sms-manage/', SMSManageManageView.as_view(), name='sms_manage')
+    path('<int:shop_id>/sms-manage/', SMSManageManageView.as_view(), name='sms_manage'),
+
+    path('<int:shop_id>/coupon-manage/', ShopCouponManageView.as_view(), name='coupon_manage'),
+    path('<int:shop_id>/coupon-create/', ShopCouponCreateView.as_view(), name='coupon_create'),
+    path('<int:shop_id>/coupon-detail/<int:pk>/', ShopCouponDetailView.as_view(), name='coupon_detail'),
+    path('<int:shop_id>/coupon-edit/<int:pk>/', ShopCouponEditView.as_view(), name='coupon_edit'),
 ]

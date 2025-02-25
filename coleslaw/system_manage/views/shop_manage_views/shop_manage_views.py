@@ -236,6 +236,9 @@ class ShopEditView(View):
         entry_image2 = request.FILES.get("entry_image2")
         table_time = int(request.POST['table_time'])
         additional_fee_time = int(request.POST['additional_fee_time'])
+        receipt=request.POST['receipt']
+        shop_receipt_flag = bool(request.POST.get('shop_receipt_flag', None))
+        coupon_flag = bool(request.POST.get('coupon_flag', None))
 
         try:
             agency = Agency.objects.get(pk=agency_id)
@@ -269,6 +272,9 @@ class ShopEditView(View):
                 shop.waiting_time = waiting_time
                 shop.table_time=table_time
                 shop.additional_fee_time=additional_fee_time
+                shop.receipt=receipt
+                shop.shop_receipt_flag=shop_receipt_flag
+                shop.coupon_flag=coupon_flag
                 if image:
                     shop.image = image
                 if location_image:
