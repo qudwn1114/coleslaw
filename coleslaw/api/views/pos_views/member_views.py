@@ -2,15 +2,10 @@ from django.conf import settings
 from django.views.generic import View
 from django.urls import reverse
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from django.db.models.functions import Concat
-from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
+from django.db.models import CharField, F, Value as V, Func, Q, Count
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db import transaction, IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from django.utils import timezone
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
 
 from system_manage.models import Shop, ShopMember
 from system_manage.views.system_manage_views.auth_views import validate_phone
@@ -22,47 +17,49 @@ class ShopMemberListView(View):
     '''
         shop table list api
     '''
-    def get(self, request: HttpRequest, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
-        phone_last = request.GET.get('phone_last', None)
+        search = request.GET.get('search', '').strip()  # 검색어를 받아옴 (없으면 빈 문자열)
+
+        # shop_id 검증
         try:
             shop = Shop.objects.get(pk=shop_id)
-        except:
-            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
-            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-            return HttpResponse(return_data, content_type = "application/json")
-        if not phone_last:
-            return_data = {'data': {},'msg': 'phone_last 값 필수','resultCd': '0001'}
-            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-            return HttpResponse(return_data, content_type = "application/json")
+        except Shop.DoesNotExist:
+            return JsonResponse({'data': {}, 'msg': 'shop id 오류', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
 
         try:
-            queryset = ShopMember.objects.filter(shop=shop, phone__iendswith=phone_last).values(
-                    'id',
-                    'membername',
-                    'phone',
-                ).order_by('id')
-            return_data = {
+            queryset = ShopMember.objects.filter(shop=shop)
+            # 검색어가 있을 경우에만 필터링
+            if search:
+                queryset = queryset.filter(
+                    Q(membername__icontains=search) | Q(phone__icontains=search)
+                )
+
+            queryset = queryset.annotate(
+                couponCount=Count('shop_member_coupon', filter=Q(shop_member_coupon__status='0')),  # 미사용 쿠폰 개수만 집계
+                createdAt=Func(
+                    F('created_at'),
+                    V('%y.%m.%d %H:%i'),
+                    function='DATE_FORMAT',
+                    output_field=CharField()
+                ),
+            ).values('id', 'membername', 'phone', 'couponCount', 'createdAt').order_by('id')
+
+            return JsonResponse({
                 'data': list(queryset),
                 'resultCd': '0000',
                 'msg': '가맹점 회원 리스트',
-                'totalCnt' : queryset.count()
-            }
-        except:
+                'totalCnt': queryset.count()
+            }, json_dumps_params={'ensure_ascii': False})
+
+        except Exception as e:
             print(traceback.format_exc())
-            return_data = {
-                'data': [],
-                'msg': '오류!',
-                'resultCd': '0001',
-            }
-    
-        return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-        return HttpResponse(return_data, content_type = "application/json")
+            return JsonResponse({'data': [], 'msg': '오류!', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
     
 
 class ShopMemberCreateView(View):
     '''
-        상품담기
+        회원등록
     '''
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
