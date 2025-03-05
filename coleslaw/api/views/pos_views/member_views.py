@@ -220,7 +220,7 @@ class ShopMemberCouponDeleteView(View):
         except:
             return JsonResponse({'data': {}, 'msg': 'shop member coupon id 오류', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
         shop_member_coupon.delete()
-        return JsonResponse({'data': {}, 'msg': '쿠폰이 삭제되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
+        return JsonResponse({'data': {'couponCount':ShopMemberCoupon.objects.filter(shop_member=shop_member, status='0').count()}, 'msg': '쿠폰이 삭제되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
     
 
 class ShopMemberCouponStatusView(View):
@@ -258,11 +258,11 @@ class ShopMemberCouponStatusView(View):
             shop_member_coupon.save()
         elif shop_member_coupon.status == '1':
             if shop_member_coupon.expiration_date < timezone.now():
-                return JsonResponse({'data': {}, 'msg': '유효기간이 만료 된 쿠폰입니다.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
+                return JsonResponse({'data': {'couponCount':ShopMemberCoupon.objects.filter(shop_member=shop_member, status='0').count()}, 'msg': '유효기간이 만료 된 쿠폰입니다.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
             shop_member_coupon.status = '0'
             shop_member_coupon.used_at = None
             shop_member_coupon.save()
-            return JsonResponse({'data': {}, 'msg': '취소되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
+            return JsonResponse({'data': {'couponCount':ShopMemberCoupon.objects.filter(shop_member=shop_member, status='0').count()}, 'msg': '취소되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
         elif shop_member_coupon.status == '2':
             return JsonResponse({'data': {}, 'msg': '만료 된 쿠폰입니다.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
         
