@@ -119,7 +119,7 @@ class ShopMemberCouponListView(View):
             return JsonResponse({'data': {}, 'msg': 'shop member 오류', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
         ShopMemberCoupon.objects.filter(shop_member=shop_member, status='0', expiration_date__lte=timezone.now()).update(status='2')
         try:
-            queryset = ShopMemberCoupon.objects.filter(shop_member=shop_member).values('id', 'name', 'expiration_date', 'used_at',).order_by('-id')
+            queryset = ShopMemberCoupon.objects.filter(shop_member=shop_member).values('id', 'name', 'status', 'expiration_date', 'used_at',).order_by('-id')
             return JsonResponse({
                 'data': list(queryset),
                 'resultCd': '0000',
