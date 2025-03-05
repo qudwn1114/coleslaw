@@ -50,7 +50,7 @@ function validation(){
         coupon_name.focus();
         return false;
     }
-    if(expiration_period.value <= 0){
+    if(expiration_period.value < 0){
         expiration_period.focus();
         return false;
     }
