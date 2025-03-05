@@ -177,7 +177,7 @@ class ShopMemberCouponCreateView(View):
             ))
 
         ShopMemberCoupon.objects.bulk_create(coupons)
-        return JsonResponse({'data': {}, 'msg': '쿠폰이 성공적으로 발급되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
+        return JsonResponse({'data': {'couponCount':ShopMemberCoupon.objects.filter(shop_member=shop_member, stauts='0').count()}, 'msg': '쿠폰이 성공적으로 발급되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
 
 class ShopMemberCouponDeleteView(View):
     '''
