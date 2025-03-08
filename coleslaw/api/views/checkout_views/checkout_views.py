@@ -133,6 +133,7 @@ class ShopCheckoutView(View):
                         if total != totalPrice:
                             raise ValueError(f'{goodsId} Goods total price Error ...{total}')
                         
+                    checkout_detail.price += option_price
                     checkout_detail.sale_option_price = option_price
                     checkout_detail.total_price = total
                     checkout_detail.save()
