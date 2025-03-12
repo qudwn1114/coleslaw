@@ -122,7 +122,7 @@ class ShopMemberCouponListView(View):
             queryset = ShopMemberCoupon.objects.filter(shop_member=shop_member).annotate(
                 expirationDate=Func(
                     F('expiration_date'),
-                    V('%y.%m.%d'),
+                    V('%Y-%m-%d'),
                     function='DATE_FORMAT',
                     output_field=CharField()
                 ),
@@ -253,17 +253,18 @@ class ShopMemberCouponStatusView(View):
         if shop_member_coupon.status == '0':
             if shop_member_coupon.expiration_date < timezone.now():
                 return JsonResponse({'data': {}, 'msg': '유효기간이 만료 된 쿠폰입니다.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
+            now =  timezone.now()
             shop_member_coupon.status = '1'
-            shop_member_coupon.used_at = timezone.now()
+            shop_member_coupon.used_at = now
             shop_member_coupon.save()
-            return JsonResponse({'data': {'couponCount':ShopMemberCoupon.objects.filter(shop_member=shop_member, status='0').count(), 'status':'1'}, 'msg': '사용처리 되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
+            return JsonResponse({'data': {'couponCount':ShopMemberCoupon.objects.filter(shop_member=shop_member, status='0').count(), 'status':'1', 'usedAt':now.strftime('%y.%m.%d %H:%M')}, 'msg': '사용처리 되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
         elif shop_member_coupon.status == '1':
             if shop_member_coupon.expiration_date < timezone.now():
                 return JsonResponse({'data': {}, 'msg': '유효기간이 만료 된 쿠폰입니다.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
             shop_member_coupon.status = '0'
             shop_member_coupon.used_at = None
             shop_member_coupon.save()
-            return JsonResponse({'data': {'couponCount':ShopMemberCoupon.objects.filter(shop_member=shop_member, status='0').count(), 'status':'0'}, 'msg': '취소되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
+            return JsonResponse({'data': {'couponCount':ShopMemberCoupon.objects.filter(shop_member=shop_member, status='0').count(), 'status':'0', 'usedAt':None}, 'msg': '취소되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
         elif shop_member_coupon.status == '2':
             return JsonResponse({'data': {}, 'msg': '만료 된 쿠폰입니다.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
         

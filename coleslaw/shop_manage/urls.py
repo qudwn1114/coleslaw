@@ -21,7 +21,6 @@ urlpatterns = [
     path('<int:shop_id>/main/report/', shop_sales_report),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='shop_manage:login'), name='logout'),
-    path('login/', LoginView.as_view(), name='login'),
     path('denied/', PermissionDeniedView.as_view(), name='denied'),
     path('notfound/', NotFoundView.as_view(), name='notfound'),
     path('user-password-edit/', UserPasswordEditView.as_view(), name='user_password_edit'),

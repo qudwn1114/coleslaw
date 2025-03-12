@@ -196,7 +196,7 @@ class ShopMemberCoupon(models.Model):
     shop_coupon = models.ForeignKey(ShopCoupon, on_delete=models.SET_NULL, related_name='shop_member_coupon', null=True)
     name = models.CharField(max_length=50, verbose_name='쿠폰명')
     status = models.CharField(max_length=10, default='0') # 0=미사용, 1=사용완료, 2=만료
-    expiration_date = models.DateTimeField(verbose_name='만료일')
+    expiration_date = models.DateTimeField(verbose_name='만료일', null=True)
     used_at = models.DateTimeField(null=True, verbose_name='사용일')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
