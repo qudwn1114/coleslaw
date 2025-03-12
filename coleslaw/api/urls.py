@@ -9,7 +9,7 @@ from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignVi
 from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableGoodsDiscountView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableAdditionalView, ShopTableAdditionalCancelView, ShopTableCheckoutView, ShopPosDetailView
 from api.views.pos_views.order_views import ShopPosOrderCreateView, ShopPosCheckoutOrderDetailView, ShopPosOrderCompleteView, ShopPosOrderListView, ShopPosOrderDetailView, ShopPosOrderPaymentCancelView, ShopPosOrderPaymentCashReceiptCompleteView, ShopPosOrderPaymentCashReceiptCancelView
 from api.views.pos_views.receipt_views import ShopOrderReceiptView, ShopCloseReceiptView
-from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView, ShopMemberCouponListView, ShopMemberCouponCreateView, ShopMemberCouponDeleteView, ShopMemberCouponStatusView, ShopCouponListView
+from api.views.pos_views.member_views import ShopMemberListView, ShopMemberCreateView, ShopMemberCouponListView, ShopMemberCouponCreateView, ShopMemberCouponDeleteView, ShopMemberCouponStatusView, ShopCouponListView, ShopMemberCouponExtensionView
 from api.views.pos_views.category_views import ShopPosMainCategoryListView, ShopPosCatgoryFixView
 from api.views.pos_views.online_views import ShopOnlineEnterView
 from api.views.kiosk_views.order_views import ShopKioskOrderCreateView
@@ -66,6 +66,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/member/<int:shop_member_id>/coupon-create/', ShopMemberCouponCreateView.as_view()),
     path('shop/<int:shop_id>/member/<int:shop_member_id>/coupon-delete/', ShopMemberCouponDeleteView.as_view()),
     path('shop/<int:shop_id>/member/<int:shop_member_id>/coupon-status/', ShopMemberCouponStatusView.as_view()),
+    path('shop/<int:shop_id>/member/<int:shop_member_id>/coupon-extension/', ShopMemberCouponExtensionView.as_view()),
     path('shop/<int:shop_id>/coupon-list/', ShopCouponListView.as_view()),
 
     path('shop/<int:shop_id>/category-list/<str:mainpos_id>/', ShopPosMainCategoryListView.as_view()),

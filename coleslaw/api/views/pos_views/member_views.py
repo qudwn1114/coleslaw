@@ -296,3 +296,48 @@ class ShopCouponListView(View):
         except Exception as e:
             print(traceback.format_exc())
             return JsonResponse({'data': [], 'msg': '오류!', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
+
+
+class ShopMemberCouponExtensionView(View):
+    '''
+        shop coupon status api
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopMemberCouponStatusView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        shop_member_id = kwargs.get('shop_member_id')
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except Shop.DoesNotExist:
+            return JsonResponse({'data': {}, 'msg': 'shop id 오류', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
+        if not shop.coupon_flag:
+            return JsonResponse({'data': {}, 'msg': '쿠폰 기능을 사용할수 없는 가맹점입니다.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
+        try:
+            shop_member = ShopMember.objects.get(pk=shop_member_id, shop=shop)
+        except:
+            return JsonResponse({'data': {}, 'msg': 'shop member 오류', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
+        
+        shop_member_coupon_id = request.POST['shop_member_coupon_id']
+        extension_date = request.POST['extension_date']
+        
+        try:
+            extension_date = datetime.datetime.strptime(extension_date, '%Y-%m-%d')
+        except ValueError:
+            return JsonResponse({'data': {}, 'msg': '날짜 형식 오류', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
+        extension_date = extension_date.replace(hour=23, minute=59, second=59, microsecond=999999)  # 하루의 끝
+        try:
+            shop_member_coupon = ShopMemberCoupon.objects.get(pk=shop_member_coupon_id, shop_member=shop_member)
+        except:
+            return JsonResponse({'data': {}, 'msg': 'shop member coupon id 오류', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})        
+        if shop_member_coupon.status == '0':
+            if shop_member_coupon.expiration_date:
+                if shop_member_coupon.expiration_date < timezone.now():
+                    return JsonResponse({'data': {}, 'msg': '유효기간이 만료 된 쿠폰입니다.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
+            shop_member_coupon.expiration_date = extension_date
+            shop_member_coupon.save()
+            return JsonResponse({'data': {}, 'msg': '유효기간 연장 되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
+        else:
+            return JsonResponse({'data': {}, 'msg': '유효기간 변경 가능한 쿠폰이 아닙니다.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
