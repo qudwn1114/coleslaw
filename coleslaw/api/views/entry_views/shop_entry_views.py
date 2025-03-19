@@ -12,7 +12,7 @@ from django.utils import timezone
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDetail, ShopEntryOptionDetail, ShopMember, ShopTable, SmsLog
+from system_manage.models import Shop, ShopPersonType, EntryQueue, EntryQueueDetail, ShopEntryOptionDetail, ShopTable, SmsLog
 from system_manage.views.system_manage_views.auth_views import validate_phone
 
 
@@ -197,19 +197,10 @@ class ShopEntryQueueCreateView(View):
 
         try:
             with transaction.atomic():
-                shop_member, created = ShopMember.objects.get_or_create(
-                    shop=shop, phone=phone,
-                    defaults={ 'membername' : membername }
-                )
-                if not created:
-                    shop_member.membername = membername
-                    shop_member.save()
-
                 order = EntryQueue.objects.filter(shop=shop, date=timezone.now().date()).count() + 1
                 remark = ''
                 entry_queue = EntryQueue.objects.create(
                     shop=shop,
-                    shop_member=shop_member,
                     order=order,
                     membername=membername,
                     phone=phone,
@@ -719,7 +710,6 @@ class ShopEntryPaymentView(View):
         shop_table.total_price = total_price
         shop_table.total_additional = 0
         shop_table.total_discount = 0
-        shop_table.shop_member = entry_queue.shop_member
         shop_table.save()
         
         return_data = {'data': {},'msg': '메인 포스 테이블에 상품이 담겼습니다.','resultCd': '0000'}

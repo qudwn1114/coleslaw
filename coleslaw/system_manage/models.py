@@ -358,7 +358,6 @@ class ShopEntryOptionDetail(models.Model):
         
 class EntryQueue(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
     order = models.PositiveIntegerField()
     membername = models.CharField(max_length=20, verbose_name='예약자명')
     phone = models.CharField(max_length=20, verbose_name='전화번호')
