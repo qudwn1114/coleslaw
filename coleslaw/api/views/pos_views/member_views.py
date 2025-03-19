@@ -74,7 +74,6 @@ class ShopMemberCreateView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
-        
         membername = request.POST['membername'].strip()
         phone = request.POST['phone']
 
@@ -99,6 +98,34 @@ class ShopMemberCreateView(View):
         return_data = {'data': {'id':shop_member.pk,'membername':membername, 'phone':phone},'msg': '가입완료!','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+    
+
+class ShopMemberDeleteView(View):
+    '''
+        회원삭제
+    '''
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ShopMemberDeleteView, self).dispatch(request, *args, **kwargs)
+    
+    def post(self, request: HttpRequest, *args, **kwargs):
+        shop_id = kwargs.get('shop_id')
+        shop_member_id = request.POST['shop_member_id']
+        try:
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            shop_member = ShopMember.objects.get(pk=shop_member_id, shop=shop)
+        except:
+            return JsonResponse({'data': {}, 'msg': 'shop member 오류', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})
+        try:
+            shop_member.delete()
+        except:
+            return JsonResponse({'data': {}, 'msg': '회원 삭제 오류.', 'resultCd': '0001'}, json_dumps_params={'ensure_ascii': False})    
+        return JsonResponse({'data': {}, 'msg': '회원이 삭제되었습니다.', 'resultCd': '0000'}, json_dumps_params={'ensure_ascii': False})
     
 
 class ShopMemberCouponListView(View):
