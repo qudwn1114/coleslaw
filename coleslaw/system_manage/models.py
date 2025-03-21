@@ -204,6 +204,25 @@ class ShopMemberCoupon(models.Model):
     class Meta :
         db_table = 'shop_member_coupon'
 
+class Pos(models.Model):
+    name = models.CharField(max_length=50, verbose_name='포스업체명')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+    class Meta :
+        db_table = 'pos'
+
+class ShopPos(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    pos = models.ForeignKey(Pos, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+
+    class Meta :
+        constraints = [
+            models.UniqueConstraint(fields=['shop', 'pos'], name='shop_pos_unique')
+        ]
+        db_table = 'shop_pos'
+
 # shop table
 class ShopTable(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)

@@ -90,7 +90,6 @@ class ShopCreateView(View):
         zipcode = request.POST['zipcode']
         image = request.FILES.get("image")
         location_image = request.FILES.get("location_image")
-        main_tid = request.POST['main_tid'].strip()
         waiting_time = int(request.POST['waiting_time'])
         logo_image1 = request.FILES.get("logo_image1")
         entry_image1 = request.FILES.get("entry_image1")
@@ -136,7 +135,6 @@ class ShopCreateView(View):
                     zipcode=zipcode,
                     image=image,
                     location_image=location_image,
-                    main_tid=main_tid,
                     waiting_time=waiting_time,
                     logo_image1=logo_image1,
                     entry_image1=entry_image1,
@@ -145,12 +143,6 @@ class ShopCreateView(View):
                     table_time=table_time,
                     additional_fee_time=additional_fee_time,
                     pos_ad_video = default_pos_ad_video
-                )
-                ShopTable.objects.create(
-                    shop = shop,
-                    table_no = 0,
-                    tid=main_tid,
-                    name = 'DEFAULT'
                 )
                 AgencyShop.objects.create(
                     agency=agency,
@@ -228,7 +220,6 @@ class ShopEditView(View):
         zipcode = request.POST['zipcode']
         image = request.FILES.get("image")
         location_image = request.FILES.get("location_image")
-        main_tid = request.POST['main_tid'].strip()
         waiting_time = int(request.POST['waiting_time'])
         logo_image1 = request.FILES.get("logo_image1")
         entry_image1 = request.FILES.get("entry_image1")
@@ -268,7 +259,6 @@ class ShopEditView(View):
                 shop.address = address
                 shop.address_detail = address_detail
                 shop.zipcode = zipcode
-                shop.main_tid = main_tid
                 shop.waiting_time = waiting_time
                 shop.table_time=table_time
                 shop.additional_fee_time=additional_fee_time
@@ -288,10 +278,6 @@ class ShopEditView(View):
                 if entry_image2:
                     shop.entry_image2 = entry_image2
                 shop.save()
-                
-                main_pos = ShopTable.objects.get(shop=shop, table_no = 0)
-                main_pos.tid = main_tid
-                main_pos.save()
         except:
             return JsonResponse({'message': '수정오류'}, status=400)
 

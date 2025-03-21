@@ -87,9 +87,6 @@ class ShopPosManageView(View):
             shop_table.name = table_name
             shop_table.save()
         elif rq_type == 'TID':
-            if shop_table.table_no == 0:
-                return JsonResponse({"message": "메인 포스 tid 는 가맹점 관리에서 변경해주세요."}, status=400)
-
             tid = request.PUT['tid'].strip()
             shop_table.tid = tid
             shop_table.save()
@@ -148,7 +145,7 @@ class ShopPosCreateView(View):
         ShopTable.objects.create(
             shop=shop,
             name=table_name,
-            tid=shop.main_tid,
+            tid='',
             table_no= min_table_no - 1
         )
         

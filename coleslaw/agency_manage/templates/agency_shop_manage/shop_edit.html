@@ -84,10 +84,6 @@
                       <input type="file" id="location_image" name="location_image" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
-                      <label for="main_tid">TID</label>
-                      <input type="text" name="main_tid" class="form-control" id="main_tid" placeholder="메인 TID" value="{{data.main_tid}}">
-                    </div>
-                    <div class="col-md-12">
                       <label for="waiting_time">팀 당 입장시간(분)</label>
                       <input type="number" name="waiting_time" class="form-control" id="waiting_time" placeholder="팀 당 입장시간(분)" value="{{data.waiting_time}}">
                     </div>
@@ -140,5 +136,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'agency/js/shop_manage/script_shop_edit.js' %}?v=20241223"></script>
+<script src="{% static 'agency/js/shop_manage/script_shop_edit.js' %}?v=20250321"></script>
 {% endblock javascripts %}
