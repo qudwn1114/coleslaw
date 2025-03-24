@@ -26,7 +26,13 @@ class ShopOnlineEnterView(View):
         mainpos_id = int(request.POST['mainpos_id'])
         code_list = request.POST['code_list']
         try:
-            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)

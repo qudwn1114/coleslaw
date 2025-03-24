@@ -28,7 +28,7 @@ class ShopPosListView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            queryset = ShopTable.objects.filter(shop=shop, table_no__lte=0).annotate(
+            queryset = ShopTable.objects.filter(shop=shop, pos=shop.pos, table_no__lte=0).annotate(
                 ).order_by('id').values(
                     'table_no',
                     'name',
@@ -66,14 +66,20 @@ class ShopTableAddView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
-          
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -239,13 +245,20 @@ class ShopTableUpdateView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -331,13 +344,20 @@ class ShopTableDeleteView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -418,13 +438,20 @@ class ShopTableClearView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -476,13 +503,20 @@ class ShopTableGoodsDiscountView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -566,13 +600,20 @@ class ShopTableDiscountView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -629,13 +670,20 @@ class ShopTableDiscountCancelView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -697,13 +745,19 @@ class ShopTableAdditionalView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -763,13 +817,19 @@ class ShopTableAdditionalCancelView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -820,20 +880,19 @@ class ShopTableCheckoutView(View):
         table_no = int(kwargs.get('table_no'))
         mainpos_id = int(kwargs.get('mainpos_id'))
         try:
-            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
-        except:
-            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
-            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-            return HttpResponse(return_data, content_type = "application/json")
-        try:
             shop = Shop.objects.get(pk=shop_id)
         except:
             return_data = {'data': {},'msg': 'shop 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
-
         try:
-            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop)
+            mainpos = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
+        except:
+            return_data = {'data': {},'msg': '메인포스 id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)

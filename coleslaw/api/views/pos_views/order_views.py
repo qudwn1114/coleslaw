@@ -636,7 +636,7 @@ class ShopPosOrderCompleteView(View):
 
             if left_price <= 0:
                 try:
-                    shop_table = ShopTable.objects.get(shop=shop, table_no=order.table_no)
+                    shop_table = ShopTable.objects.get(shop=shop, pos=shop.pos, table_no=order.table_no)
                     shop_table.cart = None
                     shop_table.total_price = 0
                     shop_table.total_discount = 0

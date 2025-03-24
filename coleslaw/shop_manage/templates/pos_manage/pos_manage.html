@@ -20,27 +20,24 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">POS Manage</h5>
-            <a class="btn btn-primary" href="{% url 'shop_manage:pos_create' shop.id %}">등록</a>
+            <button class="btn btn-primary" id="pos_create">등록</button>
             <a class="btn btn-outline-primary" href="{% url 'shop_manage:shop_pos_detail' shop.id %}">포스 관리</a>
-            <form id="search-form" class="p-2" method="get" action="">
-              <div class="row mb-2">
-                <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
-                <div class="col-sm-8">
-                    <div class="input-group">                   
-                      <select class="form-select" id="search_type" name="search_type">
-                        <option value="name" {% if search_type == 'name' %}selected{% endif %}>이름</option>
-                      </select>
-                    <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
-                  </div>
+            <div class="row mb-2">
+              <label for="item" class="col-sm-2 col-form-label">포스 분류</label>
+              <div class="col-sm-8">
+                <select class="form-select" id="pos_id" name="pos_id">
+                  {% for i in pos %}
+                  <option value="{{i.id}}" {% if i.id == pos_id %}selected{% endif %}>{{i.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="pos" {% if pos_id == shop.pos.id %}checked{% endif %}>
+                  <label class="form-check-label" for="pos">이용</label>
                 </div>
               </div>
-              <div class="row mb-3">
-                <div class="text-center">
-                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
-                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:pos_manage' shop.id %}">초기화</a>
-                </div>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
         <div class="card mb-3" >
@@ -70,19 +67,13 @@
                     </div>
                    </td>
                    <td>
-                    {% if i.table_no != 0 %}
                     <div class="input-group">
                         <input type="text" id="table_tid_{{i.id}}" class="form-control" placeholder="TID" value="{{i.tid}}">
                         <button class="btn btn-outline-secondary" type="button" onclick="editTid({{i.id}}, this)">수정</button>
                     </div>
-                    {% else %}
-                    <span>{{i.tid}}</span>
-                    {% endif %}
                    </td>
                   <td class="text-end">
-                    {% if i.table_no != 0 %}
-                        <button class="btn btn-danger" onclick="deleteTable({{i.id}})">삭제</button>
-                    {% endif %}
+                    <button class="btn btn-danger" onclick="deleteTable({{i.id}})">삭제</button>
                   </td>
                 </tr>
                 {% endfor %}
@@ -102,6 +93,9 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script>
+  const create_url = "{% url 'shop_manage:pos_create' shop.id %}"
+</script>
 <script src="{% static 'js/script_pagination.js' %}"></script>
-<script src="{% static 'shop/js/pos_manage/script_pos_manage.js' %}?v=20240801"></script>
+<script src="{% static 'shop/js/pos_manage/script_pos_manage.js' %}?v=20250325"></script>
 {% endblock javascripts %}

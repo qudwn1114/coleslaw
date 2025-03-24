@@ -79,6 +79,13 @@ class ShopCategory(models.Model):
     class Meta : 
         db_table = 'shop_category'
 
+class Pos(models.Model):
+    name = models.CharField(max_length=50, verbose_name='포스업체명')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
+    class Meta :
+        db_table = 'pos'
+
 
 # 가맹점
 class Shop(models.Model):
@@ -128,6 +135,8 @@ class Shop(models.Model):
     aligo_entry_template_code2 = models.CharField(max_length=10, null=True, verbose_name='알리고 호출템플릿')
 
     coupon_flag = models.BooleanField(default=False)
+
+    pos = models.ForeignKey(Pos, on_delete=models.SET_NULL, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
@@ -204,27 +213,9 @@ class ShopMemberCoupon(models.Model):
     class Meta :
         db_table = 'shop_member_coupon'
 
-class Pos(models.Model):
-    name = models.CharField(max_length=50, verbose_name='포스업체명')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
-    class Meta :
-        db_table = 'pos'
-
-class ShopPos(models.Model):
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    pos = models.ForeignKey(Pos, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
-
-    class Meta :
-        constraints = [
-            models.UniqueConstraint(fields=['shop', 'pos'], name='shop_pos_unique')
-        ]
-        db_table = 'shop_pos'
-
 # shop table
 class ShopTable(models.Model):
+    pos = models.ForeignKey(Pos, on_delete=models.CASCADE)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     table_no = models.IntegerField()
     name = models.CharField(max_length=100, verbose_name='테이블명')
@@ -246,7 +237,7 @@ class ShopTable(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['shop', 'table_no'], name='shop_table_no_unique')
+            models.UniqueConstraint(fields=['pos', 'shop', 'table_no'], name='pos_shop_table_no_unique')
         ]
         db_table='shop_table'
 

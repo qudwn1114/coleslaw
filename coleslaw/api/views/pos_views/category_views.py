@@ -24,7 +24,7 @@ class ShopPosMainCategoryListView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop=shop)
+            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -101,7 +101,7 @@ class ShopPosCatgoryFixView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         try:
-            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop=shop)
+            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)

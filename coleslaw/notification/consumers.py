@@ -197,5 +197,11 @@ class PosConsumer(AsyncJsonWebsocketConsumer):
     @database_sync_to_async
     def check_shop_main_pos_exists(self, shop_id, mainpos_id):
         # 주어진 ID로 채팅방이 존재하는지 확인합니다.
-        return ShopTable.objects.filter(shop_id=shop_id, table_no=mainpos_id).exists()
+            # shop 객체를 먼저 가져옴
+        shop = Shop.objects.filter(id=shop_id).first()
+        
+        if not shop:
+            return False  # shop이 존재하지 않으면 False 반환
+        
+        return ShopTable.objects.filter(shop=shop, table_no=mainpos_id, pos=shop.pos).exists()
         

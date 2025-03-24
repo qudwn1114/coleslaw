@@ -668,8 +668,15 @@ class ShopEntryPaymentView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         pk = kwargs.get('pk')
+
         try:
-            entry_queue = EntryQueue.objects.get(pk=pk, shop_id=shop_id)
+            shop = Shop.objects.get(pk=shop_id)
+        except:
+            return_data = {'data': {},'msg': 'shop id 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        try:
+            entry_queue = EntryQueue.objects.get(pk=pk, shop=shop)
         except:
             return_data = {'data': {},'msg': '데이터 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -699,7 +706,7 @@ class ShopEntryPaymentView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         try:
-            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop_id=shop_id)
+            shop_table = ShopTable.objects.get(table_no=mainpos_id, shop=shop, pos=shop.pos)
         except:
             return_data = {'data': {},'msg': '테이블 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)

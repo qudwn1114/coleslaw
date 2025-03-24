@@ -33,6 +33,7 @@ class ShopTableManageView(View):
 
         filter_dict = {}
         filter_dict['shop'] = shop
+        filter_dict['pos'] = shop.pos
         filter_dict['table_no__gt'] = 0
         
         if search_keyword:
@@ -129,15 +130,18 @@ class ShopTableCreateView(View):
         if not shop:
             return JsonResponse({'message' : '가맹점 오류'},status = 400)
         
+        if not shop.pos:
+            return JsonResponse({'message' : 'pos 이용을 먼저해주세요.'},status = 400)
+        
         table_name = request.POST['table_name'].strip()
         count = int(request.POST['count'])
 
-        max_table_no = ShopTable.objects.filter(shop=shop, table_no__gt=0).aggregate(Max("table_no", default=0))['table_no__max']
+        max_table_no = ShopTable.objects.filter(shop=shop, table_no__gt=0, pos=shop.pos).aggregate(Max("table_no", default=0))['table_no__max']
 
         try:
             bulk_list = []
             for i in range(1, count+1):
-                bulk_list.append(ShopTable(shop=shop, table_no=max_table_no+i, name=f'{table_name}{max_table_no+i}'))
+                bulk_list.append(ShopTable(pos=shop.pos, shop=shop, table_no=max_table_no+i, name=f'{table_name}{max_table_no+i}'))
 
             ShopTable.objects.bulk_create(bulk_list)
         except:

@@ -23,16 +23,23 @@
                     <h5 class="card-title">POS 등록</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{% url 'shop_manage:pos_manage' shop.id %}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{% url 'shop_manage:pos_manage' shop.id %}?pos_id={{pos.pk}}"><i class="bi bi-list"></i> 목록</a></div>
                 </div>
             </div>
             <form id="data-form" method="post" onsubmit="return false">
+                <div class="row mt-3 mb-3">
+                  <label for="pos_name" class="col-sm-2 col-form-label">포스업체</label>
+                  <div class="col-sm-10">
+                      <input type="text" id="pos_name" name="pos_name" class="form-control" disabled value="{{pos.name}}">
+                  </div>
+              </div>
                 <div class="row mt-3 mb-3">
                     <label for="table_name" class="col-sm-2 col-form-label">이름 *</label>
                     <div class="col-sm-10">
                         <input type="text" id="table_name" name="table_name" class="form-control" placeholder="이름">
                     </div>
                 </div>
+                <input type="hidden" id="pos_id" name="pos_id" value="{{pos.pk}}">
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-12 text-center">
