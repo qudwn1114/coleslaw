@@ -33,8 +33,8 @@ class ShopPosListView(View):
                     'table_no',
                     'name',
                 )
-
             return_data = {
+                'pos' : {'id': shop.pos.pk, 'name' : shop.pos.name},
                 'data': list(queryset),
                 'resultCd': '0000',
                 'msg': '가맹점 pos 리스트',
