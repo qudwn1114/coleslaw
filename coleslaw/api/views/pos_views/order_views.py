@@ -477,6 +477,7 @@ class ShopPosCheckoutOrderDetailView(View):
             data['shop_member_id'] = None
             data['membername'] = None
         
+        data['status'] = order.status
         data['final_price'] = order.final_price
         data['final_discount'] = order.final_discount
         data['final_additional'] = order.final_additional
