@@ -216,6 +216,7 @@ class ShopPosOrderDetailView(View):
             'cardNo',
             'amount',
             'taxAmount',
+            'installment',
             'cashResceiptStatus',
             'cashReceiptCardNo',
             'cashReceiptApprovalNumber',
