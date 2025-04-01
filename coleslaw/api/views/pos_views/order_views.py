@@ -794,7 +794,7 @@ class ShopPosOrderPaymentCashReceiptCompleteView(View):
         order_payment.cashReceiptCardNo = cardNo
         order_payment.cashReceiptApprovalNumber = approvalNumber
         order_payment.cashReceiptApprovalDate = approvalDate
-        order_payment.cashResceiptStatus = True
+        order_payment.cashReceiptStatus = True
         order_payment.save()
 
         return_data = {'data': {
@@ -825,7 +825,7 @@ class ShopPosOrderPaymentCashReceiptCancelView(View):
         order_payment.cashReceiptCardNo = ''
         order_payment.cashReceiptApprovalNumber = None
         order_payment.cashReceiptApprovalDate = ''
-        order_payment.cashResceiptStatus = False
+        order_payment.cashReceiptStatus = False
         order_payment.save()
 
         return_data = {'data': {
