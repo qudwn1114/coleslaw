@@ -217,7 +217,7 @@ class ShopPosOrderDetailView(View):
             'amount',
             'taxAmount',
             'installment',
-            'cashResceiptStatus',
+            'cashReceiptStatus',
             'cashReceiptCardNo',
             'cashReceiptApprovalNumber',
             'cancelledAt',
