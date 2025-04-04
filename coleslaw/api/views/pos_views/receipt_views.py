@@ -45,6 +45,8 @@ class ShopOrderReceiptView(View):
         data['shopAddressDetail'] = shop.address_detail
         data['shopZipcode'] = shop.zipcode
         data['shopReceipt'] = shop.receipt
+        data['printerPort1'] = shop.printer_port1
+        data['printerPort2'] = shop.printer_port2
         
         data['order_no'] = order_payment.order.order_no
         data['tid'] = order_payment.tid
@@ -148,6 +150,8 @@ class ShopCloseReceiptView(View):
         data['shopAddressDetail'] = shop.address_detail
         data['shopZipcode'] = shop.zipcode
         data['shopReceipt'] = shop.receipt
+        data['printerPort1'] = shop.printer_port1
+        data['printerPort2'] = shop.printer_port2
         data['date'] = date
         
         data['order_goods_list'] = list(order_goods)

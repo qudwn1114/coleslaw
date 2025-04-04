@@ -228,6 +228,8 @@ class ShopEditView(View):
         table_time = int(request.POST['table_time'])
         additional_fee_time = int(request.POST['additional_fee_time'])
         receipt=request.POST['receipt']
+        printer_port1=request.POST['printer_port1']
+        printer_port2=request.POST['printer_port2']
         shop_receipt_flag = bool(request.POST.get('shop_receipt_flag', None))
         coupon_flag = bool(request.POST.get('coupon_flag', None))
 
@@ -263,6 +265,8 @@ class ShopEditView(View):
                 shop.table_time=table_time
                 shop.additional_fee_time=additional_fee_time
                 shop.receipt=receipt
+                shop.printer_port1=printer_port1
+                shop.printer_port2=printer_port2
                 shop.shop_receipt_flag=shop_receipt_flag
                 shop.coupon_flag=coupon_flag
                 if image:

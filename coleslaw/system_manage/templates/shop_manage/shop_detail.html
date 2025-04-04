@@ -145,6 +145,14 @@
                   <label for="receipt">영수증 내용</label>
                   <input type="text" name="receipt" class="form-control" id="receipt" placeholder="영수증 하단 내용" value="{{data.receipt}}" readonly>
                 </div>
+                <div class="col-md-12">
+                  <label for="printer_port1">영수증 프린터 포트1</label>
+                  <input type="text" name="printer_port1" class="form-control" id="printer_port1" placeholder="영수증 프린터 포트1" value="{{data.printer_port1}}" readonly>
+                </div>
+                <div class="col-md-12">
+                  <label for="printer_port2">영수증 프린터 포트2</label>
+                  <input type="text" name="printer_port2" class="form-control" id="printer_port2" placeholder="영수증 프린터 포트2" value="{{data.printer_port2}}" readonly>
+                </div>
                 <div class="row mt-3 mb-3 mx-2">
                   <div class="form-check col-sm-3">
                     {% if data.shop_receipt_flag %}

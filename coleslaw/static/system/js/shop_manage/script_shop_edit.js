@@ -21,6 +21,8 @@ const entry_image2 = document.getElementById("entry_image2");
 const table_time = document.getElementById('table_time');
 const additional_fee_time = document.getElementById('additional_fee_time');
 const receipt = document.getElementById('receipt');
+const printer_port1 = document.getElementById('printer_port1');
+const printer_port2 = document.getElementById('printer_port2');
 const shop_receipt_flag = document.getElementById('shop_receipt_flag');
 const coupon_flag = document.getElementById('coupon_flag');
 
@@ -55,6 +57,8 @@ btn_submit.addEventListener("click", () => {
     table_time.disabled=true;
     additional_fee_time.disabled=true;
     receipt.disabled=true;
+    printer_port1.disabled=true;
+    printer_port2.disabled=true;
     shop_receipt_flag.disabled=true;
     coupon_flag.disabled=true;
 
@@ -96,6 +100,8 @@ btn_submit.addEventListener("click", () => {
             table_time.disabled=false;
             additional_fee_time.disabled=false;
             receipt.disabled=false;
+            printer_port1.disabled=false;
+            printer_port2.disabled=false;
             shop_receipt_flag.disabled=false;
             coupon_flag.disabled=false;
             if(error.status == 401){
