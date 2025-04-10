@@ -13,7 +13,7 @@ def permission_required(redirect_url=None, raise_exception=False):
                     if raise_exception:
                         return HttpResponse('Unauthorized', status=401)
                     else:
-                        return redirect(resolve_url('system_manage:login'))
+                        return redirect(f"{resolve_url('system_manage:login')}?next={request.path}")
                 if user.is_superuser:
                     pass
                 else:
@@ -28,7 +28,7 @@ def permission_required(redirect_url=None, raise_exception=False):
                     if raise_exception:
                         return HttpResponse('Unauthorized', status=401)
                     else:
-                        return redirect(resolve_url('agency_manage:login'))
+                        return redirect(f"{resolve_url('agency_manage:login')}?next={request.path}")
                 agency_id = kwargs.get('agency_id')
                 try:
                     agency = Agency.objects.get(pk=agency_id)
@@ -51,7 +51,7 @@ def permission_required(redirect_url=None, raise_exception=False):
                     if raise_exception:
                         return HttpResponse('Unauthorized', status=401)
                     else:
-                        return redirect(resolve_url('shop_manage:login'))
+                        return redirect(f"{resolve_url('shop_manage:login')}?next={request.path}")
                 shop_id = kwargs.get('shop_id')
                 try:
                     shop = Shop.objects.get(pk=shop_id)
