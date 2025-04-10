@@ -14,8 +14,14 @@
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon" href="https://baumrootme.com/webpos/mainpos.html?Id={{shop.pk}}">
             <i class="bi bi-laptop"></i>
-          </a><!-- End Messages Icon -->
+          </a>
         </li>
+        {% if shop.pk == 60 %}
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="https://baumrootme.com/webpos_test/mainpos.html?Id={{shop.pk}}">
+            <i class="bi bi-cone-striped"></i>
+        </li>
+        {% endif %}
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <span class="d-none d-md-block dropdown-toggle p-2">{{user}}</span>
