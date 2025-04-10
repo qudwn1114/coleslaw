@@ -781,20 +781,29 @@ class ShopPosOrderPaymentCashReceiptCompleteView(View):
         shop_id = kwargs.get('shop_id')
         order_payment_id = kwargs.get('order_payment_id')
         try:
-            order_payment = OrderPayment.objects.get(pk=order_payment_id, order__shop_id=shop_id)
+            order_payment = OrderPayment.objects.get(pk=order_payment_id, order__shop_id=shop_id, payment_method='1') #현금결제만
         except:
             return_data = {'data': {},'msg': 'order payment id 오류','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
+        installment = request.POST.get('installment', '0')
         approvalNumber = request.POST.get('approvalNumber', '')
         approvalDate = request.POST.get('approvalDate', '')
+        if approvalDate:
+            tranDate = approvalDate[:6]
+            tranTime = approvalDate[6:]
+        else:
+            tranDate = timezone.now().strftime("%y%m%d")
+            tranTime = timezone.now().strftime('%H%M')
+        
         cardNo = request.POST.get('maskingCardNumber', '') #마스킹 되어진 카드번호
         
-        order_payment.cashReceiptCardNo = cardNo
-        order_payment.cashReceiptApprovalNumber = approvalNumber
-        order_payment.cashReceiptApprovalDate = approvalDate
-        order_payment.cashReceiptStatus = True
+        order_payment.installment = installment
+        order_payment.cardNo = cardNo
+        order_payment.approvalNumber = approvalNumber
+        order_payment.tranDate = tranDate
+        order_payment.tranTime = tranTime
         order_payment.save()
 
         return_data = {'data': {
