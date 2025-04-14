@@ -322,7 +322,7 @@ class LoginView(View):
         if not user.is_active:
             return JsonResponse({'message':'Deactivated account.'}, status = 400)
         
-        if user.is_superuser or ShopAdmin.objects.filter(user=user).exists():
+        if user.is_superuser or AgencyAdmin.objects.filter(user=user).exists() or ShopAdmin.objects.filter(user=user).exists():
             login(request, user)
             if 'next' in request.GET:
                 url = request.GET.get('next')
