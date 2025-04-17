@@ -33,7 +33,7 @@
               </div>
               <div class="col-sm-2">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="pos" {% if pos_id == shop.pos.id %}checked{% endif %}>
+                  <input class="form-check-input" type="checkbox" id="pos" {% if shop.pos and pos_id == shop.pos.id %}checked{% endif %}>
                   <label class="form-check-label" for="pos">이용</label>
                 </div>
               </div>

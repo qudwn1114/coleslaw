@@ -34,6 +34,8 @@ class ShopPosManageView(View):
         else:
             if shop.pos:
                 pos_id = shop.pos.pk
+            else:
+                pos_id = None
 
         context['pos_id'] = pos_id
         
