@@ -188,7 +188,8 @@ class ShopPosOrderDetailView(View):
                 When(payment_method='1', then=V('현금')),
                 default=V('카드'), output_field=CharField()
             ),
-            approvalDate = F('tranDate'),                            
+            approvalDate = F('tranDate'),
+            approvalTime = F('tranTime'),
             cancelledAt=Case(
                 When(cancelled_at=None, then=None),
                 default=Func(
@@ -212,6 +213,7 @@ class ShopPosOrderDetailView(View):
             'status',
             'issueCompanyName',
             'approvalDate',
+            'approvalTime',
             'approvalNumber',
             'cardNo',
             'amount',
