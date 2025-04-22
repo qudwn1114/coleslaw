@@ -165,11 +165,10 @@ class ShopPosCreateView(View):
             pos = Pos.objects.get(pk=pos_id)
         except:
             return JsonResponse({"message": "데이터 오류"},status=400)
-
-        min_table_no = ShopTable.objects.filter(pos=pos, shop=shop, table_no__lte=0).aggregate(Min("table_no", default=0))['table_no__min']
-        if min_table_no == 0:
+        if not ShopTable.objects.filter(pos=pos, shop=shop, table_no__lte=0).exists():
             table_no = 0
         else:
+            min_table_no = ShopTable.objects.filter(pos=pos, shop=shop, table_no__lte=0).aggregate(Min("table_no", default=0))['table_no__min']        
             table_no = min_table_no - 1
         ShopTable.objects.create(
             pos=pos,
