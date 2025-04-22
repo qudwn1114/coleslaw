@@ -48,6 +48,7 @@ class ShopOrderReceiptView(View):
         data['printerPort1'] = shop.printer_port1
         data['printerPort2'] = shop.printer_port2
         
+        data['table_no'] = order_payment.order.table_no
         data['order_no'] = order_payment.order.order_no
         data['tid'] = order_payment.tid
         data['installment'] = order_payment.installment
