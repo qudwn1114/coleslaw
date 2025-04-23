@@ -103,19 +103,24 @@ document.getElementById('order_date6').addEventListener('click', function(){
 })
 
 function xlsxDownload(type){
-    if(!confirm("엑셀저장하시겠습니까?")){
-        return false;
-    }
-    let url_search = new URLSearchParams(window.location.search);
-    url_search.set(type, true);
-    window.location.href = `?${url_search.toString()}`;
+    customConfirm("엑셀저장하시겠습니까?")
+        .then((result) => {
+            if (!result) {
+            return false;
+            }
+            let url_search = new URLSearchParams(window.location.search);
+            url_search.set(type, true);
+            window.location.href = `?${url_search.toString()}`;
+        });
 }
 
 function createOrderPayment(elem, id){
-    if(!confirm("주문결제를 생성하시겠습니까?")){
-        return false;
-    }
-    elem.disabled = true;
+    customConfirm("주문결제를 생성하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        elem.disabled = true;
     $.ajax({
         type: "POST",
         url: "",
@@ -143,5 +148,5 @@ function createOrderPayment(elem, id){
             }
         },
     });
-
+    });
 }

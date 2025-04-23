@@ -2,10 +2,12 @@ const btn_delete = document.getElementById("btn-delete");
 const btn_password_reset = document.getElementById("btn-password-reset");
 
 btn_delete.addEventListener("click", () => {
-    if (!confirm("삭제 하시겠습니까?")) {
-        return;
-    }
-    btn_delete.disabled=true;
+    customConfirm("삭제 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        btn_delete.disabled=true;
     $.ajax({
         type: "DELETE",
         url: "",
@@ -30,14 +32,18 @@ btn_delete.addEventListener("click", () => {
             }
         },
     });
+    });
+    
 })
 
 
 btn_password_reset.addEventListener("click", () => {
-    if (!confirm("비밀번호를 초기화 하시겠습니까?")) {
-        return;
-    }
-    btn_password_reset.disabled=true;
+    customConfirm("비밀번호를 초기화 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        btn_password_reset.disabled=true;
     $.ajax({
         type: "POST",
         url: "",
@@ -61,6 +67,7 @@ btn_password_reset.addEventListener("click", () => {
                 customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
+    });
     });
 })
 

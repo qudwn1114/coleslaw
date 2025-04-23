@@ -245,48 +245,53 @@ function numberWithCommas(x) {
 }
 
 function setStatus(id, type, elem){
-    if (!confirm("상태를 변경하시겠습니까?")) {
-        location.reload();
-        return;
-    }
-    let data = {
-        goods_id : id,
-        type : type
-    };
-    elem.disabled=true;
-    $.ajax({
-        type: "PUT",
-        url: "",
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        data: JSON.stringify(data),
-        datatype: "JSON",
-        success: function(data) {
-            location.reload(true);
-        },
-        error: function(error) {
-            elem.disabled=false;
-            if(error.status == 401){
-                customAlert('로그인 해주세요.');
-            }
-            else if(error.status == 403){
-                customAlert('권한이 없습니다!');
-            }
-            else{
-                location.reload();
-                customAlert(error.status + JSON.stringify(error.responseJSON));
-            }
-        },
+    customConfirm("상태를 변경하시겠습니까")
+    .then((result) => {
+        if (!result) {
+            location.reload();
+            return false;
+        }
+        let data = {
+            goods_id : id,
+            type : type
+        };
+        elem.disabled=true;
+        $.ajax({
+            type: "PUT",
+            url: "",
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify(data),
+            datatype: "JSON",
+            success: function(data) {
+                location.reload(true);
+            },
+            error: function(error) {
+                elem.disabled=false;
+                if(error.status == 401){
+                    customAlert('로그인 해주세요.');
+                }
+                else if(error.status == 403){
+                    customAlert('권한이 없습니다!');
+                }
+                else{
+                    location.reload();
+                    customAlert(error.status + JSON.stringify(error.responseJSON));
+                }
+            },
+        });
     });
 }
 
 function setValue(id, type, elem){
-    if (!confirm("변경하시겠습니까?")) {
-        location.reload();
-        return;
-    }
-    let input = document.getElementById(`${type}_${id}`);
+    customConfirm("변경하시겠습니까")
+    .then((result) => {
+        if (!result) {
+            location.reload();
+            return false;
+        }
+        let input = document.getElementById(`${type}_${id}`);
     if (input.value == ''){
         input.focus();
         return;
@@ -321,6 +326,7 @@ function setValue(id, type, elem){
                 customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
+    });
     });
 }
 

@@ -212,147 +212,159 @@ function getMainOrders(){
 getMainOrders();
 
 function changeStatus(id, elem){
-  if (!confirm("상태를 수정하시겠습니까?")) {
-    getMainOrders();
-    return;
-  }
-  let data = {
-    order_id : id,
-    order_status : elem.value
-  };
-  elem.disabled=true;
-  $.ajax({
-      type: "PUT",
-      url: `/shop-manage/${shop_id}/order-manage/`,
-      headers: {
-          'X-CSRFToken': csrftoken
-      },
-      data: JSON.stringify(data),
-      datatype: "JSON",
-      success: function(data) {
-          getMainOrders();
-      },
-      error: function(error) {
-          elem.disabled=false;
-          if(error.status == 401){
-              customAlert('로그인 해주세요.');
-          }
-          else if(error.status == 403){
-              customAlert('권한이 없습니다!');
-          }
-          else{
+  customConfirm("상태를 수정하시겠습니까?")
+  .then((result) => {
+      if (!result) {
+        getMainOrders();
+          return false;
+      }
+      let data = {
+        order_id : id,
+        order_status : elem.value
+      };
+      elem.disabled=true;
+      $.ajax({
+          type: "PUT",
+          url: `/shop-manage/${shop_id}/order-manage/`,
+          headers: {
+              'X-CSRFToken': csrftoken
+          },
+          data: JSON.stringify(data),
+          datatype: "JSON",
+          success: function(data) {
               getMainOrders();
-              customAlert(error.status + JSON.stringify(error.responseJSON));
-          }
-      },
+          },
+          error: function(error) {
+              elem.disabled=false;
+              if(error.status == 401){
+                  customAlert('로그인 해주세요.');
+              }
+              else if(error.status == 403){
+                  customAlert('권한이 없습니다!');
+              }
+              else{
+                  getMainOrders();
+                  customAlert(error.status + JSON.stringify(error.responseJSON));
+              }
+          },
+      });
   });
 }
 
 function sendOrderComplete(id, elem){
-  if (!confirm("완료 문자를 보내시겠습니까?")) {
-      return;
-  }
-  let data = {
-      order_id : id
-  };
-  elem.disabled=true;
-  $.ajax({
-      type: "POST",
-      url: `/shop-manage/${shop_id}/order-complete-sms/`,
-      headers: {
-          'X-CSRFToken': csrftoken
-      },
-      data: data,
-      datatype: "JSON",
-      success: function(data) {
-        getMainOrders();
-      },
-      error: function(error) {
-          elem.disabled=false;
-          if(error.status == 401){
-              customAlert('로그인 해주세요.');
-          }
-          else if(error.status == 403){
-              customAlert('권한이 없습니다!');
-          }
-          else{
-              customAlert(error.status + JSON.stringify(error.responseJSON));
-          }
-      },
+  customConfirm("완료 문자를 보내시겠습니까?")
+  .then((result) => {
+      if (!result) { 
+          return false;
+      }
+      let data = {
+        order_id : id
+    };
+    elem.disabled=true;
+    $.ajax({
+        type: "POST",
+        url: `/shop-manage/${shop_id}/order-complete-sms/`,
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        data: data,
+        datatype: "JSON",
+        success: function(data) {
+          getMainOrders();
+        },
+        error: function(error) {
+            elem.disabled=false;
+            if(error.status == 401){
+                customAlert('로그인 해주세요.');
+            }
+            else if(error.status == 403){
+                customAlert('권한이 없습니다!');
+            }
+            else{
+                customAlert(error.status + JSON.stringify(error.responseJSON));
+            }
+        },
+    });
   });
 }
 
 
 function changeStatusModal(id, elem){
-  if (!confirm("상태를 수정하시겠습니까?")) {
-      loadModal(id);
-      return;
-  }
-  let data = {
-      order_id : id,
-      order_status : elem.value
-  };
-  elem.disabled=true;
-  $.ajax({
-      type: "PUT",
-      url: `/shop-manage/${shop_id}/order-manage/`,
-      headers: {
-          'X-CSRFToken': csrftoken
-      },
-      data: JSON.stringify(data),
-      datatype: "JSON",
-      success: function(data) {
+  customConfirm("상태를 수정하시겠습니까?")
+  .then((result) => {
+      if (!result) {
           loadModal(id);
-          getMainOrders();
-      },
-      error: function(error) {
-          elem.disabled=false;
-          if(error.status == 401){
-              customAlert('로그인 해주세요.');
-          }
-          else if(error.status == 403){
-              customAlert('권한이 없습니다!');
-          }
-          else{
-              loadModal(id);
-              customAlert(error.status + JSON.stringify(error.responseJSON));
-          }
-      },
+          return false;
+      }
+      let data = {
+        order_id : id,
+        order_status : elem.value
+    };
+    elem.disabled=true;
+    $.ajax({
+        type: "PUT",
+        url: `/shop-manage/${shop_id}/order-manage/`,
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        data: JSON.stringify(data),
+        datatype: "JSON",
+        success: function(data) {
+            loadModal(id);
+            getMainOrders();
+        },
+        error: function(error) {
+            elem.disabled=false;
+            if(error.status == 401){
+                customAlert('로그인 해주세요.');
+            }
+            else if(error.status == 403){
+                customAlert('권한이 없습니다!');
+            }
+            else{
+                loadModal(id);
+                customAlert(error.status + JSON.stringify(error.responseJSON));
+            }
+        },
+    });
   });
 }
 
 function sendOrderCompleteModal(id, elem){
-  if (!confirm("완료 문자를 보내시겠습니까?")) {
-      return;
-  }
-  let data = {
-      order_id : id
-  };
-  elem.disabled=true;
-  $.ajax({
-      type: "POST",
-      url: `/shop-manage/${shop_id}/order-complete-sms/`,
-      headers: {
-          'X-CSRFToken': csrftoken
-      },
-      data: data,
-      datatype: "JSON",
-      success: function(data) {
-          loadModal(id);
-          getMainOrders();
-      },
-      error: function(error) {
-          elem.disabled=false;
-          if(error.status == 401){
-              customAlert('로그인 해주세요.');
-          }
-          else if(error.status == 403){
-              customAlert('권한이 없습니다!');
-          }
-          else{
-              customAlert(error.status + JSON.stringify(error.responseJSON));
-          }
-      },
+  customConfirm("완료 문자를 보내시겠습니까?")
+  .then((result) => {
+      if (!result) {
+          return false;
+      }
+      let data = {
+        order_id : id
+    };
+    elem.disabled=true;
+    $.ajax({
+        type: "POST",
+        url: `/shop-manage/${shop_id}/order-complete-sms/`,
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        data: data,
+        datatype: "JSON",
+        success: function(data) {
+            loadModal(id);
+            getMainOrders();
+        },
+        error: function(error) {
+            elem.disabled=false;
+            if(error.status == 401){
+                customAlert('로그인 해주세요.');
+            }
+            else if(error.status == 403){
+                customAlert('권한이 없습니다!');
+            }
+            else{
+                customAlert(error.status + JSON.stringify(error.responseJSON));
+            }
+        },
+    });
   });
 }
 

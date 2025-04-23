@@ -26,10 +26,12 @@ btn_submit.addEventListener("click", () => {
     if(!validation()){
         return;
     }
-    if (!confirm("가입 하시겠습니까?")) {
-        return;
-    }
-    const data =new FormData(document.getElementById("data-form"));
+    customConfirm("가입 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        const data =new FormData(document.getElementById("data-form"));
     btn_submit.disabled=true;
     btn_address.disabled=true;
     representative.disabled=true;
@@ -100,6 +102,7 @@ btn_submit.addEventListener("click", () => {
                 customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
+    });
     });
 })
 

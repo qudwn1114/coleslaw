@@ -11,10 +11,12 @@ btn_submit.addEventListener("click", () => {
     if(!validation()){
         return;
     }
-    if(!confirm("등록 하시겠습니까?")) {
-        return;
-    }
-    const data =new FormData(document.getElementById("data-form"));
+    customConfirm("등록 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        const data =new FormData(document.getElementById("data-form"));
 
     btn_submit.disabled=true;
     $.ajax({
@@ -44,6 +46,7 @@ btn_submit.addEventListener("click", () => {
             }
         },
     });
+    });
 })
 
 //유효성 체크 함수
@@ -60,160 +63,175 @@ function validation(){
 }
 
 function deleteOption(id){
-    if(!confirm("삭제 하시겠습니까?")) {
-        return;
-    }
-    $.ajax({
-        type: "DELETE",
-        url: "",
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        data: JSON.stringify({"option_id" : id}),
-        datatype: "JSON",
-        success: function(data) {
-            customAlert(data.message);
-            location.reload(true);
-        },
-        error: function(error) {
-            if(error.status == 401){
-                customAlert('로그인 해주세요.');
-            }
-            else if(error.status == 403){
-                customAlert('권한이 없습니다!');
-            }
-            else{
-                customAlert(error.status + JSON.stringify(error.responseJSON));
-            }
-        },
+    customConfirm("삭제 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        $.ajax({
+            type: "DELETE",
+            url: "",
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify({"option_id" : id}),
+            datatype: "JSON",
+            success: function(data) {
+                customAlert(data.message);
+                location.reload(true);
+            },
+            error: function(error) {
+                if(error.status == 401){
+                    customAlert('로그인 해주세요.');
+                }
+                else if(error.status == 403){
+                    customAlert('권한이 없습니다!');
+                }
+                else{
+                    customAlert(error.status + JSON.stringify(error.responseJSON));
+                }
+            },
+        });
     });
 }
 
 
 function createOptionDetail(id){
-    if(!confirm("추가 하시겠습니까?")) {
-        return;
-    }
-    $.ajax({
-        type: "POST",
-        url: `/shop-manage/${shop_id}/entry-option-detail-manage/`,
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        data: {"option_id" : id},
-        datatype: "JSON",
-        success: function(data) {
-            customAlert(data.message);
-            location.reload(true);
-        },
-        error: function(error) {
-            if(error.status == 401){
-                customAlert('로그인 해주세요.');
-            }
-            else if(error.status == 403){
-                customAlert('권한이 없습니다!');
-            }
-            else{
-                customAlert(error.status + JSON.stringify(error.responseJSON));
-            }
-        },
+    customConfirm("추가 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: `/shop-manage/${shop_id}/entry-option-detail-manage/`,
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: {"option_id" : id},
+            datatype: "JSON",
+            success: function(data) {
+                customAlert(data.message);
+                location.reload(true);
+            },
+            error: function(error) {
+                if(error.status == 401){
+                    customAlert('로그인 해주세요.');
+                }
+                else if(error.status == 403){
+                    customAlert('권한이 없습니다!');
+                }
+                else{
+                    customAlert(error.status + JSON.stringify(error.responseJSON));
+                }
+            },
+        });
     });
 }
 
 function saveOptionDetail(id){
-    if(!confirm("수정 하시겠습니까?")) {
-        return;
-    }
-    let data = {
-        "type": "DETAIL",
-        "option_detail_id" : id,
-        "option_name" : document.getElementById(`option_name_${id}`).value
-    }
-    $.ajax({
-        type: "PUT",
-        url: `/shop-manage/${shop_id}/entry-option-detail-manage/`,
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        data: JSON.stringify(data),
-        datatype: "JSON",
-        success: function(data) {
-            customAlert(data.message);
-            location.reload(true);
-        },
-        error: function(error) {
-            if(error.status == 401){
-                customAlert('로그인 해주세요.');
-            }
-            else if(error.status == 403){
-                customAlert('권한이 없습니다!');
-            }
-            else{
-                customAlert(error.status + JSON.stringify(error.responseJSON));
-            }
-        },
+    customConfirm("수정 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        let data = {
+            "type": "DETAIL",
+            "option_detail_id" : id,
+            "option_name" : document.getElementById(`option_name_${id}`).value
+        }
+        $.ajax({
+            type: "PUT",
+            url: `/shop-manage/${shop_id}/entry-option-detail-manage/`,
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify(data),
+            datatype: "JSON",
+            success: function(data) {
+                customAlert(data.message);
+                location.reload(true);
+            },
+            error: function(error) {
+                if(error.status == 401){
+                    customAlert('로그인 해주세요.');
+                }
+                else if(error.status == 403){
+                    customAlert('권한이 없습니다!');
+                }
+                else{
+                    customAlert(error.status + JSON.stringify(error.responseJSON));
+                }
+            },
+        });
     });
 }
 
 
 function deleteOptionDetail(id){
-    if(!confirm("삭제 하시겠습니까?")) {
-        return;
-    }
-    $.ajax({
-        type: "DELETE",
-        url: `/shop-manage/${shop_id}/entry-option-detail-manage/`,
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        data: JSON.stringify({"option_detail_id" : id}),
-        datatype: "JSON",
-        success: function(data) {
-            customAlert(data.message);
-            location.reload(true);
-        },
-        error: function(error) {
-            if(error.status == 401){
-                customAlert('로그인 해주세요.');
-            }
-            else if(error.status == 403){
-                customAlert('권한이 없습니다!');
-            }
-            else{
-                customAlert(error.status + JSON.stringify(error.responseJSON));
-            }
-        },
+    customConfirm("삭제 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        $.ajax({
+            type: "DELETE",
+            url: `/shop-manage/${shop_id}/entry-option-detail-manage/`,
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify({"option_detail_id" : id}),
+            datatype: "JSON",
+            success: function(data) {
+                customAlert(data.message);
+                location.reload(true);
+            },
+            error: function(error) {
+                if(error.status == 401){
+                    customAlert('로그인 해주세요.');
+                }
+                else if(error.status == 403){
+                    customAlert('권한이 없습니다!');
+                }
+                else{
+                    customAlert(error.status + JSON.stringify(error.responseJSON));
+                }
+            },
+        });
     });
 }
 
 function setRequired(id){
-    if(!confirm("옵션필수 선택을 수정하시겠습니까?")) {
-        location.reload(true);
-        return;
-    }
-    $.ajax({
-        type: "PUT",
-        url: "",
-        headers: {
-            'X-CSRFToken': csrftoken
-        },
-        data: JSON.stringify({"option_id" : id}),
-        datatype: "JSON",
-        success: function(data) {
-            customAlert(data.message);
+    customConfirm("옵션필수 선택을 수정하시겠습니까?")
+    .then((result) => {
+        if (!result) {
             location.reload(true);
-        },
-        error: function(error) {
-            if(error.status == 401){
-                customAlert('로그인 해주세요.');
-            }
-            else if(error.status == 403){
-                customAlert('권한이 없습니다!');
-            }
-            else{
-                customAlert(error.status + JSON.stringify(error.responseJSON));
-            }
-        },
+            return false;
+        }
+        $.ajax({
+            type: "PUT",
+            url: "",
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify({"option_id" : id}),
+            datatype: "JSON",
+            success: function(data) {
+                customAlert(data.message);
+                location.reload(true);
+            },
+            error: function(error) {
+                if(error.status == 401){
+                    customAlert('로그인 해주세요.');
+                }
+                else if(error.status == 403){
+                    customAlert('권한이 없습니다!');
+                }
+                else{
+                    customAlert(error.status + JSON.stringify(error.responseJSON));
+                }
+            },
+        });
     });
 }
 
@@ -230,10 +248,12 @@ function submitImage(elem){
         image.focus();
         return false;
     }
-    if(!confirm("수정 하시겠습니까?")) {
-        return;
-    }
-    const data =new FormData(document.getElementById("image-form"));
+    customConfirm("수정 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        const data =new FormData(document.getElementById("image-form"));
     elem.disabled=true;
     $.ajax({
         type: "POST",
@@ -262,5 +282,5 @@ function submitImage(elem){
             }
         },
     });
-
+    });
 }

@@ -8,10 +8,12 @@ btn_submit.addEventListener("click", () => {
     if(!validation()){
         return;
     }
-    if (!confirm("등록 하시겠습니까?")) {
-        return;
-    }
-    const data =new FormData(document.getElementById("data-form"));
+    customConfirm("등록 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        const data =new FormData(document.getElementById("data-form"));
     btn_submit.disabled=true;
     description.disabled=true;
     shop_category_name_kr.disabled=true;
@@ -47,6 +49,7 @@ btn_submit.addEventListener("click", () => {
                 customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
+    });
     });
 })
 

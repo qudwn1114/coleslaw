@@ -13,10 +13,12 @@ btn_submit.addEventListener("click", () => {
     if(!validation()){
         return;
     }
-    if (!confirm("수정 하시겠습니까?")) {
-        return;
-    }
-    btn_submit.disabled=true;
+    customConfirm("수정 하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        btn_submit.disabled=true;
     btn_address.disabled=true;
     membername.disabled=true;
     username.disabled=true;
@@ -67,6 +69,7 @@ btn_submit.addEventListener("click", () => {
                 customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
+    });
     });
 })
 

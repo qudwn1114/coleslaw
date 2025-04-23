@@ -78,10 +78,13 @@ document.getElementById('order_date4').addEventListener('click', function(){
 })
 
 function xlsxDownload(type){
-    if(!confirm("엑셀저장하시겠습니까?")){
-        return false;
-    }
-    let url_search = new URLSearchParams(window.location.search);
-    url_search.set(type, true);
-    window.location.href = `?${url_search.toString()}`;
+    customConfirm("엑셀저장하시겠습니까?")
+        .then((result) => {
+            if (!result) {
+            return false;
+            }
+            let url_search = new URLSearchParams(window.location.search);
+            url_search.set(type, true);
+            window.location.href = `?${url_search.toString()}`;
+        });
 }

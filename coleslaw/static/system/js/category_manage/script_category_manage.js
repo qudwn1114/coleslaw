@@ -245,10 +245,12 @@ function deleteCategory(elem){
     else{
         return;
     }
-    if (!confirm("정말 삭제하시겠습니까?")) {
-        return;
-    }
-    elem.disabled = true;
+    customConfirm("정말 삭제하시겠습니까?")
+    .then((result) => {
+        if (!result) {
+            return false;
+        }
+        elem.disabled = true;
     $.ajax({
         type: "DELETE",
         url: "",
@@ -275,6 +277,7 @@ function deleteCategory(elem){
                 customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
+    });
     });
 }
 
