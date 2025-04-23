@@ -139,8 +139,8 @@ class Shop(models.Model):
 
     pos = models.ForeignKey(Pos, on_delete=models.SET_NULL, null=True)
 
-    printer_port1 = models.CharField(max_length=5, default='COM2', null=True, verbose_name='프린터 port1')
-    printer_port2 = models.CharField(max_length=5, default='COM3', null=True, verbose_name='프린터 port2')
+    printer_port1 = models.CharField(max_length=5, default='COM1', null=True, verbose_name='프린터 port1')
+    printer_port2 = models.CharField(max_length=5, default='', null=True, verbose_name='프린터 port2')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
