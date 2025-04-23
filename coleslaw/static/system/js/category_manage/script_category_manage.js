@@ -25,13 +25,13 @@ function getSubCateogryList(parent_id){
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -124,7 +124,7 @@ categoryModal.addEventListener('show.bs.modal', function (event) {
         }
     }
     else{
-        alert('모달창 오류..');
+        customAlert('모달창 오류..');
     }
 });
 
@@ -132,7 +132,7 @@ categoryModal.addEventListener('show.bs.modal', function (event) {
 //유효성 체크 함수
 function validation(){
     if(inputCategoryType.value == ''){
-        alert('카테고리 타입이 없습니다.');
+        customAlert('카테고리 타입이 없습니다.');
         return false;
     }
     if(inputCategoryNameKr.value == ''){
@@ -164,7 +164,7 @@ btn_submit.addEventListener("click", () => {
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             btn_submit.disabled = false;
             loadList(data.data, data.type, data.id);
             $('#categoryModal').modal('hide');
@@ -172,13 +172,13 @@ btn_submit.addEventListener("click", () => {
         error: function(error) {
             btn_submit.disabled = false;
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -204,7 +204,7 @@ btn_edit.addEventListener("click", () => {
         data: JSON.stringify(object),
         datatype: "JSON",
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             btn_edit.disabled = false;
             loadList(data.data, data.type, data.id);
             $('#categoryModal').modal('hide');
@@ -212,13 +212,13 @@ btn_edit.addEventListener("click", () => {
         error: function(error) {
             btn_edit.disabled = false;
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -258,7 +258,7 @@ function deleteCategory(elem){
         data: JSON.stringify(data),
         datatype: "JSON",
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             elem.disabled = false;
             loadList(data.data, categoryType);
             $('#categoryModal').modal('hide');
@@ -266,13 +266,13 @@ function deleteCategory(elem){
         error: function(error) {
             elem.disabled = false;
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });

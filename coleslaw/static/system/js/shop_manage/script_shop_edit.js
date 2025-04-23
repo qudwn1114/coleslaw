@@ -73,7 +73,7 @@ btn_submit.addEventListener("click", () => {
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             location.href=data.url;
         },
         error: function(error) {
@@ -105,13 +105,13 @@ btn_submit.addEventListener("click", () => {
             shop_receipt_flag.disabled=false;
             coupon_flag.disabled=false;
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -144,7 +144,7 @@ window.onload = function(){
 function regPhone(str){                                        
     let reg_phone = /^[0-9]*$/;
     if(!reg_phone.test(str)){
-       alert('유효하지 않은 전화번호 형식입니다. (-) 없이 입력 해주세요.');
+       customAlert('유효하지 않은 전화번호 형식입니다. (-) 없이 입력 해주세요.');
        return false;
    }              
    return true;      

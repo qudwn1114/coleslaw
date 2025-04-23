@@ -25,19 +25,19 @@ btn_submit.addEventListener("click", () => {
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             location.reload(true);
         },
         error: function(error) {
             btn_submit.disabled=false;
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -73,18 +73,18 @@ function deleteOption(id){
         data: JSON.stringify({"option_id" : id}),
         datatype: "JSON",
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             location.reload(true);
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -104,18 +104,18 @@ function createOptionDetail(id){
         data: {"option_id" : id},
         datatype: "JSON",
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             location.reload(true);
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -142,18 +142,18 @@ function saveOptionDetail(id){
         data: JSON.stringify(data),
         datatype: "JSON",
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             location.reload(true);
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -173,18 +173,18 @@ function deleteOptionDetail(id){
         data: JSON.stringify({"option_detail_id" : id}),
         datatype: "JSON",
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             location.reload(true);
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -209,18 +209,18 @@ function setStockFlag(id, elem){
         data: JSON.stringify(data),
         datatype: "JSON",
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             location.reload(true);
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -241,18 +241,18 @@ function setRequired(id){
         data: JSON.stringify({"option_id" : id}),
         datatype: "JSON",
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             location.reload(true);
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });
@@ -277,18 +277,18 @@ function setSoldout(id, elem){
         data: JSON.stringify(data),
         datatype: "JSON",
         success: function(data) {
-            alert(data.message);
+            customAlert(data.message);
             location.reload(true);
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });

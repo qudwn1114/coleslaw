@@ -22,14 +22,14 @@ function setStatus(id, elem){
         error: function(error) {
             elem.disabled=false;
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customcustomAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customcustomAlert('권한이 없습니다!');
             }
             else{
                 location.reload();
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customcustomAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });

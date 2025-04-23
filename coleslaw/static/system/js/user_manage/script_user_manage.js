@@ -54,13 +54,13 @@ function changeActive(id, checkbox){
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
             if(checkbox.checked){
                 checkbox.parentElement.classList.remove("btn-primary");
@@ -99,14 +99,14 @@ function setAdmin(id, elem){
         error: function(error) {
             elem.disabled=false;
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
                 location.reload();
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
     });

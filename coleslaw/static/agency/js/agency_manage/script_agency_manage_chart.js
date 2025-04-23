@@ -28,13 +28,13 @@ function report(report_type){
           },
           error: function(error) {
               if(error.status == 401){
-                  alert('로그인 해주세요.');
+                  customAlert('로그인 해주세요.');
               }
               else if(error.status == 403){
-                  alert('권한이 없습니다!');
+                  customAlert('권한이 없습니다!');
               }
               else{
-                  alert(error.status + JSON.stringify(error.responseJSON));
+                  customAlert(error.status + JSON.stringify(error.responseJSON));
               }
           },
     });
@@ -117,13 +117,13 @@ function shop_report(report_type){
         },
         error: function(error) {
             if(error.status == 401){
-                alert('로그인 해주세요.');
+                customAlert('로그인 해주세요.');
             }
             else if(error.status == 403){
-                alert('권한이 없습니다!');
+                customAlert('권한이 없습니다!');
             }
             else{
-                alert(error.status + JSON.stringify(error.responseJSON));
+                customAlert(error.status + JSON.stringify(error.responseJSON));
             }
         },
   });
