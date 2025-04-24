@@ -10,7 +10,7 @@ function customAlert(message, callback = null) {
 
     if (callback) {
       // 모달이 닫힐 때 콜백 실행 (확인 버튼이든 ESC든, 바깥 클릭이든 다 포함)
-      alertModalElement.addEventListener("hidden.bs.modal", () => {
+      alertModal.addEventListener("hidden.bs.modal", () => {
           callback();
       }, { once: true }); // 한 번만 실행되게
   }
