@@ -45,8 +45,9 @@ btn_submit.addEventListener("click", () => {
         },
         datatype: "JSON",
         success: function(data) {
-            customAlert(data.message);
-            location.href=data.url;
+            customAlert(data.message, ()=>{
+                location.href=data.url;
+            });
         },
         error: function(error) {
             btn_submit.disabled=false;

@@ -27,8 +27,9 @@ btn_submit.addEventListener("click", () => {
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식
         success: function(data) {
-            customAlert(data.message);
-            location.reload(true);
+            customAlert(data.message, ()=>{
+                location.reload(true);
+            });
         },
         error: function(error) {
             btn_submit.disabled=false;
@@ -78,8 +79,9 @@ function deleteOption(id){
             data: JSON.stringify({"option_id" : id}),
             datatype: "JSON",
             success: function(data) {
-                customAlert(data.message);
-                location.reload(true);
+                customAlert(data.message, ()=>{
+                    location.reload(true);
+                });
             },
             error: function(error) {
                 if(error.status == 401){
@@ -112,8 +114,9 @@ function createOptionDetail(id){
             data: {"option_id" : id},
             datatype: "JSON",
             success: function(data) {
-                customAlert(data.message);
-                location.reload(true);
+                customAlert(data.message, ()=>{
+                    location.reload(true);
+                });
             },
             error: function(error) {
                 if(error.status == 401){
@@ -153,8 +156,9 @@ function saveOptionDetail(id){
             data: JSON.stringify(data),
             datatype: "JSON",
             success: function(data) {
-                customAlert(data.message);
-                location.reload(true);
+                customAlert(data.message, ()=>{
+                    location.reload(true);
+                });
             },
             error: function(error) {
                 if(error.status == 401){
@@ -187,8 +191,9 @@ function deleteOptionDetail(id){
             data: JSON.stringify({"option_detail_id" : id}),
             datatype: "JSON",
             success: function(data) {
-                customAlert(data.message);
-                location.reload(true);
+                customAlert(data.message, ()=>{
+                    location.reload();
+                });
             },
             error: function(error) {
                 if(error.status == 401){
@@ -226,8 +231,9 @@ function setStockFlag(id, elem){
             data: JSON.stringify(data),
             datatype: "JSON",
             success: function(data) {
-                customAlert(data.message);
-                location.reload(true);
+                customAlert(data.message, ()=>{
+                    location.reload();
+                });
             },
             error: function(error) {
                 if(error.status == 401){
@@ -260,8 +266,9 @@ function setRequired(id){
             data: JSON.stringify({"option_id" : id}),
             datatype: "JSON",
             success: function(data) {
-                customAlert(data.message);
-                location.reload(true);
+                customAlert(data.message, ()=>{
+                    location.reload(true);
+                });
             },
             error: function(error) {
                 if(error.status == 401){
@@ -299,8 +306,9 @@ function setSoldout(id, elem){
             data: JSON.stringify(data),
             datatype: "JSON",
             success: function(data) {
-                customAlert(data.message);
-                location.reload(true);
+                customAlert(data.message, ()=>{
+                    location.reload(true);
+                });
             },
             error: function(error) {
                 if(error.status == 401){

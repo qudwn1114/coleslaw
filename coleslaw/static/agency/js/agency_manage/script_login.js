@@ -20,8 +20,8 @@ btn_login.addEventListener("click", () => {
             location.href = data.url;
         },
         error: function(error) {
-            customAlert(error.responseJSON.message);
             btn_login.disabled=false;
+            customAlert(error.responseJSON.message);
         },
     });
 });

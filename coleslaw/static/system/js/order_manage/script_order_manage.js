@@ -132,8 +132,9 @@ function createOrderPayment(elem, id){
         },
         datatype: "JSON",
         success: function(data) {
-            customAlert(data.message);
-            location.reload();
+            customAlert(data.message, ()=>{
+                location.reload();
+            });
         },
         error: function(error) {
             elem.disabled = false;

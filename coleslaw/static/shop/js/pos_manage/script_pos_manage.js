@@ -141,8 +141,9 @@ function deleteTable(id){
             }),
             datatype: "JSON",
             success: function(data) {
-                customAlert(data.message);
-                location.reload(true);
+                customAlert(data.message, ()=>{
+                    location.reload(true);
+                });
             },
             error: function(error) {
                 if(error.status == 401){

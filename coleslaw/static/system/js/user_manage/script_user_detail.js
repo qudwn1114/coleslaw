@@ -16,8 +16,9 @@ btn_delete.addEventListener("click", () => {
         },
         datatype: "JSON",
         success: function(data) {
-            customAlert(data.message);
-            location.href=data.url;
+            customAlert(data.message, ()=>{
+                location.href=data.url;
+            });
         },
         error: function(error) {
             btn_delete.disabled=false;
@@ -51,8 +52,9 @@ btn_password_reset.addEventListener("click", () => {
         },
         datatype: "JSON",
         success: function(data) {
-            customAlert(data.message);
-            location.href=data.url;
+            customAlert(data.message, ()=>{
+                location.href=data.url;
+            });
         },
         error: function(error) {
             btn_password_reset.disabled=false;

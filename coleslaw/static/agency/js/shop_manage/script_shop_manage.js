@@ -30,8 +30,9 @@ function setStatus(id, elem){
                     customAlert('권한이 없습니다!');
                 }
                 else{
-                    location.reload();
-                    customAlert(error.status + JSON.stringify(error.responseJSON));
+                    customAlert(error.status + JSON.stringify(error.responseJSON), ()=>{
+                        location.reload();
+                    });
                 }
             },
         });

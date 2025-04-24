@@ -66,8 +66,9 @@ btn_submit.addEventListener("click", () => {
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식
         success: function(data) {
-            customAlert(data.message);
-            location.href=data.url;
+            customAlert(data.message, ()=>{
+                location.href=data.url;
+            });
         },
         error: function(error) {
             btn_submit.disabled=false;

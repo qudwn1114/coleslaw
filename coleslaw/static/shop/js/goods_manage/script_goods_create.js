@@ -99,8 +99,9 @@ btn_submit.addEventListener("click", () => {
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식
         success: function(data) {
-            customAlert(data.message);
-            location.href=data.url;
+            customAlert(data.message, ()=>{
+                location.href=data.url;    
+            });
         },
         error: function(error) {
             btn_submit.disabled=false;
@@ -122,8 +123,9 @@ btn_submit.addEventListener("click", () => {
 //유효성 체크 함수
 function validation(){
     if(sub_category.value == ''){
-        sub_category.focus();
-        customAlert('상품은 소분류까지 분류되어야합니다.');
+        customAlert('상품은 소분류까지 분류되어야합니다.', ()=>{
+            sub_category.focus();
+        });
         return false;
     }
     if(goods_name_kr.value == ''){

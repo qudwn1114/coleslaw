@@ -18,12 +18,13 @@ btn_submit.addEventListener("click", () => {
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식
         success: function(data) {
-            customAlert(data.message);
-            location.href = data.url;
+            customAlert(data.message, () => {
+                location.href = data.url; 
+            });
         },
         error: function(error) {
-            customAlert(error.responseJSON.message);
             btn_submit.disabled=false;
+            customAlert(error.responseJSON.message);
         },
     });
 });
@@ -44,13 +45,15 @@ function validation(){
     }
     
     if(new_password1.value != new_password2.value){
-        new_password1.focus();
-        customAlert('비밀번호가 일치하지 않습니다.');
+        customAlert('비밀번호가 일치하지 않습니다.', ()=>{
+            new_password1.focus();
+        });
         return false;
     }
     if (!regPassword(new_password1.value)) {
-        customAlert('비밀번호는 문자 숫자 조합으로 8 ~ 16 자리로 입력해주세요.');
-        new_password1.focus();
+        customAlert('비밀번호는 문자 숫자 조합으로 8 ~ 16 자리로 입력해주세요.', ()=>{
+            new_password1.focus();
+        });
         return false;
     }
     return true;

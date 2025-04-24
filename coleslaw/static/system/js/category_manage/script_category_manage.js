@@ -164,10 +164,11 @@ btn_submit.addEventListener("click", () => {
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식
         success: function(data) {
-            customAlert(data.message);
-            btn_submit.disabled = false;
-            loadList(data.data, data.type, data.id);
-            $('#categoryModal').modal('hide');
+            customAlert(data.message, ()=>{
+                btn_submit.disabled = false;
+                loadList(data.data, data.type, data.id);
+                $('#categoryModal').modal('hide');
+            });
         },
         error: function(error) {
             btn_submit.disabled = false;
@@ -204,10 +205,11 @@ btn_edit.addEventListener("click", () => {
         data: JSON.stringify(object),
         datatype: "JSON",
         success: function(data) {
-            customAlert(data.message);
-            btn_edit.disabled = false;
-            loadList(data.data, data.type, data.id);
-            $('#categoryModal').modal('hide');
+            customAlert(data.message, ()=>{
+                btn_edit.disabled = false;
+                loadList(data.data, data.type, data.id);
+                $('#categoryModal').modal('hide');
+            });
         },
         error: function(error) {
             btn_edit.disabled = false;
@@ -260,10 +262,11 @@ function deleteCategory(elem){
         data: JSON.stringify(data),
         datatype: "JSON",
         success: function(data) {
-            customAlert(data.message);
-            elem.disabled = false;
-            loadList(data.data, categoryType);
-            $('#categoryModal').modal('hide');
+            customAlert(data.message,()=>{
+                elem.disabled = false;
+                loadList(data.data, categoryType);
+                $('#categoryModal').modal('hide');
+            });
         },
         error: function(error) {
             elem.disabled = false;

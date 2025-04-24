@@ -16,8 +16,9 @@ $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
     let _endDate = new Date(endDate);
 
     if(_startDate - subtractMonth(_endDate, 3) < 0){
-        customAlert('기간을 3개월 이내로만 설정 하실 수 있습니다.');
-        document.getElementById('order_date1').click();
+        customAlert('기간을 3개월 이내로만 설정 하실 수 있습니다.', ()=>{
+            document.getElementById('order_date1').click();
+        });
         return;
     }
     $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
