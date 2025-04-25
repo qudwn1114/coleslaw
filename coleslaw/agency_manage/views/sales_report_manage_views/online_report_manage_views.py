@@ -60,55 +60,57 @@ class AgencyOnlineReportManage(View):
 
         shop_id_list_string = ','.join(map(str, shop_id_list))
 
-        URL = f'https://baumrootme.com/webpos/php/api/v1/agency_report.php'
-        params = {'shop_id':shop_id_list_string, 'start_date':startDate, 'end_date':endDate}
-        response = requests.get(URL, params=params)
-        response_data = response.json()['list']
-
         sum_sale_amount = 0
         sum_cancel_amount = 0
         sum_total_amount = 0
         sum_confirm_amount = 0
 
-        shop_total_dict = {}
-        for i in shop_id_list:
-            shop_total_dict[f'{i}'] = {'sale_amount':0, 'cancel_amount':0, 'total_amount':0, 'confirm_amount':0}
+        response_data = None
+        if shop_id_list:
+            URL = f'https://baumrootme.com/webpos/php/api/v1/agency_report.php'
+            params = {'shop_id':shop_id_list_string, 'start_date':startDate, 'end_date':endDate}
+            response = requests.get(URL, params=params)
+            response_data = response.json()['list']
 
-        for i in response_data:
-            if i['shop_id'].isdigit():
-                s = shop_total_dict.get(i['shop_id'])
-                s['sale_amount'] += i['sale_amount']
-                s['cancel_amount'] += i['cancel_amount']
-                s['total_amount'] += i['total_amount']
-                s['confirm_amount'] += i['confirm_amount']
-                i['shop_id'] = shop.get(id=i['shop_id'])['name_kr']
-                i['date'] = datetime.datetime.strptime(i['date'], '%Y-%m-%d').date()
-            else:
-                i['date'] = ''
-        for k, v in shop_total_dict.items():
-            sum_sale_amount += v['sale_amount']
-            sum_cancel_amount += v['cancel_amount']
-            sum_total_amount += v['total_amount']
-            sum_confirm_amount += v['confirm_amount']
-            response_data.append({'shop_id':shop.get(id=k)['name_kr'], 'date':'설정기간', 'sale_amount':v['sale_amount'], 'cancel_amount':v['cancel_amount'], 'total_amount':v['total_amount'], 'confirm_amount':v['confirm_amount']})
-        
-        response_data.append({'shop_id':'전체합계', 'date':'', 'sale_amount':sum_sale_amount, 'cancel_amount':sum_cancel_amount, 'total_amount':sum_total_amount, 'confirm_amount':sum_confirm_amount})
+            shop_total_dict = {}
+            for i in shop_id_list:
+                shop_total_dict[f'{i}'] = {'sale_amount':0, 'cancel_amount':0, 'total_amount':0, 'confirm_amount':0}
 
-
-        if excel:
-            filename = f"{agency.name} {date_name} 가맹점 별 온라인 판매 매출"
-            headers = ['일자별', '가맹점', '판매금액', '취소금액', '합계', '확정금액']
-            response = HttpResponse(content_type='application/ms-excel')
-            response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'%s.xlsx' % urllib.parse.quote(filename.encode('utf-8'))
-            wb = Workbook()
-            ws = wb.active
-            ws.title = "가맹점 별 온라인 판매 매출"
-            # Add headers
-            ws.append(headers)
             for i in response_data:
-                ws.append([i["date"], i["shop_id"], i['sale_amount'],i['cancel_amount'], i['total_amount'], i['confirm_amount']])
-            wb.save(response)
-            return response
+                if i['shop_id'].isdigit():
+                    s = shop_total_dict.get(i['shop_id'])
+                    s['sale_amount'] += i['sale_amount']
+                    s['cancel_amount'] += i['cancel_amount']
+                    s['total_amount'] += i['total_amount']
+                    s['confirm_amount'] += i['confirm_amount']
+                    i['shop_id'] = shop.get(id=i['shop_id'])['name_kr']
+                    i['date'] = datetime.datetime.strptime(i['date'], '%Y-%m-%d').date()
+                else:
+                    i['date'] = ''
+            for k, v in shop_total_dict.items():
+                sum_sale_amount += v['sale_amount']
+                sum_cancel_amount += v['cancel_amount']
+                sum_total_amount += v['total_amount']
+                sum_confirm_amount += v['confirm_amount']
+                response_data.append({'shop_id':shop.get(id=k)['name_kr'], 'date':'설정기간', 'sale_amount':v['sale_amount'], 'cancel_amount':v['cancel_amount'], 'total_amount':v['total_amount'], 'confirm_amount':v['confirm_amount']})
+            
+            response_data.append({'shop_id':'전체합계', 'date':'', 'sale_amount':sum_sale_amount, 'cancel_amount':sum_cancel_amount, 'total_amount':sum_total_amount, 'confirm_amount':sum_confirm_amount})
+
+
+            if excel:
+                filename = f"{agency.name} {date_name} 가맹점 별 온라인 판매 매출"
+                headers = ['일자별', '가맹점', '판매금액', '취소금액', '합계', '확정금액']
+                response = HttpResponse(content_type='application/ms-excel')
+                response['Content-Disposition'] = 'attachment; filename*=UTF-8\'\'%s.xlsx' % urllib.parse.quote(filename.encode('utf-8'))
+                wb = Workbook()
+                ws = wb.active
+                ws.title = "가맹점 별 온라인 판매 매출"
+                # Add headers
+                ws.append(headers)
+                for i in response_data:
+                    ws.append([i["date"], i["shop_id"], i['sale_amount'],i['cancel_amount'], i['total_amount'], i['confirm_amount']])
+                wb.save(response)
+                return response
 
         context['date_name'] = date_name
         context['order_date_no'] = order_date_no
