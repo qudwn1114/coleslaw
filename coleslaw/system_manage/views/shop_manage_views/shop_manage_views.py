@@ -251,6 +251,7 @@ class ShopEditView(View):
         
         try:
             with transaction.atomic():
+                shop.agency = agency
                 shop.shop_category = shop_category
                 shop.name_kr = shop_name_kr
                 shop.name_en = shop_name_en
