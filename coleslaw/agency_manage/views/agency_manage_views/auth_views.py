@@ -23,7 +23,7 @@ class HomeView(View):
     '''
         agency 관리자 메인 화면
     '''
-    @method_decorator(permission_required(redirect_url='shop_manage:denied'))
+    @method_decorator(permission_required(redirect_url='agency_manage:denied'))
     def get(self, request: HttpRequest, *args, **kwargs):
         context = {}
         agency_id = kwargs.get('agency_id')
