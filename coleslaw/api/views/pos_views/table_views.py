@@ -497,6 +497,8 @@ class ShopMainPosTidView(View):
         data['shopAddressDetail'] = shop_table.shop.address_detail
         data['shopZipcode'] = shop_table.shop.zipcode
         data['shopReceipt'] = shop_table.shop.receipt
+        data['pos_id'] = shop.pos.pk
+        data['pos_name'] = shop.pos.name
 
         return_data = {
             'data': data,
