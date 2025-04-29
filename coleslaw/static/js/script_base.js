@@ -15,6 +15,16 @@ function customAlert(message, callback = null) {
           callback();
       }, { once: true }); // 한 번만 실행되게
   }
+  // Enter 키로 확인 동작 추가
+  alertModalElement.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      alertModal.hide(); // 모달 닫기
+      if (callback) {
+        callback(); // 콜백 실행
+      }
+    }
+  });
+
 }
 
 function customConfirm(message) {
@@ -36,14 +46,19 @@ function customConfirm(message) {
         modal.hide();
         resolve(false);
       };
+      // Enter 키로 '확인' 동작 추가
+      modal._element.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          modal.hide(); // 모달 닫기
+          resolve(true); // 확인
+        }
+      });
     });
   }
 
-
   function handleLogout(event) {
     event.preventDefault();  // 기본 href 동작을 막습니다.
-
-    const url = event.target.getAttribute("data-url");  // data-url에서 URL을 가져옵니다.
+    const url = event.currentTarget.getAttribute("data-url");  // data-url에서 URL을 가져옵니다.
 
     customConfirm("로그아웃 하시겠습니까?")
       .then((result) => {
