@@ -9,7 +9,6 @@ from system_manage.views.agency_manage_views.agency_shop_manage_views import Age
 from system_manage.views.shop_manage_views.shop_category_manage_views import ShopCategoryManageView, ShopCategoryCreateView, ShopCategoryDetailView, ShopCategoryEditView
 from system_manage.views.shop_manage_views.shop_manage_views import ShopManageView, ShopCreateView, ShopDetailView, ShopEditView
 from system_manage.views.shop_manage_views.shop_admin_manage_views import ShopAdminManageView
-from system_manage.views.category_manage_views.category_manage_views import CategoryManageView, sub_category, category
 from system_manage.views.person_type_manage_views.person_type_manage_views import PersonTypeManageView, PersonTypeCreateView, PersonTypeDetailView, PersonTypeEditView
 from system_manage.views.order_manage_views.order_manage_views import OrderManageView, OrderPaymentManageView
 
@@ -58,11 +57,6 @@ urlpatterns = [
     path('shop-edit/<int:pk>/', ShopEditView.as_view(), name='shop_edit'),
 
     path('shop-admin-manage/<int:pk>/', ShopAdminManageView.as_view(), name='shop_admin_manage'),
-
-    #카테고리관리
-    path('category-manage/', CategoryManageView.as_view(), name='category_manage'),
-    path('sub-category/', sub_category),
-    path('category/', category),
 
     path('order-manage/', OrderManageView.as_view(), name='order_manage'),
     path('order-payment-manage/', OrderPaymentManageView.as_view(), name='order_payment_manage'),

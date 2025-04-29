@@ -129,7 +129,7 @@ class GoodsCreateView(View):
         after_payment_goods_id_list = request.POST['after_payment_goods_id_list']
 
         try:
-            sub_category = SubCategory.objects.get(pk=sub_category_id)
+            sub_category = SubCategory.objects.get(pk=sub_category_id, shop=shop)
         except:
             return JsonResponse({'message' : '소분류 카테고리 데이터 오류'},status = 400)
         if image:
@@ -257,8 +257,8 @@ class GoodsEditView(View):
             prev_url = reverse('shop_manage:goods_detail', kwargs={'shop_id':shop.id, 'pk':goods.id})
         context['prev_url'] = prev_url
 
-        context['main_category'] = MainCategory.objects.all().order_by('name_kr').values('id', 'name_kr')
-        context['sub_category'] = SubCategory.objects.filter(main_category=goods.sub_category.main_category).order_by('name_kr').values('id', 'name_kr')
+        context['main_category'] = MainCategory.objects.filter(shop=shop).order_by('name_kr').values('id', 'name_kr')
+        context['sub_category'] = SubCategory.objects.filter(main_category=goods.sub_category.main_category, shop=shop).order_by('name_kr').values('id', 'name_kr')
 
         return render(request, 'goods_manage/goods_edit.html', context)
     
@@ -290,7 +290,7 @@ class GoodsEditView(View):
         additional_fee_goods_id = request.POST['additional_fee_goods_id']
 
         try:
-            sub_category = SubCategory.objects.get(pk=sub_category_id)
+            sub_category = SubCategory.objects.get(pk=sub_category_id, shop=shop)
         except:
             return JsonResponse({'message' : '소분류 카테고리 데이터 오류'},status = 400)
         

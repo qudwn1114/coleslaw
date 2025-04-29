@@ -12,7 +12,7 @@ const btn_edit = document.getElementById('btn-edit');
 function getSubCateogryList(parent_id){
     $.ajax({
         type: "POST",
-        url: "/system-manage/sub-category/",
+        url: `/shop-manage/${shop_id}/sub-category/`,
         headers: {
             'X-CSRFToken': csrftoken
         },

@@ -256,16 +256,22 @@ class ShopTableLog(models.Model):
 
 # 대분류
 class MainCategory(models.Model):
-    name_kr = models.CharField(max_length=100, verbose_name='대분류 한글이름', unique=True)
-    name_en = models.CharField(max_length=100, verbose_name='대분류 영문이름', unique=True)
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, null=True)
+    name_kr = models.CharField(max_length=100, verbose_name='대분류 한글이름')
+    name_en = models.CharField(max_length=100, verbose_name='대분류 영문이름')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['shop', 'name_kr'], name='shop_name_kr_unique'),
+            models.UniqueConstraint(fields=['shop', 'name_en'], name='shop_name_en_unique')
+        ]
         db_table='main_category'
 
 # 소분류
 class SubCategory(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='sub_category', null=True)
     main_category = models.ForeignKey(MainCategory, on_delete=models.PROTECT, related_name='sub_category')
     name_kr = models.CharField(max_length=100, verbose_name='소분류 한글이름', null=True)
     name_en = models.CharField(max_length=100, verbose_name='소분류 영문이름', null=True)
@@ -274,8 +280,8 @@ class SubCategory(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['main_category', 'name_kr'], name='main_category_name_kr_unique'),
-            models.UniqueConstraint(fields=['main_category', 'name_en'], name='main_category_name_en_unique')
+            models.UniqueConstraint(fields=['shop', 'main_category', 'name_kr'], name='shop_main_category_name_kr_unique'),
+            models.UniqueConstraint(fields=['shop', 'main_category', 'name_en'], name='shop_main_category_name_en_unique')
         ]
 
         db_table='sub_category'

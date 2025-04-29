@@ -142,14 +142,14 @@ class ShopMainCategoryListView(View):
             shop_sub_category = Goods.objects.filter(shop=shop, delete_flag=False, status=True, kiosk_display=True).values('sub_category').distinct()
             shop_sub_category_id_list = list(shop_sub_category.values_list('sub_category', flat=True))
             shop_main_category_id_list = list(shop_sub_category.values_list('sub_category__main_category', flat=True))
-            queryset = MainCategory.objects.filter(id__in=shop_main_category_id_list).values(
+            queryset = MainCategory.objects.filter(id__in=shop_main_category_id_list, shop=shop).values(
                     'id',
                     'name_kr',
                     'name_en'
                 ).order_by('name_kr')
             
             for i in queryset:
-                i['sub_category'] = list(SubCategory.objects.filter(id__in=shop_sub_category_id_list, main_category_id=i['id']).values(
+                i['sub_category'] = list(SubCategory.objects.filter(id__in=shop_sub_category_id_list, main_category_id=i['id'], shop=shop).values(
                     'id',
                     'name_kr',
                     'name_en'

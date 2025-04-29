@@ -19,7 +19,7 @@ window.onload = function(){
         headers: {
             'X-CSRFToken': csrftoken
         },
-        url: `/system-manage/category/`,
+        url: `/shop-manage/${shop_id}/category/`,
         success: function(data) {
             main_category_list = data.main_category_list;
             sub_category_list = data.sub_category_list;

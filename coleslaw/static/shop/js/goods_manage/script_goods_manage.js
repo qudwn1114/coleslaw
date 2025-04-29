@@ -1,8 +1,16 @@
 const main_category = document.getElementById("main_category");
 const sub_category = document.getElementById("sub_category");
+const search_form = document.getElementById("search-form");
+
 
 let main_category_list = new Array();
 let sub_category_list = new Array();
+
+document.querySelectorAll('input[name="status"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      this.form.submit();
+    });
+});
 
 //select box 초기화
 function setCategory(type, arr){
@@ -27,9 +35,8 @@ function setCategory(type, arr){
     $oSelect.selectpicker('refresh');
 }
 
-function selectCategory(type, id){
+function selectCategory(type, id, autoSubmit=true){
     let $sSelect = $('#sub_category');
-
     let filterArr = new Array();
 
     if(type=='main'){
@@ -41,10 +48,14 @@ function selectCategory(type, id){
             return elem.parent_id == id;
         });
         setCategory("sub", filterArr);
-        sub_category.focus();
-        
+        if (autoSubmit) {
+            search_form.submit();
+        }        
     }
     else{
+        if (autoSubmit) {
+            search_form.submit();
+        }     
         return;
     }
 }
@@ -67,14 +78,14 @@ $(document).ready(function () {
                 headers: {
                     'X-CSRFToken': csrftoken
                 },
-                url: `/system-manage/category/`,
+                url: `/shop-manage/${shop_id}/category/`,
                 success: function(data) {
                     main_category_list = data.main_category_list;
                     sub_category_list = data.sub_category_list;          
                     setCategory("main", main_category_list);
                     $('#main_category').val(main_category_id);
                     $('#main_category').selectpicker('refresh');
-                    selectCategory('main', main_category_id);
+                    selectCategory('main', main_category_id, false);
                     if(sub_category_id){
                         $('#sub_category').val(sub_category_id);
                         $('#sub_category').selectpicker('refresh');
@@ -92,7 +103,7 @@ $(document).ready(function () {
                 headers: {
                     'X-CSRFToken': csrftoken
                 },
-                url: `/system-manage/category/`,
+                url: `/shop-manage/${shop_id}/category/`,
                 success: function(data) {
                     main_category_list = data.main_category_list;
                     sub_category_list = data.sub_category_list;          
@@ -112,7 +123,7 @@ $(document).ready(function () {
             headers: {
                 'X-CSRFToken': csrftoken
             },
-            url: `/system-manage/category/`,
+            url: `/shop-manage/${shop_id}/category/`,
             success: function(data) {
                 main_category_list = data.main_category_list;
                 sub_category_list = data.sub_category_list;          

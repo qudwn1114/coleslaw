@@ -1,4 +1,4 @@
-{% extends "layouts/system_base.html" %}
+{% extends "layouts/shop_base.html" %}
 {% load static %}
 
 {% block stylesheets %}
@@ -18,7 +18,7 @@
         <h1>Category Manage</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'system_manage:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
             <li class="breadcrumb-item active">Category</li>
           </ol>
         </nav>
@@ -29,6 +29,7 @@
           <div class="card-body">
             <h5 class="card-title">Category 관리</h5>
             <p>대분류, 소분류 Category를 등록하고 선택하여 수정 및 삭제할 수 있습니다.</p>
+            <strong class="text-danger">상품이 등록되어 있는 카테고리는 삭제 불가능합니다.</strong>
           </div>
         </div>
         <div class="card" >
@@ -122,5 +123,8 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'system/js/category_manage/script_category_manage.js' %}?v=202504"></script>
+<script>
+  const shop_id = {{shop.id}};
+</script>
+<script src="{% static 'shop/js/category_manage/script_category_manage.js' %}?v=20250429"></script>
 {% endblock javascripts %}

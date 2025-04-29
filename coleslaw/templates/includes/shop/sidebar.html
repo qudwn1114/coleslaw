@@ -9,6 +9,9 @@
       </li><!-- End Dashboard Nav -->
       <li class="nav-heading">Master Data</li>
       <li class="nav-item"> 
+        <a class="nav-link collapsed" href="{% url 'shop_manage:category_manage' shop.id %}"> <i class="bi bi-tags"></i> <span>상품 카테고리 관리</span> </a>
+      </li>
+      <li class="nav-item"> 
         <a class="nav-link collapsed" href="{% url 'shop_manage:goods_manage' shop.id %}"> <i class="bi bi-upc-scan"></i> <span>상품 관리</span> </a>
       </li>
       <li class="nav-item"> 
