@@ -6,8 +6,14 @@ function customAlert(message, callback = null) {
     modalBody.innerText = message;
 
     const alertModalElement = document.getElementById("alertModal");
-    const alertModal = new bootstrap.Modal(document.getElementById("alertModal"));
+    const alertModal = new bootstrap.Modal(alertModalElement);
     alertModal.show();
+
+
+    // 모달이 열리고 나서 확인 버튼에 포커스
+    alertModalElement.addEventListener('shown.bs.modal', () => {
+      alertModalElement.focus();
+    }, { once: true });
 
     if (callback) {
       // 모달이 닫힐 때 콜백 실행 (확인 버튼이든 ESC든, 바깥 클릭이든 다 포함)
@@ -30,7 +36,8 @@ function customAlert(message, callback = null) {
 function customConfirm(message) {
     return new Promise((resolve) => {
       const body = document.getElementById("confirmModalBody");
-      const modal = new bootstrap.Modal(document.getElementById("confirmModal"));
+      const modalElement = document.getElementById("confirmModal");
+      const modal = new bootstrap.Modal(modalElement);
       const okBtn = document.getElementById("confirmOk");
       const cancelBtn = document.getElementById("confirmCancel");
   
@@ -46,8 +53,14 @@ function customConfirm(message) {
         modal.hide();
         resolve(false);
       };
+
+      // 모달이 열리고 나서 확인 버튼에 포커스
+      modalElement.addEventListener('shown.bs.modal', () => {
+          modalElement.focus();
+      }, { once: true });
+
       // Enter 키로 '확인' 동작 추가
-      modal._element.addEventListener('keydown', (event) => {
+      modalElement.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
           modal.hide(); // 모달 닫기
           resolve(true); // 확인
