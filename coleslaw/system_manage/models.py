@@ -307,6 +307,9 @@ class Goods(models.Model):
 
     after_payment_goods = models.CharField(null=True, verbose_name='결제후들어갈상품 ID list', max_length=100)
     additional_fee_goods = models.PositiveBigIntegerField(null=True, verbose_name='추가요금 상품 ID')
+    
+    pos_rank = models.PositiveIntegerField(default=0, verbose_name='포스 정렬 순위')
+    kiosk_rank = models.PositiveIntegerField(default=0, verbose_name='키오스크 정렬 순위')
 
     delete_flag = models.BooleanField(default=False, verbose_name='삭제처리')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
