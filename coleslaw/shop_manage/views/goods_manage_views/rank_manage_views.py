@@ -25,7 +25,6 @@ class GoodsRankManageView(View):
         context['shop'] = shop
         rank_type = request.GET.get('rank_type', 'POS')
         context['rank_type'] = rank_type
-        print(list(Goods.objects.filter(shop=shop, sub_category_id=278, delete_flag=False, status=True, kiosk_display=True).annotate(rank=F('pos_rank')).order_by('pos_rank').values('id', 'name_kr', 'rank')))
         
         return render(request, 'goods_manage/rank_manage.html', context)
 
