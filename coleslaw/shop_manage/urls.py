@@ -8,6 +8,7 @@ from shop_manage.views.table_manage_views.table_manage_views import ShopTableMan
 from shop_manage.views.pos_manage_views.pos_manage_views import ShopPosManageView, ShopPosCreateView, ShopPosDetailView, ShopPosEditView
 from shop_manage.views.goods_manage_views.goods_manage_views import GoodsManageView, GoodsCreateView, GoodsDetailView, GoodsEditView, goods
 from shop_manage.views.goods_manage_views.option_manage_views import OptionManageView, OptionDetailManageView
+from shop_manage.views.goods_manage_views.rank_manage_views import GoodsRankManageView, rank_goods, update_rank_goods
 from shop_manage.views.order_manage_views.order_manage_views import OrderManageView, order_complete_sms, order_goods
 from shop_manage.views.sms_manage_views.sms_manage_view import SMSManageManageView
 from shop_manage.views.coupon_manage_views.coupon_manage_views import ShopCouponManageView, ShopCouponCreateView, ShopCouponDetailView, ShopCouponEditView
@@ -50,6 +51,9 @@ urlpatterns = [
     path('<int:shop_id>/goods-detail/<int:pk>/', GoodsDetailView.as_view(), name='goods_detail'),
     path('<int:shop_id>/goods-edit/<int:pk>/', GoodsEditView.as_view(), name='goods_edit'),
     path('<int:shop_id>/goods/', goods),
+    path('<int:shop_id>/goods-rank-manage/', GoodsRankManageView.as_view(), name='goods_rank_manage'),
+    path('<int:shop_id>/rank-goods/<int:sub_category_id>/', rank_goods),
+    path('<int:shop_id>/rank-goods/<int:sub_category_id>/update/', update_rank_goods),
 
     path('<int:shop_id>/option-manage/<int:pk>/', OptionManageView.as_view(), name='option_manage'),
     path('<int:shop_id>/option-detail-manage/', OptionDetailManageView.as_view(), name='option_detail_manage'),

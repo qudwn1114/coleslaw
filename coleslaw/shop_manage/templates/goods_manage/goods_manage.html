@@ -28,6 +28,8 @@
           <div class="card-body">
             <h5 class="card-title">Goods Manage</h5>
             <a class="btn btn-primary" href="{% url 'shop_manage:goods_create' shop.id %}?prev_url={{cur_url}}">상품등록</a>
+            <a class="btn btn-outline-primary" href="{% url 'shop_manage:goods_rank_manage' shop.id %}?rank_type=POS">포스 상품순위</a>
+            <a class="btn btn-outline-primary" href="{% url 'shop_manage:goods_rank_manage' shop.id %}?rank_type=KIOSK">키오스크 상품순위</a>
             <form id="search-form" class="p-2" method="get" action="">
                 <div class="row mb-2">
                   <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
