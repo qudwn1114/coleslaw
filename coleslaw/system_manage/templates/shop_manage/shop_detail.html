@@ -153,6 +153,10 @@
                   <label for="printer_port2">영수증 프린터 포트2</label>
                   <input type="text" name="printer_port2" class="form-control" id="printer_port2" placeholder="영수증 프린터 포트2" value="{{data.printer_port2}}" readonly>
                 </div>
+                <div class="col-md-12">
+                  <label for="printer_baud_rate">영수증 프린터 Baud Rate</label>
+                  <input type="text" name="printer_baud_rate" class="form-control" id="printer_baud_rate" placeholder="영수증 프린터 baud rate" value="{{data.printer_baud_rate}}" readonly>
+                </div>
                 <div class="row mt-3 mb-3 mx-2">
                   <div class="form-check col-sm-3">
                     {% if data.shop_receipt_flag %}

@@ -131,6 +131,10 @@
                       <label for="printer_port2">영수증 프린터 포트2</label>
                       <input type="text" name="printer_port2" class="form-control" id="printer_port2" placeholder="영수증 프린터 포트2" value="{{data.printer_port2}}" maxlength="5">
                     </div>
+                    <div class="col-md-12">
+                      <label for="printer_baud_rate">영수증 프린터 Baud Rate</label>
+                      <input type="number" name="printer_baud_rate" class="form-control" id="printer_baud_rate" placeholder="영수증 프린터 baud rate" value="{{data.printer_baud_rate}}">
+                    </div>
                     <div class="row mt-3 mb-3 mx-2">
                       <div class="form-check col-sm-3">
                         {% if data.shop_receipt_flag %}
@@ -168,5 +172,5 @@
 {% endblock %}
 {% block javascripts %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'system/js/shop_manage/script_shop_edit.js' %}?v=20250424"></script>
+<script src="{% static 'system/js/shop_manage/script_shop_edit.js' %}?v=20250507"></script>
 {% endblock javascripts %}

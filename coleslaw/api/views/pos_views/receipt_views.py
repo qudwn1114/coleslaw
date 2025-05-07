@@ -47,6 +47,7 @@ class ShopOrderReceiptView(View):
         data['shopReceipt'] = shop.receipt
         data['printerPort1'] = shop.printer_port1
         data['printerPort2'] = shop.printer_port2
+        data['printerBaudRate'] = shop.printer_baud_rate
         
         data['table_no'] = order_payment.order.table_no
         data['order_no'] = order_payment.order.order_no
@@ -153,6 +154,7 @@ class ShopCloseReceiptView(View):
         data['shopReceipt'] = shop.receipt
         data['printerPort1'] = shop.printer_port1
         data['printerPort2'] = shop.printer_port2
+        data['printerBaudRate'] = shop.printer_baud_rate
         data['date'] = date
         
         data['order_goods_list'] = list(order_goods)

@@ -230,6 +230,7 @@ class ShopEditView(View):
         receipt=request.POST['receipt']
         printer_port1=request.POST['printer_port1']
         printer_port2=request.POST['printer_port2']
+        printer_baud_rate= int(request.POST['printer_baud_rate'])
         shop_receipt_flag = bool(request.POST.get('shop_receipt_flag', None))
         coupon_flag = bool(request.POST.get('coupon_flag', None))
 
@@ -268,6 +269,7 @@ class ShopEditView(View):
                 shop.receipt=receipt
                 shop.printer_port1=printer_port1
                 shop.printer_port2=printer_port2
+                shop.printer_baud_rate = printer_baud_rate 
                 shop.shop_receipt_flag=shop_receipt_flag
                 shop.coupon_flag=coupon_flag
                 if image:
