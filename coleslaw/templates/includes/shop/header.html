@@ -11,15 +11,16 @@
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
+        {% if shop.pk == 60 or shop.pk == 92 or shop.pk == 93 or shop.pk == 91 %}
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="https://baumrootme.com/webpos_test/mainpos.html?Id={{shop.pk}}">
+            <i class="bi bi-cone-striped"></i>
+        </li>
+        {% else %}
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon" href="https://baumrootme.com/webpos/mainpos.html?Id={{shop.pk}}">
             <i class="bi bi-laptop"></i>
           </a>
-        </li>
-        {% if shop.pk == 60 or shop.pk == 92 or shop.pk == 93 %}
-        <li class="nav-item dropdown">
-          <a class="nav-link nav-icon" href="https://baumrootme.com/webpos_test/mainpos.html?Id={{shop.pk}}">
-            <i class="bi bi-cone-striped"></i>
         </li>
         {% endif %}
         <li class="nav-item dropdown pe-3">
