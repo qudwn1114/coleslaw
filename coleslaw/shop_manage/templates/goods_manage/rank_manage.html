@@ -12,7 +12,7 @@
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
-            <li class="breadcrumb-item active">Goods POS Rank Manage</li>
+            <li class="breadcrumb-item active">Goods {{rank_type}} Rank Manage</li>
           </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -51,7 +51,7 @@
           <div class="card-body">
                 <div class="row justify-content-between">
                     <div class="col-auto">
-                        <h5 class="card-title">상품 목록 순서</h5>
+                        <h5 class="card-title">{{rank_type}} 상품 목록 순서</h5>
                     </div>
                 </div>
                 <div class="goods-list-container">
