@@ -54,9 +54,9 @@
                         <ul id="list-main-category" class="list-group">
                             {% if MainCategory %}
                             {% for i in MainCategory %}
-                            <a href="javascript:;" class="main-category list-group-item list-group-item-action" onclick="selectLCategory(this, '{{i.id}}', '{{i.name_kr}}', '{{i.name_en}}')">
-                                {{ i.name_kr }}
-                            </a>
+                            <li class="main-category list-group-item list-group-item-action" data-id="{{i.id}}" onclick="selectLCategory(this, '{{i.id}}', '{{i.name_kr}}', '{{i.name_en}}')">
+                              <i class="bi bi-list" style="cursor: move;"></i> {{ i.name_kr }}
+                            </li>
                             {% endfor %}
                             {% else %}
                             데이터 등록해주세요.
@@ -126,5 +126,7 @@
 <script>
   const shop_id = {{shop.id}};
 </script>
-<script src="{% static 'shop/js/category_manage/script_category_manage.js' %}?v=20250429"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@1.0.0/jquery-sortable.js"></script>
+<script src="{% static 'shop/js/category_manage/script_category_manage.js' %}?v=202505"></script>
 {% endblock javascripts %}

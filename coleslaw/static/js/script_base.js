@@ -21,16 +21,12 @@ function customAlert(message, callback = null) {
           callback();
       }, { once: true }); // 한 번만 실행되게
   }
-  // Enter 키로 확인 동작 추가
+  // Enter 키로 확인 동작 추가 (콜백은 여기서 직접 실행하지 않음)
   alertModalElement.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      alertModal.hide(); // 모달 닫기
-      if (callback) {
-        callback(); // 콜백 실행
+      if (event.key === 'Enter') {
+          alertModal.hide(); // 모달만 닫기, 콜백은 hidden 이벤트에서 처리
       }
-    }
-  });
-
+  }, { once: true }); // 한번만 실행되게
 }
 
 function customConfirm(message) {

@@ -260,6 +260,7 @@ class MainCategory(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, null=True)
     name_kr = models.CharField(max_length=100, verbose_name='대분류 한글이름')
     name_en = models.CharField(max_length=100, verbose_name='대분류 영문이름')
+    rank = models.PositiveIntegerField(default=0, verbose_name='정렬 순위')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 
@@ -276,6 +277,7 @@ class SubCategory(models.Model):
     main_category = models.ForeignKey(MainCategory, on_delete=models.PROTECT, related_name='sub_category')
     name_kr = models.CharField(max_length=100, verbose_name='소분류 한글이름', null=True)
     name_en = models.CharField(max_length=100, verbose_name='소분류 영문이름', null=True)
+    rank = models.PositiveIntegerField(default=0, verbose_name='정렬 순위')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
 

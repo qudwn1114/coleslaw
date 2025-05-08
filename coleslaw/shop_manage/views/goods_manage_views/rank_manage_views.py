@@ -87,7 +87,7 @@ def update_rank_goods(request: HttpRequest, *args, **kwargs):
                 new_rank = rank_map.get(goods.id)
                 setattr(goods, rank_field, new_rank)
             Goods.objects.bulk_update(goods_queryset, [rank_field])
-        return JsonResponse({'message': '순서가 성공적으로 저장되었습니다.'})
+        return JsonResponse({'message': '순서가 성공적으로 저장되었습니다.'}, status=200)
     
     except Exception as e:
         print(e)

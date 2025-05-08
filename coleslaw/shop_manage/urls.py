@@ -12,7 +12,7 @@ from shop_manage.views.goods_manage_views.rank_manage_views import GoodsRankMana
 from shop_manage.views.order_manage_views.order_manage_views import OrderManageView, order_complete_sms, order_goods
 from shop_manage.views.sms_manage_views.sms_manage_view import SMSManageManageView
 from shop_manage.views.coupon_manage_views.coupon_manage_views import ShopCouponManageView, ShopCouponCreateView, ShopCouponDetailView, ShopCouponEditView
-from shop_manage.views.category_manage_views.category_manage_views import CategoryManageView, sub_category, category
+from shop_manage.views.category_manage_views.category_manage_views import CategoryManageView, sub_category, category, update_category_rank
 
 
 app_name='shop_manage'
@@ -74,4 +74,5 @@ urlpatterns = [
     path('<int:shop_id>/category-manage/', CategoryManageView.as_view(), name='category_manage'),
     path('<int:shop_id>/sub-category/', sub_category),
     path('<int:shop_id>/category/', category),
+    path('<int:shop_id>/category-rank/update/', update_category_rank),
 ]

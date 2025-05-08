@@ -9,7 +9,49 @@ const inputCategoryNameEn = document.getElementById('categoryNameEn');
 const btn_submit = document.getElementById("btn-submit");
 const btn_edit = document.getElementById('btn-edit');
 
-function getSubCateogryList(parent_id){
+window.addEventListener('DOMContentLoaded', function () {
+    const mainList = document.getElementById('list-main-category');
+    const sortableInstance = new Sortable(mainList, {
+        handle: '.bi-list', // 드래그 아이콘만 드래그 가능
+        animation: 150,
+        onEnd: function(evt) {
+            const items = document.querySelectorAll('#list-main-category li');
+            const orderData = [];
+            items.forEach((item, index) => {
+                orderData.push({
+                    id: item.dataset.id,
+                    rank: index + 1
+                });
+            });
+            saveCategoryOrder('main', orderData);
+        }
+    });
+});
+
+function saveCategoryOrder(category_type, order_data) {
+    $.ajax({
+        url: `/shop-manage/${shop_id}/category-rank/update/`,
+        method: 'POST',
+        data: JSON.stringify({
+            category_type: category_type,
+            order_data: order_data
+        }),
+        contentType: 'application/json',
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        success: function (response) {
+            console.log('Order updated:', response);
+        },
+        error: function (xhr, status, error) {
+            customAlert('저장 실패: ' + error.status);
+        }
+    });
+}
+
+
+
+function getSubCategoryList(parent_id){
     $.ajax({
         type: "POST",
         url: `/shop-manage/${shop_id}/sub-category/`,
@@ -57,7 +99,7 @@ function selectLCategory(elem, id, name_kr, name_en){
     const createSCategory = document.getElementById('createSCategory');
     createSCategory.setAttribute('data-parent-id', id);
     createSCategory.style.display = 'block';
-    getSubCateogryList(id);
+    getSubCategoryList(id);
 }
 
 function selectSCategory(elem, id, name_kr, name_en){
@@ -165,8 +207,8 @@ btn_submit.addEventListener("click", () => {
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식
         success: function(data) {
             customAlert(data.message, ()=>{
-                btn_submit.disabled = false;
                 loadList(data.data, data.type, data.id);
+                btn_submit.disabled = false;
                 $('#categoryModal').modal('hide');
             });
         },
@@ -263,9 +305,8 @@ function deleteCategory(elem){
         datatype: "JSON",
         success: function(data) {
             customAlert(data.message,()=>{
-                elem.disabled = false;
                 loadList(data.data, categoryType);
-                $('#categoryModal').modal('hide');
+                elem.disabled = false;
             });
         },
         error: function(error) {
@@ -288,22 +329,28 @@ function loadList(data, type, id){
     let x;
     let kr;
     let en;
-    clearList(type)
+    clearList(type);
     if(type == 'main'){
         if(data.length > 0){
             for(let i=0; i<data.length; i++){
-                let a = document.createElement("a");
+                let li = document.createElement("li");
                 if(data[i].id==id){
-                    x = a;
+                    x = li;
                     kr = data[i].name_kr;
                     en = data[i].name_en;
                 }
-                a.classList.add("main-category", "list-group-item", "list-group-item-action");
-                a.setAttribute("onClick", `selectLCategory(this, ${data[i].id}, '${data[i].name_kr}', '${data[i].name_en}')`);
-                let textNode = document.createTextNode(data[i].name_kr);
-                a.appendChild(textNode);
-                a.href="javascript:;";
-                document.getElementById('list-main-category').appendChild(a);
+                li.classList.add("main-category", "list-group-item", "list-group-item-action");
+                li.setAttribute('data-id', data[i].id);
+                li.setAttribute("onClick", `selectLCategory(this, ${data[i].id}, '${data[i].name_kr}', '${data[i].name_en}')`);
+                let icon = document.createElement("i");
+                icon.className = "bi bi-list";
+                icon.style.cursor = "move";
+
+                let textNode = document.createTextNode(" " + data[i].name_kr);
+
+                li.appendChild(icon);
+                li.appendChild(textNode);
+                document.getElementById('list-main-category').appendChild(li);
             }
             if(typeof id != 'undefined'){
                 selectLCategory(x, id, kr, en);
@@ -316,6 +363,23 @@ function loadList(data, type, id){
                 deleteLCategory.style.display = 'none';
                 editLCategory.style.display = 'none';
             }
+            // Sortable.js 적용
+            new Sortable(document.getElementById('list-main-category'), {
+                handle: '.bi-list', // 드래그 아이콘만 드래그 가능
+                animation: 150,
+                onEnd: function(evt) {
+                    const items = document.querySelectorAll('#list-main-category li');
+                    const orderData = [];
+                    items.forEach((item, index) => {
+                        orderData.push({
+                            id: item.dataset.id,
+                            rank: index + 1
+                        });
+                    });
+                    saveCategoryOrder('main', orderData);
+                }
+            });
+
         }
         else{
             const deleteLCategory = document.getElementById('deleteLCategory');
@@ -324,27 +388,34 @@ function loadList(data, type, id){
             deleteLCategory.style.display = 'none';
             editLCategory.style.display = 'none';
             
-            let a = document.createElement("a");
+            let li = document.createElement("li");
             let textNode = document.createTextNode('데이터 등록해주세요.');
-            a.appendChild(textNode);
-            document.getElementById('list-main-category').appendChild(a);
+            li.appendChild(textNode);
+            document.getElementById('list-main-category').appendChild(li);
         }
     }
     else if(type == 'sub'){
         if(data.length > 0){
             for(let i=0; i<data.length; i++){
-                let a = document.createElement("a");
+                let li = document.createElement("li");
                 if(data[i].id==id){
-                    x = a;
+                    x = li;
                     kr = data[i].name_kr;
                     en = data[i].name_en;
                 }
-                a.classList.add("sub-category", "list-group-item", "list-group-item-action");
-                a.setAttribute("onClick", `selectSCategory(this, ${data[i].id}, '${data[i].name_kr}', '${data[i].name_en}')`);
-                a.href="javascript:;";
-                let textNode = document.createTextNode(data[i].name_kr);
-                a.appendChild(textNode);
-                document.getElementById('list-sub-category').appendChild(a);
+                li.classList.add("sub-category", "list-group-item", "list-group-item-action");
+                li.setAttribute('data-id', data[i].id);
+                li.setAttribute("onClick", `selectSCategory(this, ${data[i].id}, '${data[i].name_kr}', '${data[i].name_en}')`);
+
+                let icon = document.createElement("i");
+                icon.className = "bi bi-list";
+                icon.style.cursor = "move";
+
+                let textNode = document.createTextNode(" " +data[i].name_kr);
+
+                li.appendChild(icon);
+                li.appendChild(textNode);
+                document.getElementById('list-sub-category').appendChild(li);
             }
             if(typeof id != 'undefined'){
                 selectSCategory(x, id, kr, en);
@@ -357,6 +428,22 @@ function loadList(data, type, id){
                 deleteSCategory.style.display = 'none';
                 editSCategory.style.display = 'none';
             }
+            // Sortable.js 적용
+            new Sortable(document.getElementById('list-sub-category'), {
+                handle: '.bi-list', // 드래그 아이콘만 드래그 가능
+                animation: 150,
+                onEnd: function(evt) {
+                    const items = document.querySelectorAll('#list-sub-category li');
+                    const orderData = [];
+                    items.forEach((item, index) => {
+                        orderData.push({
+                            id: item.dataset.id,
+                            rank: index + 1
+                        });
+                    });
+                    saveCategoryOrder('sub', orderData);
+                }
+            });
         }
         else{
             const deleteSCategory = document.getElementById('deleteSCategory');
@@ -365,10 +452,10 @@ function loadList(data, type, id){
             deleteSCategory.style.display = 'none';
             editSCategory.style.display = 'none';
 
-            let a = document.createElement("a");
+            let li = document.createElement("li");
             let textNode = document.createTextNode('데이터 등록해주세요.');
-            a.appendChild(textNode);
-            document.getElementById('list-sub-category').appendChild(a);
+            li.appendChild(textNode);
+            document.getElementById('list-sub-category').appendChild(li);
         }
     }
     else{
