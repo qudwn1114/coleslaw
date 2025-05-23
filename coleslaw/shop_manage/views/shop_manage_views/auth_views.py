@@ -182,7 +182,7 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
     categories = []
     pos_data = []
     online_data = []
-    URL = f'https://baumrootme.com/webpos/php/api/v1/agency_render_report.php'
+    URL = f'https://2root1.com/webpos/php/api/v1/agency_render_report.php'
     if shop.tbridge:
         shop_id_list_string = shop_id
     else:

@@ -67,7 +67,7 @@ class AgencyOnlineReportManage(View):
 
         response_data = None
         if shop_id_list:
-            URL = f'https://baumrootme.com/webpos/php/api/v1/agency_report.php'
+            URL = f'https://2root1.com/webpos/php/api/v1/agency_report.php'
             params = {'shop_id':shop_id_list_string, 'start_date':startDate, 'end_date':endDate}
             response = requests.get(URL, params=params)
             response_data = response.json()['list']

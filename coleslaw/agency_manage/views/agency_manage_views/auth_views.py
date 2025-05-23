@@ -79,7 +79,7 @@ def agency_sales_report(request: HttpRequest, *args, **kwargs):
     categories = []
     pos_data = []
     online_data = []
-    URL = f'https://baumrootme.com/webpos/php/api/v1/agency_render_report.php'
+    URL = f'https://2root1.com/webpos/php/api/v1/agency_render_report.php'
     shop_id_list = list(agency.shop.filter(tbridge=True).values_list('id', flat=True))
     shop_id_list_string = ','.join(map(str, shop_id_list))
     if report_type == 'TODAY':        
@@ -234,7 +234,7 @@ def agency_shop_sales_report(request: HttpRequest, *args, **kwargs):
         s = Shop.objects.get(pk=i)
         categories.append(s.name_kr)
         if s.tbridge:
-            URL = f'https://baumrootme.com/webpos/php/api/v1/agency_term_report.php'
+            URL = f'https://2root1.com/webpos/php/api/v1/agency_term_report.php'
             params = {'shop_id':i, 'type':report_type.lower()}
             response = requests.get(URL, params=params)
             if response.json()['list']:            
