@@ -268,7 +268,7 @@ class ShopEntryQueueCreateView(View):
                                     {'name':'대기현황 확인', # 버튼명
                                         'linkType':'WL', # DS, WL, AL, BK, MD
                                         'linkTypeName' : '웹링크', # 배송조회, 웹링크, 앱링크, 봇키워드, 메시지전달 중에서 1개
-                                        'linkM': f'https://root-1.net/webpos/entercheck/now.html?id={shop.pk}&queue_id={entry_queue.pk}&phone={phone}', # WL일 때 필수
+                                        'linkM': f'https://2root1.com/webpos/entercheck/now.html?id={shop.pk}&queue_id={entry_queue.pk}&phone={phone}', # WL일 때 필수
                                     },
                                 ]}
                 
