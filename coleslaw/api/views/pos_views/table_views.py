@@ -1,19 +1,14 @@
 from django.conf import settings
 from django.views.generic import View
-from django.urls import reverse
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from django.db.models.functions import Concat
+from django.db.models import Sum
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction, IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.utils import timezone
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
-
-from system_manage.models import Shop, ShopTable, ShopMember, ShopTableLog, Goods
-from system_manage.views.system_manage_views.auth_views import validate_phone
+from system_manage.models import Shop, ShopTable, ShopMember, ShopTableLog, Goods, Order
 
 
 import traceback, json, datetime
@@ -35,7 +30,10 @@ class ShopTableListView(View):
             page = int(request.GET.get('page', 1))
             startnum = 0 + (page-1)*paginate_by
             endnum = startnum+paginate_by
-            queryset = ShopTable.objects.filter(shop=shop, pos=shop.pos, table_no__gt=0).annotate(
+            today_revenue = Order.objects.filter(shop=shop, date=timezone.now().date(), status__in=['1', '3', '4', '5', '6']).aggregate(total=Sum('final_price'))['total'] or 0
+            tables = ShopTable.objects.filter(shop=shop, pos=shop.pos, table_no__gt=0)
+            total_expected_payment = tables.aggregate(total=Sum('total_price'))['total'] or 0
+            queryset = tables.annotate(
                     membername=Case(
                         When(shop_member=None, then=V('비회원')),
                         default=F('shop_member__membername'), output_field=CharField()
@@ -92,6 +90,8 @@ class ShopTableListView(View):
             return_data = {
                 'data': list(queryset[startnum:endnum]),
                 'paginate_by': paginate_by,
+                'today_revenue': today_revenue,
+                'total_expected_payment': total_expected_payment,
                 'resultCd': '0000',
                 'msg': '가맹점 테이블 리스트',
                 'totalCnt' : queryset.count()
