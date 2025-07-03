@@ -15,6 +15,7 @@ class PersonType(models.Model):
 # 에이전시
 class Agency(models.Model):
     name = models.CharField(max_length=100, verbose_name='agency이름', unique=True)
+    country = models.CharField(max_length=2, choices=[('KR', 'Korea'), ('JP', 'Japan')], default='KR')
     description = models.CharField(default='', max_length=255, verbose_name='설명')
     image = models.ImageField(max_length=300, null=True, upload_to="image/agency/", verbose_name='에이전시이미지')
     status = models.BooleanField(default=True, verbose_name='상태')

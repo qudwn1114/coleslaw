@@ -1,4 +1,5 @@
 const btn_submit = document.getElementById("btn-submit");
+const country = document.getElementById("country");
 const agency_name = document.getElementById("agency_name");
 const description = document.getElementById("description");
 const image = document.getElementById("image");
@@ -14,6 +15,7 @@ btn_submit.addEventListener("click", () => {
         }
         const data =new FormData(document.getElementById("data-form"));
     btn_submit.disabled=true;
+    country.disabled=true;
     agency_name.disabled=true;
     description.disabled=true;
     image.disabled=true;
@@ -37,6 +39,7 @@ btn_submit.addEventListener("click", () => {
             agency_name.disabled=false;
             description.disabled=false;
             image.disabled=false;
+            country.disabled=false;
             if(error.status == 401){
                 customAlert('로그인 해주세요.');
             }

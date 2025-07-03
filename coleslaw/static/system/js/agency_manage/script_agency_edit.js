@@ -1,5 +1,6 @@
 const btn_submit = document.getElementById("btn-submit");
 const btn_address = document.getElementById("btn-address")
+const country = document.getElementById("country");
 const agency_name = document.getElementById("agency_name");
 const description = document.getElementById("description");
 const qr_link = document.getElementById('qr_link');
@@ -16,6 +17,7 @@ btn_submit.addEventListener("click", () => {
         }
         const data =new FormData(document.getElementById("data-form"));
     btn_submit.disabled=true;
+    country.disabled=true;
     agency_name.disabled=true;
     description.disabled=true;
     image.disabled=true;
@@ -37,6 +39,7 @@ btn_submit.addEventListener("click", () => {
         },
         error: function(error) {
             btn_submit.disabled=false;
+            country.disabled=false;
             agency_name.disabled=false;
             description.disabled=false;
             image.disabled=false;

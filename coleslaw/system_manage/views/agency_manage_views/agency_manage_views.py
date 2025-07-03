@@ -84,6 +84,7 @@ class AgencyCreateView(View):
     
     @method_decorator(permission_required(raise_exception=True))
     def post(self, request: HttpRequest, *args, **kwargs):
+        country = request.POST['country'].strip()
         agency_name = request.POST['agency_name'].strip()
         description = request.POST['description'].strip()
         image = request.FILES.get("image")
@@ -94,7 +95,11 @@ class AgencyCreateView(View):
         except:
             pass
 
+        if country not in ['KR', 'JP']:
+            return JsonResponse({'message': '국가 코드를 확인해주세요.'}, status=400)
+
         agency = Agency.objects.create(
+            country=country,
             name=agency_name,
             description=description,
             image=image
@@ -150,6 +155,7 @@ class AgencyEditView(View):
         except:
             return JsonResponse({"message": "데이터 오류"},status=400)
         
+        country = request.POST['country'].strip()
         agency_name = request.POST['agency_name'].strip()
         description = request.POST['description'].strip()
         image = request.FILES.get("image")
@@ -158,6 +164,10 @@ class AgencyEditView(View):
         if Agency.objects.filter(name=agency_name).exclude(pk=agency.pk).exists():
             return JsonResponse({'message': '이미 존재하는 에이전시 명 입니다.'}, status=400)
         
+        if country not in ['KR', 'JP']:
+            return JsonResponse({'message': '국가 코드를 확인해주세요.'}, status=400)
+        
+        agency.country = country
         agency.name = agency_name
         agency.description = description
         agency.qr_link = qr_link
