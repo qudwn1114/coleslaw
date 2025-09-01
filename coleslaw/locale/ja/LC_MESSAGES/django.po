@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 13:25+0900\n"
+"POT-Creation-Date: 2025-09-01 15:56+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,8 +123,8 @@ msgstr ""
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:130
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:103
 #: agency_manage/templates/agency_shop_manage/shop_create.html:128
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:185
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:140
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:187
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:142
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:111
 #: agency_manage/templates/agency_user_manage/user_create.html:86
 #: agency_manage/templates/agency_user_manage/user_detail.html:87
@@ -155,8 +155,8 @@ msgstr ""
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:131
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:104
 #: agency_manage/templates/agency_shop_manage/shop_create.html:129
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:186
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:141
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:188
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:143
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:112
 #: agency_manage/templates/agency_user_manage/user_create.html:87
 #: agency_manage/templates/agency_user_manage/user_detail.html:88
@@ -544,38 +544,38 @@ msgstr ""
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:92
 #: agency_manage/templates/agency_shop_manage/shop_create.html:100
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:113
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:131
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:103
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:111
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:115
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:133
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:105
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:113
 msgid "로고 이미지"
 msgstr ""
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:96
 #: agency_manage/templates/agency_shop_manage/shop_create.html:104
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:122
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:140
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:107
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:115
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:124
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:142
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:109
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:117
 msgid "입장 이미지"
 msgstr ""
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:108
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:119
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:121
 msgid "테이블 이용시간 (0:무제한)"
 msgstr ""
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:109
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:150
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:120
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:152
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:122
 msgid "테이블 이용시간 (분)"
 msgstr ""
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:112
 #: agency_manage/templates/agency_shop_manage/shop_create.html:113
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:154
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:123
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:124
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:156
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:125
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:126
 msgid "추가요금 시간 (분)"
 msgstr ""
 
@@ -599,7 +599,7 @@ msgid "가입 하시겠습니까?"
 msgstr ""
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:131
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:143
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:145
 #: agency_manage/templates/agency_user_manage/user_create.html:89
 #: agency_manage/templates/agency_user_manage/user_edit.html:87
 msgid "유효하지 않은 전화번호 형식입니다. (-) 없이 입력 해주세요."
@@ -628,10 +628,10 @@ msgstr ""
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:84
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:93
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:118
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:127
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:136
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:145
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:120
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:129
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:138
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:147
 msgid "없음"
 msgstr ""
 
@@ -639,34 +639,19 @@ msgstr ""
 msgid "가맹점 위치정보 이미지"
 msgstr ""
 
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:101
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:91
-msgid "알림톡 키"
-msgstr ""
-
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:105
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:95
-msgid "대기등록 템플릿 코드"
-msgstr ""
-
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:109
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:99
-msgid "대기호출 템플릿 코드"
-msgstr ""
-
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:149
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:151
 msgid "테이블 이용시간"
 msgstr ""
 
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:153
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:155
 msgid "추가요금 시간"
 msgstr ""
 
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:157
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:159
 msgid "영수증 내용"
 msgstr ""
 
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:158
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:160
 #: shop_manage/templates/pos_manage/shop_pos_detail.html:41
 #: shop_manage/templates/pos_manage/shop_pos_detail.html:43
 #: shop_manage/templates/pos_manage/shop_pos_edit.html:37
@@ -674,11 +659,11 @@ msgstr ""
 msgid "영수증 하단 내용"
 msgstr ""
 
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:168
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:170
 msgid "가맹점용 영수증 발행"
 msgstr ""
 
-#: agency_manage/templates/agency_shop_manage/shop_detail.html:187
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:189
 #: agency_manage/templates/agency_user_manage/user_detail.html:89
 #: shop_manage/templates/category_manage/category_manage.html:133
 #: shop_manage/templates/coupon_manage/coupon_detail.html:65
@@ -691,15 +676,15 @@ msgstr ""
 
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:79
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:83
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:103
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:107
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:111
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:115
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:105
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:109
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:113
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:117
 #: shop_manage/templates/goods_manage/goods_edit.html:95
 msgid "이미지 변경 시 에만 첨부"
 msgstr ""
 
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:128
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:130
 #: agency_manage/templates/agency_user_manage/user_edit.html:72
 #: shop_manage/templates/coupon_manage/coupon_edit.html:46
 #: shop_manage/templates/goods_manage/goods_edit.html:28
@@ -708,7 +693,7 @@ msgstr ""
 msgid "취소"
 msgstr ""
 
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:129
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:131
 #: shop_manage/templates/coupon_manage/coupon_edit.html:47
 #: shop_manage/templates/goods_manage/goods_edit.html:169
 #: shop_manage/templates/goods_manage/goods_manage.html:132
@@ -717,7 +702,7 @@ msgstr ""
 msgid "저장"
 msgstr ""
 
-#: agency_manage/templates/agency_shop_manage/shop_edit.html:142
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:144
 #: agency_manage/templates/agency_user_manage/user_edit.html:86
 #: shop_manage/templates/coupon_manage/coupon_edit.html:63
 #: shop_manage/templates/goods_manage/goods_edit.html:188

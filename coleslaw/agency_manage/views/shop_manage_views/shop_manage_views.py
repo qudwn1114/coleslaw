@@ -287,9 +287,9 @@ class ShopEditView(View):
         table_time = int(request.POST['table_time'])
         additional_fee_time = int(request.POST['additional_fee_time'])
 
-        aligo_sender_key= request.POST['aligo_sender_key'].strip()
-        aligo_entry_template_code1= request.POST['aligo_entry_template_code1'].strip()
-        aligo_entry_template_code2= request.POST['aligo_entry_template_code2'].strip()
+        aligo_sender_key= request.POST.get('aligo_sender_key', '').strip()
+        aligo_entry_template_code1= request.POST.get('aligo_entry_template_code1', '').strip()
+        aligo_entry_template_code2= request.POST.get('aligo_entry_template_code2', '').strip()
 
         try:
             shop_category = ShopCategory.objects.get(pk=shop_category_id)

@@ -87,18 +87,20 @@
                       <label for="waiting_time">{% trans "팀 당 입장시간(분)" %}</label>
                       <input type="number" name="waiting_time" class="form-control" id="waiting_time" placeholder="{% trans '팀 당 입장시간(분)' %}" value="{{data.waiting_time}}">
                     </div>
+                    {% if LANGUAGE_CODE == 'ko' %}
                     <div class="col-md-12">
-                      <label for="aligo_sender_key">{% trans "알림톡 키" %}</label>
+                      <label for="aligo_sender_key">알림톡 키</label>
                       <input type="text" name="aligo_sender_key" class="form-control" id="aligo_sender_key" value="{{data.aligo_sender_key|default_if_none:''}}">
                     </div>
                     <div class="col-md-12">
-                      <label for="aligo_entry_template_code1">{% trans "대기등록 템플릿 코드" %}</label>
+                      <label for="aligo_entry_template_code1">대기등록 템플릿 코드"</label>
                       <input type="text" name="aligo_entry_template_code1" class="form-control" id="aligo_entry_template_code1" value="{{data.aligo_entry_template_code1|default_if_none:''}}">
                     </div>
                     <div class="col-md-12">
-                      <label for="aligo_entry_template_code2">{% trans "대기호출 템플릿 코드" %}</label>
+                      <label for="aligo_entry_template_code2">대기호출 템플릿 코드</label>
                       <input type="text" name="aligo_entry_template_code2" class="form-control" id="aligo_entry_template_code2" value="{{data.aligo_entry_template_code2|default_if_none:''}}">
                     </div>
+                    {% endif %}
                     <div class="col-md-12">
                       <label for="logo_image1">{% trans "로고 이미지" %} 1 <small class="form-text text-muted">({% trans "이미지 변경 시 에만 첨부" %})</small></label>
                       <input type="file" id="logo_image1" name="logo_image1" class="form-control" accept="image/png, image/jpg, image/jpeg">
