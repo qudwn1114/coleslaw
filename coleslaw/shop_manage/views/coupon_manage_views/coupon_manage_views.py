@@ -4,6 +4,7 @@ from django.views.generic import View
 from django.http import HttpRequest, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext as _
 from system_manage.decorators import permission_required
 from shop_manage.views.shop_manage_views.auth_views import check_shop
 from system_manage.models import ShopCoupon
@@ -82,14 +83,14 @@ class ShopCouponCreateView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         coupon_name = request.POST['coupon_name'].strip()
         expiration_period = int(request.POST['expiration_period'])
 
         shop_coupon = ShopCoupon.objects.create(shop=shop, name=coupon_name, expiration_period=expiration_period)
         
-        return JsonResponse({'message' : '생성 완료', 'url':reverse('shop_manage:coupon_detail', kwargs={'shop_id':shop.id, 'pk': shop_coupon.pk})},  status = 201)
+        return JsonResponse({'message' : _('MSG_CREATED'), 'url':reverse('shop_manage:coupon_detail', kwargs={'shop_id':shop.id, 'pk': shop_coupon.pk})},  status = 201)
     
 
 class ShopCouponDetailView(View):
@@ -117,16 +118,16 @@ class ShopCouponDetailView(View):
         pk = kwargs.get("pk")
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         try:
             shop_coupon= ShopCoupon.objects.get(pk=pk, shop=shop)
         except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         shop_coupon.delete()
         
-        return JsonResponse({'message' : '삭제 완료', 'url':reverse('shop_manage:coupon_manage', kwargs={'shop_id':shop.id})},  status = 202)
+        return JsonResponse({'message' : _('MSG_DELETED'), 'url':reverse('shop_manage:coupon_manage', kwargs={'shop_id':shop.id})},  status = 202)
 
 
 class ShopCouponEditView(View):
@@ -154,12 +155,12 @@ class ShopCouponEditView(View):
         pk = kwargs.get("pk")
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         try:
             shop_coupon= ShopCoupon.objects.get(pk=pk, shop=shop)
         except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         coupon_name = request.POST['coupon_name'].strip()
         expiration_period = int(request.POST['expiration_period'])
@@ -168,4 +169,4 @@ class ShopCouponEditView(View):
         shop_coupon.expiration_period=expiration_period
         shop_coupon.save()
         
-        return JsonResponse({'message' : '수정 완료', 'url':reverse('shop_manage:coupon_detail', kwargs={'shop_id':shop.id, 'pk': shop_coupon.pk})},  status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED'), 'url':reverse('shop_manage:coupon_detail', kwargs={'shop_id':shop.id, 'pk': shop_coupon.pk})},  status = 201)

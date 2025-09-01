@@ -1,6 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 {% endblock stylesheets %}
@@ -20,14 +19,14 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Coupon Manage</h5>
-            <a class="btn btn-primary" href="{% url 'shop_manage:coupon_create' shop.id %}">등록</a>
+            <a class="btn btn-primary" href="{% url 'shop_manage:coupon_create' shop.id %}">{% trans "등록" %}</a>
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
-                <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
+                <label for="item" class="col-sm-2 col-form-label">{% trans "검색 분류" %}</label>
                 <div class="col-sm-8">
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
-                        <option value="name" {% if search_type == 'name' %}selected{% endif %}>이름</option>
+                        <option value="name" {% if search_type == 'name' %}selected{% endif %}>{% trans "이름" %}</option>
                       </select>
                     <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
                   </div>
@@ -35,8 +34,8 @@
               </div>
               <div class="row mb-3">
                 <div class="text-center">
-                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
-                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:coupon_manage' shop.id %}">초기화</a>
+                    <button type="submit" id="btn-search" class="btn btn-primary">{% trans "검색" %}</button>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:coupon_manage' shop.id %}">{% trans "초기화" %}</a>
                 </div>
               </div>
             </form>
@@ -46,15 +45,15 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">목록</h5>
+                <h5 class="card-title">{% trans "목록" %}</h5>
               </div>
             </div>
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>이름</th>
-                  <th>유효기간</th>
-                  <th>생성일</th>
+                  <th>{% trans "이름" %}</th>
+                  <th>{% trans "유효기간" %}</th>
+                  <th>{% trans "생성일" %}</th>
                 </tr>
                 
               </thead>
@@ -66,7 +65,7 @@
                     <a href="{% url 'shop_manage:coupon_detail' shop.id i.id %}">{{i.name}}</a>
                    </td>
                    <td>
-                    {{i.expiration_period}}일
+                    {{i.expiration_period}}{% trans "일" %}
                    </td>
                    <td>
                     {{i.created_at}}
@@ -75,7 +74,7 @@
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='3'>내용이 없습니다.</td>
+                    <td colspan='3'>{% trans "내용이 없습니다." %}</td>
                 </tr>
               {% endif %}
               </tbody>

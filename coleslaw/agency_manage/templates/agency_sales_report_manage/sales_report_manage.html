@@ -1,6 +1,5 @@
 {% extends "layouts/agency_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -20,25 +19,25 @@
     <section class="section">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{date_name}}<br>일자별 매출 현황</h5>
+            <h5 class="card-title">{{date_name}}<br>{% trans "일자별 매출 현황" %}</h5>
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
                   <input type="hidden" name="condition" id="condition" value="true">
                   <input type="hidden" class="btn-check" name="order_date_no" id="order_date_no" value="{{order_date_no}}">
-                  <label for="order_date" class="col-sm-2 col-form-label">기준 날짜</label>
+                  <label for="order_date" class="col-sm-2 col-form-label">{% trans "기준 날짜" %}</label>
                   <div class="col-sm-4">
                   <div class="btn-group mt-2" role="group">
                       <input type="radio" class="btn-check" name="order_date" id="order_date1" {% if order_date_no == '1' %}checked{% endif %}>
-                      <label class="btn btn-sm btn-outline-primary" for="order_date1">오늘</label>
-                  
+                      <label class="btn btn-sm btn-outline-primary" for="order_date1">{% trans "오늘" %}</label>
+
                       <input type="radio" class="btn-check" name="order_date" id="order_date2" {% if order_date_no == '2' %}checked{% endif %}>
-                      <label class="btn btn-sm btn-outline-primary" for="order_date2">일주일</label>
+                      <label class="btn btn-sm btn-outline-primary" for="order_date2">{% trans "일주일" %}</label>
 
                       <input type="radio" class="btn-check" name="order_date" id="order_date3" {% if order_date_no == '3' %}checked{% endif %}>
-                      <label class="btn btn-sm  btn-outline-primary" for="order_date3">1개월</label>
+                      <label class="btn btn-sm  btn-outline-primary" for="order_date3">{% trans "1개월" %}</label>
 
                       <input type="radio" class="btn-check" name="order_date" id="order_date4" {% if order_date_no == '4' %}checked{% endif %}>
-                      <label class="btn btn-sm  btn-outline-primary" for="order_date4">3개월</label>
+                      <label class="btn btn-sm  btn-outline-primary" for="order_date4">{% trans "3개월" %}</label>
                   </div>
                   </div>
                   <div class="col-sm-4">
@@ -46,10 +45,10 @@
                         <span class="input-group-text">
                         <i class="bi bi-calendar"></i>
                         </span>
-                        <input type="text" name="dates" class="form-control" placeholder="기간을 선택해주세요." readonly value="{{dates}}">
-                        
+                        <input type="text" name="dates" class="form-control" placeholder="{% trans '기간을 선택해주세요.' %}" readonly value="{{dates}}">
+                        <button class="btn btn-outline-secondary" type="button" id="btn-daterange">{% trans "선택" %}</button>
                     </div>
-                    <strong>기간을 3개월 이내로만 설정 하실 수 있습니다.</strong>
+                    <strong>{% trans "기간을 3개월 이내로만 설정 하실 수 있습니다." %}</strong>
                   </div>
               </div> 
               <div class="p-3">
@@ -62,8 +61,8 @@
               </div>
               <div class="row mb-3">
                 <div class="text-center">
-                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
-                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'agency_manage:sales_report_manage' agency.pk %}">초기화</a>
+                    <button type="submit" id="btn-search" class="btn btn-primary">{% trans "검색" %}</button>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'agency_manage:sales_report_manage' agency.pk %}">{% trans "초기화" %}</a>
                 </div>
               </div>
             </form>
@@ -73,12 +72,12 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">매출 {{sum_total_price|intcomma}}₩</h5>
+                <h5 class="card-title">{% trans "매출" %} {{sum_total_price|intcomma}}{{ CURRENCY_SYMBOL }}</h5>
               </div>
               <div class="col-auto">
                 <div class="icon mt-3 me-3">
                   {% if sales_report_list %}
-                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('excel');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Excel 저장</a>
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('excel');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> {% trans "Excel 저장" %}</a>
                   {% endif %}
                 </div>
               </div>
@@ -86,13 +85,13 @@
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>일자별</th>
-                  <th>가맹점명</th>
-                  <th>카드매출</th>
-                  <th>현금매출</th>
-                  <th>현금매출(O)</th>
-                  <th>현금매출(X)</th>
-                  <th>합계</th>
+                  <th>{% trans "일자별" %}</th>
+                  <th>{% trans "가맹점명" %}</th>
+                  <th>{% trans "카드매출" %}</th>
+                  <th>{% trans "현금매출" %}</th>
+                  <th>{% trans "현금매출(O)" %}</th>
+                  <th>{% trans "현금매출(X)" %}</th>
+                  <th>{% trans "합계" %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -110,7 +109,7 @@
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='6'>데이터가 없습니다.</td>
+                    <td colspan='6'>{% trans "데이터가 없습니다." %}</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -126,7 +125,15 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    period_limit: "{% trans '기간을 3개월 이내로만 설정 하실 수 있습니다.' %}",
+    save_excel: "{% trans '엑셀저장하시겠습니까?' %}",
+  };
+</script> 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="{% static 'agency/js/sales_report_manage/script_sales_report_manage.js' %}?v=20250423"></script>
+<script src="{% static 'agency/js/sales_report_manage/script_sales_report_manage.js' %}?v=202508"></script>
 {% endblock javascripts %}

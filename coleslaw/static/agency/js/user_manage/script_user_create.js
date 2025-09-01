@@ -14,7 +14,7 @@ btn_submit.addEventListener("click", () => {
     if(!validation()){
         return;
     }
-    customConfirm("가입 하시겠습니까?")
+    customConfirm(i18n.confirm_register)
     .then((result) => {
         if (!result) {
             return false;
@@ -59,10 +59,10 @@ btn_submit.addEventListener("click", () => {
             address_detail.disabled=false;
             zipcode.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -100,7 +100,7 @@ function regPhone(str){
     let reg_phone = /^01([0-9]{1})([0-9]{4})([0-9]{4})$/;
 
     if(!reg_phone.test(str)){
-       customAlert('유효하지 않은 전화번호 형식입니다. (-) 없이 입력 해주세요.');
+       customAlert(i18n.phone_validation);
        return false;
    }              
    return true;      

@@ -10,6 +10,7 @@ from django.db import transaction, IntegrityError
 from django.views.decorators.http import require_http_methods
 from django.utils.decorators import method_decorator
 from django.core.files.base import ContentFile
+from django.utils.translation import gettext as _
 from system_manage.utils import resize_with_padding, generate_code
 from system_manage.decorators import  permission_required
 from system_manage.models import Shop, ShopAdmin, SubCategory, Goods, MainCategory
@@ -43,7 +44,7 @@ class GoodsManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         request.PUT = json.loads(request.body)
         rq_type = request.PUT['type']
@@ -51,7 +52,7 @@ class GoodsManageView(View):
         try:
             goods = Goods.objects.get(pk=goods_id, shop=shop)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         if rq_type == 'STATUS':
             goods.status = not goods.status
             goods.save()
@@ -76,14 +77,14 @@ class GoodsManageView(View):
         elif rq_type == 'OPTION_FLAG':
             if not goods.option_flag:
                 if not goods.option.all().exists():
-                    return JsonResponse({'message' : '옵션사용을 하시려면 옵션등록이 되어있어야합니다.'},status = 400)
+                    return JsonResponse({'message' : _('ERR_OPTION_FLAG')}, status = 201)
                 
             goods.option_flag = not goods.option_flag
             goods.save()
         else:
-            return JsonResponse({"message": "타입 오류"},status=400)
+            return JsonResponse({'message': _('ERR_TYPE_INVALID')}, status=400)
         
-        return JsonResponse({'message' : '변경되었습니다.'}, status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED')}, status = 201)
     
 
 class GoodsCreateView(View):
@@ -111,7 +112,7 @@ class GoodsCreateView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         code = "ROOTME_"+generate_code()
         
@@ -126,12 +127,12 @@ class GoodsCreateView(View):
         stock_flag = bool(request.POST.get('stock_flag', None))
         kiosk_display = bool(request.POST.get('kiosk_display', None))
         image = request.FILES.get('image', None)
-        after_payment_goods_id_list = request.POST['after_payment_goods_id_list']
+        after_payment_goods_id_list = request.POST.get('after_payment_goods_id_list', '')
 
         try:
             sub_category = SubCategory.objects.get(pk=sub_category_id, shop=shop)
         except:
-            return JsonResponse({'message' : '소분류 카테고리 데이터 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         if image:
             crop_img = resize_with_padding(img=Image.open(image), expected_size=(800, 800), fill=(255,255,255))
             img_io = BytesIO()
@@ -150,7 +151,7 @@ class GoodsCreateView(View):
                     g = Goods.objects.get(pk=int(i), shop=shop).pk
                     after_payment_goods += f"{i},"
                 except:
-                    return JsonResponse({'message' : '결제 후 상품 형식 오류..'},status = 400)
+                    return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
             if after_payment_goods:
                 after_payment_goods = after_payment_goods.strip().rstrip(',')
             else:
@@ -178,14 +179,14 @@ class GoodsCreateView(View):
                     after_payment_goods=after_payment_goods
                 )
         except IntegrityError:
-            return JsonResponse({'message' : '잠시후 다시 시도해주세요.'},status = 400)
+            return JsonResponse({'message': _('ERR_RETRY_LATER')}, status=400)
         except:
-            return JsonResponse({'message' : '등록오류'},status = 400)
-        
+            return JsonResponse({'message': _('ERR_CREATE')}, status=400)
+    
         prev_url = request.GET.get('prev_url', None)
         next_url = reverse('shop_manage:goods_detail', kwargs={'shop_id':shop.id, 'pk':goods.id})
         
-        return JsonResponse({'message' : '생성 완료', 'url': f"{next_url}?prev_url={prev_url}" if prev_url else next_url},  status = 201)
+        return JsonResponse({'message' : _('MSG_CREATED'), 'url': f"{next_url}?prev_url={prev_url}" if prev_url else next_url},  status = 201)
     
 
 class GoodsDetailView(View):
@@ -220,18 +221,18 @@ class GoodsDetailView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         pk = kwargs.get("pk")
         try:
             goods= Goods.objects.get(pk=pk)
         except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         goods.delete_flag = True
         goods.save()
         
-        return JsonResponse({'message' : '삭제 완료', 'url':reverse('shop_manage:goods_manage', kwargs={'shop_id':shop.id})},  status = 202)
+        return JsonResponse({'message' : _('MSG_DELETED'), 'url':reverse('shop_manage:goods_manage', kwargs={'shop_id':shop.id})},  status = 202)
 
 
 class GoodsEditView(View):
@@ -267,13 +268,13 @@ class GoodsEditView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         pk = kwargs.get("pk")
         try:
             goods= Goods.objects.get(pk=pk)
         except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         sub_category_id = request.POST['sub_category']
         name_kr = request.POST['goods_name_kr'].strip()
@@ -286,17 +287,17 @@ class GoodsEditView(View):
         stock_flag = bool(request.POST.get('stock_flag', None))
         option_flag = bool(request.POST.get('option_flag', None))
         kiosk_display = bool(request.POST.get('kiosk_display', None))
-        after_payment_goods_id_list = request.POST['after_payment_goods_id_list']
-        additional_fee_goods_id = request.POST['additional_fee_goods_id']
+        after_payment_goods_id_list = request.POST.get('after_payment_goods_id_list', '')
+        additional_fee_goods_id = request.POST.get('additional_fee_goods_id', None)
 
         try:
             sub_category = SubCategory.objects.get(pk=sub_category_id, shop=shop)
         except:
-            return JsonResponse({'message' : '소분류 카테고리 데이터 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         if option_flag:
             if not goods.option.all().exists():
-                return JsonResponse({'message' : '옵션사용을 하시려면 옵션등록이 되어있어야합니다.'},status = 400)
+                return JsonResponse({'message' : _('ERR_OPTION_FLAG')}, status = 201)
         after_payment_goods_id_list = after_payment_goods_id_list.replace(' ', '')            
         if after_payment_goods_id_list:
             after_payment_goods = ''
@@ -308,7 +309,7 @@ class GoodsEditView(View):
                         return JsonResponse({'message' : '결제후 상품은 동일상품으로 불가능합니다.'},status = 400)
                     after_payment_goods += f"{i},"
                 except:
-                    return JsonResponse({'message' : '결제 후 상품 형식 오류..'},status = 400)
+                    return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
             if after_payment_goods:
                 after_payment_goods = after_payment_goods.strip().rstrip(',')
             else:
@@ -320,7 +321,7 @@ class GoodsEditView(View):
             try:
                 additional_fee_goods = Goods.objects.get(pk=additional_fee_goods_id, shop=shop).pk
                 if additional_fee_goods == goods.pk:
-                    return JsonResponse({'message' : '결제후 상품은 동일상품으로 불가능합니다.'},status = 400)
+                    return JsonResponse({'message' : '추가요금 상품은 동일상품으로 불가능합니다.'},status = 400)
             except:
                 additional_fee_goods = None
         else:
@@ -351,13 +352,13 @@ class GoodsEditView(View):
             goods.save()
 
         except:
-            return JsonResponse({'message' : '수정오류'},status = 400)
+            return JsonResponse({'message' : _('ERR_UPDATE')},status = 400)
 
         prev_url = request.GET.get('prev_url', None)
         if not prev_url:
             prev_url = reverse('shop_manage:goods_detail', kwargs={'shop_id':shop.id, 'pk':goods.id})
 
-        return JsonResponse({'message' : '수정 완료', 'url':prev_url},  status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED'), 'url':prev_url},  status = 201)
         
 
 @require_http_methods(["GET"])
@@ -368,7 +369,7 @@ def goods(request: HttpRequest, *args, **kwargs):
     shop_id = kwargs.get('shop_id')
     shop = check_shop(pk=shop_id)
     if not shop:
-        return JsonResponse({'message' : '가맹점 오류'}, status = 400)
+        return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
     # paging
     draw = int(request.GET.get('draw', 1)) # count. ajax요청에 의해 그려질 때 dataTable이 순차적으로 그려지는 것을 보장하기 위해 사용

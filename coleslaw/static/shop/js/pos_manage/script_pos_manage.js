@@ -3,7 +3,7 @@ $(document).ready(function() {
         let isChecked = $(this).is(":checked");
         let selectedPosId = $("#pos_id").val(); // pos_id 셀렉트 박스의 선택된 값
 
-        customConfirm("해당 포스로 이용하시겠습니까?")
+        customConfirm(i18n.use_this_pos)
             .then((result) => {
                 if (!result) {
                     $("#pos").prop("checked", !isChecked); // 사용자가 취소하면 체크 상태 복구
@@ -25,10 +25,10 @@ $(document).ready(function() {
                     error: function(error) {
                         $("#pos").prop("checked", !isChecked); // 원래 상태로 복구
                         if(error.status == 401){
-                            customAlert('로그인 해주세요.');
+                            customAlert(i18n.login_required);
                         }
                         else if(error.status == 403){
-                            customAlert('권한이 없습니다!');
+                            customAlert(i18n.no_permission);
                         }
                         else{
                             customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -53,7 +53,7 @@ $(document).ready(function() {
 
 
 function editName(id, elem){
-    customConfirm("수정 하시겠습니까?")
+    customConfirm(i18n.confirm_edit)
     .then((result) => {
         if (!result) {
             return false;
@@ -74,10 +74,10 @@ function editName(id, elem){
         error: function(error) {
             elem.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -88,7 +88,7 @@ function editName(id, elem){
 }
 
 function editTid(id, elem){
-    customConfirm("수정 하시겠습니까?")
+    customConfirm(i18n.confirm_edit)
     .then((result) => {
         if (!result) {
             return false;
@@ -109,10 +109,10 @@ function editTid(id, elem){
         error: function(error) {
             elem.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -125,7 +125,7 @@ function editTid(id, elem){
 
 
 function deleteTable(id){
-    customConfirm("삭제 하시겠습니까?")
+    customConfirm(i18n.confirm_delete)
     .then((result) => {
         if (!result) {
             return false;
@@ -147,10 +147,10 @@ function deleteTable(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));

@@ -1,0 +1,1860 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 13:25+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:34
+msgid "에이전시 선택"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:35
+msgid "관리할 에이전시을 선택해주세요."
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:39
+msgid "에이전시 이름"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:41
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:64
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:48
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:47
+#: agency_manage/templates/agency_user_manage/user_manage.html:43
+#: shop_manage/templates/coupon_manage/coupon_manage.html:37
+#: shop_manage/templates/goods_manage/goods_manage.html:75
+#: shop_manage/templates/order_manage/order_manage.html:73
+#: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:41
+#: shop_manage/templates/table_manage/table_manage.html:38
+msgid "검색"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:53
+#: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:52
+msgid "권한이 없습니다. 관리자에게 권한을 요청하세요."
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:24
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:50
+msgid "일별"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:25
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:51
+msgid "주간별"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:26
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:52
+msgid "월별"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:53
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:31
+#: shop_manage/templates/order_manage/order_manage.html:31
+msgid "오늘"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:54
+msgid "이번달"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:55
+msgid "올해"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:71
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:68
+msgid "일 매출"
+msgstr "日次売上"
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:77
+#: shop_manage/templates/order_manage/order_manage.html:84
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:74
+msgid "카드결제"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:88
+#: shop_manage/templates/order_manage/order_manage.html:84
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:85
+msgid "현금결제"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:99
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:96
+msgid "취소금액"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:110
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:107
+msgid "총 매출"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:113
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:88
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:99
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:110
+msgid "총"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:113
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:88
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:99
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:110
+msgid "건"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:132
+#: agency_manage/templates/agency_admin_manage/user_password_edit.html:65
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:130
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:103
+#: agency_manage/templates/agency_shop_manage/shop_create.html:128
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:185
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:140
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:111
+#: agency_manage/templates/agency_user_manage/user_create.html:86
+#: agency_manage/templates/agency_user_manage/user_detail.html:87
+#: agency_manage/templates/agency_user_manage/user_edit.html:84
+#: agency_manage/templates/agency_user_manage/user_manage.html:113
+#: shop_manage/templates/category_manage/category_manage.html:131
+#: shop_manage/templates/coupon_manage/coupon_create.html:60
+#: shop_manage/templates/coupon_manage/coupon_detail.html:63
+#: shop_manage/templates/coupon_manage/coupon_edit.html:61
+#: shop_manage/templates/goods_manage/goods_create.html:136
+#: shop_manage/templates/goods_manage/goods_detail.html:245
+#: shop_manage/templates/goods_manage/goods_edit.html:186
+#: shop_manage/templates/goods_manage/goods_manage.html:129
+#: shop_manage/templates/goods_manage/option_manage.html:151
+#: shop_manage/templates/order_manage/order_manage.html:175
+#: shop_manage/templates/pos_manage/pos_create.html:60
+#: shop_manage/templates/pos_manage/pos_manage.html:100
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:72
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:152
+#: shop_manage/templates/shop_admin_manage/user_password_edit.html:65
+#: shop_manage/templates/table_manage/table_create.html:60
+#: shop_manage/templates/table_manage/table_manage.html:96
+msgid "로그인 해주세요."
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:133
+#: agency_manage/templates/agency_admin_manage/user_password_edit.html:66
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:131
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:104
+#: agency_manage/templates/agency_shop_manage/shop_create.html:129
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:186
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:141
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:112
+#: agency_manage/templates/agency_user_manage/user_create.html:87
+#: agency_manage/templates/agency_user_manage/user_detail.html:88
+#: agency_manage/templates/agency_user_manage/user_edit.html:85
+#: agency_manage/templates/agency_user_manage/user_manage.html:114
+#: shop_manage/templates/category_manage/category_manage.html:132
+#: shop_manage/templates/coupon_manage/coupon_create.html:61
+#: shop_manage/templates/coupon_manage/coupon_detail.html:64
+#: shop_manage/templates/coupon_manage/coupon_edit.html:62
+#: shop_manage/templates/goods_manage/goods_create.html:137
+#: shop_manage/templates/goods_manage/goods_detail.html:246
+#: shop_manage/templates/goods_manage/goods_edit.html:187
+#: shop_manage/templates/goods_manage/goods_manage.html:130
+#: shop_manage/templates/goods_manage/option_manage.html:152
+#: shop_manage/templates/order_manage/order_manage.html:176
+#: shop_manage/templates/pos_manage/pos_create.html:61
+#: shop_manage/templates/pos_manage/pos_manage.html:101
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:73
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:153
+#: shop_manage/templates/shop_admin_manage/user_password_edit.html:66
+#: shop_manage/templates/table_manage/table_create.html:61
+#: shop_manage/templates/table_manage/table_manage.html:97
+msgid "권한이 없습니다!"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:134
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:51
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:132
+msgid "기간을 3개월 이내로만 설정 하실 수 있습니다."
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:135
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:133
+#: agency_manage/templates/agency_user_manage/user_manage.html:115
+#: shop_manage/templates/order_manage/order_manage.html:193
+msgid "엑셀저장하시겠습니까?"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:137
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:170
+msgid "현장"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:138
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:171
+msgid "온라인"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:139
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:172
+msgid "순매출"
+msgstr "日次売上"
+
+#: agency_manage/templates/agency_admin_manage/agency_manage_main.html:140
+msgid "가맹점 별 순매출"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/user_password_edit.html:32
+#: shop_manage/templates/shop_admin_manage/user_password_edit.html:32
+msgid "현재 비밀번호"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/user_password_edit.html:38
+#: shop_manage/templates/shop_admin_manage/user_password_edit.html:38
+msgid "새로운 비밀번호"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/user_password_edit.html:40
+#: shop_manage/templates/shop_admin_manage/user_password_edit.html:40
+msgid "비밀번호 확인"
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/user_password_edit.html:67
+#: shop_manage/templates/shop_admin_manage/user_password_edit.html:67
+msgid "비밀번호가 일치하지 않습니다."
+msgstr ""
+
+#: agency_manage/templates/agency_admin_manage/user_password_edit.html:68
+#: shop_manage/templates/shop_admin_manage/user_password_edit.html:68
+msgid "비밀번호는 문자 숫자 조합으로 8 ~ 16 자리로 입력해주세요."
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:22
+msgid "일자별 매출 현황"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:27
+#: shop_manage/templates/order_manage/order_manage.html:27
+msgid "기준 날짜"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:34
+#: shop_manage/templates/order_manage/order_manage.html:34
+msgid "일주일"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:37
+#: shop_manage/templates/order_manage/order_manage.html:37
+msgid "1개월"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:40
+#: shop_manage/templates/order_manage/order_manage.html:40
+msgid "3개월"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:48
+msgid "기간을 선택해주세요."
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:49
+msgid "선택"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:65
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:49
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:48
+#: agency_manage/templates/agency_user_manage/user_manage.html:44
+#: shop_manage/templates/coupon_manage/coupon_manage.html:38
+#: shop_manage/templates/goods_manage/goods_manage.html:76
+#: shop_manage/templates/goods_manage/rank_manage.html:44
+#: shop_manage/templates/order_manage/order_manage.html:74
+#: shop_manage/templates/table_manage/table_manage.html:39
+msgid "초기화"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:75
+#, fuzzy
+#| msgid "일 매출"
+msgid "매출"
+msgstr "日次売上"
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:80
+msgid "Excel 저장"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:88
+msgid "일자별"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:89
+#: agency_manage/templates/agency_shop_manage/shop_create.html:44
+#: agency_manage/templates/agency_shop_manage/shop_create.html:45
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:45
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:46
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:43
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:44
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:31
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:33
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:73
+msgid "가맹점명"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:90
+msgid "카드매출"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:91
+msgid "현금매출"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:92
+msgid "현금매출(O)"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:93
+msgid "현금매출(X)"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:94
+msgid "합계"
+msgstr ""
+
+#: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:112
+#: shop_manage/templates/goods_manage/goods_detail.html:224
+msgid "데이터가 없습니다."
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:24
+msgid "관리자 관리"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:27
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:58
+msgid "가맹점 목록"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:32
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:26
+#: agency_manage/templates/agency_user_manage/user_manage.html:27
+#: shop_manage/templates/coupon_manage/coupon_manage.html:25
+#: shop_manage/templates/goods_manage/goods_manage.html:35
+#: shop_manage/templates/order_manage/order_manage.html:60
+#: shop_manage/templates/table_manage/table_manage.html:26
+msgid "검색 분류"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:37
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:39
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:65
+#: agency_manage/templates/agency_user_manage/user_create.html:34
+#: agency_manage/templates/agency_user_manage/user_create.html:35
+#: agency_manage/templates/agency_user_manage/user_detail.html:43
+#: agency_manage/templates/agency_user_manage/user_edit.html:37
+#: agency_manage/templates/agency_user_manage/user_manage.html:32
+#: agency_manage/templates/agency_user_manage/user_manage.html:34
+#: agency_manage/templates/agency_user_manage/user_manage.html:68
+msgid "아이디"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:59
+#: agency_manage/templates/agency_user_manage/user_manage.html:54
+msgid "유저 목록"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:66
+#: agency_manage/templates/agency_shop_manage/shop_create.html:60
+#: agency_manage/templates/agency_shop_manage/shop_create.html:61
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:61
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:62
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:59
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:60
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:74
+#: agency_manage/templates/agency_user_manage/user_create.html:46
+#: agency_manage/templates/agency_user_manage/user_detail.html:47
+#: agency_manage/templates/agency_user_manage/user_edit.html:41
+#: agency_manage/templates/agency_user_manage/user_manage.html:69
+#: shop_manage/templates/order_manage/order_manage.html:65
+#: shop_manage/templates/order_manage/order_manage.html:102
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:23
+msgid "연락처"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:67
+#: agency_manage/templates/agency_user_manage/user_manage.html:71
+msgid "가입일"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:68
+msgid "가맹점 관리자"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:85
+#: agency_manage/templates/agency_user_manage/user_manage.html:95
+msgid "유저가 없습니다."
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:105
+#: agency_manage/templates/agency_user_manage/user_manage.html:117
+msgid "관리자 지정을 수정하시겠습니까?"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:28
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:28
+#: agency_manage/templates/agency_user_manage/user_create.html:28
+#: agency_manage/templates/agency_user_manage/user_detail.html:27
+#: agency_manage/templates/agency_user_manage/user_edit.html:27
+#: shop_manage/templates/coupon_manage/coupon_create.html:26
+#: shop_manage/templates/coupon_manage/coupon_detail.html:26
+#: shop_manage/templates/coupon_manage/coupon_edit.html:26
+#: shop_manage/templates/coupon_manage/coupon_manage.html:48
+#: shop_manage/templates/goods_manage/goods_create.html:28
+#: shop_manage/templates/goods_manage/goods_detail.html:27
+#: shop_manage/templates/goods_manage/rank_manage.html:27
+#: shop_manage/templates/pos_manage/pos_create.html:26
+#: shop_manage/templates/pos_manage/pos_manage.html:46
+#: shop_manage/templates/pos_manage/shop_pos_detail.html:28
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:28
+#: shop_manage/templates/table_manage/table_create.html:26
+#: shop_manage/templates/table_manage/table_manage.html:52
+msgid "목록"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:34
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:41
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:42
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:34
+msgid "가맹점 카테고리"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:36
+msgid "가맹점 카테고리를 선택해주세요."
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:48
+#: agency_manage/templates/agency_shop_manage/shop_create.html:49
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:49
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:50
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:47
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:48
+msgid "가맹점영문명"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:52
+#: agency_manage/templates/agency_shop_manage/shop_create.html:53
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:53
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:54
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:51
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:52
+msgid "가맹점 설명"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:56
+#: agency_manage/templates/agency_shop_manage/shop_create.html:57
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:57
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:58
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:55
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:56
+msgid "대표자명"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:62
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:61
+#: agency_manage/templates/agency_user_manage/user_create.html:48
+#: agency_manage/templates/agency_user_manage/user_create.html:53
+#: agency_manage/templates/agency_user_manage/user_edit.html:42
+#: agency_manage/templates/agency_user_manage/user_edit.html:43
+#: agency_manage/templates/agency_user_manage/user_edit.html:47
+#: agency_manage/templates/agency_user_manage/user_edit.html:48
+msgid "예시"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:65
+#: agency_manage/templates/agency_shop_manage/shop_create.html:66
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:65
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:66
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:64
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:65
+msgid "사업자번호"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:69
+#: agency_manage/templates/agency_shop_manage/shop_create.html:70
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:69
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:68
+#: agency_manage/templates/agency_user_manage/user_create.html:56
+#: agency_manage/templates/agency_user_manage/user_create.html:57
+#: agency_manage/templates/agency_user_manage/user_detail.html:55
+#: agency_manage/templates/agency_user_manage/user_edit.html:51
+msgid "주소"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:74
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:73
+#: agency_manage/templates/agency_user_manage/user_create.html:61
+#: agency_manage/templates/agency_user_manage/user_edit.html:56
+msgid "우편번호"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:77
+#: agency_manage/templates/agency_user_manage/user_create.html:64
+msgid "상세주소"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:80
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:79
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:79
+msgid "가맹점 이미지"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:80
+#: agency_manage/templates/agency_shop_manage/shop_create.html:84
+#: agency_manage/templates/agency_shop_manage/shop_create.html:92
+#: agency_manage/templates/agency_shop_manage/shop_create.html:96
+#: agency_manage/templates/agency_shop_manage/shop_create.html:100
+#: agency_manage/templates/agency_shop_manage/shop_create.html:104
+#: shop_manage/templates/goods_manage/goods_create.html:75
+#: shop_manage/templates/goods_manage/goods_detail.html:186
+msgid "필수"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:84
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:83
+msgid "가맹점 위치 정보 이미지"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:88
+#: agency_manage/templates/agency_shop_manage/shop_create.html:89
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:97
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:98
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:87
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:88
+msgid "팀 당 입장시간(분)"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:92
+#: agency_manage/templates/agency_shop_manage/shop_create.html:100
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:113
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:131
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:103
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:111
+msgid "로고 이미지"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:96
+#: agency_manage/templates/agency_shop_manage/shop_create.html:104
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:122
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:140
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:107
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:115
+msgid "입장 이미지"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:108
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:119
+msgid "테이블 이용시간 (0:무제한)"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:109
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:150
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:120
+msgid "테이블 이용시간 (분)"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:112
+#: agency_manage/templates/agency_shop_manage/shop_create.html:113
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:154
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:123
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:124
+msgid "추가요금 시간 (분)"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:117
+#: shop_manage/templates/coupon_manage/coupon_create.html:46
+#: shop_manage/templates/coupon_manage/coupon_manage.html:22
+#: shop_manage/templates/goods_manage/goods_create.html:119
+#: shop_manage/templates/goods_manage/option_manage.html:51
+#: shop_manage/templates/pos_manage/pos_create.html:10
+#: shop_manage/templates/pos_manage/pos_create.html:23
+#: shop_manage/templates/pos_manage/pos_create.html:46
+#: shop_manage/templates/pos_manage/pos_manage.html:22
+#: shop_manage/templates/table_manage/table_create.html:46
+#: shop_manage/templates/table_manage/table_manage.html:23
+msgid "등록"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:130
+#: agency_manage/templates/agency_user_manage/user_create.html:88
+msgid "가입 하시겠습니까?"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_create.html:131
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:143
+#: agency_manage/templates/agency_user_manage/user_create.html:89
+#: agency_manage/templates/agency_user_manage/user_edit.html:87
+msgid "유효하지 않은 전화번호 형식입니다. (-) 없이 입력 해주세요."
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:31
+#: agency_manage/templates/agency_user_manage/user_detail.html:33
+#: shop_manage/templates/coupon_manage/coupon_detail.html:29
+#: shop_manage/templates/goods_manage/goods_detail.html:30
+#: shop_manage/templates/goods_manage/goods_edit.html:31
+#: shop_manage/templates/goods_manage/option_manage.html:118
+#: shop_manage/templates/goods_manage/option_manage.html:131
+#: shop_manage/templates/pos_manage/pos_manage.html:75
+#: shop_manage/templates/table_manage/table_manage.html:74
+msgid "삭제"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:37
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:71
+msgid "메인 에이전시"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:38
+msgid "에이전시"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:84
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:93
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:118
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:127
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:136
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:145
+msgid "없음"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:88
+msgid "가맹점 위치정보 이미지"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:101
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:91
+msgid "알림톡 키"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:105
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:95
+msgid "대기등록 템플릿 코드"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:109
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:99
+msgid "대기호출 템플릿 코드"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:149
+msgid "테이블 이용시간"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:153
+msgid "추가요금 시간"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:157
+msgid "영수증 내용"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:158
+#: shop_manage/templates/pos_manage/shop_pos_detail.html:41
+#: shop_manage/templates/pos_manage/shop_pos_detail.html:43
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:37
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:39
+msgid "영수증 하단 내용"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:168
+msgid "가맹점용 영수증 발행"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_detail.html:187
+#: agency_manage/templates/agency_user_manage/user_detail.html:89
+#: shop_manage/templates/category_manage/category_manage.html:133
+#: shop_manage/templates/coupon_manage/coupon_detail.html:65
+#: shop_manage/templates/goods_manage/goods_detail.html:247
+#: shop_manage/templates/goods_manage/option_manage.html:155
+#: shop_manage/templates/pos_manage/pos_manage.html:103
+#: shop_manage/templates/table_manage/table_manage.html:99
+msgid "삭제 하시겠습니까?"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:79
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:83
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:103
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:107
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:111
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:115
+#: shop_manage/templates/goods_manage/goods_edit.html:95
+msgid "이미지 변경 시 에만 첨부"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:128
+#: agency_manage/templates/agency_user_manage/user_edit.html:72
+#: shop_manage/templates/coupon_manage/coupon_edit.html:46
+#: shop_manage/templates/goods_manage/goods_edit.html:28
+#: shop_manage/templates/goods_manage/goods_edit.html:168
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:57
+msgid "취소"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:129
+#: shop_manage/templates/coupon_manage/coupon_edit.html:47
+#: shop_manage/templates/goods_manage/goods_edit.html:169
+#: shop_manage/templates/goods_manage/goods_manage.html:132
+#: shop_manage/templates/goods_manage/option_manage.html:119
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:58
+msgid "저장"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:142
+#: agency_manage/templates/agency_user_manage/user_edit.html:86
+#: shop_manage/templates/coupon_manage/coupon_edit.html:63
+#: shop_manage/templates/goods_manage/goods_edit.html:188
+#: shop_manage/templates/goods_manage/option_manage.html:154
+#: shop_manage/templates/pos_manage/pos_manage.html:102
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:74
+#: shop_manage/templates/table_manage/table_manage.html:98
+msgid "수정 하시겠습니까?"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:23
+msgid "가맹점 등록"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:36
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:38
+msgid "에이전시명"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:72
+msgid "상태"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:75
+msgid "등록일"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:76
+msgid "관리자 설정"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:90
+msgid "설정"
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:95
+msgid "가맹점이 없습니다."
+msgstr ""
+
+#: agency_manage/templates/agency_shop_manage/shop_manage.html:113
+#: shop_manage/templates/order_manage/order_manage.html:184
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:161
+msgid "상태를 수정하시겠습니까?"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_create.html:38
+#: agency_manage/templates/agency_user_manage/user_create.html:39
+msgid "비밀번호"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_create.html:42
+#: agency_manage/templates/agency_user_manage/user_create.html:43
+#: agency_manage/templates/agency_user_manage/user_detail.html:39
+#: agency_manage/templates/agency_user_manage/user_edit.html:33
+msgid "회원명"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_create.html:43
+#: shop_manage/templates/coupon_manage/coupon_create.html:33
+#: shop_manage/templates/coupon_manage/coupon_detail.html:36
+#: shop_manage/templates/coupon_manage/coupon_edit.html:33
+#: shop_manage/templates/coupon_manage/coupon_manage.html:29
+#: shop_manage/templates/coupon_manage/coupon_manage.html:54
+#: shop_manage/templates/pos_manage/pos_create.html:37
+#: shop_manage/templates/pos_manage/pos_create.html:39
+#: shop_manage/templates/pos_manage/pos_manage.html:52
+#: shop_manage/templates/pos_manage/pos_manage.html:64
+#: shop_manage/templates/table_manage/table_create.html:31
+#: shop_manage/templates/table_manage/table_manage.html:30
+#: shop_manage/templates/table_manage/table_manage.html:58
+#: shop_manage/templates/table_manage/table_manage.html:69
+msgid "이름"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_create.html:51
+#: agency_manage/templates/agency_user_manage/user_detail.html:51
+#: agency_manage/templates/agency_user_manage/user_edit.html:46
+msgid "생년월일"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_create.html:67
+#: agency_manage/templates/agency_user_manage/user_detail.html:65
+#: agency_manage/templates/agency_user_manage/user_edit.html:62
+msgid "성별"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_create.html:69
+#: agency_manage/templates/agency_user_manage/user_detail.html:68
+#: agency_manage/templates/agency_user_manage/user_edit.html:65
+msgid "남자"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_create.html:70
+#: agency_manage/templates/agency_user_manage/user_detail.html:70
+#: agency_manage/templates/agency_user_manage/user_edit.html:66
+msgid "여자"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_create.html:75
+msgid "가입"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_detail.html:30
+msgid "비밀번호 초기화"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_detail.html:90
+msgid "비밀번호를 초기화 하시겠습니까?"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_manage.html:24
+msgid "회원 등록"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_manage.html:67
+msgid "활성여부"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_manage.html:70
+msgid "에이전시 관리자"
+msgstr ""
+
+#: agency_manage/templates/agency_user_manage/user_manage.html:116
+#: shop_manage/templates/goods_manage/goods_manage.html:131
+msgid "변경하시겠습니까?"
+msgstr ""
+
+#: agency_manage/views/agency_manage_views/auth_views.py:97
+#: shop_manage/views/shop_manage_views/auth_views.py:202
+msgid "HOUR"
+msgstr "時"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "MONDAY"
+msgstr "月"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "TUESDAY"
+msgstr "火"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "WEDNESDAY"
+msgstr "水"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "THURSDAY"
+msgstr "木"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "FRIDAY"
+msgstr "金"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "SATURDAY"
+msgstr "土"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "SUNDAY"
+msgstr "日"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:123
+#: shop_manage/views/shop_manage_views/auth_views.py:229
+msgid "TODAY"
+msgstr "今日"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:153
+#: shop_manage/views/shop_manage_views/auth_views.py:259
+msgid "MONTH"
+msgstr "月"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:283
+#: agency_manage/views/agency_manage_views/auth_views.py:286
+#: shop_manage/views/shop_manage_views/auth_views.py:317
+#: shop_manage/views/shop_manage_views/auth_views.py:320
+msgid "ERR_LOGIN1"
+msgstr ""
+
+#: agency_manage/views/agency_manage_views/auth_views.py:288
+#: shop_manage/views/shop_manage_views/auth_views.py:322
+msgid "ERR_LOGIN2"
+msgstr ""
+
+#: agency_manage/views/agency_manage_views/auth_views.py:290
+#: shop_manage/views/shop_manage_views/auth_views.py:324
+msgid "ERR_LOGIN3"
+msgstr ""
+
+#: agency_manage/views/agency_manage_views/auth_views.py:301
+#: shop_manage/views/shop_manage_views/auth_views.py:336
+msgid "ERR_LOGIN4"
+msgstr ""
+
+#: agency_manage/views/agency_manage_views/auth_views.py:316
+#: shop_manage/views/shop_manage_views/auth_views.py:351
+msgid "ERR_AUTH"
+msgstr ""
+
+#: agency_manage/views/agency_manage_views/auth_views.py:323
+#: shop_manage/views/shop_manage_views/auth_views.py:358
+msgid "ERR_PASSWORD"
+msgstr ""
+
+#: agency_manage/views/agency_manage_views/auth_views.py:325
+#: shop_manage/views/shop_manage_views/auth_views.py:360
+msgid "ERR_NEW_PASSWORD"
+msgstr ""
+
+#: agency_manage/views/agency_manage_views/auth_views.py:331
+#: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:98
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:97
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:340
+#: agency_manage/views/user_manage_views/user_manage_views.py:104
+#: agency_manage/views/user_manage_views/user_manage_views.py:284
+#: shop_manage/views/category_manage_views/category_manage_views.py:88
+#: shop_manage/views/category_manage_views/category_manage_views.py:97
+#: shop_manage/views/category_manage_views/category_manage_views.py:214
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:172
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:87
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:361
+#: shop_manage/views/goods_manage_views/option_manage_views.py:87
+#: shop_manage/views/goods_manage_views/option_manage_views.py:172
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:91
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:112
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:236
+#: shop_manage/views/shop_manage_views/auth_views.py:366
+#: shop_manage/views/table_manage_views/table_manage_views.py:86
+msgid "MSG_UPDATED"
+msgstr ""
+
+#: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:79
+#: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:86
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:82
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:90
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:122
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:148
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:153
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:224
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:229
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:262
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:267
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:297
+#: agency_manage/views/user_manage_views/user_manage_views.py:82
+#: agency_manage/views/user_manage_views/user_manage_views.py:90
+#: agency_manage/views/user_manage_views/user_manage_views.py:127
+#: agency_manage/views/user_manage_views/user_manage_views.py:201
+#: agency_manage/views/user_manage_views/user_manage_views.py:206
+#: agency_manage/views/user_manage_views/user_manage_views.py:220
+#: agency_manage/views/user_manage_views/user_manage_views.py:224
+#: agency_manage/views/user_manage_views/user_manage_views.py:255
+#: shop_manage/views/category_manage_views/category_manage_views.py:35
+#: shop_manage/views/category_manage_views/category_manage_views.py:72
+#: shop_manage/views/category_manage_views/category_manage_views.py:106
+#: shop_manage/views/category_manage_views/category_manage_views.py:137
+#: shop_manage/views/category_manage_views/category_manage_views.py:144
+#: shop_manage/views/category_manage_views/category_manage_views.py:155
+#: shop_manage/views/category_manage_views/category_manage_views.py:177
+#: shop_manage/views/category_manage_views/category_manage_views.py:185
+#: shop_manage/views/category_manage_views/category_manage_views.py:200
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:86
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:121
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:126
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:158
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:163
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:33
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:94
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:117
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:140
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:161
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:81
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:122
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:177
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:219
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:319
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:47
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:55
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:115
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:135
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:154
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:224
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:230
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:271
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:277
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:296
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:312
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:372
+#: shop_manage/views/goods_manage_views/option_manage_views.py:43
+#: shop_manage/views/goods_manage_views/option_manage_views.py:48
+#: shop_manage/views/goods_manage_views/option_manage_views.py:83
+#: shop_manage/views/goods_manage_views/option_manage_views.py:96
+#: shop_manage/views/goods_manage_views/option_manage_views.py:111
+#: shop_manage/views/goods_manage_views/option_manage_views.py:116
+#: shop_manage/views/goods_manage_views/option_manage_views.py:134
+#: shop_manage/views/goods_manage_views/option_manage_views.py:146
+#: shop_manage/views/goods_manage_views/option_manage_views.py:158
+#: shop_manage/views/goods_manage_views/option_manage_views.py:166
+#: shop_manage/views/goods_manage_views/option_manage_views.py:180
+#: shop_manage/views/goods_manage_views/option_manage_views.py:186
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:38
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:43
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:61
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:66
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:82
+#: shop_manage/views/order_manage_views/order_manage_views.py:336
+#: shop_manage/views/order_manage_views/order_manage_views.py:340
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:81
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:91
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:100
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:109
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:119
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:127
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:130
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:159
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:166
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:220
+#: shop_manage/views/table_manage_views/table_manage_views.py:73
+#: shop_manage/views/table_manage_views/table_manage_views.py:81
+#: shop_manage/views/table_manage_views/table_manage_views.py:93
+#: shop_manage/views/table_manage_views/table_manage_views.py:101
+#: shop_manage/views/table_manage_views/table_manage_views.py:104
+#: shop_manage/views/table_manage_views/table_manage_views.py:130
+msgid "ERR_DATA_INVALID"
+msgstr ""
+
+#: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:90
+#: agency_manage/views/user_manage_views/user_manage_views.py:259
+msgid "ERR_USER_INVALID"
+msgstr ""
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:95
+#: agency_manage/views/user_manage_views/user_manage_views.py:102
+#: shop_manage/views/category_manage_views/category_manage_views.py:99
+#: shop_manage/views/category_manage_views/category_manage_views.py:127
+#: shop_manage/views/category_manage_views/category_manage_views.py:212
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:85
+#: shop_manage/views/goods_manage_views/option_manage_views.py:170
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:50
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:73
+msgid "ERR_TYPE_INVALID"
+msgstr ""
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:157
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:301
+msgid "DUPLICATED_SHOP_NAME"
+msgstr ""
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:162
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:303
+msgid "DUPLICATED_SHOP_NAME_EN"
+msgstr ""
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:196
+#: agency_manage/views/user_manage_views/user_manage_views.py:170
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:184
+#: shop_manage/views/goods_manage_views/option_manage_views.py:72
+#: shop_manage/views/table_manage_views/table_manage_views.py:147
+msgid "ERR_CREATE"
+msgstr ""
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:198
+#: agency_manage/views/user_manage_views/user_manage_views.py:173
+#: shop_manage/views/category_manage_views/category_manage_views.py:49
+#: shop_manage/views/category_manage_views/category_manage_views.py:63
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:93
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:189
+#: shop_manage/views/goods_manage_views/option_manage_views.py:74
+#: shop_manage/views/goods_manage_views/option_manage_views.py:127
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:180
+#: shop_manage/views/table_manage_views/table_manage_views.py:149
+msgid "MSG_CREATED"
+msgstr ""
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:233
+#: agency_manage/views/user_manage_views/user_manage_views.py:228
+#: shop_manage/views/category_manage_views/category_manage_views.py:117
+#: shop_manage/views/category_manage_views/category_manage_views.py:125
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:130
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:235
+#: shop_manage/views/goods_manage_views/option_manage_views.py:99
+#: shop_manage/views/goods_manage_views/option_manage_views.py:189
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:134
+#: shop_manage/views/table_manage_views/table_manage_views.py:108
+msgid "MSG_DELETED"
+msgstr ""
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:337
+#: shop_manage/views/category_manage_views/category_manage_views.py:194
+#: shop_manage/views/category_manage_views/category_manage_views.py:210
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:355
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:95
+msgid "ERR_UPDATE"
+msgstr ""
+
+#: agency_manage/views/user_manage_views/user_manage_views.py:141
+msgid "DUPLICATED_USERNAME"
+msgstr ""
+
+#: agency_manage/views/user_manage_views/user_manage_views.py:212
+msgid "MSG_INITIALIZED"
+msgstr ""
+
+#: agency_manage/views/user_manage_views/user_manage_views.py:270
+msgid "ERR_PHONE_INVALID"
+msgstr ""
+
+#: agency_manage/views/user_manage_views/user_manage_views.py:273
+msgid "ERR_DATE_INVALID"
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:30
+msgid "카테고리 관리"
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:31
+msgid "대분류, 소분류 카테고리를 등록하고 선택하여 수정 및 삭제할 수 있습니다."
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:32
+msgid "상품이 등록되어 있는 카테고리는 삭제 불가능합니다."
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:42
+msgid "대분류"
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:62
+#: shop_manage/templates/category_manage/category_manage.html:137
+msgid "데이터 등록해주세요."
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:69
+msgid "소분류"
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:82
+msgid "대분류를 선택해주세요."
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:104
+msgid "카테고리명"
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:105
+#: shop_manage/templates/category_manage/category_manage.html:134
+msgid "카테고리명을 넣어주세요."
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:108
+msgid "카테고리명 (영문)"
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:109
+#: shop_manage/templates/category_manage/category_manage.html:135
+msgid "카테고리 영문명을 넣어주세요."
+msgstr ""
+
+#: shop_manage/templates/category_manage/category_manage.html:136
+msgid "카테고리 타입이 없습니다."
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_create.html:23
+msgid "이용권 등록"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_create.html:31
+#: shop_manage/templates/coupon_manage/coupon_detail.html:34
+#: shop_manage/templates/coupon_manage/coupon_edit.html:31
+msgid "이용권 이름"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_create.html:37
+#: shop_manage/templates/coupon_manage/coupon_detail.html:40
+#: shop_manage/templates/coupon_manage/coupon_edit.html:37
+msgid "만료기간 (일)"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_create.html:40
+#: shop_manage/templates/coupon_manage/coupon_detail.html:43
+#: shop_manage/templates/coupon_manage/coupon_edit.html:40
+msgid "무기한"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_create.html:62
+#: shop_manage/templates/goods_manage/goods_create.html:138
+#: shop_manage/templates/goods_manage/option_manage.html:153
+#: shop_manage/templates/pos_manage/pos_create.html:62
+#: shop_manage/templates/table_manage/table_create.html:62
+msgid "등록 하시겠습니까?"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_detail.html:23
+msgid "이용권 상세"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_edit.html:23
+msgid "이용권 수정"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_manage.html:55
+msgid "유효기간"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_manage.html:56
+#: shop_manage/templates/goods_manage/goods_manage.html:108
+msgid "생성일"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_manage.html:68
+msgid "일"
+msgstr ""
+
+#: shop_manage/templates/coupon_manage/coupon_manage.html:77
+#: shop_manage/templates/pos_manage/pos_manage.html:81
+#: shop_manage/templates/table_manage/table_manage.html:80
+msgid "내용이 없습니다."
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:11
+#: shop_manage/templates/goods_manage/goods_create.html:25
+msgid "상품 등록"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:33
+#: shop_manage/templates/goods_manage/goods_detail.html:35
+#: shop_manage/templates/goods_manage/goods_edit.html:36
+#: shop_manage/templates/goods_manage/goods_manage.html:46
+#: shop_manage/templates/goods_manage/rank_manage.html:32
+msgid "카테고리 분류"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:35
+#: shop_manage/templates/goods_manage/goods_edit.html:38
+#: shop_manage/templates/goods_manage/goods_manage.html:48
+#: shop_manage/templates/goods_manage/rank_manage.html:34
+msgid "대분류 카테고리를 선택해주세요."
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:39
+#: shop_manage/templates/goods_manage/goods_edit.html:49
+#: shop_manage/templates/goods_manage/goods_manage.html:52
+#: shop_manage/templates/goods_manage/rank_manage.html:38
+msgid "소분류 카테고리를 선택해주세요."
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:44
+#: shop_manage/templates/goods_manage/goods_create.html:46
+#: shop_manage/templates/goods_manage/goods_detail.html:60
+#: shop_manage/templates/goods_manage/goods_detail.html:62
+#: shop_manage/templates/goods_manage/goods_edit.html:61
+#: shop_manage/templates/goods_manage/goods_edit.html:63
+#: shop_manage/templates/goods_manage/goods_manage.html:39
+#: shop_manage/templates/goods_manage/goods_manage.html:100
+msgid "상품명"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:50
+#: shop_manage/templates/goods_manage/goods_create.html:52
+#: shop_manage/templates/goods_manage/goods_detail.html:66
+#: shop_manage/templates/goods_manage/goods_detail.html:68
+#: shop_manage/templates/goods_manage/goods_edit.html:67
+#: shop_manage/templates/goods_manage/goods_edit.html:69
+msgid "상품영문명"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:56
+#: shop_manage/templates/goods_manage/goods_create.html:58
+#: shop_manage/templates/goods_manage/goods_detail.html:72
+#: shop_manage/templates/goods_manage/goods_detail.html:74
+#: shop_manage/templates/goods_manage/goods_edit.html:73
+#: shop_manage/templates/goods_manage/goods_edit.html:75
+msgid "상품가격"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:62
+#: shop_manage/templates/goods_manage/goods_create.html:64
+msgid "핀매가격"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:65
+#: shop_manage/templates/goods_manage/goods_edit.html:82
+msgid "실제 판매되는 가격"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:69
+#: shop_manage/templates/goods_manage/goods_create.html:71
+#: shop_manage/templates/goods_manage/goods_detail.html:84
+#: shop_manage/templates/goods_manage/goods_detail.html:86
+#: shop_manage/templates/goods_manage/goods_edit.html:86
+#: shop_manage/templates/goods_manage/goods_edit.html:88
+#: shop_manage/templates/goods_manage/goods_manage.html:105
+msgid "재고수량"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:75
+#: shop_manage/templates/goods_manage/goods_detail.html:90
+#: shop_manage/templates/goods_manage/goods_edit.html:92
+msgid "상품 이미지"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:78
+#: shop_manage/templates/goods_manage/goods_edit.html:95
+msgid "이미지 권장"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:85
+#: shop_manage/templates/goods_manage/goods_detail.html:107
+#: shop_manage/templates/goods_manage/goods_edit.html:106
+msgid "판매 여부"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:91
+#: shop_manage/templates/goods_manage/goods_detail.html:117
+#: shop_manage/templates/goods_manage/goods_edit.html:116
+msgid "품절 여부"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:97
+#: shop_manage/templates/goods_manage/goods_detail.html:127
+#: shop_manage/templates/goods_manage/goods_edit.html:126
+msgid "키오스크 여부"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:103
+#: shop_manage/templates/goods_manage/goods_detail.html:137
+#: shop_manage/templates/goods_manage/goods_edit.html:136
+msgid "재고 관리 사용 여부"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_create.html:139
+#: shop_manage/templates/goods_manage/goods_edit.html:189
+msgid "상품은 소분류까지 분류되어야합니다."
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:10
+#: shop_manage/templates/goods_manage/goods_detail.html:24
+msgid "상품 상세"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:48
+#: shop_manage/templates/goods_manage/goods_detail.html:50
+msgid "상품"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:54
+#: shop_manage/templates/goods_manage/goods_detail.html:56
+msgid "상품코드"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:78
+#: shop_manage/templates/goods_manage/goods_detail.html:80
+#: shop_manage/templates/goods_manage/goods_edit.html:79
+#: shop_manage/templates/goods_manage/goods_edit.html:81
+msgid "판매가격"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:95
+msgid "이미지 없음"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:147
+#: shop_manage/templates/goods_manage/goods_edit.html:146
+msgid "옵션 사용 여부"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:177
+#: shop_manage/templates/goods_manage/option_manage.html:60
+#: shop_manage/templates/order_manage/order_manage.html:189
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:166
+msgid "옵션"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:180
+msgid "관리"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:190
+#: shop_manage/templates/goods_manage/option_manage.html:78
+msgid "내용"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:191
+#: shop_manage/templates/goods_manage/option_manage.html:80
+msgid "옵션비용"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:192
+#: shop_manage/templates/goods_manage/option_manage.html:81
+msgid "재고"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:193
+msgid "품절여부"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:210
+msgid "재고 관리"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:215
+#: shop_manage/templates/goods_manage/goods_manage.html:104
+#: shop_manage/templates/goods_manage/option_manage.html:82
+msgid "품절"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:217
+#: shop_manage/templates/goods_manage/goods_manage.html:65
+msgid "판매중"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_detail.html:232
+#: shop_manage/templates/goods_manage/option_manage.html:136
+msgid "옵션을 등록해주세요."
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_edit.html:11
+#: shop_manage/templates/goods_manage/goods_edit.html:25
+msgid "상품 수정"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:30
+msgid "상품등록"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:31
+msgid "포스 상품순서"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:32
+msgid "키오스크 상품순서"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:57
+msgid "판매 상태"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:61
+#: shop_manage/templates/order_manage/order_manage.html:46
+msgid "전체"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:69
+msgid "판매중단"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:86
+msgid "상품 목록"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:99
+msgid "카테고리"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:101
+msgid "이미지"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:102
+msgid "판매가"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:102
+msgid "정가"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:103
+msgid "판매"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:106
+msgid "재고관리"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/goods_manage.html:107
+msgid "옵션사용"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:10
+#: shop_manage/templates/goods_manage/option_manage.html:24
+msgid "상품 옵션 관리"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:27
+msgid "이전"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:31
+msgid ""
+"옵션 내용을 , 로 구분지어 등록해주세요. 옵션은 최대 5개 까지 등록 가능합니"
+"다. 옵션 내용 최대 20개"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:33
+#: shop_manage/templates/goods_manage/option_manage.html:35
+#: shop_manage/templates/goods_manage/option_manage.html:91
+msgid "옵션명"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:39
+#: shop_manage/templates/goods_manage/option_manage.html:41
+#: shop_manage/templates/goods_manage/option_manage.html:94
+msgid "옵션 영문명"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:45
+#: shop_manage/templates/goods_manage/option_manage.html:47
+msgid "옵션 내용"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:73
+msgid "옵션선택 필수"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:79
+msgid "내용(영문)"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:83
+msgid "추가"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:97
+msgid "옵션 가격"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:101
+#: shop_manage/templates/goods_manage/option_manage.html:105
+msgid "옵션 재고"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:103
+#: shop_manage/templates/goods_manage/option_manage.html:107
+msgid "옵션 재고관리"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:156
+msgid "추가 하시겠습니까?"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:157
+msgid "옵션재고 관리 설정을 변경하시겠습니까?"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:158
+msgid "옵션필수 선택을 수정하시겠습니까?"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/option_manage.html:159
+msgid "품절 상태를 변경하시겠습니까?"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/rank_manage.html:54
+msgid "상품 순서"
+msgstr ""
+
+#: shop_manage/templates/goods_manage/rank_manage.html:58
+msgid "소분류 카테고리까지 먼저 선택해주세요."
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:43
+msgid "1년"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:64
+#: shop_manage/templates/order_manage/order_manage.html:101
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:22
+msgid "주문자"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:84
+msgid "복합결제"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:89
+msgid "판매현황"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:90
+msgid "결제내역"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:98
+#: shop_manage/templates/order_manage/order_manage.html:186
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:19
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:163
+msgid "주문번호"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:99
+msgid "주문명"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:100
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:21
+msgid "결제금액"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:103
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:24
+msgid "날짜"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:104
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:25
+msgid "처리여부"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:120
+#: shop_manage/templates/order_manage/order_manage.html:177
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:154
+msgid "결제완료"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:121
+#: shop_manage/templates/order_manage/order_manage.html:178
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:155
+msgid "준비중"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:122
+#: shop_manage/templates/order_manage/order_manage.html:179
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:156
+msgid "주문완료"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:123
+#: shop_manage/templates/order_manage/order_manage.html:180
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:157
+msgid "수령완료"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:126
+#: shop_manage/templates/order_manage/order_manage.html:181
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:158
+msgid "주문취소"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:130
+#: shop_manage/templates/order_manage/order_manage.html:182
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:159
+msgid "수령문자요청"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:138
+#: shop_manage/templates/order_manage/order_manage.html:183
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:160
+msgid "주문내역이 없습니다."
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:153
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:126
+msgid "주문 상품"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:185
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:162
+msgid "완료 문자를 보내시겠습니까?"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:187
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:164
+msgid "주문일시"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:188
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:165
+msgid "제품명"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:190
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:167
+msgid "수량"
+msgstr ""
+
+#: shop_manage/templates/order_manage/order_manage.html:191
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:168
+msgid "총 금액"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/pos_create.html:31
+msgid "포스업체"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/pos_manage.html:23
+msgid "포스 관리"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/pos_manage.html:25
+msgid "포스 분류"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/pos_manage.html:36
+msgid "이용"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/pos_manage.html:65
+#: shop_manage/templates/pos_manage/pos_manage.html:71
+#: shop_manage/templates/table_manage/table_manage.html:70
+msgid "수정"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/pos_manage.html:104
+msgid "해당 포스로 이용하시겠습니까?"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/shop_pos_detail.html:11
+msgid "상세"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/shop_pos_detail.html:33
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:33
+msgid "광고 영상"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/shop_pos_detail.html:38
+msgid "비디오 없음"
+msgstr ""
+
+#: shop_manage/templates/pos_manage/shop_pos_detail.html:53
+#: shop_manage/templates/pos_manage/shop_pos_edit.html:49
+msgid "영수증 발행"
+msgstr ""
+
+#: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:34
+msgid "가맹점 선택"
+msgstr ""
+
+#: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:35
+msgid "관리할 가맹점을 선택해주세요."
+msgstr ""
+
+#: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:39
+msgid "가맹점 이름"
+msgstr ""
+
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:15
+msgid "최근 주문내역"
+msgstr ""
+
+#: shop_manage/templates/shop_admin_manage/shop_manage_main.html:20
+msgid "주문"
+msgstr ""
+
+#: shop_manage/templates/table_manage/table_create.html:10
+#: shop_manage/templates/table_manage/table_create.html:23
+msgid "테이블 등록"
+msgstr ""
+
+#: shop_manage/templates/table_manage/table_create.html:34
+msgid "'테이블' 입력 시 테이블1, 테이블2, 테이블3 ... 이런식으로 생겨납니다."
+msgstr ""
+
+#: shop_manage/templates/table_manage/table_create.html:38
+msgid "개수"
+msgstr ""
+
+#: shop_manage/templates/table_manage/table_manage.html:44
+msgid "포스관리에서 이용하실 포스를 먼저 선택해주세요."
+msgstr ""
+
+#: shop_manage/views/category_manage_views/category_manage_views.py:48
+#: shop_manage/views/category_manage_views/category_manage_views.py:87
+msgid "DUPLICATED_MAIN_CATEGORY"
+msgstr ""
+
+#: shop_manage/views/category_manage_views/category_manage_views.py:96
+msgid "DUPLICATED_SUB_CATEGORY"
+msgstr ""
+
+#: shop_manage/views/category_manage_views/category_manage_views.py:116
+#: shop_manage/views/category_manage_views/category_manage_views.py:124
+msgid "ERR_DELETE_CATEGORY"
+msgstr ""
+
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:80
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:300
+msgid "ERR_OPTION_FLAG"
+msgstr ""
+
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:182
+msgid "ERR_RETRY_LATER"
+msgstr ""
+
+#: shop_manage/views/goods_manage_views/option_manage_views.py:57
+#: shop_manage/views/goods_manage_views/option_manage_views.py:120
+msgid "ERR_OPTION_DETAIL_LIMIT"
+msgstr ""
+
+#: shop_manage/views/goods_manage_views/option_manage_views.py:59
+msgid "ERR_OPTION_LIMIT"
+msgstr ""
+
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:228
+msgid "ERR_AD_SIZE"
+msgstr ""
+
+#: shop_manage/views/table_manage_views/table_manage_views.py:133
+msgid "ERR_POS"
+msgstr ""
+
+#: templates/includes/agency/sidebar.html:13
+msgid "회원 관리"
+msgstr ""
+
+#: templates/includes/agency/sidebar.html:16
+msgid "가맹점 관리"
+msgstr ""
+
+#: templates/includes/agency/sidebar.html:19
+msgid "매출 내역"
+msgstr ""
+
+#: templates/includes/shop/sidebar.html:13
+msgid "상품 카테고리 관리"
+msgstr ""
+
+#: templates/includes/shop/sidebar.html:16
+msgid "상품 관리"
+msgstr ""
+
+#: templates/includes/shop/sidebar.html:19
+msgid "주문내역 관리"
+msgstr ""
+
+#: templates/includes/shop/sidebar.html:27
+msgid "POS 관리"
+msgstr ""
+
+#: templates/includes/shop/sidebar.html:30
+msgid "테이블 관리"
+msgstr ""
+
+#: templates/includes/shop/sidebar.html:34
+msgid "이용권 관리"
+msgstr ""

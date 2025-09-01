@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from django.db import transaction
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
+from django.utils.translation import gettext as _
 from system_manage.decorators import permission_required
 from shop_manage.views.shop_manage_views.auth_views import check_shop
 from system_manage.models import ShopPersonType, PersonType, Goods
@@ -77,7 +78,7 @@ class PersonTypeManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         request.PUT = json.loads(request.body)
         reqType = request.PUT['reqType']
@@ -118,7 +119,7 @@ class PersonTypeCreateView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         person_type_id = request.POST['person_type_id']
         description = request.POST['description'].strip()
@@ -173,7 +174,7 @@ class PersonTypeDetailView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         pk = kwargs.get("pk")
         try:
@@ -215,7 +216,7 @@ class PersonTypeEditView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         pk = kwargs.get("pk")
         try:
@@ -315,7 +316,7 @@ class PersonTypeGoodsManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         pk = kwargs.get("pk")
         try:

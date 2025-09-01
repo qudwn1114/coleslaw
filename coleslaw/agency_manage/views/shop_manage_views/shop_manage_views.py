@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.db import transaction
 from system_manage.decorators import permission_required
 from django.db.models import Exists, OuterRef
+from django.utils.translation import gettext as _
 from system_manage.models import Shop, ShopCategory, ShopTable, Agency, AgencyShop
 from agency_manage.views.agency_manage_views.auth_views import check_agency
 import json
@@ -78,7 +79,7 @@ class ShopManageView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
 
         request.PUT = json.loads(request.body)
         rq_type = request.PUT['type']
@@ -86,14 +87,14 @@ class ShopManageView(View):
         try:
             agency_shop = AgencyShop.objects.get(shop_id=shop_id, agency=agency)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         if rq_type == 'STATUS':
             agency_shop.status = not agency_shop.status
             agency_shop.save()
         else:
-            return JsonResponse({"message": "타입 오류"},status=400)
+            return JsonResponse({'message': _('ERR_TYPE_INVALID')}, status=400)
         
-        return JsonResponse({'message' : '변경되었습니다.'}, status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED')}, status = 201)
     
 
 class ShopCreateView(View):
@@ -118,7 +119,7 @@ class ShopCreateView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         shop_category_id = request.POST['shop_category_id']
 
@@ -144,21 +145,21 @@ class ShopCreateView(View):
         try:
             agency = Agency.objects.get(pk=agency_id)
         except:
-            return JsonResponse({'message': '에이전시 오류 입니다.'}, status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
 
         try:
             shop_category = ShopCategory.objects.get(pk=shop_category_id)
         except:
-            return JsonResponse({'message': '카테고리 오류 입니다.'}, status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
 
         try:
             Shop.objects.get(name_kr=shop_name_kr)
-            return JsonResponse({'message': '이미 존재하는 가맹점 한글명 입니다.'}, status=400)
+            return JsonResponse({'message': _('DUPLICATED_SHOP_NAME')}, status=400)
         except:
             pass
         try:
             Shop.objects.get(name_en=shop_name_en)
-            return JsonResponse({'message': '이미 존재하는 가맹점 영문명 입니다.'}, status=400)
+            return JsonResponse({'message': _('DUPLICATED_SHOP_NAME_EN')}, status=400)
         except:
             pass
         default_pos_ad_video = 'video/pos_ad/default.mp4'
@@ -192,10 +193,9 @@ class ShopCreateView(View):
                     shop=shop
                 )
         except:
-            return JsonResponse({'message': '등록 실패.'}, status=400)
+            return JsonResponse({'message': _('ERR_CREATE')}, status=400)
 
-
-        return JsonResponse({'message' : '등록 되었습니다.', 'url':reverse("agency_manage:shop_detail", kwargs={"agency_id":agency_id, "pk" : shop.id})},  status = 202)
+        return JsonResponse({'message' : _('MSG_CREATED'), 'url':reverse("agency_manage:shop_detail", kwargs={"agency_id":agency_id, "pk" : shop.id})},  status = 202)
     
 
 class ShopDetailView(View):
@@ -221,16 +221,16 @@ class ShopDetailView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         pk = kwargs.get('pk')
         try:
             shop = Shop.objects.get(pk=pk, agency=agency)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         shop.delete()
 
-        return JsonResponse({'message' : '삭제되었습니다.', 'url':reverse('agency_manage:shop_manage', kwargs={'agency_id':agency_id})},  status = 202)
+        return JsonResponse({'message' : _('MSG_DELETED'), 'url':reverse('agency_manage:shop_manage', kwargs={'agency_id':agency_id})},  status = 202)
     
 
 class ShopEditView(View):
@@ -259,12 +259,12 @@ class ShopEditView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         pk = kwargs.get('pk')
         try:
             shop = Shop.objects.get(pk=pk, agency=agency)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         shop_category_id = request.POST['shop_category_id']
         shop_name_kr = request.POST['shop_name_kr'].strip()
@@ -294,13 +294,13 @@ class ShopEditView(View):
         try:
             shop_category = ShopCategory.objects.get(pk=shop_category_id)
         except:
-            return JsonResponse({'message': '카테고리 오류 입니다.'}, status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
 
     
         if Shop.objects.filter(name_kr=shop_name_kr).exclude(pk=shop.pk).exists():
-            return JsonResponse({'message': '이미 존재하는 가맹점 한글명 입니다.'}, status=400)
+            return JsonResponse({'message': _('DUPLICATED_SHOP_NAME')}, status=400)
         if Shop.objects.filter(name_en=shop_name_en).exclude(pk=shop.pk).exists():
-            return JsonResponse({'message': '이미 존재하는 가맹점 영문명 입니다.'}, status=400)
+            return JsonResponse({'message': _('DUPLICATED_SHOP_NAME_EN')}, status=400)
         try:
             with transaction.atomic():
                 shop.shop_category = shop_category
@@ -334,9 +334,9 @@ class ShopEditView(View):
                     shop.entry_image2 = entry_image2
                 shop.save()
         except:
-            return JsonResponse({'message': '수정오류'}, status=400)
+            return JsonResponse({'message': _('ERR_UPDATE')}, status=400)
 
 
-        return JsonResponse({'message' : '수정 되었습니다.', 'url':reverse("agency_manage:shop_detail", kwargs={"agency_id":agency_id, "pk" : shop.id})},  status = 202)
+        return JsonResponse({'message' : _('MSG_UPDATED'), 'url':reverse("agency_manage:shop_detail", kwargs={"agency_id":agency_id, "pk" : shop.id})},  status = 202)
 
 

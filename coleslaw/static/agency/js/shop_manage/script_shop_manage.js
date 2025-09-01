@@ -1,5 +1,5 @@
 function setStatus(id, elem){
-    customConfirm("상태를 수정하시겠습니까?")
+    customConfirm(i18n.confirm_edit)
     .then((result) => {
         if (!result) {
             location.reload();
@@ -24,10 +24,10 @@ function setStatus(id, elem){
             error: function(error) {
                 elem.disabled=false;
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON), ()=>{

@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="shop",
             name="name_kr",
-            field=models.CharField(max_length=100, unique=True, verbose_name="가맹점한글명"),
+            field=models.CharField(max_length=100, unique=True, verbose_name="가맹점명"),
         ),
     ]

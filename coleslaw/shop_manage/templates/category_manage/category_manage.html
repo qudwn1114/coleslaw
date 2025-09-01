@@ -1,5 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
+{% load static i18n %}
 
 {% block stylesheets %}
 <style>
@@ -27,9 +27,9 @@
       <section class="section">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Category 관리</h5>
-            <p>대분류, 소분류 Category를 등록하고 선택하여 수정 및 삭제할 수 있습니다.</p>
-            <strong class="text-danger">상품이 등록되어 있는 카테고리는 삭제 불가능합니다.</strong>
+            <h5 class="card-title">{% trans "카테고리 관리" %}</h5>
+            <p>{% trans "대분류, 소분류 카테고리를 등록하고 선택하여 수정 및 삭제할 수 있습니다." %}</p>
+            <strong class="text-danger">{% trans "상품이 등록되어 있는 카테고리는 삭제 불가능합니다." %}</strong>
           </div>
         </div>
         <div class="card" >
@@ -39,7 +39,7 @@
                     <div class="col-6 p-3 px-5">
                         <div class="d-flex">
                             <div class="me-auto">
-                                <h5 class="card-title">대분류</h5>
+                                <h5 class="card-title">{% trans "대분류" %}</h5>
                             </div>
                             <div class="mt-3">
                                 <button class="btn btn-danger btn-sm" id="deleteLCategory" style="display: none;" data-main-id="" onclick="deleteCategory(this)"><i class="bi bi-trash-fill"></i></button>
@@ -59,14 +59,14 @@
                             </li>
                             {% endfor %}
                             {% else %}
-                            데이터 등록해주세요.
+                            {% trans "데이터 등록해주세요." %}
                             {% endif %}
                         </ul>
                     </div>
                     <div class="col-6 p-3 px-5">
                         <div class="d-flex">
                             <div class="me-auto">
-                                <h5 class="card-title">소분류</h5>
+                                <h5 class="card-title">{% trans "소분류" %}</h5>
                             </div>
                             <div class="mt-3">
                                 <button class="btn btn-danger btn-sm" id="deleteSCategory" style="display: none;" data-sub-id="" onclick="deleteCategory(this)"><i class="bi bi-trash-fill"></i></button>
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         <ul id="list-sub-category" class="list-group">
-                            대분류를 선택해주세요.
+                          {% trans "대분류를 선택해주세요." %}
                         </ul>
                     </div>
                   </div>
@@ -101,12 +101,12 @@
                 <input type="hidden" class="form-control" id="categoryId" name="categoryId"/>
                 <input type="hidden" class="form-control" id="parentCategoryId" name="parentCategoryId"/>
                 <div class="mb-3">
-                  <label for="categoryNameKr" class="col-form-label">Category Name (한글):</label>
-                  <input type="text" class="form-control" id="categoryNameKr" name="categoryNameKr" placeholder="카테고리 한글 이름을 넣어주세요.">
+                  <label for="categoryNameKr" class="col-form-label">{% trans "카테고리명" %}:</label>
+                  <input type="text" class="form-control" id="categoryNameKr" name="categoryNameKr" placeholder="{% trans '카테고리명을 넣어주세요.' %}">
                 </div>
                 <div class="mb-3">
-                  <label for="categoryNameEn" class="col-form-label">Category Name (영문):</label>
-                  <input type="text" class="form-control" id="categoryNameEn" name="categoryNameEn" placeholder="카테고리 영문 이름을 넣어주세요.">
+                  <label for="categoryNameEn" class="col-form-label">{% trans "카테고리명 (영문)" %}:</label>
+                  <input type="text" class="form-control" id="categoryNameEn" name="categoryNameEn" placeholder="{% trans '카테고리 영문명을 넣어주세요.' %}">
                 </div>
               </form>
             </div>
@@ -126,7 +126,18 @@
 <script>
   const shop_id = {{shop.id}};
 </script>
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_delete: "{% trans '삭제 하시겠습니까?' %}",
+    category_name_required: "{% trans '카테고리명을 넣어주세요.' %}",
+    category_name_en_required: "{% trans '카테고리 영문명을 넣어주세요.' %}",
+    category_type_required: "{% trans '카테고리 타입이 없습니다.' %}",
+    data_required: "{% trans '데이터 등록해주세요.' %}"
+  };
+</script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@1.0.0/jquery-sortable.js"></script>
-<script src="{% static 'shop/js/category_manage/script_category_manage.js' %}?v=202505"></script>
+<script src="{% static 'shop/js/category_manage/script_category_manage.js' %}?v=202508"></script>
 {% endblock javascripts %}

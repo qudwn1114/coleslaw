@@ -112,7 +112,7 @@ class UserCreateView(View):
 
         try:
             User.objects.get(username=username)
-            return JsonResponse({'message': '아이디가 이미 존재합니다'}, status=400)
+            return JsonResponse({'message': '이미 존재하는 아이디 입니다.'}, status=400)
         except:
             pass
 

@@ -4,6 +4,7 @@ from django.db import transaction
 from django.views.generic import View
 from django.utils.decorators import method_decorator
 from django.urls import reverse
+from django.utils.translation import gettext as _
 from system_manage.decorators import permission_required
 from system_manage.models import Goods, GoodsOption, GoodsOptionDetail
 from shop_manage.views.shop_manage_views.auth_views import check_shop
@@ -39,12 +40,12 @@ class OptionManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         pk = kwargs.get("pk")
         try:
             goods= Goods.objects.get(pk=pk)
         except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         option_name_kr = request.POST['option_name_kr'].strip()
         option_name_en = request.POST['option_name_en'].strip()
@@ -53,9 +54,9 @@ class OptionManageView(View):
         option_detail_list = [i.strip() for i in option_detail_list]
         option_count = goods.option.all().count()
         if len(option_detail_list) > 20:
-            return JsonResponse({'message' : '옵션내용은 20개 까지 가능합니다.'},  status = 400)
+            return JsonResponse({'message' : _('ERR_OPTION_DETAIL_LIMIT')},  status = 400)
         if option_count >=5:
-            return JsonResponse({'message' : '더 이상 옵션을 등록 하실 수 없습니다.'},  status = 400)
+            return JsonResponse({'message' : _('ERR_OPTION_LIMIT')},  status = 400)
         try:
             with transaction.atomic():
                 goods_option = GoodsOption.objects.create(
@@ -68,9 +69,9 @@ class OptionManageView(View):
                     bulk_list.append(GoodsOptionDetail(goods_option=goods_option, name_kr=i, name_en=i))
                 GoodsOptionDetail.objects.bulk_create(bulk_list)
         except:
-            return JsonResponse({'message' : '등록 에러'},  status = 400)
+            return JsonResponse({'message' : _('ERR_CREATE')},  status = 400)
         
-        return JsonResponse({'message' : '등록되었습니다.'},status = 202)
+        return JsonResponse({'message' : _('MSG_CREATED')},status = 202)
     
     @method_decorator(permission_required(raise_exception=True))
     def put(self, request: HttpRequest, *args, **kwargs):
@@ -79,11 +80,11 @@ class OptionManageView(View):
         try:
             goods_option = GoodsOption.objects.get(pk=option_id)
         except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         goods_option.required = not goods_option.required
         goods_option.save()
         
-        return JsonResponse({'message' : '수정되었습니다.'},status = 200)
+        return JsonResponse({'message' : _('MSG_UPDATED')},status = 200)
     
     @method_decorator(permission_required(raise_exception=True))
     def delete(self, request: HttpRequest, *args, **kwargs):
@@ -92,10 +93,10 @@ class OptionManageView(View):
         try:
             goods_option = GoodsOption.objects.get(pk=option_id)
         except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         goods_option.delete()
         
-        return JsonResponse({'message' : '삭제되었습니다.'},status = 200)
+        return JsonResponse({'message' : _('MSG_DELETED')},status = 200)
 
 
 class OptionDetailManageView(View):
@@ -107,30 +108,30 @@ class OptionDetailManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         option_id = request.POST['option_id']
         try:
             goods_option = GoodsOption.objects.get(pk=option_id)
         except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         option_detail_count = goods_option.option_detail.all().count()
         if option_detail_count >= 20:
-            return JsonResponse({'message' : '옵션내용은 20개 까지 가능합니다.'},  status = 400)
+            return JsonResponse({'message' : _('ERR_OPTION_DETAIL_LIMIT')},  status = 400)
         GoodsOptionDetail.objects.create(
             goods_option=goods_option,
             name_kr=f'내용{option_detail_count+1}',
             name_en=f'content{option_detail_count+1}'
         )
 
-        return JsonResponse({'message' : '등록되었습니다.'},status = 202)
+        return JsonResponse({'message' : _('MSG_CREATED')},status = 202)
     
     @method_decorator(permission_required(raise_exception=True))
     def put(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         request.PUT = json.loads(request.body)
         rq_type = request.PUT['type']
         if rq_type == 'DETAIL':
@@ -142,7 +143,7 @@ class OptionDetailManageView(View):
             try:
                 goods_option_detail = GoodsOptionDetail.objects.get(pk=option_detail_id)
             except:
-                return JsonResponse({'message' : '데이터 오류'},  status = 400)
+                return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
             goods_option_detail.name_kr = option_name_kr
             goods_option_detail.name_en = option_name_en
             goods_option_detail.price = option_price
@@ -154,7 +155,7 @@ class OptionDetailManageView(View):
             try:
                 goods_option_detail = GoodsOptionDetail.objects.get(pk=option_detail_id)
             except:
-                return JsonResponse({'message' : '데이터 오류'},  status = 400)
+                return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
             goods_option_detail.stock_flag = not goods_option_detail.stock_flag
             goods_option_detail.save()
         elif rq_type == 'SOLD_OUT':
@@ -162,13 +163,13 @@ class OptionDetailManageView(View):
             try:
                 goods_option_detail = GoodsOptionDetail.objects.get(pk=option_detail_id)
             except:
-                return JsonResponse({'message' : '데이터 오류'},  status = 400)
+                return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
             goods_option_detail.soldout = not goods_option_detail.soldout
             goods_option_detail.save()
         else:
-            return JsonResponse({'message' : 'TYPE ERROR'},status = 400)
+            return JsonResponse({'message' : _('ERR_TYPE_INVALID')},status = 400)
         
-        return JsonResponse({'message' : '수정되었습니다.'},status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED')},status = 201)
 
     
     @method_decorator(permission_required(raise_exception=True))
@@ -176,13 +177,13 @@ class OptionDetailManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         request.DELETE = json.loads(request.body)
         option_detail_id = request.DELETE['option_detail_id']
         try:
             goods_option_detail = GoodsOptionDetail.objects.get(pk=option_detail_id)
         except:
-            return JsonResponse({'message' : '데이터 오류'},  status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         goods_option_detail.delete()
         
-        return JsonResponse({'message' : '삭제되었습니다.'},status = 200)
+        return JsonResponse({'message' : _('MSG_DELETED')},status = 200)

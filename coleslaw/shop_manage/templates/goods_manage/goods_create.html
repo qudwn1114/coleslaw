@@ -1,5 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
@@ -8,7 +8,7 @@
 {% block main %}
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>상품 등록</h1>
+        <h1>{% trans "상품 등록" %}</h1>
         <nav>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
@@ -22,88 +22,89 @@
           <div class="card-body">
             <div class="row justify-content-between">
                 <div class="col">
-                    <h5 class="card-title">상품 등록</h5>
+                    <h5 class="card-title">{% trans "상품 등록" %}</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{{prev_url}}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{{prev_url}}"><i class="bi bi-list"></i> {% trans "목록" %}</a></div>
                 </div>
             </div>
             <form id="data-form" method="post" onsubmit="return false">
                 <div class="row mb-3">
-                  <label for="category" class="col-sm-2 col-form-label">카테고리 분류 *</label>
+                  <label for="category" class="col-sm-2 col-form-label">{% trans "카테고리 분류" %} *</label>
                   <div class="col-sm-5">
-                      <select  class="selectpicker form-control" id="main_category" name="main_category" data-live-search="true" title="대분류 카테고리를 선택해주세요." disabled onchange="selectCategory('main',this.value)">
+                      <select  class="selectpicker form-control" id="main_category" name="main_category" data-live-search="true" title="{% trans '대분류 카테고리를 선택해주세요.' %}" disabled onchange="selectCategory('main',this.value)">
                       </select>
                   </div>
                   <div class="col-sm-5">
-                    <select  class="selectpicker form-control" id="sub_category" name="sub_category" data-live-search="true" title="소분류 카테고리를 선택해주세요." disabled>
+                    <select  class="selectpicker form-control" id="sub_category" name="sub_category" data-live-search="true" title="{% trans '소분류 카테고리를 선택해주세요.' %}" disabled>
                     </select>
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                    <label for="goods_name_kr" class="col-sm-2 col-form-label">상품한글명 *</label>
+                    <label for="goods_name_kr" class="col-sm-2 col-form-label">{% trans "상품명" %} *</label>
                     <div class="col-sm-10">
-                        <input type="text" id="goods_name_kr" name="goods_name_kr" class="form-control" placeholder="상품한글명">
+                        <input type="text" id="goods_name_kr" name="goods_name_kr" class="form-control" placeholder="{% trans '상품명' %}">
                     </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="goods_name_en" class="col-sm-2 col-form-label">상품영문명 *</label>
+                  <label for="goods_name_en" class="col-sm-2 col-form-label">{% trans "상품영문명" %} *</label>
                   <div class="col-sm-10">
-                      <input type="text" id="goods_name_en" name="goods_name_en" class="form-control" placeholder="상품영문명">
+                      <input type="text" id="goods_name_en" name="goods_name_en" class="form-control" placeholder="{% trans '상품영문명' %}">
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="price" class="col-sm-2 col-form-label">상품가격 *</label>
+                  <label for="price" class="col-sm-2 col-form-label">{% trans "상품가격" %} *</label>
                   <div class="col-sm-10">
-                      <input type="number" id="price" name="price" class="form-control" placeholder="상품가격" min="0" oninput="validity.valid||(value='');" value="0">
+                      <input type="number" id="price" name="price" class="form-control" placeholder="{% trans '상품가격' %}" min="0" oninput="validity.valid||(value='');" value="0">
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="sale_price" class="col-sm-2 col-form-label">핀매가격 *</label>
+                  <label for="sale_price" class="col-sm-2 col-form-label">{% trans "핀매가격" %} *</label>
                   <div class="col-sm-10">
-                      <input type="number" id="sale_price" name="sale_price" class="form-control" placeholder="판매가격" min="0" oninput="validity.valid||(value='');" value="0">
-                      <small class="form-text text-muted">실제 판매되는 가격</small>
+                      <input type="number" id="sale_price" name="sale_price" class="form-control" placeholder="{% trans '핀매가격' %}" min="0" oninput="validity.valid||(value='');" value="0">
+                      <small class="form-text text-muted">{% trans '실제 판매되는 가격' %}</small>
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="stock" class="col-sm-2 col-form-label">재고수량</label>
+                  <label for="stock" class="col-sm-2 col-form-label">{% trans '재고수량' %}</label>
                   <div class="col-sm-10">
-                      <input type="number" id="stock" name="stock" class="form-control" placeholder="재고수량" min="0" oninput="validity.valid||(value='');" value="0">
+                      <input type="number" id="stock" name="stock" class="form-control" placeholder="{% trans '재고수량' %}" min="0" oninput="validity.valid||(value='');" value="0">
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="image" class="col-sm-2 col-form-label">상품 이미지<small class="form-text text-muted">(필수 x)</small></label>
+                  <label for="image" class="col-sm-2 col-form-label">{% trans '상품 이미지' %}<small class="form-text text-muted">({% trans '필수' %} x)</small></label>
                   <div class="col-sm-10">
                     <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpg, image/jpeg">
-                    <small class="form-text text-muted">800 * 800 이미지 권장</small>
+                    <small class="form-text text-muted">800 * 800 {% trans '이미지 권장' %}</small>
                   </div>
                 </div>
                 <div class="row mt-3 mb-3 mx-2">
                   <div class="form-check col-sm-3">
                     <input class="form-check-input" type="checkbox" value="1" id="status" name="status" checked>
                     <label class="form-check-label" for="status">
-                      판매 여부
+                      {% trans '판매 여부' %}
                     </label>
                   </div>
                   <div class="form-check col-sm-3">
                     <input class="form-check-input" type="checkbox" value="0" id="soldout" name="soldout">
                     <label class="form-check-label" for="soldout">
-                    품절 여부
+                    {% trans '품절 여부' %}
                     </label>
                   </div>
                   <div class="form-check col-sm-3">
                     <input class="form-check-input" type="checkbox" value="1" id="kiosk_display" name="kiosk_display" checked>
                     <label class="form-check-label" for="kiosk_display">
-                      키오스크 여부
+                      {% trans '키오스크 여부' %}
                     </label>
                   </div>
                   <div class="form-check col-sm-3">
                     <input class="form-check-input" type="checkbox" value="0" id="stock_flag" name="stock_flag">
                     <label class="form-check-label" for="stock_flag">
-                    재고 관리 사용 여부
+                      {% trans '재고 관리 사용 여부' %}
                     </label>
                   </div>
                 </div>
+                {% if LANGUAGE_CODE == 'ko' %}
                 <div class="row mt-3 mb-3">
                   <label for="after_payment_goods_id_list" class="col-sm-2 col-form-label">결제후상품 ID<small class="form-text text-muted">(필수 x)</small></label>
                   <div class="col-sm-10">
@@ -111,10 +112,11 @@
                       <small class="form-text text-muted">예시) 1, 2, 3, 4 ( ',' 로 ID 구분해 주시면 됩니다. 단일 상품일 경우 ID 만 )</small>
                   </div>
                 </div>
+                {% endif %}
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-12 text-center">
-                        <button type="button" id="btn-submit" class="btn btn-primary">등록</button>
+                        <button type="button" id="btn-submit" class="btn btn-primary">{% trans '등록' %}</button>
                     </div>
                 </div>
             </form>
@@ -129,7 +131,15 @@
 <script>
   const shop_id = {{shop.id}};
 </script>
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_register: "{% trans '등록 하시겠습니까?' %}",
+    category_alert: "{% trans '상품은 소분류까지 분류되어야합니다.' %}",
+  };
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
-<script src="{% static 'shop/js/goods_manage/script_goods_create.js' %}?v=202504"></script>
+<script src="{% static 'shop/js/goods_manage/script_goods_create.js' %}?v=202508"></script>
 {% endblock javascripts %}
 

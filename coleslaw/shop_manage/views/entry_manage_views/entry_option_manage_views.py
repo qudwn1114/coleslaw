@@ -3,6 +3,7 @@ from django.http import HttpRequest, JsonResponse
 from django.db import transaction
 from django.views.generic import View
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext as _
 from system_manage.decorators import permission_required
 from system_manage.models import ShopEntryOption, ShopEntryOptionDetail
 from shop_manage.views.shop_manage_views.auth_views import check_shop
@@ -29,7 +30,7 @@ class ShopEntryOptionManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         option_name = request.POST['option_name']
         option_detail = request.POST['option_detail']
@@ -90,7 +91,7 @@ class ShopEntryOptionDetailManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         option_id = request.POST['option_id']
         try:
             shop_entry_option = ShopEntryOption.objects.get(pk=option_id)
@@ -113,7 +114,7 @@ class ShopEntryOptionDetailManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         request.PUT = json.loads(request.body)
         rq_type = request.PUT['type']
         if rq_type == 'DETAIL':
@@ -136,7 +137,7 @@ class ShopEntryOptionDetailManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         request.DELETE = json.loads(request.body)
         option_detail_id = request.DELETE['option_detail_id']
         try:
@@ -157,7 +158,7 @@ class ShopEntryOptionDetailImageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         option_detail_id = request.POST['option_detail_id']
         image = request.FILES.get('image', None)
 

@@ -45,10 +45,10 @@ btn_submit.addEventListener("click", () => {
             image.disabled=false;
             qr_link.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));

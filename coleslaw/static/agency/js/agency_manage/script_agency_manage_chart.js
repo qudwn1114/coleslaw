@@ -13,11 +13,11 @@ function report(report_type){
             chart1.updateOptions({
                 series:[
                     {
-                        name: '현장',
+                        name: i18n.offline,
                         data: data.pos_data
                     },
                     {
-                        name: '온라인',
+                        name: i18n.online,
                         data: data.online_data
                     },
                 ],
@@ -28,10 +28,10 @@ function report(report_type){
           },
           error: function(error) {
               if(error.status == 401){
-                  customAlert('로그인 해주세요.');
+                  customAlert(i18n.login_required);
               }
               else if(error.status == 403){
-                  customAlert('권한이 없습니다!');
+                  customAlert(i18n.no_permission);
               }
               else{
                   customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -56,7 +56,7 @@ var options1 = {
     },
     series: [],
     title: {
-        text: '순매출',
+        text: i18n.net,
         align: 'left'
     },
     noData: {
@@ -73,10 +73,10 @@ var options1 = {
           formatter: function(val) {
                 // override the val here
                 if (parseInt(val) >= 1000) {
-                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'; // 천단위 콤마
+                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + i18n.currency; // 천단위 콤마
                 }
                 else {
-                    return val.toFixed(0).toString() + '원';
+                    return val.toFixed(0).toString() + i18n.currency;
                 }
            }
         }
@@ -102,11 +102,11 @@ function shop_report(report_type){
             chart2.updateOptions({
                 series:[
                     {
-                        name: '현장',
+                        name: i18n.offline,
                         data: data.pos_data
                     },
                     {
-                        name: '온라인',
+                        name: i18n.online,
                         data: data.online_data
                     }
                 ],
@@ -117,10 +117,10 @@ function shop_report(report_type){
         },
         error: function(error) {
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -140,7 +140,7 @@ var options2 = {
   },
   dataLabels: {
     formatter: (val) => {
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + i18n.currency;
       }
   },
   plotOptions: {
@@ -152,7 +152,7 @@ var options2 = {
   },
   series: [],
   title: {
-      text: '가맹점 별 순매출',
+      text: i18n.shop_net,
       align: 'left'
   },
   noData: {
@@ -163,10 +163,10 @@ var options2 = {
         formatter: function(val) {
               // override the val here
               if (parseInt(val) >= 1000) {
-                  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'; // 천단위 콤마
+                  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + i18n.currency; // 천단위 콤마
               }
               else {
-                  return val.toFixed(0).toString() + '원';
+                  return val.toFixed(0).toString() + i18n.currency;
               }
          }
       }
@@ -177,9 +177,9 @@ var options2 = {
         show : true, 
         formatter : function(val) {
             if (parseInt(val) >= 1000) {
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+ '원';; // 천단위 콤마
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+ i18n.currency;; // 천단위 콤마
             } else {
-                return val.toFixed(0).toString()+ '원';;
+                return val.toFixed(0).toString()+ i18n.currency;;
             }
         }
     }

@@ -110,7 +110,7 @@ class ShopCreateView(View):
 
         try:
             Shop.objects.get(name_kr=shop_name_kr)
-            return JsonResponse({'message': '이미 존재하는 가맹점 한글명 입니다.'}, status=400)
+            return JsonResponse({'message': '이미 존재하는 가맹점명 입니다.'}, status=400)
         except:
             pass
         try:
@@ -246,7 +246,7 @@ class ShopEditView(View):
 
     
         if Shop.objects.filter(name_kr=shop_name_kr).exclude(pk=shop.pk).exists():
-            return JsonResponse({'message': '이미 존재하는 가맹점 한글명 입니다.'}, status=400)
+            return JsonResponse({'message': '이미 존재하는 가맹점명 입니다.'}, status=400)
         if Shop.objects.filter(name_en=shop_name_en).exclude(pk=shop.pk).exists():
             return JsonResponse({'message': '이미 존재하는 가맹점 영문명 입니다.'}, status=400)
         

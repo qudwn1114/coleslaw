@@ -100,10 +100,10 @@ btn_submit.addEventListener("click", () => {
             aligo_entry_template_code1.disabled=false;
             aligo_entry_template_code2.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -140,7 +140,7 @@ window.onload = function(){
 function regPhone(str){                                        
     let reg_phone = /^[0-9]*$/;
     if(!reg_phone.test(str)){
-       customAlert('유효하지 않은 전화번호 형식입니다. (-) 없이 입력 해주세요.');
+       customAlert(i18n.phone_validation);
        return false;
    }              
    return true;      

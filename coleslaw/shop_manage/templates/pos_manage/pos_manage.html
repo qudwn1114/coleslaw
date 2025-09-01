@@ -1,6 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 {% endblock stylesheets %}
@@ -20,10 +19,10 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">POS Manage</h5>
-            <button class="btn btn-primary" id="pos_create">등록</button>
-            <a class="btn btn-outline-primary" href="{% url 'shop_manage:shop_pos_detail' shop.id %}">포스 관리</a>
+            <button class="btn btn-primary" id="pos_create">{% trans '등록' %}</button>
+            <a class="btn btn-outline-primary" href="{% url 'shop_manage:shop_pos_detail' shop.id %}">{% trans '포스 관리' %}</a>
             <div class="row mb-2">
-              <label for="item" class="col-sm-2 col-form-label">포스 분류</label>
+              <label for="item" class="col-sm-2 col-form-label">{% trans '포스 분류' %}</label>
               <div class="col-sm-8">
                 <select class="form-select" id="pos_id" name="pos_id">
                   {% for i in pos %}
@@ -34,7 +33,7 @@
               <div class="col-sm-2">
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" id="pos" {% if shop.pos and pos_id == shop.pos.id %}checked{% endif %}>
-                  <label class="form-check-label" for="pos">이용</label>
+                  <label class="form-check-label" for="pos">{% trans '이용' %}</label>
                 </div>
               </div>
             </div>
@@ -44,13 +43,13 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">목록</h5>
+                <h5 class="card-title">{% trans '목록' %}</h5>
               </div>
             </div>
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>이름</th>
+                  <th>{% trans '이름' %}</th>
                   <th>TID</th>
                   <th></th>
                 </tr>
@@ -62,24 +61,24 @@
                 <tr>
                   <td>
                     <div class="input-group">
-                        <input type="text" id="table_{{i.id}}" class="form-control" placeholder="이름" value="{{i.name}}">
-                        <button class="btn btn-outline-secondary" type="button" onclick="editName({{i.id}}, this)">수정</button>
+                        <input type="text" id="table_{{i.id}}" class="form-control" placeholder="{% trans '이름' %}" value="{{i.name}}">
+                        <button class="btn btn-outline-secondary" type="button" onclick="editName({{i.id}}, this)">{% trans '수정' %}</button>
                     </div>
                    </td>
                    <td>
                     <div class="input-group">
                         <input type="text" id="table_tid_{{i.id}}" class="form-control" placeholder="TID" value="{{i.tid}}">
-                        <button class="btn btn-outline-secondary" type="button" onclick="editTid({{i.id}}, this)">수정</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="editTid({{i.id}}, this)">{% trans '수정' %}</button>
                     </div>
                    </td>
                   <td class="text-end">
-                    <button class="btn btn-danger" onclick="deleteTable({{i.id}})">삭제</button>
+                    <button class="btn btn-danger" onclick="deleteTable({{i.id}})">{% trans '삭제' %}</button>
                   </td>
                 </tr>
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='3'>내용이 없습니다.</td>
+                    <td colspan='3'>{% trans '내용이 없습니다.' %}</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -96,6 +95,15 @@
 <script>
   const create_url = "{% url 'shop_manage:pos_create' shop.id %}"
 </script>
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_edit: "{% trans '수정 하시겠습니까?' %}",
+    confirm_delete: "{% trans '삭제 하시겠습니까?' %}",
+    use_this_pos: "{% trans '해당 포스로 이용하시겠습니까?' %}"
+  };
+</script>
 <script src="{% static 'js/script_pagination.js' %}"></script>
-<script src="{% static 'shop/js/pos_manage/script_pos_manage.js' %}?v=202504"></script>
+<script src="{% static 'shop/js/pos_manage/script_pos_manage.js' %}?v=202508"></script>
 {% endblock javascripts %}

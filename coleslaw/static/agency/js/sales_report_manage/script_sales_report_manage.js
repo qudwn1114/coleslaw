@@ -16,7 +16,7 @@ $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
     let _endDate = new Date(endDate);
 
     if(_startDate - subtractMonth(_endDate, 3) < 0){
-        customAlert('기간을 3개월 이내로만 설정 하실 수 있습니다.', ()=>{
+        customAlert(i18n.period_limit, ()=>{
             document.getElementById('order_date1').click();
         });
         return;
@@ -79,7 +79,7 @@ document.getElementById('order_date4').addEventListener('click', function(){
 })
 
 function xlsxDownload(type){
-    customConfirm("엑셀저장하시겠습니까?")
+    customConfirm(i18n.save_excel)
         .then((result) => {
             if (!result) {
             return false;

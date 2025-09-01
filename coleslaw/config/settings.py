@@ -62,7 +62,9 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.locale.LocaleMiddleware",
     'django.middleware.common.CommonMiddleware',
+    'system_manage.middleware.ActivateSettingsLanguageMiddleware', 
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -137,9 +139,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = config['LANGUAGE_CODE']
 
-TIME_ZONE = 'Asia/Seoul'
+TIME_ZONE = config['TIME_ZONE']
+
+LOCALE_PATHS = [BASE_DIR / "locale"]
 
 USE_I18N = True
 
@@ -228,3 +232,5 @@ SMS_API_KEY = config['SMS_API_KEY']
 SMS_SENDER = config['SMS_SENDER']
 
 ALIGO_API_KEY = config['ALIGO_API_KEY']
+
+CURRENCY_SYMBOL = config['CURRENCY_SYMBOL']

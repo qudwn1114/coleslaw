@@ -1,5 +1,5 @@
 {% extends "layouts/agency_base.html" %}
-{% load static %}
+{% load static i18n %}
 
 
 {% block stylesheets %}
@@ -25,13 +25,13 @@
                     <h5 class="card-title">Shop Edit</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{% url 'agency_manage:shop_manage' agency.pk %}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{% url 'agency_manage:shop_manage' agency.pk %}"><i class="bi bi-list"></i> {% trnas "목록" %}</a></div>
                 </div>
             </div>
             <form id="data-form" method="post" onsubmit="return false">
                 <div class="row mb-3">
                       <div class="col-md-12">
-                        <label for="shop_category_id">가맹점 카테고리</label>
+                        <label for="shop_category_id">{% trans "가맹점 카테고리" %}</label>
                         <select class="form-select" id="shop_category_id" name="shop_category_id">
                           {% for i in shop_category %}
                             <option value="{{i.id}}" {% if i.id == data.shop_category.id %} selected {% endif %}>{{i.name_kr}}</option>
@@ -40,93 +40,93 @@
                       </div>
 
                       <div class="col-md-12">
-                        <label for="shop_name_kr">가맹점한글명</label>
-                        <input type="text" name="shop_name_kr" class="form-control" id="shop_name_kr" placeholder="가맹점한글명" value="{{data.name_kr}}">
+                        <label for="shop_name_kr">{% trans "가맹점명" %}</label>
+                        <input type="text" name="shop_name_kr" class="form-control" id="shop_name_kr" placeholder="{% trans '가맹점명' %}" value="{{data.name_kr}}">
                       </div>
                       <div class="col-md-12">
-                        <label for="shop_name_en">가맹점영문명</label>
-                        <input type="text" name="shop_name_en" class="form-control" id="shop_name_en" placeholder="가맹점영문명" value="{{data.name_en}}">
+                        <label for="shop_name_en">{% trans "가맹점영문명" %}</label>
+                        <input type="text" name="shop_name_en" class="form-control" id="shop_name_en" placeholder="{% trans '가맹점영문명' %}" value="{{data.name_en}}">
                       </div>
                       <div class="col-md-12">
-                        <label for="description">가맹점 설명</label>
-                        <input type="text" name="description" class="form-control" id="description" placeholder="가맹점 설명" value="{{data.description}}">
+                        <label for="description">{% trans "가맹점 설명" %}</label>
+                        <input type="text" name="description" class="form-control" id="description" placeholder="{% trans '가맹점 설명' %}" value="{{data.description}}">
                       </div>
                       <div class="col-md-12">
-                        <label for="representative">대표자명</label>
-                        <input type="text" name="representative" class="form-control" id="representative" placeholder="대표자명" value="{{data.representative}}">
+                        <label for="representative">{% trans "대표자명" %}</label>
+                        <input type="text" name="representative" class="form-control" id="representative" placeholder="{% trans '대표자명' %}" value="{{data.representative}}">
                       </div>
                       <div class="col-md-12">
-                        <label for="phone">연락처</label>
-                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="연락처" value="{{data.phone}}" onkeyup="SetNum(this);">
-                        <small class="form-text text-muted">예시) 0200001234 or 01000005678</small>
+                        <label for="phone">{% trans "연락처" %}</label>
+                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="{% trans '연락처' %}" value="{{data.phone}}" onkeyup="SetNum(this);">
+                        <small class="form-text text-muted">{% trans "예시" %}) 0200001234 or 01000005678</small>
                       </div>
                       <div class="col-md-12">
-                        <label for="registration_no">사업자번호</label>
-                        <input type="text" name="registration_no" class="form-control" id="registration_no" placeholder="사업자번호" value="{{data.registration_no}}">
+                        <label for="registration_no">{% trans "사업자번호" %}</label>
+                        <input type="text" name="registration_no" class="form-control" id="registration_no" placeholder="{% trans '사업자번호' %}" value="{{data.registration_no}}">
                       </div>
                       <div class="col-md-10">
-                        <label for="address">주소</label>
+                        <label for="address">{% trans "주소" %}</label>
                         <input type="text" class="form-control" name="address" id="address" value="{{data.address}}" readonly>
                         <input type="hidden" class="form-control" name="zipcode" id="zipcode" value="{{data.zipcode}}">
                       </div>
                       <div class="col-md-2">
-                        <button type="button" class="btn btn-outline-secondary mt-4" id="btn-address">우편번호</button>
+                        <button type="button" class="btn btn-outline-secondary mt-4" id="btn-address">{% trans "우편번호" %}</button>
                       </div>
                       <div class="col-md-12">
                         <input type="text" class="form-control" name="address_detail" id="address_detail" value="{{data.address_detail}}">
                       </div>
                       <div class="col-md-12">
-                        <label for="image">가맹점 이미지 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
+                        <label for="image">{% trans "가맹점 이미지" %} <small class="form-text text-muted">({% trans "이미지 변경 시 에만 첨부" %})</small></label>
                         <input type="file" id="image" name="image" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
-                      <label for="location_image">가맹점 위치 정보 이미지 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
+                      <label for="location_image">{% trans "가맹점 위치 정보 이미지" %} <small class="form-text text-muted">({% trans "이미지 변경 시 에만 첨부" %})</small></label>
                       <input type="file" id="location_image" name="location_image" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
-                      <label for="waiting_time">팀 당 입장시간(분)</label>
-                      <input type="number" name="waiting_time" class="form-control" id="waiting_time" placeholder="팀 당 입장시간(분)" value="{{data.waiting_time}}">
+                      <label for="waiting_time">{% trans "팀 당 입장시간(분)" %}</label>
+                      <input type="number" name="waiting_time" class="form-control" id="waiting_time" placeholder="{% trans '팀 당 입장시간(분)' %}" value="{{data.waiting_time}}">
                     </div>
                     <div class="col-md-12">
-                      <label for="aligo_sender_key">알림톡 키</label>
+                      <label for="aligo_sender_key">{% trans "알림톡 키" %}</label>
                       <input type="text" name="aligo_sender_key" class="form-control" id="aligo_sender_key" value="{{data.aligo_sender_key|default_if_none:''}}">
                     </div>
                     <div class="col-md-12">
-                      <label for="aligo_entry_template_code1">대기등록 템플릿 코드</label>
+                      <label for="aligo_entry_template_code1">{% trans "대기등록 템플릿 코드" %}</label>
                       <input type="text" name="aligo_entry_template_code1" class="form-control" id="aligo_entry_template_code1" value="{{data.aligo_entry_template_code1|default_if_none:''}}">
                     </div>
                     <div class="col-md-12">
-                      <label for="aligo_entry_template_code2">대기호출 템플릿 코드</label>
+                      <label for="aligo_entry_template_code2">{% trans "대기호출 템플릿 코드" %}</label>
                       <input type="text" name="aligo_entry_template_code2" class="form-control" id="aligo_entry_template_code2" value="{{data.aligo_entry_template_code2|default_if_none:''}}">
                     </div>
                     <div class="col-md-12">
-                      <label for="logo_image1">로고 이미지 1 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
+                      <label for="logo_image1">{% trans "로고 이미지" %} 1 <small class="form-text text-muted">({% trans "이미지 변경 시 에만 첨부" %})</small></label>
                       <input type="file" id="logo_image1" name="logo_image1" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
-                      <label for="entry_image1">입장 이미지 1 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
+                      <label for="entry_image1">{% trans "입장 이미지" %} 1 <small class="form-text text-muted">({% trans "이미지 변경 시 에만 첨부" %})</small></label>
                       <input type="file" id="entry_image1" name="entry_image1" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
-                      <label for="logo_image2">로고 이미지 2 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
+                      <label for="logo_image2">{% trans "로고 이미지" %} 2 <small class="form-text text-muted">({% trans "이미지 변경 시 에만 첨부" %})</small></label>
                       <input type="file" id="logo_image2" name="logo_image2" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
-                      <label for="entry_image2">입장 이미지 2 <small class="form-text text-muted">( 이미지 변경 시 에만 첨부 )</small></label>
+                      <label for="entry_image2">{% trans "입장 이미지" %} 2 <small class="form-text text-muted">({% trans "이미지 변경 시 에만 첨부" %})</small></label>
                       <input type="file" id="entry_image2" name="entry_image2" class="form-control" accept="image/png, image/jpg, image/jpeg">
                     </div>
                     <div class="col-md-12">
-                      <label for="table_time">테이블 이용시간 (0:무제한)</label>
-                      <input type="number" name="table_time" class="form-control" id="table_time" placeholder="테이블 이용시간 (분)" value="{{data.table_time}}">
+                      <label for="table_time">{% trans "테이블 이용시간 (0:무제한)" %}</label>
+                      <input type="number" name="table_time" class="form-control" id="table_time" placeholder="{% trans '테이블 이용시간 (분)' %}" value="{{data.table_time}}">
                     </div>
                     <div class="col-md-12">
-                      <label for="additional_fee_time">추가요금 시간 (분)</label>
-                      <input type="number" name="additional_fee_time" class="form-control" id="additional_fee_time" placeholder="추가요금 시간 (분)" value="{{data.additional_fee_time}}">
+                      <label for="additional_fee_time">{% trans "추가요금 시간 (분)" %}</label>
+                      <input type="number" name="additional_fee_time" class="form-control" id="additional_fee_time" placeholder="{% trans '추가요금 시간 (분)' %}" value="{{data.additional_fee_time}}">
                     </div>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <a href="{% url 'agency_manage:shop_detail' agency.pk data.pk %}" class="btn btn-danger">취소</a>
-                    <button type="button" id="btn-submit" class="btn btn-success">Save</button>
+                    <a href="{% url 'agency_manage:shop_detail' agency.pk data.pk %}" class="btn btn-danger">{% trans "취소" %}</a>
+                    <button type="button" id="btn-submit" class="btn btn-success">{% trans "저장" %}</button>
                 </div>
             </form>
           </div>
@@ -135,6 +135,14 @@
 </main>
 {% endblock %}
 {% block javascripts %}
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_edit: "{% trans '수정 하시겠습니까?' %}",
+    phone_validation: "{% trans '유효하지 않은 전화번호 형식입니다. (-) 없이 입력 해주세요.' %}",
+  };
+</script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'agency/js/shop_manage/script_shop_edit.js' %}?v=202504"></script>
+<script src="{% static 'agency/js/shop_manage/script_shop_edit.js' %}?v=202508"></script>
 {% endblock javascripts %}

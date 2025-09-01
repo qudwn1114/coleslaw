@@ -1,5 +1,5 @@
 {% extends "layouts/agency_base.html" %}
-{% load static %}
+{% load static i18n %}
 
 {% block stylesheets %}
 <style>
@@ -31,14 +31,14 @@
               <div class="card mb-3">
                 <div class="card-body">
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">에이전시 선택</h5>
-                    <p class="text-center small">관리할 에이전시을 선택해주세요.</p>
+                    <h5 class="card-title text-center pb-0 fs-4">{% trans "에이전시 선택" %}</h5>
+                    <p class="text-center small">{% trans "관리할 에이전시을 선택해주세요." %}</p>
                   </div>
                   <div class="row g-3" style="width:450px;">
                     <div class="input-group">
-                      <input type="text" class="form-control" id="agency_name" placeholder="에이전시 이름" value="{{agency_name}}" onkeyup="enterkey()">
+                      <input type="text" class="form-control" id="agency_name" placeholder="{% trans '에이전시 이름' %}" value="{{agency_name}}" onkeyup="enterkey()">
                       <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="btn-search">검색</button>
+                        <button class="btn btn-outline-secondary" type="button" id="btn-search">{% trans "검색" %}</button>
                       </div>
                     </div>
 
@@ -50,7 +50,7 @@
                             </a>
                         {% endfor %}
                         {% else %}
-                            <p class="text-center">권한이 없습니다. 관리자에게 권한을 요청하세요.</p>
+                            <p class="text-center">{% trans "권한이 없습니다. 관리자에게 권한을 요청하세요." %}</p>
                         {% endif %}
                     </ul>
                     <div class="col-12">

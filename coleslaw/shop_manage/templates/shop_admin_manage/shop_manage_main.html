@@ -1,6 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
 {% block stylesheets %}
 
 {% endblock stylesheets %}
@@ -13,17 +12,17 @@
       <div class="col" bis_skin_checked="1">
         <div class="card mb-4 rounded-3 shadow-sm" bis_skin_checked="1">
           <div class="card-body" bis_skin_checked="1">
-            <h5 class="card-title">최근 주문내역</h5>
+            <h5 class="card-title">{% trans '최근 주문내역' %}</h5>
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>주문번호</th>
-                  <th>주문</th>
-                  <th>결제금액</th>
-                  <th>주문자</th>
-                  <th>연락처</th>
-                  <th>날짜</th>
-                  <th>처리여부</th>
+                  <th>{% trans '주문번호' %}</th>
+                  <th>{% trans '주문' %}</th>
+                  <th>{% trans '결제금액' %}</th>
+                  <th>{% trans '주문자' %}</th>
+                  <th>{% trans '연락처' %}</th>
+                  <th>{% trans '날짜' %}</th>
+                  <th>{% trans '처리여부' %}</th>
                 </tr>
               </thead>
               <tbody id="order_tbody">
@@ -48,9 +47,9 @@
                     <li class="dropdown-header text-start">
                       <span><i class="bi bi-filter-left"></i>Filter</span>
                     </li>
-                    <li><a class="dropdown-item" href="javascript:;" onclick="report('TODAY')">일별</a></li>
-                    <li><a class="dropdown-item" href="javascript:;" onclick="report('WEEK')">주간별</a></li>
-                    <li><a class="dropdown-item" href="javascript:;" onclick="report('MONTH')">월별</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="report('TODAY')">{% trans '일별' %}</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="report('WEEK')">{% trans '주간별' %}</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="report('MONTH')">{% trans '월별' %}</a></li>
                     <!-- <li><a class="dropdown-item" href="#">This Year</a></li> -->
                   </ul>
                 </div>
@@ -66,14 +65,14 @@
       <div class="col" bis_skin_checked="1">
         <div class="card mb-4 rounded-3 shadow-sm" bis_skin_checked="1">
           <div class="card-body" bis_skin_checked="1">
-            <h5 class="card-title">일 매출</h5>
+            <h5 class="card-title">{% trans '일 매출' %}</h5>
             <div class="row mt-3">
               <div class="col-sm-6">
                 <div class="card">
                   <div class="card-body">
                     <h1 class="card-title pricing-card-title">
-                      카드결제
-                      <h4><span id="card_sales">{{daily.card_sales|intcomma}}</span><small class="text-muted fw-light"> ₩</small></h4>
+                      {% trans '카드결제' %}
+                      <h4><span id="card_sales">{{daily.card_sales|intcomma}}</span><small class="text-muted fw-light"> {{ CURRENCY_SYMBOL }}</small></h4>
                     </h1>
                     <p class="card-text">총 <span id="card_count">{{daily.card_count|intcomma}}</span> 건</p>
                   </div>
@@ -83,10 +82,10 @@
                 <div class="card">
                   <div class="card-body">
                     <h1 class="card-title pricing-card-title">
-                      현금결제
-                      <h4><span id="cash_sales">{{daily.cash_sales|intcomma}}</span><small class="text-muted fw-light"> ₩</small></h4>
+                      {% trans '현금결제' %}
+                      <h4><span id="cash_sales">{{daily.cash_sales|intcomma}}</span><small class="text-muted fw-light"> {{ CURRENCY_SYMBOL }}</small></h4>
                     </h1>
-                      <p class="card-text">총 <span id="cash_count">{{daily.cash_count|intcomma}}</span> 건</p>
+                      <p class="card-text">{% trans '총' %} <span id="cash_count">{{daily.cash_count|intcomma}}</span> {% trans '건' %}</p>
                   </div>
                 </div>
               </div>
@@ -94,10 +93,10 @@
                 <div class="card">
                   <div class="card-body">
                     <h1 class="card-title pricing-card-title">
-                      취소금액
-                      <h4>- <span id="cancel_sales">{{daily.cancel_sales|intcomma}}</span><small class="text-muted fw-light"> ₩</small></h4>
+                      {% trans '취소금액' %}
+                      <h4>- <span id="cancel_sales">{{daily.cancel_sales|intcomma}}</span><small class="text-muted fw-light"> {{ CURRENCY_SYMBOL }}</small></h4>
                     </h1>
-                      <p class="card-text">총 <span id="cancel_count">{{daily.cancel_count|intcomma}}</span> 건</p>
+                      <p class="card-text">{% trans '총' %} <span id="cancel_count">{{daily.cancel_count|intcomma}}</span> {% trans '건' %}</p>
                   </div>
                 </div>
               </div>
@@ -105,10 +104,10 @@
                 <div class="card">
                   <div class="card-body">
                     <h1 class="card-title pricing-card-title">
-                      총 매출
-                      <h4><span id="total_sales">{{daily.total_sales|intcomma}}</span><small class="text-muted fw-light"> ₩</small></h4>
+                      {% trans '총 매출' %}
+                      <h4><span id="total_sales">{{daily.total_sales|intcomma}}</span><small class="text-muted fw-light"> {{ CURRENCY_SYMBOL }}</small></h4>
                     </h1>
-                      <p class="card-text">총 <span id="total_count">{{daily.total_count|intcomma}}</span> 건</p>
+                      <p class="card-text">{% trans '총' %} <span id="total_count">{{daily.total_count|intcomma}}</span> {% trans '건' %}</p>
                   </div>
                 </div>
               </div>
@@ -124,7 +123,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="orderGoodsModalLabel">주문 상품</h1>
+          <h1 class="modal-title fs-5" id="orderGoodsModalLabel">{% trans '주문 상품' %}</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="orderGoodsModalBody">
@@ -148,7 +147,32 @@
     navigator.mediaDevices.getUserMedia({ audio: true });
   });
 </script>
-<script src="{% static 'shop/js/shop_manage/script_shop_manage_main.js' %}?v=202504"></script>
-<script src="{% static 'shop/js/shop_manage/script_shop_manage_chart.js' %}?v=202504"></script>
+<script>
+    const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    paid: "{% trans '결제완료' %}",
+    preparing: "{% trans '준비중' %}",
+    completed: "{% trans '주문완료' %}",
+    received: "{% trans '수령완료' %}",
+    cancelled: "{% trans '주문취소' %}",
+    request_sms: "{% trans '수령문자요청' %}",
+    empty: "{% trans '주문내역이 없습니다.' %}",
+    confirm_update: "{% trans '상태를 수정하시겠습니까?' %}",
+    confirm_send_sms: "{% trans '완료 문자를 보내시겠습니까?' %}",
+    order_no: "{% trans '주문번호' %}",
+    order_date: "{% trans '주문일시' %}",
+    product_name: "{% trans '제품명' %}",
+    option: "{% trans '옵션' %}",
+    quantity: "{% trans '수량' %}",
+    total_price: "{% trans '총 금액' %}",
+    currency: "{{ CURRENCY_SYMBOL }}",
+    offline: "{% trans '현장' %}",
+    online: "{% trans '온라인' %}",
+    net: "{% trans '순매출' %}"
+  };
+</script>
+<script src="{% static 'shop/js/shop_manage/script_shop_manage_main.js' %}?v=202508"></script>
+<script src="{% static 'shop/js/shop_manage/script_shop_manage_chart.js' %}?v=202508"></script>
 {% endblock javascripts %}
 

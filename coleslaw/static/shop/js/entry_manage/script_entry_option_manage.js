@@ -37,10 +37,10 @@ btn_submit.addEventListener("click", () => {
         error: function(error) {
             btn_submit.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -84,10 +84,10 @@ function deleteOption(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -119,10 +119,10 @@ function createOptionDetail(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -158,10 +158,10 @@ function saveOptionDetail(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -193,10 +193,10 @@ function deleteOptionDetail(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -228,10 +228,10 @@ function setRequired(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -279,10 +279,10 @@ function submitImage(elem){
         error: function(error) {
             elem.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));

@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "shop_name",
-                    models.CharField(max_length=100, null=True, verbose_name="가맹점한글명"),
+                    models.CharField(max_length=100, null=True, verbose_name="가맹점명"),
                 ),
                 ("message", models.TextField(null=True)),
                 (

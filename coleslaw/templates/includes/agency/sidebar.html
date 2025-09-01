@@ -1,3 +1,4 @@
+ {% load i18n %}
  <!-- ======= Sidebar ======= -->
  <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -9,16 +10,18 @@
       </li><!-- End Dashboard Nav -->
       <li class="nav-heading">Master Data</li>
       <li class="nav-item"> 
-        <a class="nav-link collapsed" href="{% url 'agency_manage:user_manage' agency.id %}"> <i class="bi bi-person-fill"></i> <span>회원 관리</span> </a>
+        <a class="nav-link collapsed" href="{% url 'agency_manage:user_manage' agency.id %}"> <i class="bi bi-person-fill"></i> <span>{% trans "회원 관리" %}</span> </a>
       </li>
       <li class="nav-item"> 
-        <a class="nav-link collapsed" href="{% url 'agency_manage:shop_manage' agency.id %}"> <i class="bi bi-shop-window"></i> <span>가맹점 관리</span> </a>
+        <a class="nav-link collapsed" href="{% url 'agency_manage:shop_manage' agency.id %}"> <i class="bi bi-shop-window"></i> <span>{% trans "가맹점 관리" %}</span> </a>
       </li>
       <li class="nav-item"> 
-        <a class="nav-link collapsed" href="{% url 'agency_manage:sales_report_manage' agency.id %}"> <i class="bi bi-file-earmark-spreadsheet"></i> <span>매출 내역</span> </a>
+        <a class="nav-link collapsed" href="{% url 'agency_manage:sales_report_manage' agency.id %}"> <i class="bi bi-file-earmark-spreadsheet"></i> <span>{% trans "매출 내역" %}</span> </a>
       </li>
+      {% if LANGUAGE_CODE == 'ko' %}
       <li class="nav-item"> 
         <a class="nav-link collapsed" href="{% url 'agency_manage:online_report_manage' agency.id %}"> <i class="bi bi-ticket-detailed"></i> <span>온라인 매출 내역</span> </a>
       </li>
+      {% endif %}
     </ul>
 </aside><!-- End Sidebar-->

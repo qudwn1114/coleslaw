@@ -5,8 +5,7 @@ from django.http import HttpRequest, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.utils.decorators import method_decorator
 from django.db.models import Min
-from django.db import transaction
-from django.utils import timezone
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 from system_manage.decorators import permission_required
 from shop_manage.views.shop_manage_views.auth_views import check_shop
@@ -79,7 +78,7 @@ class ShopPosManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         request.PUT = json.loads(request.body)
         rq_type = request.PUT['type']
@@ -89,7 +88,7 @@ class ShopPosManageView(View):
             try:
                 shop_table = ShopTable.objects.get(pk=table_id, shop=shop)
             except:
-                return JsonResponse({"message": "데이터 오류"},status=400)
+                return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
             table_name = request.PUT['table_name'].strip()            
             shop_table.name = table_name
             shop_table.save()
@@ -98,7 +97,7 @@ class ShopPosManageView(View):
             try:
                 shop_table = ShopTable.objects.get(pk=table_id, shop=shop)
             except:
-                return JsonResponse({"message": "데이터 오류"},status=400)
+                return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
             tid = request.PUT['tid'].strip()
             shop_table.tid = tid
             shop_table.save()
@@ -107,17 +106,17 @@ class ShopPosManageView(View):
             try:
                 pos = Pos.objects.get(pk=pos_id)
             except:
-                return JsonResponse({"message": "데이터 오류"},status=400)
+                return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
             shop.pos = pos
             shop.save()
-        return JsonResponse({'message' : '변경되었습니다.'}, status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED')}, status = 201)
     
     @method_decorator(permission_required(raise_exception=True))
     def delete(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         request.DELETE = json.loads(request.body)
         table_id = request.DELETE['id']
@@ -125,14 +124,14 @@ class ShopPosManageView(View):
         try:
             shop_table = ShopTable.objects.get(pk=table_id, shop=shop)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         if shop_table.table_no > 0:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         shop_table.delete()
         
-        return JsonResponse({'message' : '삭제되었습니다.'}, status = 201)
+        return JsonResponse({'message' : _('MSG_DELETED')}, status = 201)
 
 class ShopPosCreateView(View):
     '''
@@ -157,14 +156,14 @@ class ShopPosCreateView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         table_name = request.POST['table_name'].strip()
         pos_id = request.POST['pos_id']
         try:
             pos = Pos.objects.get(pk=pos_id)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         if not ShopTable.objects.filter(pos=pos, shop=shop, table_no__lte=0).exists():
             table_no = 0
         else:
@@ -178,7 +177,7 @@ class ShopPosCreateView(View):
             table_no= table_no
         )
         
-        return JsonResponse({'message' : '생성 완료', 'url':f"{reverse('shop_manage:pos_manage', kwargs={'shop_id':shop.id})}?pos_id={pos.pk}"},  status = 201)
+        return JsonResponse({'message' : _('MSG_CREATED'), 'url':f"{reverse('shop_manage:pos_manage', kwargs={'shop_id':shop.id})}?pos_id={pos.pk}"},  status = 201)
 
 
 class ShopPosDetailView(View):
@@ -218,7 +217,7 @@ class ShopPosEditView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         pos_ad_video = request.FILES.get("pos_ad_video")
         receipt = request.POST['receipt'].strip()
@@ -226,7 +225,7 @@ class ShopPosEditView(View):
 
         if pos_ad_video:
             if pos_ad_video.size > VIDEO_MAX_UPLOAD_SIZE:
-                return JsonResponse({"message": "광고 비디오 용량은 200mb 제한입니다."}, status=400)
+                return JsonResponse({'message': _('ERR_AD_SIZE')}, status=400)
         
         shop.receipt = receipt
         shop.shop_receipt_flag = shop_receipt_flag
@@ -234,5 +233,5 @@ class ShopPosEditView(View):
             shop.pos_ad_video = pos_ad_video
 
         shop.save()
-        return JsonResponse({'message' : '수정 완료', 'url':reverse('shop_manage:shop_pos_detail', kwargs={'shop_id':shop.id})},  status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED'), 'url':reverse('shop_manage:shop_pos_detail', kwargs={'shop_id':shop.id})},  status = 201)
     

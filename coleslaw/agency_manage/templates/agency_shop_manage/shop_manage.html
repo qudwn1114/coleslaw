@@ -1,6 +1,5 @@
 {% extends "layouts/agency_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 {% endblock stylesheets %}
@@ -21,22 +20,22 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Shop Manage</h5>
-            <a class="btn btn-primary" href="{% url 'agency_manage:shop_create' agency.pk %}">가맹점 등록</a>
+            <a class="btn btn-primary" href="{% url 'agency_manage:shop_create' agency.pk %}">{% trans "가맹점 등록" %}</a>
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
-                <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
+                <label for="item" class="col-sm-2 col-form-label">{% trans "검색 분류" %}</label>
                 <div class="col-sm-8">
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
                         {% if search_type == 'name_kr' %}
-                        <option value="name_kr" selected>가맹점명</option>
+                        <option value="name_kr" selected>{% trans "가맹점명" %}</option>
                         {% else %}
-                        <option value="name_kr">가맹점명</option>
+                        <option value="name_kr">{% trans "가맹점명" %}</option>
                         {% endif %}
                         {% if search_type == 'agency__name' %}
-                        <option value="agency__name" selected>에이전시명</option>
+                        <option value="agency__name" selected>{% trans "에이전시명" %}</option>
                         {% else %}
-                        <option value="agency__name">에이전시명</option>
+                        <option value="agency__name">{% trans "에이전시명" %}</option>
                         {% endif %}
                       </select>
                     <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
@@ -45,8 +44,8 @@
               </div>
               <div class="row mb-3">
                 <div class="text-center">
-                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
-                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'agency_manage:shop_manage' agency.pk %}">초기화</a>
+                    <button type="submit" id="btn-search" class="btn btn-primary">{% trans "검색" %}</button>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'agency_manage:shop_manage' agency.pk %}">{% trans "초기화" %}</a>
                 </div>
               </div>
             </form>
@@ -56,7 +55,7 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">가맹점 목록</h5>
+                <h5 class="card-title">{% trans "가맹점 목록" %}</h5>
               </div>
               <div class="col-auto">
                 <div class="icon mt-3 me-3">
@@ -69,12 +68,12 @@
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>메인 에이전시</th>
-                  <th>상태</th>
-                  <th>가맹점명</th>
-                  <th>연락처</th>
-                  <th>등록일</th>
-                  <th>관리자 설정</th>
+                  <th>{% trans "메인 에이전시" %}</th>
+                  <th>{% trans "상태" %}</th>
+                  <th>{% trans "가맹점명" %}</th>
+                  <th>{% trans "연락처" %}</th>
+                  <th>{% trans "등록일" %}</th>
+                  <th>{% trans "관리자 설정" %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -88,12 +87,12 @@
                   <td><a href="{% url 'agency_manage:shop_detail' agency.pk i.id %}">{{i.name_kr}}</a></td>
                   <td>{{i.phone}}</td>
                   <td>{{i.created_at|date:"Y.m.d"}}</td>
-                  <td><a class="btn btn-outline-primary" href="{% url 'agency_manage:shop_admin_manage' agency.pk i.id %}">설정</a></td>
+                  <td><a class="btn btn-outline-primary" href="{% url 'agency_manage:shop_admin_manage' agency.pk i.id %}">{% trans "설정" %}</a></td>
                 </tr>
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='5'>가맹점이 없습니다.</td>
+                    <td colspan='5'>{% trans "가맹점이 없습니다." %}</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -107,6 +106,13 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_edit: "{% trans '상태를 수정하시겠습니까?' %}",
+  };
+</script>
 <script src="{% static 'js/script_pagination.js' %}"></script>
-<script src="{% static 'agency/js/shop_manage/script_shop_manage.js' %}?v=2025042319"></script>
+<script src="{% static 'agency/js/shop_manage/script_shop_manage.js' %}?v=202508"></script>
 {% endblock javascripts %}

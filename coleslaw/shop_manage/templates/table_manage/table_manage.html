@@ -1,6 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 {% endblock stylesheets %}
@@ -20,15 +19,15 @@
         <div class="card">
           <div class="card-body">
             {% if shop.pos %}
-            <h5 class="card-title">{{shop.pos.name}} 포스 Table Manage</h5>
-            <a class="btn btn-primary" href="{% url 'shop_manage:table_create' shop.id %}">등록</a>
+            <h5 class="card-title">{{shop.pos.name}} POS Table Manage</h5>
+            <a class="btn btn-primary" href="{% url 'shop_manage:table_create' shop.id %}">{% trans '등록' %}</a>
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
-                <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
+                <label for="item" class="col-sm-2 col-form-label">{% trans '검색 분류' %}</label>
                 <div class="col-sm-8">
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
-                        <option value="name" {% if search_type == 'name' %}selected{% endif %}>이름</option>
+                        <option value="name" {% if search_type == 'name' %}selected{% endif %}>{% trans '이름' %}</option>
                       </select>
                     <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
                   </div>
@@ -36,13 +35,13 @@
               </div>
               <div class="row mb-3">
                 <div class="text-center">
-                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
-                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:table_manage' shop.id %}">초기화</a>
+                    <button type="submit" id="btn-search" class="btn btn-primary">{% trans '검색' %}</button>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:table_manage' shop.id %}">{% trans '초기화' %}</a>
                 </div>
               </div>
             </form>
             {% else %}
-            <h5 class="card-title">포스관리에서 이용하실 포스를 먼저 선택해주세요.</h5>
+            <h5 class="card-title">{% trans '포스관리에서 이용하실 포스를 먼저 선택해주세요.' %}</h5>
             {% endif %}
           </div>
         </div>
@@ -50,13 +49,13 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">목록</h5>
+                <h5 class="card-title">{% trans '목록' %}</h5>
               </div>
             </div>
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>이름</th>
+                  <th>{% trans '이름' %}</th>
                   <th></th>
                 </tr>
                 
@@ -67,18 +66,18 @@
                 <tr>
                   <td>
                     <div class="input-group">
-                        <input type="text" id="table_{{i.id}}" class="form-control" placeholder="이름" value="{{i.name}}">
-                        <button class="btn btn-outline-secondary" type="button" onclick="editName({{i.id}}, this)">수정</button>
+                        <input type="text" id="table_{{i.id}}" class="form-control" placeholder="{% trans '이름' %}" value="{{i.name}}">
+                        <button class="btn btn-outline-secondary" type="button" onclick="editName({{i.id}}, this)">{% trans '수정' %}</button>
                     </div>
                    </td>
                   <td class="text-end">
-                    <button class="btn btn-danger" onclick="deleteTable({{i.id}})">삭제</button>
+                    <button class="btn btn-danger" onclick="deleteTable({{i.id}})">{% trans '삭제' %}</button>
                   </td>
                 </tr>
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='1'>내용이 없습니다.</td>
+                    <td colspan='2'>{% trans '내용이 없습니다.' %}</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -92,6 +91,14 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_edit: "{% trans '수정 하시겠습니까?' %}",
+    confirm_delete: "{% trans '삭제 하시겠습니까?' %}",
+  };
+</script>
 <script src="{% static 'js/script_pagination.js' %}"></script>
-<script src="{% static 'shop/js/table_manage/script_table_manage.js' %}?v=1"></script>
+<script src="{% static 'shop/js/table_manage/script_table_manage.js' %}?v=3"></script>
 {% endblock javascripts %}

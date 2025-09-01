@@ -79,7 +79,7 @@ btn_submit.addEventListener("click", () => {
     if(!validation()){
         return;
     }
-    customConfirm("수정 하시겠습니까?")
+    customConfirm(i18n.confirm_edit)
     .then((result) => {
         if (!result) {
             return false;
@@ -104,10 +104,10 @@ btn_submit.addEventListener("click", () => {
         error: function(error) {
             btn_submit.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -122,7 +122,7 @@ btn_submit.addEventListener("click", () => {
 function validation(){
     if(sub_category.value == ''){
         sub_category.focus();
-        customAlert('상품은 소분류까지 분류되어야합니다.');
+        customAlert(i18n.category_alert);
         return false;
     }
     if(goods_name_kr.value == ''){

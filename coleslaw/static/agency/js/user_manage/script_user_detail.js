@@ -2,7 +2,7 @@ const btn_delete = document.getElementById("btn-delete");
 const btn_password_reset = document.getElementById("btn-password-reset");
 
 btn_delete.addEventListener("click", () => {
-    customConfirm("삭제 하시겠습니까?")
+    customConfirm(i18n.confirm_delete)
     .then((result) => {
         if (!result) {
             return false;
@@ -23,10 +23,10 @@ btn_delete.addEventListener("click", () => {
         error: function(error) {
             btn_delete.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -39,7 +39,7 @@ btn_delete.addEventListener("click", () => {
 
 
 btn_password_reset.addEventListener("click", () => {
-    customConfirm("비밀번호를 초기화 하시겠습니까?")
+    customConfirm(i18n.reset_password)
     .then((result) => {
         if (!result) {
             return false;
@@ -60,10 +60,10 @@ btn_password_reset.addEventListener("click", () => {
         error: function(error) {
             btn_password_reset.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));

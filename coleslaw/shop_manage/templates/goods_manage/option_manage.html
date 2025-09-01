@@ -1,5 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 {% endblock stylesheets %}
@@ -7,7 +7,7 @@
 {% block main %}
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>상품 옵션 관리</h1>
+        <h1>{% trans '상품 옵션 관리' %}</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
@@ -21,34 +21,34 @@
           <div class="card-body">
             <div class="row justify-content-between">
                 <div class="col">
-                    <h5 class="card-title">{{goods.name}} 상품 옵션 관리</h5>
+                    <h5 class="card-title">{{goods.name}} {% trans '상품 옵션 관리' %}</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{{prev_url}}"><i class="bi bi-list"></i> 상품상세</a></div>
+                    <div class="icon mt-3"><a href="{{prev_url}}"><i class="bi bi-list"></i> {% trans '이전' %}</a></div>
                 </div>
             </div>
             <form id="data-form" method="post" onsubmit="return false">
-                <span>옵션 내용을 , 로 구분지어 등록해주세요. 옵션은 최대 5개 까지 등록 가능합니다. 옵션 내용 최대 20개</span><br>
+                <span>{% trans '옵션 내용을 , 로 구분지어 등록해주세요. 옵션은 최대 5개 까지 등록 가능합니다. 옵션 내용 최대 20개' %}</span><br>
                 <div class="row mt-3 mb-3">
-                  <label for="option_name_kr" class="col-sm-2 col-form-label">옵션 한글명</label>
+                  <label for="option_name_kr" class="col-sm-2 col-form-label">{% trans '옵션명' %}</label>
                   <div class="col-sm-10">
-                      <input type="text" id="option_name_kr" name="option_name_kr" class="form-control" placeholder="옵션 한글명">
+                      <input type="text" id="option_name_kr" name="option_name_kr" class="form-control" placeholder="{% trans '옵션명' %}">
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="option_name_en" class="col-sm-2 col-form-label">옵션 영문명</label>
+                  <label for="option_name_en" class="col-sm-2 col-form-label">{% trans '옵션 영문명' %}</label>
                   <div class="col-sm-10">
-                      <input type="text" id="option_name_en" name="option_name_en" class="form-control" placeholder="옵션 영문명">
+                      <input type="text" id="option_name_en" name="option_name_en" class="form-control" placeholder="{% trans '옵션 영문명' %}">
                   </div>
                 </div>
                   <div class="row mt-3 mb-3">
-                      <label for="option_detail" class="col-sm-2 col-form-label">옵션 내용</label>
+                      <label for="option_detail" class="col-sm-2 col-form-label">{% trans '옵션 내용' %}</label>
                       <div class="col-sm-10">
-                          <input type="text" id="option_detail" name="option_detail" class="form-control" placeholder="옵션 내용">
+                          <input type="text" id="option_detail" name="option_detail" class="form-control" placeholder="{% trans '옵션 내용' %}">
                       </div>
                   </div>
                   <div class="col-sm-12 text-center">
-                      <button type="button" id="btn-submit" class="btn btn-primary">등록</button>
+                      <button type="button" id="btn-submit" class="btn btn-primary">{% trans '등록' %}</button>
                   </div>
             </form>
           </div>
@@ -57,7 +57,7 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col">
-                  <h5 class="card-title">옵션</h5>
+                  <h5 class="card-title">{% trans '옵션' %}</h5>
               </div>
             </div>
             {% if goods.option %}
@@ -70,17 +70,17 @@
                       {% else %}
                       <input class="form-check-input" type="checkbox" value="0" id="option_detail_{{i.id}}" onchange="setRequired('{{i.id}}')">
                       {% endif %}
-                      <label class="form-check-label" for="option_detail_{{i.id}}">옵션선택 필수</label>
+                      <label class="form-check-label" for="option_detail_{{i.id}}">{% trans '옵션선택 필수' %}</label>
                     </h6>
                     <table class="table table-hover">
                         <thead>
                           <tr>
-                            <th>내용(한글)</th>
-                            <th>내용(영문)</th>
-                            <th>옵션비용</th>
-                            <th>재고</th>
-                            <th>품절</th>
-                            <th class="text-end"><button type="button" class="btn btn-primary" onclick="createOptionDetail('{{i.id}}')">추가</button></th>
+                            <th>{% trans '내용' %}</th>
+                            <th>{% trans '내용(영문)' %}</th>
+                            <th>{% trans '옵션비용' %}</th>
+                            <th>{% trans '재고' %}</th>
+                            <th>{% trans '품절' %}</th>
+                            <th class="text-end"><button type="button" class="btn btn-primary" onclick="createOptionDetail('{{i.id}}')">{% trans '추가' %}</button></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -88,23 +88,23 @@
                                 {% for j in i.option_detail.all %}
                                 <tr>
                                     <td>
-                                        <input type="text" id="option_name_kr_{{j.id}}" class="form-control" placeholder="옵션 한글명" value="{{j.name_kr}}">
+                                        <input type="text" id="option_name_kr_{{j.id}}" class="form-control" placeholder="{% trans '옵션명' %}" value="{{j.name_kr}}">
                                     </td>
                                     <td>
-                                      <input type="text" id="option_name_en_{{j.id}}" class="form-control" placeholder="옵션 영문명" value="{{j.name_en}}">
+                                      <input type="text" id="option_name_en_{{j.id}}" class="form-control" placeholder="{% trans '옵션 영문명' %}" value="{{j.name_en}}">
                                     </td>
                                     <td>
-                                        <input type="number" id="option_price_{{j.id}}" class="form-control" placeholder="옵션 가격" value="{{j.price}}">
+                                        <input type="number" id="option_price_{{j.id}}" class="form-control" placeholder="{% trans '옵션 가격' %}" value="{{j.price}}">
                                     </td>
                                     <td>
                                       {% if j.stock_flag %}
-                                        <input type="number" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock}}">
+                                        <input type="number" id="option_stock_{{j.id}}" class="form-control" placeholder="{% trans '옵션 재고' %}" value="{{j.stock}}">
                                         <input class="form-check-input" type="checkbox" value="1" id="stock_flag_{{j.id}}" name="stock_flag_{{j.id}}" checked onchange="setStockFlag({{j.id}}, this)">
-                                        <label class="form-check-label" for="stock_flag_{{j.id}}">옵션 재고관리</label>
+                                        <label class="form-check-label" for="stock_flag_{{j.id}}">{% trans '옵션 재고관리' %}</label>
                                       {% else %}
-                                        <input type="hidden" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock}}">
+                                        <input type="hidden" id="option_stock_{{j.id}}" class="form-control" placeholder="{% trans '옵션 재고' %}" value="{{j.stock}}">
                                         <input class="form-check-input" type="checkbox" value="0" id="stock_flag_{{j.id}}" name="stock_flag_{{j.id}}" onchange="setStockFlag({{j.id}}, this)">
-                                        <label class="form-check-label" for="stock_flag_{{j.id}}">옵션 재고관리</label>
+                                        <label class="form-check-label" for="stock_flag_{{j.id}}">{% trans '옵션 재고관리' %}</label>
                                       {% endif %}
                                     </td>
                                     <td>
@@ -115,25 +115,25 @@
                                       {% endif %}
                                     </td>
                                     <td class="text-end">
-                                        <button type="button" class="btn btn-danger" onclick="deleteOptionDetail('{{j.id}}')">삭제</button>
-                                        <button type="button" class="btn btn-success" onclick="saveOptionDetail('{{j.id}}')">저장</button>
+                                        <button type="button" class="btn btn-danger" onclick="deleteOptionDetail('{{j.id}}')">{% trans '삭제' %}</button>
+                                        <button type="button" class="btn btn-success" onclick="saveOptionDetail('{{j.id}}')">{% trans '저장' %}</button>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             {% else %}
                             <tr>
-                                <td colspan="6">데이터가 없습니다</td>
+                                <td colspan="6">{% trans '데이터가 없습니다. %}</td>
                             </tr>
                             {% endif %}
                           </tbody>
                       </table>
                       <div class="text-center">
-                        <a id="btn-delete" href="javascript:;" onclick="deleteOption('{{i.id}}')"><i class="bi bi-trash-fill"></i> 삭제</a>
+                        <a id="btn-delete" href="javascript:;" onclick="deleteOption('{{i.id}}')"><i class="bi bi-trash-fill"></i> {% trans '삭제' %}</a>
                       </div>
                 </div>
                 {% endfor %}                
             {% else %}
-                <span>옵션을 등록해주세요.</span>
+                <span>{% trans '옵션을 등록해주세요.' %}</span>
             {% endif %}
           </div>
         </div>
@@ -146,6 +146,19 @@
 <script>
   const shop_id = {{shop.id}};
 </script>
-<script src="{% static 'shop/js/goods_manage/script_option_manage.js' %}?v=2025"></script>
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_register: "{% trans '등록 하시겠습니까?' %}",
+    confirm_edit: "{% trans '수정 하시겠습니까?' %}",
+    confirm_delete: "{% trans '삭제 하시겠습니까?' %}",
+    confirm_add: "{% trans '추가 하시겠습니까?' %}",
+    confirm_option_stock: "{% trans '옵션재고 관리 설정을 변경하시겠습니까?' %}",
+    confirm_option_required: "{% trans '옵션필수 선택을 수정하시겠습니까?' %}",
+    confirm_option_soldout: "{% trans '품절 상태를 변경하시겠습니까?' %}",
+  };
+</script>
+<script src="{% static 'shop/js/goods_manage/script_option_manage.js' %}?v=202508"></script>
 {% endblock javascripts %}
 

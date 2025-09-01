@@ -8,7 +8,7 @@ btn_submit.addEventListener("click", () => {
     if(!validation()){
         return;
     }
-    customConfirm("등록 하시겠습니까?")
+    customConfirm(i18n.confirm_register)
     .then((result) => {
         if (!result) {
             return false;
@@ -34,10 +34,10 @@ btn_submit.addEventListener("click", () => {
         error: function(error) {
             btn_submit.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -65,7 +65,7 @@ function validation(){
 }
 
 function deleteOption(id){
-    customConfirm("삭제 하시겠습니까?")
+    customConfirm(i18n.confirm_delete)
     .then((result) => {
         if (!result) {
             return false;
@@ -85,10 +85,10 @@ function deleteOption(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -100,7 +100,7 @@ function deleteOption(id){
 
 
 function createOptionDetail(id){
-    customConfirm("추가 하시겠습니까?")
+    customConfirm(i18n.confirm_add)
     .then((result) => {
         if (!result) {
             return false;
@@ -120,10 +120,10 @@ function createOptionDetail(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -134,7 +134,7 @@ function createOptionDetail(id){
 }
 
 function saveOptionDetail(id){
-    customConfirm("수정 하시겠습니까?")
+    customConfirm(i18n.confirm_edit)
     .then((result) => {
         if (!result) {
             return false;
@@ -162,10 +162,10 @@ function saveOptionDetail(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -177,7 +177,7 @@ function saveOptionDetail(id){
 
 
 function deleteOptionDetail(id){
-    customConfirm("삭제 하시겠습니까?")
+    customConfirm(i18n.confirm_delete)
     .then((result) => {
         if (!result) {
             return false;
@@ -197,10 +197,10 @@ function deleteOptionDetail(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -212,7 +212,7 @@ function deleteOptionDetail(id){
 
 
 function setStockFlag(id, elem){
-    customConfirm("옵션재고 관리 설정을 변경하시겠습니까?")
+    customConfirm(i18n.confirm_option_stock)
     .then((result) => {
         if (!result) {
             location.reload(true);
@@ -237,10 +237,10 @@ function setStockFlag(id, elem){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -251,7 +251,7 @@ function setStockFlag(id, elem){
 }
 
 function setRequired(id){
-    customConfirm("옵션필수 선택을 수정하시겠습니까?")
+    customConfirm(i18n.confirm_option_required)
     .then((result) => {
         if (!result) {
             location.reload(true);
@@ -272,10 +272,10 @@ function setRequired(id){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -287,7 +287,7 @@ function setRequired(id){
 
 
 function setSoldout(id, elem){
-    customConfirm("품절 상태를 변경하시겠습니까?")
+    customConfirm(i18n.confirm_option_soldout)
     .then((result) => {
         if (!result) {
             location.reload(true);
@@ -312,10 +312,10 @@ function setSoldout(id, elem){
             },
             error: function(error) {
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));

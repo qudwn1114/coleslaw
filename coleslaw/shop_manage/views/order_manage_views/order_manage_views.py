@@ -9,6 +9,7 @@ from django.db.models.functions import Coalesce, Cast
 from django.utils.decorators import method_decorator
 from django.db import transaction
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 from system_manage.decorators import permission_required
 from system_manage.models import Order, OrderGoods, ShopAdmin, OrderPayment, SmsLog
@@ -332,11 +333,11 @@ def order_goods(request: HttpRequest, *args, **kwargs):
     order_id = kwargs.get('order_id')
     shop = check_shop(pk=shop_id)
     if not shop:
-        return JsonResponse({"message":"잘못된 가맹점입니다."}, status = 400)
+        return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
     try:
         order = Order.objects.get(pk=order_id, shop=shop)
     except:
-        return JsonResponse({"message":"잘못된 주문입니다."}, status = 400)
+        return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
     
     data = {}
 

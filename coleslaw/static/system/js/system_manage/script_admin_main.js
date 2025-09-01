@@ -29,10 +29,10 @@ function getMainSales(){
         },
         error: function(error) {
             if(error.status == 401){
-                console.log('로그인 해주세요.')
+                console.log(i18n.login_required)
             }
             else if(error.status == 403){
-              console.log('권한이 없습니다.')
+              console.log(i18n.no_permission)
             }
             else{
                 console.log(error.status + JSON.stringify(error.responseJSON));

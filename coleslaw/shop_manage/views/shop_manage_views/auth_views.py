@@ -8,6 +8,7 @@ from django.db.models.functions import Coalesce, TruncHour, TruncMonth
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import update_session_auth_hash
@@ -198,7 +199,7 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
         for i in order:
             dates[i['hour'].strftime('%H')] = i['sum']
         for k, v in dates.items():
-            x = f"{k}시"
+            x = f"{k}{_('HOUR')}"
             y = v
             categories.append(x)
             pos_data.append(y)
@@ -214,7 +215,7 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
         data['title_en'] = 'Today'
 
     elif report_type == 'WEEK':
-        week = ['월','화','수','목','금','토','일']
+        week = [ _('MONDAY'), _('TUESDAY'), _('WEDNESDAY'), _('THURSDAY'), _('FRIDAY'), _('SATURDAY'), _('SUNDAY')]
         days = 8
         start_date = today - datetime.timedelta(days=days-1)
         end_date = today
@@ -225,7 +226,7 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
             dates[i['date']] = i['sum']
         for k, v in dates.items():
             if today == k:
-                x= f'오늘({week[k.weekday()]})'
+                x= f'{_("TODAY")}({week[k.weekday()]})'
             else:
                 x= f'{k.strftime("%m.%d")}({week[k.weekday()]})'
             y = v
@@ -255,7 +256,7 @@ def shop_sales_report(request: HttpRequest, *args, **kwargs):
             dates[i['month'].strftime("%m")] = i['sum']
         
         for k, v in dates.items():
-            x = f"{k}월"
+            x = f"{k}{_('MONTH')}"
             y = v
             categories.append(x)
             pos_data.append(y)
@@ -313,14 +314,14 @@ class LoginView(View):
         try:
             user = User.objects.get(username=username)
         except:
-            return JsonResponse({'message':'Incorrect username or password.'}, status = 400)
+            return JsonResponse({'message': _('ERR_LOGIN1')}, status=400)
         
         if not user.check_password(raw_password=password):
-            return JsonResponse({'message':'Incorrect username or password.'}, status = 400)
+            return JsonResponse({'message': _('ERR_LOGIN1')}, status=400)
         if user.profile.withdrawal_at:
-            return JsonResponse({'message':'Withdrawal account.'}, status = 400)
+            return JsonResponse({'message': _('ERR_LOGIN2')}, status=400)
         if not user.is_active:
-            return JsonResponse({'message':'Deactivated account.'}, status = 400)
+            return JsonResponse({'message': _('ERR_LOGIN3')}, status=400)
         
         if user.is_superuser or AgencyAdmin.objects.filter(user=user).exists() or ShopAdmin.objects.filter(user=user).exists():
             login(request, user)
@@ -332,7 +333,7 @@ class LoginView(View):
             return JsonResponse({'message':'Sign in completed.', 'url':url}, status = 200)
 
         else:
-            return JsonResponse({'message':'Not an administrator.'}, status = 403)
+            return JsonResponse({'message': _('ERR_LOGIN4')}, status=400)
         
 
 class UserPasswordEditView(View):
@@ -347,22 +348,22 @@ class UserPasswordEditView(View):
     
     def post(self, request: HttpRequest, *args, **kwargs):        
         if not request.user.is_authenticated:
-            return JsonResponse({"message": "로그인이 되어있지 않습니다."},status=401)
+            return JsonResponse({'message': _('ERR_AUTH')}, status=400)
         user = request.user
         password = request.POST['password']
         new_password1 = request.POST['new_password1']
         new_password2 = request.POST['new_password2']
              
         if not user.check_password(raw_password=password):
-            return JsonResponse({'message':'현재 비밀번호가 일치하지 않습니다.'}, status = 400)
+            return JsonResponse({'message': _('ERR_PASSWORD')}, status=400)
         if new_password1 != new_password2:
-            return JsonResponse({'message':'새로운 비밀번호가 일치하지 않습니다.'}, status = 400)
+            return JsonResponse({'message': _('ERR_NEW_PASSWORD')}, status=400)
         
         user.set_password(new_password1)
         user.save()
         update_session_auth_hash(request, user)
 
-        return JsonResponse({'message' : '변경되었습니다.', 'url':reverse('shop_manage:login')},  status = 202)
+        return JsonResponse({'message' : _('MSG_UPDATED'), 'url':reverse('shop_manage:login')},  status = 202)
     
 
 class PermissionDeniedView(LoginRequiredMixin, TemplateView):

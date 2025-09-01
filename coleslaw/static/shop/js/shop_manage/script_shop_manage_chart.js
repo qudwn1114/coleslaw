@@ -11,11 +11,11 @@ function report(report_type){
             chart.updateOptions({
                 series:[
                     {
-                        name: '현장',
+                        name: i18n.offline,
                         data: data.pos_data
                     },
                     {
-                        name: '온라인',
+                        name: i18n.online,
                         data: data.online_data
                     },
                 ],
@@ -26,10 +26,10 @@ function report(report_type){
           },
           error: function(error) {
               if(error.status == 401){
-                  customAlert('로그인 해주세요.');
+                  customAlert(i18n.login_required);
               }
               else if(error.status == 403){
-                  customAlert('권한이 없습니다!');
+                  customAlert(i18n.no_permission);
               }
               else{
                   customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -54,7 +54,7 @@ var options = {
     },
     series: [],
     title: {
-        text: '순매출',
+        text: i18n.net,
         align: 'left'
     },
     noData: {
@@ -71,10 +71,10 @@ var options = {
           formatter: function(val) {
                 // override the val here
                 if (parseInt(val) >= 1000) {
-                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'; // 천단위 콤마
+                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + i18n.currency; // 천단위 콤마
                 }
                 else {
-                    return val.toFixed(0).toString() + '원';
+                    return val.toFixed(0).toString() + i18n.currency;
                 }
            }
         }

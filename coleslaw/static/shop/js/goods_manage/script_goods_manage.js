@@ -199,7 +199,7 @@ $(document).ready(function () {
             },
             { "data": function(data, type, row){
                     if(data.stock_flag){
-                        return `<div class="input-group"><input class="form-control" type="number" value="${data.stock}" id="STOCK_${data.id}" onkeyup="enterkey(${data.id}, 'STOCK')"/><button class="btn btn-outline-secondary" type="button" id="btn_STOCK_${data.id}" onclick="setValue(${data.id}, 'STOCK', this)">저장</button></div>`;
+                        return `<div class="input-group"><input class="form-control" type="number" value="${data.stock}" id="STOCK_${data.id}" onkeyup="enterkey(${data.id}, 'STOCK')"/><button class="btn btn-outline-secondary" type="button" id="btn_STOCK_${data.id}" onclick="setValue(${data.id}, 'STOCK', this)">${i18n.save}</button></div>`;
                     }
                     else{
                         return '<span>x</span>';
@@ -238,7 +238,7 @@ $(document).ready(function () {
             {
                 targets: 4,
                 render: function (data, type, row) {
-                    return `<div class="input-group"><input class="form-control" type="number" value="${row.sale_price}" id="SALE_PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'SALE_PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_SALE_PRICE_${row.id}" onclick="setValue(${row.id}, 'SALE_PRICE', this)">저장</button></div><div class="input-group"><input class="form-control" type="number" value="${data}" id="PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_PRICE_${row.id}" onclick="setValue(${row.id}, 'PRICE', this)">저장</button></div>`;
+                    return `<div class="input-group"><input class="form-control" type="number" value="${row.sale_price}" id="SALE_PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'SALE_PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_SALE_PRICE_${row.id}" onclick="setValue(${row.id}, 'SALE_PRICE', this)">${i18n.save}</button></div><div class="input-group"><input class="form-control" type="number" value="${data}" id="PRICE_${row.id}" onkeyup="enterkey(${row.id}, 'PRICE')"/><button class="btn btn-outline-secondary" type="button" id="btn_PRICE_${row.id}" onclick="setValue(${row.id}, 'PRICE', this)">${i18n.save}</button></div>`;
                 },
                 width: 200,
             },
@@ -256,7 +256,7 @@ function numberWithCommas(x) {
 }
 
 function setStatus(id, type, elem){
-    customConfirm("상태를 변경하시겠습니까")
+    customConfirm(i18n.confirm_edit)
     .then((result) => {
         if (!result) {
             location.reload();
@@ -281,10 +281,10 @@ function setStatus(id, type, elem){
             error: function(error) {
                 elem.disabled=false;
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON), ()=>{
@@ -297,7 +297,7 @@ function setStatus(id, type, elem){
 }
 
 function setValue(id, type, elem){
-    customConfirm("변경하시겠습니까")
+    customConfirm(i18n.confirm_edit)
     .then((result) => {
         if (!result) {
             location.reload();
@@ -328,10 +328,10 @@ function setValue(id, type, elem){
         error: function(error) {
             elem.disabled=false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON), ()=>{

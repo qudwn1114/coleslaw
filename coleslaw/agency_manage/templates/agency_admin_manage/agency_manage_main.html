@@ -1,6 +1,5 @@
 {% extends "layouts/agency_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
 {% block stylesheets %}
 
 {% endblock stylesheets %}
@@ -22,9 +21,9 @@
                     <li class="dropdown-header text-start">
                       <span><i class="bi bi-filter-left"></i>Filter</span>
                     </li>
-                    <li><a class="dropdown-item" href="javascript:;" onclick="report('TODAY')">일별</a></li>
-                    <li><a class="dropdown-item" href="javascript:;" onclick="report('WEEK')">주간별</a></li>
-                    <li><a class="dropdown-item" href="javascript:;" onclick="report('MONTH')">월별</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="report('TODAY')">{% trans "일별" %}</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="report('WEEK')">{% trans "주간별" %}</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="report('MONTH')">{% trans "월별" %}</a></li>
                     <!-- <li><a class="dropdown-item" href="#">This Year</a></li> -->
                   </ul>
                 </div>
@@ -51,9 +50,9 @@
                     <li class="dropdown-header text-start">
                       <span><i class="bi bi-filter-left"></i>Filter</span>
                     </li>
-                    <li><a class="dropdown-item" href="javascript:;" onclick="shop_report('TODAY')">오늘</a></li>
-                    <li><a class="dropdown-item" href="javascript:;" onclick="shop_report('MONTH')">이번달</a></li>
-                    <li><a class="dropdown-item" href="javascript:;" onclick="shop_report('YEAR')">올해</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="shop_report('TODAY')">{% trans "오늘" %}</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="shop_report('MONTH')">{% trans "이번달" %}</a></li>
+                    <li><a class="dropdown-item" href="javascript:;" onclick="shop_report('YEAR')">{% trans "올해" %}</a></li>
                   </ul>
                 </div>
               </div>
@@ -69,14 +68,14 @@
       <div class="col" bis_skin_checked="1">
         <div class="card mb-4 rounded-3 shadow-sm" bis_skin_checked="1">
           <div class="card-body" bis_skin_checked="1">
-            <h5 class="card-title">일 매출</h5>
+            <h5 class="card-title">{% trans "일 매출" %}</h5>
             <div class="row mt-3">
               <div class="col-sm-6">
                 <div class="card">
                   <div class="card-body">
                     <h1 class="card-title pricing-card-title">
-                      카드결제
-                      <h4><span id="card_sales"></span><small class="text-muted fw-light"> ₩</small></h4>
+                      {% trans "카드결제" %}
+                      <h4><span id="card_sales"></span><small class="text-muted fw-light"> {{ CURRENCY_SYMBOL }}</small></h4>
                     </h1>
                     <p class="card-text">총 <span id="card_count"></span> 건</p>
                   </div>
@@ -86,8 +85,8 @@
                 <div class="card">
                   <div class="card-body">
                     <h1 class="card-title pricing-card-title">
-                      현금결제
-                      <h4><span id="cash_sales"></span><small class="text-muted fw-light"> ₩</small></h4>
+                      {% trans "현금결제" %}
+                      <h4><span id="cash_sales"></span><small class="text-muted fw-light"> {{ CURRENCY_SYMBOL }}</small></h4>
                     </h1>
                       <p class="card-text">총 <span id="cash_count"></span> 건</p>
                   </div>
@@ -97,8 +96,8 @@
                 <div class="card">
                   <div class="card-body">
                     <h1 class="card-title pricing-card-title">
-                      취소금액
-                      <h4>- <span id="cancel_sales"></span><small class="text-muted fw-light"> ₩</small></h4>
+                      {% trans "취소금액" %}
+                      <h4>- <span id="cancel_sales"></span><small class="text-muted fw-light"> {{ CURRENCY_SYMBOL }}</small></h4>
                     </h1>
                       <p class="card-text">총 <span id="cancel_count"></span> 건</p>
                   </div>
@@ -108,10 +107,10 @@
                 <div class="card">
                   <div class="card-body">
                     <h1 class="card-title pricing-card-title">
-                      총 매출
-                      <h4><span id="total_sales"></span><small class="text-muted fw-light"> ₩</small></h4>
+                      {% trans "총 매출" %}
+                      <h4><span id="total_sales"></span><small class="text-muted fw-light"> {{ CURRENCY_SYMBOL }}</small></h4>
                     </h1>
-                      <p class="card-text">총 <span id="total_count"></span> 건</p>
+                      <p class="card-text">{% trans "총" %} <span id="total_count"></span> {% trans "건" %}</p>
                   </div>
                 </div>
               </div>
@@ -128,6 +127,19 @@
 <script>
   const agency_id = {{agency.pk}};
 </script>
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    period_limit: "{% trans '기간을 3개월 이내로만 설정 하실 수 있습니다.' %}",
+    save_excel: "{% trans '엑셀저장하시겠습니까?' %}",
+    currency: "{{ CURRENCY_SYMBOL }}",
+    offline: "{% trans '현장' %}",
+    online: "{% trans '온라인' %}",
+    net: "{% trans '순매출' %}",
+    shop_net: "{% trans '가맹점 별 순매출' %}"
+  };
+</script> 
 <script src="{% static 'agency/js/agency_manage/script_agency_manage_main.js' %}?v=20250423"></script>
 <script src="{% static 'agency/js/agency_manage/script_agency_manage_chart.js' %}?v=20250423"></script>
 {% endblock javascripts %}

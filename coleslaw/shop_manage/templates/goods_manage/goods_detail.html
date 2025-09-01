@@ -1,6 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 {% endblock stylesheets %}
@@ -8,7 +7,7 @@
 {% block main %}
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>상품 상세</h1>
+        <h1>{% trans '상품 상세' %}</h1>
         <nav>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{% url 'shop_manage:home' shop.id %}">Home</a></li>
@@ -22,18 +21,18 @@
           <div class="card-body">
             <div class="row justify-content-between">
                 <div class="col">
-                    <h5 class="card-title">상품 상세</h5>
+                    <h5 class="card-title">{% trans '상품 상세' %}</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{{prev_url}}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{{prev_url}}"><i class="bi bi-list"></i> {% trans '목록' %}</a></div>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
+                    <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> {% trans '삭제' %}</a></div>
                 </div>
             </div>
             <form id="data-form" method="post" onsubmit="return false">
                 <div class="row mb-3">
-                  <label for="category" class="col-sm-2 col-form-label">카테고리 분류</label>
+                  <label for="category" class="col-sm-2 col-form-label">{% trans '카테고리 분류' %}</label>
                   <div class="col-sm-5">
                       <select  class="selectpicker form-control" id="main_category" name="main_category" disabled>
                         <option>{{goods.sub_category.main_category.name_kr}}</option>
@@ -46,54 +45,54 @@
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="goods_id" class="col-sm-2 col-form-label">상품ID</label>
+                  <label for="goods_id" class="col-sm-2 col-form-label">{% trans '상품' %}ID</label>
                   <div class="col-sm-10">
-                      <input type="text" id="goods_id" name="goods_id" class="form-control" placeholder="상품ID" disabled value="{{goods.pk}}">
+                      <input type="text" id="goods_id" name="goods_id" class="form-control" placeholder="{% trans '상품' %}ID" disabled value="{{goods.pk}}">
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="code" class="col-sm-2 col-form-label">상품코드</label>
+                  <label for="code" class="col-sm-2 col-form-label">{% trans '상품코드' %}</label>
                   <div class="col-sm-10">
-                      <input type="text" id="code" name="code" class="form-control" placeholder="상품코드" disabled value="{{goods.code}}">
+                      <input type="text" id="code" name="code" class="form-control" placeholder="{% trans '상품코드' %}" disabled value="{{goods.code}}">
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                    <label for="goods_name_kr" class="col-sm-2 col-form-label">상품한글명</label>
+                    <label for="goods_name_kr" class="col-sm-2 col-form-label">{% trans '상품명' %}</label>
                     <div class="col-sm-10">
-                        <input type="text" id="goods_name_kr" name="goods_name_kr" class="form-control" placeholder="상품한글명" disabled value="{{goods.name_kr}}">
+                        <input type="text" id="goods_name_kr" name="goods_name_kr" class="form-control" placeholder="{% trans '상품명' %}" disabled value="{{goods.name_kr}}">
                     </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="goods_name_en" class="col-sm-2 col-form-label">상품영문명</label>
+                  <label for="goods_name_en" class="col-sm-2 col-form-label">{% trans '상품영문명' %}</label>
                   <div class="col-sm-10">
-                      <input type="text" id="goods_name_en" name="goods_name_en" class="form-control" placeholder="상품영문명" disabled value="{{goods.name_en}}">
+                      <input type="text" id="goods_name_en" name="goods_name_en" class="form-control" placeholder="{% trans '상품영문명' %}" disabled value="{{goods.name_en}}">
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="price" class="col-sm-2 col-form-label">상품 가격</label>
+                  <label for="price" class="col-sm-2 col-form-label">{% trans '상품가격' %}</label>
                   <div class="col-sm-10">
-                      <input type="text" id="price" name="price" class="form-control" placeholder="상품 가격" value="{{goods.price|intcomma}}" disabled>
+                      <input type="text" id="price" name="price" class="form-control" placeholder="{% trans '상품가격' %}" value="{{goods.price|intcomma}}" disabled>
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="sale_price" class="col-sm-2 col-form-label">핀매 가격</label>
+                  <label for="sale_price" class="col-sm-2 col-form-label">{% trans '판매가격' %}</label>
                   <div class="col-sm-10">
-                      <input type="text" id="sale_price" name="sale_price" class="form-control" placeholder="판매가격" value="{{goods.sale_price|intcomma}}" disabled>
+                      <input type="text" id="sale_price" name="sale_price" class="form-control" placeholder="{% trans '판매가격' %}" value="{{goods.sale_price|intcomma}}" disabled>
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="stock" class="col-sm-2 col-form-label">재고 수량</label>
+                  <label for="stock" class="col-sm-2 col-form-label">{% trans '재고수량' %}</label>
                   <div class="col-sm-10">
-                      <input type="text" id="stock" name="stock" class="form-control" placeholder="재고 수량" value="{{goods.stock|intcomma}}" disabled>
+                      <input type="text" id="stock" name="stock" class="form-control" placeholder="{% trans '재고수량' %}" value="{{goods.stock|intcomma}}" disabled>
                   </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                  <label for="image" class="col-sm-2 col-form-label">상품 이미지</label>
+                  <label for="image" class="col-sm-2 col-form-label">{% trans '상품 이미지' %}</label>
                   <div class="col-sm-10">
                     {% if goods.image_thumbnail %}
                         <img src="{{goods.image_thumbnail.url}}" width="150px" class="img-fluid" alt="...">
                     {% else %}
-                        이미지 없음
+                        {% trans '이미지 없음' %}
                     {% endif %}                  
                   </div>
                 </div>
@@ -105,7 +104,7 @@
                     <input class="form-check-input" type="checkbox" value="0" id="status" name="status" disabled>
                     {% endif %}
                     <label class="form-check-label" for="status">
-                    판매 여부
+                    {% trans '판매 여부' %}
                     </label>
                   </div>
                   <div class="form-check col-sm-2">
@@ -115,7 +114,7 @@
                     <input class="form-check-input" type="checkbox" value="0" id="soldout" name="soldout" disabled>
                     {% endif %}
                     <label class="form-check-label" for="soldout">
-                    품절 여부
+                    {% trans '품절 여부' %}
                     </label>
                   </div>
                   <div class="form-check col-sm-2">
@@ -125,7 +124,7 @@
                     <input class="form-check-input" type="checkbox" value="0" id="kiosk_display" name="kiosk_display" disabled>
                     {% endif %}
                     <label class="form-check-label" for="kiosk_display">
-                      키오스크 여부
+                      {% trans '키오스크 여부' %}
                     </label>
                   </div>
                   <div class="form-check col-sm-2">
@@ -135,7 +134,7 @@
                     <input class="form-check-input" type="checkbox" value="0" id="stock_flag" name="stock_flag" disabled>
                     {% endif %}
                     <label class="form-check-label" for="stock_flag">
-                    재고 관리 사용 여부
+                    {% trans '재고 관리 사용 여부' %}
                     </label>
                   </div>
                   <div class="form-check col-sm-2">
@@ -145,10 +144,11 @@
                     <input class="form-check-input" type="checkbox" value="0" id="option_flag" name="option_flag" disabled>
                     {% endif %}
                     <label class="form-check-label" for="option_flag">
-                    옵션 사용 여부
+                      {% trans '옵션 사용 여부' %}
                     </label>
                   </div>
                 </div>
+                {% if LANGUAGE_CODE == 'ko' %}
                 <div class="row mt-3 mb-3">
                   <label for="after_payment_goods_id_list" class="col-sm-2 col-form-label">결제후상품 ID</label>
                   <div class="col-sm-10">
@@ -161,6 +161,7 @@
                       <input type="number" id="additional_fee_goods_id" name="additional_fee_goods_id" class="form-control" placeholder="추가요금상품 ID" value="{{goods.additional_fee_goods}}" disabled>
                   </div>
                 </div>
+                {% endif %}
                 <div class="row mb-3">
                     <div class="col-sm-12 text-center">
                         <a class="btn btn-warning" href="{% url 'shop_manage:goods_edit' shop.id goods.id %}?prev_url={{cur_url}}">Edit</a>
@@ -173,23 +174,23 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col">
-                  <h5 class="card-title">옵션</h5>
+                  <h5 class="card-title">{% trans '옵션' %}</h5>
               </div>
               <div class="col-auto mt-3">
-                <a class="btn btn-outline-primary" href="{% url 'shop_manage:option_manage' shop.id goods.id %}?prev_url={{cur_url}}">관리</a>
+                <a class="btn btn-outline-primary" href="{% url 'shop_manage:option_manage' shop.id goods.id %}?prev_url={{cur_url}}">{% trans '관리' %}</a>
               </div>
             </div>
             {% if goods.option %}
             {% for i in goods.option.all %}
             <div class="border border-3 p-3">
-                <h6>{{i.name_kr}}/{{i.name_en}}{% if i.required %} (필수){% endif %}</h6>
+                <h6>{{i.name_kr}}/{{i.name_en}}{% if i.required %} ({% trans '필수' % }){% endif %}</h6>
                 <table class="table table-hover">
                     <thead>
                       <tr>
-                        <th>내용</th>
-                        <th>옵션비용</th>
-                        <th>재고</th>
-                        <th>품절여부</th>
+                        <th>{% trans '내용' %}</th>
+                        <th>{% trans '옵션비용' %}</th>
+                        <th>{% trans '재고' %}</th>
+                        <th>{% trans '품절여부' %}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -197,30 +198,30 @@
                             {% for j in i.option_detail.all %}
                             <tr>
                                 <td>
-                                    <input type="text" id="option_name_kr_{{j.id}}" class="form-control" placeholder="옵션 내용" value="{{j.name_kr}}" disabled>
+                                    <input type="text" id="option_name_kr_{{j.id}}" class="form-control" value="{{j.name_kr}}" disabled>
                                 </td>
                                 <td>
-                                    <input type="text" id="option_price_{{j.id}}" class="form-control" placeholder="옵션 가격" value="{{j.price|intcomma}}" disabled>
+                                    <input type="text" id="option_price_{{j.id}}" class="form-control" value="{{j.price|intcomma}}" disabled>
                                 </td>
                                 <td>
                                     {% if j.stock_flag %}
-                                      <input type="text" id="option_stock_{{j.id}}" class="form-control" placeholder="옵션 재고" value="{{j.stock|intcomma}}" disabled>
+                                      <input type="text" id="option_stock_{{j.id}}" class="form-control" value="{{j.stock|intcomma}}" disabled>
                                     {% else %}
-                                      <span>재고 관리 x</span>
+                                      <span>{% trans '재고 관리' %} x</span>
                                     {% endif %}
                                 </td>
                                 <td>
                                   {% if j.soldout %}
-                                  품절
+                                    {% trans '품절' %}
                                   {% else %}
-                                  판매중
+                                    {% trans '판매중' %}
                                   {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
                         {% else %}
                         <tr>
-                            <td colspan="3">데이터가 없습니다</td>
+                            <td colspan="3">{% trans '데이터가 없습니다.' %}</td>
                         </tr>
                         {% endif %}
                       </tbody>
@@ -228,7 +229,7 @@
             </div>
             {% endfor %}                
         {% else %}
-            <span>옵션을 등록해주세요.</span>
+            <span>{% trans '옵션을 등록해주세요.' %}</span>
         {% endif %}
 
           </div>
@@ -239,6 +240,13 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'shop/js/goods_manage/script_goods_detail.js' %}?v=1"></script>
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_delete: "{% trans '삭제 하시겠습니까?' %}",
+  };
+</script>
+<script src="{% static 'shop/js/goods_manage/script_goods_detail.js' %}?v=2"></script>
 {% endblock javascripts %}
 

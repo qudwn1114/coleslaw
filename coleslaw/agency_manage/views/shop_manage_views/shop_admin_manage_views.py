@@ -9,6 +9,7 @@ from django.db.models import Exists, OuterRef
 from system_manage.decorators import permission_required
 from agency_manage.views.agency_manage_views.auth_views import check_agency
 from system_manage.models import Shop, ShopAdmin
+from django.utils.translation import gettext as _
 
 class ShopAdminManageView(View):
     '''
@@ -75,18 +76,18 @@ class ShopAdminManageView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
 
         pk = kwargs.get("pk")
         id = request.POST['id']
         try:
             shop = Shop.objects.get(pk=pk, agency=agency)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         try:
             user = User.objects.get(pk=id, profile__agency=agency)
         except:
-            return JsonResponse({"message": "유저 오류"},status=400)
+            return JsonResponse({'message': _('ERR_USER_INVALID')}, status=400)            
         
         admin = ShopAdmin.objects.filter(shop=shop, user=user)
         if admin.exists():
@@ -94,4 +95,4 @@ class ShopAdminManageView(View):
         else:
             ShopAdmin.objects.create(shop=shop, user=user)
 
-        return JsonResponse({'message' : '저장 되었습니다.'}, status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED')}, status = 201)

@@ -1,0 +1,347 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 12:51+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:97
+#: shop_manage/views/shop_manage_views/auth_views.py:202
+msgid "HOUR"
+msgstr "시"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "MONDAY"
+msgstr "월"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "TUESDAY"
+msgstr "화"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "WEDNESDAY"
+msgstr "수"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "THURSDAY"
+msgstr "목"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "FRIDAY"
+msgstr "금"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "SATURDAY"
+msgstr "토"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:112
+#: shop_manage/views/shop_manage_views/auth_views.py:218
+msgid "SUNDAY"
+msgstr "일"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:123
+#: shop_manage/views/shop_manage_views/auth_views.py:229
+msgid "TODAY"
+msgstr "오늘"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:153
+#: shop_manage/views/shop_manage_views/auth_views.py:259
+msgid "MONTH"
+msgstr "월"
+
+#: agency_manage/views/agency_manage_views/auth_views.py:283
+#: agency_manage/views/agency_manage_views/auth_views.py:286
+#: shop_manage/views/shop_manage_views/auth_views.py:317
+#: shop_manage/views/shop_manage_views/auth_views.py:320
+msgid "ERR_LOGIN1"
+msgstr "아이디 또는 비밀번호가 올바르지 않습니다."
+
+#: agency_manage/views/agency_manage_views/auth_views.py:288
+#: shop_manage/views/shop_manage_views/auth_views.py:322
+msgid "ERR_LOGIN2"
+msgstr "탈퇴한 회원 입니다."
+
+#: agency_manage/views/agency_manage_views/auth_views.py:290
+#: shop_manage/views/shop_manage_views/auth_views.py:324
+msgid "ERR_LOGIN3"
+msgstr "비활성화 된 계정입니다."
+
+#: agency_manage/views/agency_manage_views/auth_views.py:301
+#: shop_manage/views/shop_manage_views/auth_views.py:336
+msgid "ERR_LOGIN4"
+msgstr "관리자가 아닙니다."
+
+#: agency_manage/views/agency_manage_views/auth_views.py:316
+#: shop_manage/views/shop_manage_views/auth_views.py:351
+msgid "ERR_AUTH"
+msgstr "로그인이 되어있지 않습니다."
+
+#: agency_manage/views/agency_manage_views/auth_views.py:323
+#: shop_manage/views/shop_manage_views/auth_views.py:358
+msgid "ERR_PASSWORD"
+msgstr "현재 비밀번호가 일치하지 않습니다."
+
+#: agency_manage/views/agency_manage_views/auth_views.py:325
+#: shop_manage/views/shop_manage_views/auth_views.py:360
+msgid "ERR_NEW_PASSWORD"
+msgstr "새로운 비밀번호가 일치하지 않습니다."
+
+#: agency_manage/views/agency_manage_views/auth_views.py:331
+#: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:98
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:97
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:340
+#: agency_manage/views/user_manage_views/user_manage_views.py:104
+#: agency_manage/views/user_manage_views/user_manage_views.py:284
+#: shop_manage/views/category_manage_views/category_manage_views.py:88
+#: shop_manage/views/category_manage_views/category_manage_views.py:97
+#: shop_manage/views/category_manage_views/category_manage_views.py:214
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:172
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:87
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:361
+#: shop_manage/views/goods_manage_views/option_manage_views.py:87
+#: shop_manage/views/goods_manage_views/option_manage_views.py:172
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:91
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:112
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:236
+#: shop_manage/views/shop_manage_views/auth_views.py:366
+#: shop_manage/views/table_manage_views/table_manage_views.py:86
+msgid "MSG_UPDATED"
+msgstr "변경되었습니다."
+
+#: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:79
+#: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:86
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:82
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:90
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:122
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:148
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:153
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:224
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:229
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:262
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:267
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:297
+#: agency_manage/views/user_manage_views/user_manage_views.py:82
+#: agency_manage/views/user_manage_views/user_manage_views.py:90
+#: agency_manage/views/user_manage_views/user_manage_views.py:127
+#: agency_manage/views/user_manage_views/user_manage_views.py:201
+#: agency_manage/views/user_manage_views/user_manage_views.py:206
+#: agency_manage/views/user_manage_views/user_manage_views.py:220
+#: agency_manage/views/user_manage_views/user_manage_views.py:224
+#: agency_manage/views/user_manage_views/user_manage_views.py:255
+#: shop_manage/views/category_manage_views/category_manage_views.py:35
+#: shop_manage/views/category_manage_views/category_manage_views.py:72
+#: shop_manage/views/category_manage_views/category_manage_views.py:106
+#: shop_manage/views/category_manage_views/category_manage_views.py:137
+#: shop_manage/views/category_manage_views/category_manage_views.py:144
+#: shop_manage/views/category_manage_views/category_manage_views.py:155
+#: shop_manage/views/category_manage_views/category_manage_views.py:177
+#: shop_manage/views/category_manage_views/category_manage_views.py:185
+#: shop_manage/views/category_manage_views/category_manage_views.py:200
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:86
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:121
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:126
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:158
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:163
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:33
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:94
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:117
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:140
+#: shop_manage/views/entry_manage_views/entry_option_manage_views.py:161
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:81
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:122
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:177
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:219
+#: shop_manage/views/entry_manage_views/person_type_manage_views.py:319
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:47
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:55
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:115
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:135
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:154
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:224
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:230
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:271
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:277
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:296
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:312
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:372
+#: shop_manage/views/goods_manage_views/option_manage_views.py:43
+#: shop_manage/views/goods_manage_views/option_manage_views.py:48
+#: shop_manage/views/goods_manage_views/option_manage_views.py:83
+#: shop_manage/views/goods_manage_views/option_manage_views.py:96
+#: shop_manage/views/goods_manage_views/option_manage_views.py:111
+#: shop_manage/views/goods_manage_views/option_manage_views.py:116
+#: shop_manage/views/goods_manage_views/option_manage_views.py:134
+#: shop_manage/views/goods_manage_views/option_manage_views.py:146
+#: shop_manage/views/goods_manage_views/option_manage_views.py:158
+#: shop_manage/views/goods_manage_views/option_manage_views.py:166
+#: shop_manage/views/goods_manage_views/option_manage_views.py:180
+#: shop_manage/views/goods_manage_views/option_manage_views.py:186
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:38
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:43
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:61
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:66
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:82
+#: shop_manage/views/order_manage_views/order_manage_views.py:336
+#: shop_manage/views/order_manage_views/order_manage_views.py:340
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:81
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:91
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:100
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:109
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:119
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:127
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:130
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:159
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:166
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:220
+#: shop_manage/views/table_manage_views/table_manage_views.py:73
+#: shop_manage/views/table_manage_views/table_manage_views.py:81
+#: shop_manage/views/table_manage_views/table_manage_views.py:93
+#: shop_manage/views/table_manage_views/table_manage_views.py:101
+#: shop_manage/views/table_manage_views/table_manage_views.py:104
+#: shop_manage/views/table_manage_views/table_manage_views.py:130
+msgid "ERR_DATA_INVALID"
+msgstr "데이터 오류"
+
+#: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:90
+#: agency_manage/views/user_manage_views/user_manage_views.py:259
+msgid "ERR_USER_INVALID"
+msgstr "유저 오류"
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:95
+#: agency_manage/views/user_manage_views/user_manage_views.py:102
+#: shop_manage/views/category_manage_views/category_manage_views.py:99
+#: shop_manage/views/category_manage_views/category_manage_views.py:127
+#: shop_manage/views/category_manage_views/category_manage_views.py:212
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:85
+#: shop_manage/views/goods_manage_views/option_manage_views.py:170
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:50
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:73
+msgid "ERR_TYPE_INVALID"
+msgstr "타입 오류"
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:157
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:301
+msgid "DUPLICATED_SHOP_NAME"
+msgstr "이미 존재하는 가맹점명 입니다."
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:162
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:303
+msgid "DUPLICATED_SHOP_NAME_EN"
+msgstr "이미 존재하는 가맹점 영문명 입니다."
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:196
+#: agency_manage/views/user_manage_views/user_manage_views.py:170
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:184
+#: shop_manage/views/goods_manage_views/option_manage_views.py:72
+#: shop_manage/views/table_manage_views/table_manage_views.py:147
+msgid "ERR_CREATE"
+msgstr "등록 실패."
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:198
+#: agency_manage/views/user_manage_views/user_manage_views.py:173
+#: shop_manage/views/category_manage_views/category_manage_views.py:49
+#: shop_manage/views/category_manage_views/category_manage_views.py:63
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:93
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:189
+#: shop_manage/views/goods_manage_views/option_manage_views.py:74
+#: shop_manage/views/goods_manage_views/option_manage_views.py:127
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:180
+#: shop_manage/views/table_manage_views/table_manage_views.py:149
+msgid "MSG_CREATED"
+msgstr "등록 되었습니다."
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:233
+#: agency_manage/views/user_manage_views/user_manage_views.py:228
+#: shop_manage/views/category_manage_views/category_manage_views.py:117
+#: shop_manage/views/category_manage_views/category_manage_views.py:125
+#: shop_manage/views/coupon_manage_views/coupon_manage_views.py:130
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:235
+#: shop_manage/views/goods_manage_views/option_manage_views.py:99
+#: shop_manage/views/goods_manage_views/option_manage_views.py:189
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:134
+#: shop_manage/views/table_manage_views/table_manage_views.py:108
+msgid "MSG_DELETED"
+msgstr "삭제 되었습니다."
+
+#: agency_manage/views/shop_manage_views/shop_manage_views.py:337
+#: shop_manage/views/category_manage_views/category_manage_views.py:194
+#: shop_manage/views/category_manage_views/category_manage_views.py:210
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:355
+#: shop_manage/views/goods_manage_views/rank_manage_views.py:95
+msgid "ERR_UPDATE"
+msgstr "수정 실패."
+
+#: agency_manage/views/user_manage_views/user_manage_views.py:141
+msgid "DUPLICATED_USERNAME"
+msgstr "이미 존재하는 아이디 입니다."
+
+#: agency_manage/views/user_manage_views/user_manage_views.py:212
+msgid "MSG_INITIALIZED"
+msgstr "초기화 되었습니다."
+
+#: agency_manage/views/user_manage_views/user_manage_views.py:270
+msgid "ERR_PHONE_INVALID"
+msgstr "유효하지 않은 전화번호 형식입니다."
+
+#: agency_manage/views/user_manage_views/user_manage_views.py:273
+msgid "ERR_DATE_INVALID"
+msgstr "유효하지 않은 날짜 형식입니다. ex) 1990-01-01"
+
+#: shop_manage/views/category_manage_views/category_manage_views.py:48
+#: shop_manage/views/category_manage_views/category_manage_views.py:87
+msgid "DUPLICATED_MAIN_CATEGORY"
+msgstr "이미 대분류에 존재하는 카테고리 입니다."
+
+#: shop_manage/views/category_manage_views/category_manage_views.py:96
+msgid "DUPLICATED_SUB_CATEGORY"
+msgstr "이미 소분류에 존재하는 카테고리 입니다."
+
+#: shop_manage/views/category_manage_views/category_manage_views.py:116
+#: shop_manage/views/category_manage_views/category_manage_views.py:124
+msgid "ERR_DELETE_CATEGORY"
+msgstr "하위 노드들이 있어 삭제 불가능합니다."
+
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:80
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:300
+msgid "ERR_OPTION_FLAG"
+msgstr "옵션사용을 하시려면 옵션등록이 되어있어야합니다."
+
+#: shop_manage/views/goods_manage_views/goods_manage_views.py:182
+msgid "ERR_RETRY_LATER"
+msgstr "잠시후 다시 시도해주세요."
+
+#: shop_manage/views/goods_manage_views/option_manage_views.py:57
+#: shop_manage/views/goods_manage_views/option_manage_views.py:120
+msgid "ERR_OPTION_DETAIL_LIMIT"
+msgstr "옵션내용은 20개 까지 가능합니다."
+
+#: shop_manage/views/goods_manage_views/option_manage_views.py:59
+msgid "ERR_OPTION_LIMIT"
+msgstr "더 이상 옵션을 등록 하실 수 없습니다."
+
+#: shop_manage/views/pos_manage_views/pos_manage_views.py:228
+msgid "ERR_AD_SIZE"
+msgstr "광고 비디오 용량은 200mb 제한입니다."
+
+#: shop_manage/views/table_manage_views/table_manage_views.py:133
+msgid "ERR_POS"
+msgstr "pos 이용을 먼저해주세요."

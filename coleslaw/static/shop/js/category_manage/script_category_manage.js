@@ -44,7 +44,7 @@ function saveCategoryOrder(category_type, order_data) {
             console.log('Order updated:', response);
         },
         error: function (xhr, status, error) {
-            customAlert('저장 실패: ' + error.status);
+            customAlert('Error: ' + error.status);
         }
     });
 }
@@ -67,10 +67,10 @@ function getSubCategoryList(parent_id){
         },
         error: function(error) {
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -133,8 +133,8 @@ categoryModal.addEventListener('show.bs.modal', function (event) {
         if(modalType == 'create'){
             btn_submit.style.display = 'block';
             btn_edit.style.display = 'none';
-            inputCategoryNameKr.placeholder = '카테고리 한글 이름을 넣어주세요.';
-            inputCategoryNameEn.placeholder = '카테고리 영문 이름을 넣어주세요.';
+            inputCategoryNameKr.placeholder = i18n.category_name_required;
+            inputCategoryNameEn.placeholder = i18n.category_name_en_required;
         }
         else if(modalType == 'edit'){
             btn_submit.style.display = 'none';
@@ -151,8 +151,8 @@ categoryModal.addEventListener('show.bs.modal', function (event) {
             btn_submit.style.display = 'block';
             btn_edit.style.display = 'none';
             inputParentCategoryId.value = button.getAttribute('data-parent-id');
-            inputCategoryNameKr.placeholder = '카테고리 한글 이름을 넣어주세요.';
-            inputCategoryNameEn.placeholder = '카테고리 영문 이름을 넣어주세요.';
+            inputCategoryNameKr.placeholder = i18n.category_name_required;
+            inputCategoryNameEn.placeholder = i18n.category_name_en_required;
         }
         else if(modalType == 'edit'){
             btn_submit.style.display = 'none';
@@ -174,7 +174,7 @@ categoryModal.addEventListener('show.bs.modal', function (event) {
 //유효성 체크 함수
 function validation(){
     if(inputCategoryType.value == ''){
-        customAlert('카테고리 타입이 없습니다.');
+        customAlert(i18n.category_type_required);
         return false;
     }
     if(inputCategoryNameKr.value == ''){
@@ -215,10 +215,10 @@ btn_submit.addEventListener("click", () => {
         error: function(error) {
             btn_submit.disabled = false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -256,10 +256,10 @@ btn_edit.addEventListener("click", () => {
         error: function(error) {
             btn_edit.disabled = false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -289,7 +289,7 @@ function deleteCategory(elem){
     else{
         return;
     }
-    customConfirm("정말 삭제하시겠습니까?")
+    customConfirm(i18n.confirm_delete)
     .then((result) => {
         if (!result) {
             return false;
@@ -312,10 +312,10 @@ function deleteCategory(elem){
         error: function(error) {
             elem.disabled = false;
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -389,7 +389,7 @@ function loadList(data, type, id){
             editLCategory.style.display = 'none';
             
             let li = document.createElement("li");
-            let textNode = document.createTextNode('데이터 등록해주세요.');
+            let textNode = document.createTextNode(i18n.data_required);
             li.appendChild(textNode);
             document.getElementById('list-main-category').appendChild(li);
         }
@@ -453,7 +453,7 @@ function loadList(data, type, id){
             editSCategory.style.display = 'none';
 
             let li = document.createElement("li");
-            let textNode = document.createTextNode('데이터 등록해주세요.');
+            let textNode = document.createTextNode(i18n.data_required);
             li.appendChild(textNode);
             document.getElementById('list-sub-category').appendChild(li);
         }

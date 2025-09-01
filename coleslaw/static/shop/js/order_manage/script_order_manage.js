@@ -88,7 +88,7 @@ document.getElementById('order_date6').addEventListener('click', function(){
 })
 
 function changeStatus(id, elem){
-    customConfirm("상태를 수정하시겠습니까?")
+    customConfirm(i18n.confirm_update)
     .then((result) => {
         if (!result) {
             getMainOrders();
@@ -113,10 +113,10 @@ function changeStatus(id, elem){
             error: function(error) {
                 elem.disabled=false;
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON), ()=>{
@@ -129,7 +129,7 @@ function changeStatus(id, elem){
 }
 
 function sendOrderComplete(id, elem){
-    customConfirm("완료 문자를 보내시겠습니까?")
+    customConfirm(i18n.confirm_send_sms)
     .then((result) => {
         if (!result) {
             return false;
@@ -152,10 +152,10 @@ function sendOrderComplete(id, elem){
             error: function(error) {
                 elem.disabled=false;
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -166,7 +166,7 @@ function sendOrderComplete(id, elem){
 }
 
 function changeStatusModal(id, elem){
-    customConfirm("상태를 수정하시겠습니까?")
+    customConfirm(i18n.confirm_update)
     .then((result) => {
         if (!result) {
             loadModal(id);
@@ -192,10 +192,10 @@ function changeStatusModal(id, elem){
             error: function(error) {
                 elem.disabled=false;
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON), ()=>{
@@ -208,7 +208,7 @@ function changeStatusModal(id, elem){
 }
 
 function sendOrderCompleteModal(id, elem){
-    customConfirm("완료 문자를 보내시겠습니까?")
+    customConfirm(i18n.confirm_send_sms)
     .then((result) => {
         if (!result) {
             return false;
@@ -232,10 +232,10 @@ function sendOrderCompleteModal(id, elem){
             error: function(error) {
                 elem.disabled=false;
                 if(error.status == 401){
-                    customAlert('로그인 해주세요.');
+                    customAlert(i18n.login_required);
                 }
                 else if(error.status == 403){
-                    customAlert('권한이 없습니다!');
+                    customAlert(i18n.no_permission);
                 }
                 else{
                     customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -263,15 +263,15 @@ function loadModal(order_id){
         success: function(data) {
             let tag = '';
             orderGoodsModalBody.innerHTML = '...';
-            tag += `<h5>[주문번호] ${data.order_no} | [주문일시] ${data.createdAt}</h5><hr>`;
+            tag += `<h5>[${i18n.order_no}] ${data.order_no} | [${i18n.order_date}] ${data.createdAt}</h5><hr>`;
             for(let i =0; i<data.order_goods.length; i++){
-                tag += `<h6>[제품명] ${data.order_goods[i].name_kr} <br>`
+                tag += `<h6>[${i18n.product_name}] ${data.order_goods[i].name_kr} <br>`
                 if(data.order_goods[i].option_kr){
-                    tag += `[옵션] ${data.order_goods[i].option_kr} <br>`;
+                    tag += `[${i18n.option}] ${data.order_goods[i].option_kr} <br>`;
                 } 
-                tag += `[수량] ${data.order_goods[i].quantity}</h6><hr>`
+                tag += `[${i18n.quantity}] ${data.order_goods[i].quantity}</h6><hr>`
             }
-            tag += `<h6>총 금액 : ${numberWithCommas(data.final_price)} 원</h6>`;
+            tag += `<h6>${i18n.total_price} : ${numberWithCommas(data.final_price)} ${i18n.currency}</h6>`;
             if(data.status != '2'){
                 tag += 
                 `<select class="form-select" onchange="changeStatusModal(${data.id}, this)"` 
@@ -283,39 +283,39 @@ function loadModal(order_id){
                   if(data.status == '1'){
                     tag += `selected`
                   }
-                  tag += `>결제완료</option>
+                  tag += `>${i18n.paid}</option>
                   <option value="3" 
                   `;
                   if(data.status == '3'){
                     tag += `selected`
                   }
-                  tag += `>준비중</option>
+                  tag += `>${i18n.preparing}</option>
                   <option value="4"`;
                   if(data.status == '4'){
                     tag += `selected`
                   }
-                  tag += `>주문완료</option>
+                  tag += `>${i18n.completed}</option>
                   <option value="5"`;
                   if(data.status == '5'){
                     tag += `selected`
                   }
-                  tag += `>수령완료</option>
+                  tag += `>${i18n.received}</option>
                   </select>`;
               }
               else{
-                tag += `<span class="text-danger">주문취소</span>`;
+                tag += `<span class="text-danger">${i18n.cancelled}</span>`;
               }
               if(data.status == '4' && data.order_complete_sms == false){
-                tag += `<button class="btn btn-outline-primary w-100" onclick="sendOrderCompleteModal('${data.id}', this);">수령문자요청</button>`
+                tag += `<button class="btn btn-outline-primary w-100" onclick="sendOrderCompleteModal('${data.id}', this);">${i18n.request_sms}</button>`
               }
             orderGoodsModalBody.innerHTML = tag;
         },
         error: function(error) {
             if(error.status == 401){
-                customAlert('로그인 해주세요.');
+                customAlert(i18n.login_required);
             }
             else if(error.status == 403){
-                customAlert('권한이 없습니다!');
+                customAlert(i18n.no_permission);
             }
             else{
                 customAlert(error.status + JSON.stringify(error.responseJSON));
@@ -332,7 +332,7 @@ function numberWithCommas(x) {
 
 
 function xlsxDownload(type){
-    customConfirm("엑셀저장하시겠습니까?")
+    customConfirm(i18n.save_excel)
         .then((result) => {
             if (!result) {
             return false;
@@ -376,30 +376,30 @@ function getMainOrders(){
                       if(data.order_list[i].status == '1'){
                         tag += `selected`
                       }
-                      tag += `>결제완료</option>
+                      tag += `>${i18n.paid}</option>
                       <option value="3" 
                       `;
                       if(data.order_list[i].status == '3'){
                         tag += `selected`
                       }
-                      tag += `>준비중</option>
+                      tag += `>${i18n.preparing}</option>
                       <option value="4"`;
                       if(data.order_list[i].status == '4'){
                         tag += `selected`
                       }
-                      tag += `>주문완료</option>
+                      tag += `>${i18n.completed}</option>
                       <option value="5"`;
                       if(data.order_list[i].status == '5'){
                         tag += `selected`
                       }
-                      tag += `>수령완료</option>
+                      tag += `>${i18n.received}</option>
                       </select>`;
                   }
                   else{
-                    tag += `<span class="text-danger">주문취소</span>`;
+                    tag += `<span class="text-danger">${i18n.cancelled}</span>`;
                   }
                   if(data.order_list[i].status == '4' && data.order_list[i].order_complete_sms == false){
-                    tag += `<button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('${data.order_list[i].id}', this);">수령문자요청</button>`
+                    tag += `<button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('${data.order_list[i].id}', this);">${i18n.request_sms}</button>`
                   }
                 tag += `</td>
                 </tr>`;
@@ -407,7 +407,7 @@ function getMainOrders(){
           }
           else{
             tag = `<tr>
-                  <td colspan='7'>주문내역이 없습니다.</td>
+                  <td colspan='7'>${i18n.empty}</td>
                 </tr>`;
           }
           order_tbody.innerHTML = tag;
@@ -416,10 +416,10 @@ function getMainOrders(){
         },
         error: function(error) {
             if(error.status == 401){
-                console.log('로그인 해주세요.')
+                console.log(i18n.login_required)
             }
             else if(error.status == 403){
-              console.log('권한이 없습니다.')
+              console.log(i18n.no_permission)
             }
             else{
                 console.log(error.status + JSON.stringify(error.responseJSON));

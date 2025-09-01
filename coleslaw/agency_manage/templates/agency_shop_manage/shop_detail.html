@@ -1,5 +1,5 @@
 {% extends "layouts/agency_base.html" %}
-{% load static %}
+{% load static i18n %}
 
 
 {% block stylesheets %}
@@ -25,48 +25,48 @@
                     <h5 class="card-title">Shop Detail</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{% url 'agency_manage:shop_manage' agency.pk %}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{% url 'agency_manage:shop_manage' agency.pk %}"><i class="bi bi-list"></i> {% trans "목록" %}</a></div>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> 삭제</a></div>
+                    <div class="icon mt-3"><a id="btn-delete" href="#"><i class="bi bi-trash-fill"></i> {% trans "삭제" %}</a></div>
                 </div>
             </div>
             <form id="data-form" method="post" onsubmit="return false">
                 <div class="row mb-3">
                     <div class="col-md-12">
-                      <label for="agency_name">메인 에이전시</label>
-                      <input type="text" name="agency_name" class="form-control" id="agency_name" placeholder="에이전시" value="{{data.agency.name}}" readonly>
+                      <label for="agency_name">{% trans "메인 에이전시" %}</label>
+                      <input type="text" name="agency_name" class="form-control" id="agency_name" placeholder="{% trans '에이전시' %}" value="{{data.agency.name}}" readonly>
                     </div>
                       <div class="col-md-12">
-                        <label for="shop_category_name">가맹점 카테고리</label>
-                        <input type="text" name="shop_category_name" class="form-control" id="shop_category_name" placeholder="가맹점 카테고리" value="{{data.shop_category.name_kr}}" readonly>
+                        <label for="shop_category_name">{% trans "가맹점 카테고리" %}</label>
+                        <input type="text" name="shop_category_name" class="form-control" id="shop_category_name" placeholder="{% trans '가맹점 카테고리' %}" value="{{data.shop_category.name_kr}}" readonly>
                       </div>
                       <div class="col-md-12">
-                        <label for="shop_name_kr">가맹점한글명</label>
-                        <input type="text" name="shop_name_kr" class="form-control" id="shop_name_kr" placeholder="가맹점한글명" value="{{data.name_kr}}" readonly>
+                        <label for="shop_name_kr">{% trans "가맹점명" %}</label>
+                        <input type="text" name="shop_name_kr" class="form-control" id="shop_name_kr" placeholder="{% trans '가맹점명' %}" value="{{data.name_kr}}" readonly>
                       </div>
                       <div class="col-md-12">
-                        <label for="shop_name_en">가맹점영문명</label>
-                        <input type="text" name="shop_name_en" class="form-control" id="shop_name_en" placeholder="가맹점영문명" value="{{data.name_en}}" readonly>
+                        <label for="shop_name_en">{% trans "가맹점영문명" %}</label>
+                        <input type="text" name="shop_name_en" class="form-control" id="shop_name_en" placeholder="{% trans '가맹점영문명' %}" value="{{data.name_en}}" readonly>
                       </div>
                       <div class="col-md-12">
-                        <label for="description">가맹점 설명</label>
-                        <input type="text" name="description" class="form-control" id="description" placeholder="가맹점 설명" value="{{data.description}}" readonly>
+                        <label for="description">{% trans "가맹점 설명" %}</label>
+                        <input type="text" name="description" class="form-control" id="description" placeholder="{% trans '가맹점 설명' %}" value="{{data.description}}" readonly>
                       </div>
                       <div class="col-md-12">
-                        <label for="representative">대표자명</label>
-                        <input type="text" name="representative" class="form-control" id="representative" placeholder="대표자명" value="{{data.representative}}" readonly>
+                        <label for="representative">{% trans "대표자명" %}</label>
+                        <input type="text" name="representative" class="form-control" id="representative" placeholder="{% trans '대표자명' %}" value="{{data.representative}}" readonly>
                       </div>
                       <div class="col-md-12">
-                        <label for="phone">연락처</label>
-                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="연락처" value="{{data.phone}}" readonly>
+                        <label for="phone">{% trans "연락처" %}</label>
+                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="{% trans '연락처' %}" value="{{data.phone}}" readonly>
                       </div>
                       <div class="col-md-12">
-                        <label for="registration_no">사업자번호</label>
-                        <input type="text" name="registration_no" class="form-control" id="registration_no" placeholder="사업자번호" value="{{data.registration_no}}" readonly>
+                        <label for="registration_no">{% trans "사업자번호" %}</label>
+                        <input type="text" name="registration_no" class="form-control" id="registration_no" placeholder="{% trans '사업자번호' %}" value="{{data.registration_no}}" readonly>
                       </div>
                       <div class="col-md-10">
-                        <label for="address">주소</label>
+                        <label for="address">{% trans "주소" %}</label>
                         <input type="text" class="form-control" name="address" id="address" value="{{data.address}}" readonly>
                       </div>
                       <div class="col-md-2">
@@ -76,86 +76,86 @@
                         <input type="text" class="form-control" name="address_detail" id="address_detail" value="{{data.address_detail}}" readonly>
                       </div>
                       <div class="col-md-12">
-                        <label for="image">가맹점 이미지</label>
+                        <label for="image">{% trans "가맹점 이미지" %}</label>
                         <br>
                         {% if data.image %}
                             <img src="{{data.image.url}}"  style="width:200px;">
                         {% else %}
-                            없음
+                            {% trans "없음" %}
                         {% endif %}
                     </div>
                     <div class="col-md-12">
-                      <label for="location_image">가맹점 위치정보 이미지</label>
+                      <label for="location_image">{% trans "가맹점 위치정보 이미지" %}</label>
                       <br>
                       {% if data.location_image %}
                           <img src="{{data.location_image.url}}"  style="width:200px;">
                       {% else %}
-                          없음
+                          {% trans "없음" %}
                       {% endif %}
                     </div>
                     <div class="col-md-12">
-                      <label for="waiting_time">팀 당 입장시간(분)</label>
-                      <input type="number" name="waiting_time" class="form-control" id="waiting_time" placeholder="팀 당 입장시간(분)" value="{{data.waiting_time}}" readonly>
+                      <label for="waiting_time">{% trans "팀 당 입장시간(분)" %}</label>
+                      <input type="number" name="waiting_time" class="form-control" id="waiting_time" placeholder="{% trans '팀 당 입장시간(분)' %}" value="{{data.waiting_time}}" readonly>
                     </div>
                     <div class="col-md-12">
-                      <label for="aligo_sender_key">알림톡 키</label>
+                      <label for="aligo_sender_key">{% trans "알림톡 키" %}</label>
                       <input type="text" name="aligo_sender_key" class="form-control" id="aligo_sender_key" value="{{data.aligo_sender_key|default_if_none:''}}" readonly>
                     </div>
                     <div class="col-md-12">
-                      <label for="aligo_entry_template_code1">대기등록 템플릿 코드</label>
+                      <label for="aligo_entry_template_code1">{% trans "대기등록 템플릿 코드" %}</label>
                       <input type="text" name="aligo_entry_template_code1" class="form-control" id="aligo_entry_template_code1" value="{{data.aligo_entry_template_code1|default_if_none:''}}" readonly>
                     </div>
                     <div class="col-md-12">
-                      <label for="aligo_entry_template_code2">대기호출 템플릿 코드</label>
+                      <label for="aligo_entry_template_code2">{% trans "대기호출 템플릿 코드" %}</label>
                       <input type="text" name="aligo_entry_template_code2" class="form-control" id="aligo_entry_template_code2" value="{{data.aligo_entry_template_code2|default_if_none:''}}" readonly>
                     </div>
                     <div class="col-md-12">
-                      <label for="logo_image1">로고 이미지</label>
+                      <label for="logo_image1">{% trans "로고 이미지" %} 1</label>
                       <br>
                       {% if data.logo_image1 %}
                           <img src="{{data.logo_image1.url}}"  style="width:200px;">
                       {% else %}
-                          없음
+                          {% trans "없음" %}
                       {% endif %}
                     </div>
                     <div class="col-md-12">
-                      <label for="entry_image1">입장 이미지</label>
+                      <label for="entry_image1">{% trans "입장 이미지" %} 1</label>
                       <br>
                       {% if data.entry_image1 %}
                           <img src="{{data.entry_image1.url}}"  style="width:200px;">
                       {% else %}
-                          없음
+                          {% trans "없음" %}
                       {% endif %}
                   </div>
                   <div class="col-md-12">
-                    <label for="logo_image2">로고 이미지</label>
+                    <label for="logo_image2">{% trans "로고 이미지" %} 2</label>
                     <br>
                     {% if data.logo_image2 %}
                         <img src="{{data.logo_image2.url}}"  style="width:200px;">
                     {% else %}
-                        없음
+                        {% trans "없음" %}
                     {% endif %}
                   </div>
                   <div class="col-md-12">
-                    <label for="entry_image2">입장 이미지</label>
+                    <label for="entry_image2">{% trans "입장 이미지" %} 2</label>
                     <br>
                     {% if data.entry_image2 %}
                         <img src="{{data.entry_image2.url}}"  style="width:200px;">
                     {% else %}
-                        없음
+                        {% trans "없음" %}
                     {% endif %}
                   </div>
                   <div class="col-md-12">
-                    <label for="table_time">테이블 이용시간 (0:무제한)</label>
-                    <input type="number" name="table_time" class="form-control" id="table_time" placeholder="테이블 이용시간 (분)" value="{{data.table_time}}" readonly>
+                    <label for="table_time">{% trans "테이블 이용시간" %} (0:무제한)</label>
+                    <input type="number" name="table_time" class="form-control" id="table_time" placeholder="{% trans '테이블 이용시간 (분)' %}" value="{{data.table_time}}" readonly>
                   </div>
                   <div class="col-md-12">
-                    <label for="additional_fee_time">추가요금 시간 (분)</label>
-                    <input type="number" name="additional_fee_time" class="form-control" id="additional_fee_time" placeholder="추가요금 시간 (분)" value="{{data.additional_fee_time}}" readonly>
+                    <label for="additional_fee_time">{% trans "추가요금 시간" %} (분)</label>
+                    <input type="number" name="additional_fee_time" class="form-control" id="additional_fee_time" placeholder="{% trans '추가요금 시간 (분)' %}" value="{{data.additional_fee_time}}" readonly>
                   </div>
                   <div class="col-md-12">
-                    <label for="receipt">영수증 내용</label>
-                    <input type="text" name="receipt" class="form-control" id="receipt" placeholder="영수증 하단 내용" value="{{data.receipt}}" readonly>
+                    <label for="receipt">{% trans "영수증 내용" %}</label>
+                    <input type="text" name="receipt" class="form-control" id="receipt" placeholder="{% trans '영수증 하단 내용' %}" value="{{data.receipt}}" readonly>
                   </div>
                   <div class="row mt-3 mb-3 mx-2">
                     <div class="form-check col-sm-3">
@@ -165,7 +165,7 @@
                       <input class="form-check-input" type="checkbox" value="0" id="shop_receipt_flag" name="shop_receipt_flag" disabled>
                       {% endif %}
                       <label class="form-check-label" for="shop_receipt_flag">
-                        가맹점용 영수증 발행
+                        {% trans "가맹점용 영수증 발행" %}
                       </label>
                     </div>
                   </div>
@@ -180,6 +180,13 @@
 </main>
 {% endblock %}
 {% block javascripts %}
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_delete: "{% trans '삭제 하시겠습니까?' %}",
+  };
+</script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'agency/js/shop_manage/script_shop_detail.js' %}?v=1"></script>
+<script src="{% static 'agency/js/shop_manage/script_shop_detail.js' %}?v=2"></script>
 {% endblock javascripts %}

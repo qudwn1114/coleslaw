@@ -8,6 +8,7 @@ from django.db.models import Exists, OuterRef
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.db import transaction
+from django.utils.translation import gettext as _
 
 from system_manage.decorators import permission_required
 from system_manage.models import AgencyAdmin
@@ -78,7 +79,7 @@ class UserManageView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
 
         request.PUT = json.loads(request.body)
         rq_type = request.PUT['type']
@@ -86,7 +87,7 @@ class UserManageView(View):
         try:
             user = User.objects.get(pk=user_id, profile__agency=agency)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         if rq_type == 'ACTIVE':
             is_active = bool(request.PUT['is_active'])
             user.is_active = is_active
@@ -98,9 +99,9 @@ class UserManageView(View):
             else:
                 AgencyAdmin.objects.create(agency=agency, user=user)
         else:
-            return JsonResponse({"message": "타입 오류"},status=400)
+            return JsonResponse({'message': _('ERR_TYPE_INVALID')}, status=400)
         
-        return JsonResponse({'message' : '변경되었습니다.'}, status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED')}, status = 201)
     
 
 class UserCreateView(View):
@@ -123,7 +124,7 @@ class UserCreateView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         membername = request.POST['membername'].strip()
         username = request.POST['username']
@@ -137,7 +138,7 @@ class UserCreateView(View):
 
         try:
             User.objects.get(username=username)
-            return JsonResponse({'message': '아이디가 이미 존재합니다'}, status=400)
+            return JsonResponse({'message' : _('DUPLICATED_USERNAME')}, status = 201)
         except:
             pass
 
@@ -166,10 +167,10 @@ class UserCreateView(View):
         except Exception as e:
             logger = logging.getLogger('my')
             logger.error(traceback.format_exc())
-            return JsonResponse({'message': '가입 오류'}, status=400)
+            return JsonResponse({'message': _('ERR_CREATE')}, status=400)
 
 
-        return JsonResponse({'message' : '등록 되었습니다.', 'url':reverse('agency_manage:user_manage', kwargs={'agency_id':agency_id})},  status = 202)
+        return JsonResponse({'message' : _('MSG_CREATED'), 'url':reverse('agency_manage:user_manage', kwargs={'agency_id':agency_id})},  status = 202)
 
 
 class UserDetailView(View):
@@ -197,18 +198,18 @@ class UserDetailView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
 
         try:
             user = User.objects.get(pk=pk, profile__agency=agency)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         new_password = '123456789a'
         user.set_password(new_password)
         user.save()
         
-        return JsonResponse({'message' : '초기화되었습니다.', 'url':reverse('agency_manage:user_detail', kwargs={'agency_id':agency_id, 'pk':pk})},  status = 202)
+        return JsonResponse({'message' : _('MSG_INITIALIZED'), 'url':reverse('agency_manage:user_detail', kwargs={'agency_id':agency_id, 'pk':pk})},  status = 202)
     
     @method_decorator(permission_required(raise_exception=True))
     def delete(self, request: HttpRequest, *args, **kwargs):
@@ -216,15 +217,15 @@ class UserDetailView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         try:
             user = User.objects.get(pk=pk)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         user.delete()
         
-        return JsonResponse({'message' : '삭제되었습니다.', 'url':reverse('agency_manage:user_manage', kwargs={'agency_id': agency_id})},  status = 202)
+        return JsonResponse({'message' : _('MSG_DELETED'), 'url':reverse('agency_manage:user_manage', kwargs={'agency_id': agency_id})},  status = 202)
     
 
 class UserEditView(View):
@@ -251,11 +252,11 @@ class UserEditView(View):
         agency_id = kwargs.get('agency_id')
         agency = check_agency(pk=agency_id)
         if not agency:
-            return JsonResponse({'message': '데이터오류'}, status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         try:
             data = User.objects.get(pk=pk, profile__agency=agency)
         except:
-            return JsonResponse({'message': '사용자 정보 오류'}, status=400)
+            return JsonResponse({'message': _('ERR_USER_INVALID')}, status=400)
         
         membername = request.POST['membername']
         phone = request.POST['phone']
@@ -266,10 +267,10 @@ class UserEditView(View):
         gender = request.POST['gender']
 
         if not validate_phone(phone):
-            return JsonResponse({"message": "유효하지 않은 전화번호 형식입니다."},status=400)
+            return JsonResponse({'message': _('ERR_PHONE_INVALID')}, status=400)
         
         if not validate_birth(birth):
-            return JsonResponse({"message": "유효하지 않은 날짜 형식입니다. ex) 1990-01-01"}, status=400)
+            return JsonResponse({'message': _('ERR_DATE_INVALID')}, status=400)
 
         data.profile.membername = membername.strip()
         data.profile.phone = phone
@@ -280,4 +281,4 @@ class UserEditView(View):
         data.profile.gender = gender
         data.save()
 
-        return JsonResponse({'message' : '수정되었습니다.', 'url':reverse('agency_manage:user_detail', kwargs={'agency_id' : agency_id, 'pk':pk})},  status = 202)
+        return JsonResponse({'message' : _('MSG_UPDATED'), 'url':reverse('agency_manage:user_detail', kwargs={'agency_id' : agency_id, 'pk':pk})},  status = 202)

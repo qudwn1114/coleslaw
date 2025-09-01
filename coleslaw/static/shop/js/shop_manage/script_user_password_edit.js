@@ -45,13 +45,13 @@ function validation(){
     }
     
     if(new_password1.value != new_password2.value){
-        customAlert('비밀번호가 일치하지 않습니다.', ()=>{
+        customAlert(i18n.password_mismatch, ()=>{
             new_password1.focus();
         });
         return false;
     }
     if (!regPassword(new_password1.value)) {
-        customAlert('비밀번호는 문자 숫자 조합으로 8 ~ 16 자리로 입력해주세요.', ()=>{
+        customAlert(i18n.password_validation, ()=>{
             new_password1.focus();
         });        
         return false;

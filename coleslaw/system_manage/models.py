@@ -92,7 +92,7 @@ class Pos(models.Model):
 class Shop(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.PROTECT, related_name='shop', verbose_name='메인 agency')
     shop_category = models.ForeignKey(ShopCategory, on_delete=models.PROTECT, related_name='shop')
-    name_kr = models.CharField(max_length=100, verbose_name='가맹점한글명', unique=True)
+    name_kr = models.CharField(max_length=100, verbose_name='가맹점명', unique=True)
     name_en = models.CharField(max_length=100, verbose_name='가맹점영문명', unique=True)
     description = models.CharField(default='', max_length=255, verbose_name='설명')
     
@@ -577,7 +577,7 @@ class OrderPayment(models.Model):
 
 class SmsLog(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True)
-    shop_name = models.CharField(max_length=100, verbose_name='가맹점한글명', null=True)
+    shop_name = models.CharField(max_length=100, verbose_name='가맹점명', null=True)
     phone = models.CharField(max_length=30, verbose_name='전화번호', null=True)
     message = models.TextField(null=True)
     message_type = models.CharField(default='0', verbose_name='0:문자, 1:알림톡', max_length=10)

@@ -1,6 +1,6 @@
 {% extends "layouts/agency_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
+
 
 {% block stylesheets %}
 {% endblock stylesheets %}
@@ -21,17 +21,17 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">User Manage</h5>
-            <a class="btn btn-primary" href="{% url 'agency_manage:user_create' agency.pk %}">회원 등록</a>
+            <a class="btn btn-primary" href="{% url 'agency_manage:user_create' agency.pk %}">{% trans "회원 등록" %}</a>
             <form id="search-form" class="p-2" method="get" action="">
               <div class="row mb-2">
-                <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
+                <label for="item" class="col-sm-2 col-form-label">{% trans "검색 분류" %}</label>
                 <div class="col-sm-8">
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
                         {% if search_type == 'username' %}
-                        <option value="username" selected>아이디</option>
+                        <option value="username" selected>{% trans "아이디" %}</option>
                         {% else %}
-                        <option value="username">아이디</option>
+                        <option value="username">{% trans "아이디" %}</option>
                         {% endif %}
                       </select>
                     <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
@@ -40,8 +40,8 @@
               </div>
               <div class="row mb-3">
                 <div class="text-center">
-                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
-                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'agency_manage:user_manage' agency.pk %}">초기화</a>
+                    <button type="submit" id="btn-search" class="btn btn-primary">{% trans "검색" %}</button>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'agency_manage:user_manage' agency.pk %}">{% trans "초기화" %}</a>
                 </div>
               </div>
             </form>
@@ -51,7 +51,7 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">유저 목록</h5>
+                <h5 class="card-title">{% trans "유저 목록" %}</h5>
               </div>
               <div class="col-auto">
                 <div class="icon mt-3 me-3">
@@ -64,11 +64,11 @@
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>활성여부</th>
-                  <th>아이디</th>
-                  <th>연락처</th>
-                  <th>에이전시 관리자</th>
-                  <th>가입일</th>
+                  <th>{% trans "활성여부" %}</th>
+                  <th>{% trans "아이디" %}</th>
+                  <th>{% trans "연락처" %}</th>
+                  <th>{% trans "에이전시 관리자" %}</th>
+                  <th>{% trans "가입일" %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -92,7 +92,7 @@
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='5'>유저가 없습니다.</td>
+                    <td colspan='5'>{% trans "유저가 없습니다." %}</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -108,6 +108,15 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'agency/js/user_manage/script_user_manage.js' %}?v=2025"></script>
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    save_excel: "{% trans '엑셀저장하시겠습니까?' %}",
+    confirm_edit: "{% trans '변경하시겠습니까?' %}",
+    confirm_admin: "{% trans '관리자 지정을 수정하시겠습니까?' %}",
+  };
+</script>
+<script src="{% static 'agency/js/user_manage/script_user_manage.js' %}?v=202508"></script>
 <script src="{% static 'js/script_pagination.js' %}"></script>
 {% endblock javascripts %}

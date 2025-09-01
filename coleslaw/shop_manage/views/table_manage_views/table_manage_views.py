@@ -4,9 +4,8 @@ from django.views.generic import View
 from django.http import HttpRequest, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext as _
 from django.db.models import Max
-from django.db import transaction
-from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from system_manage.decorators import permission_required
 from shop_manage.views.shop_manage_views.auth_views import check_shop
@@ -71,7 +70,7 @@ class ShopTableManageView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         request.PUT = json.loads(request.body)
         table_id = request.PUT['id']
@@ -79,19 +78,19 @@ class ShopTableManageView(View):
         try:
             shop_table = ShopTable.objects.get(pk=table_id, shop=shop)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         shop_table.name =table_name
         shop_table.save()
 
-        return JsonResponse({'message' : '변경되었습니다.'}, status = 201)
+        return JsonResponse({'message' : _('MSG_UPDATED')}, status = 201)
     
     @method_decorator(permission_required(raise_exception=True))
     def delete(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         request.DELETE = json.loads(request.body)
         table_id = request.DELETE['id']
@@ -99,14 +98,14 @@ class ShopTableManageView(View):
         try:
             shop_table = ShopTable.objects.get(pk=table_id, shop=shop)
         except:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         if shop_table.table_no <= 0:
-            return JsonResponse({"message": "데이터 오류"},status=400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         shop_table.delete()
         
-        return JsonResponse({'message' : '삭제되었습니다.'}, status = 201)
+        return JsonResponse({'message' : _('MSG_DELETED')}, status = 201)
 
 class ShopTableCreateView(View):
     '''
@@ -128,10 +127,10 @@ class ShopTableCreateView(View):
         shop_id = kwargs.get('shop_id')
         shop = check_shop(pk=shop_id)
         if not shop:
-            return JsonResponse({'message' : '가맹점 오류'},status = 400)
+            return JsonResponse({'message': _('ERR_DATA_INVALID')}, status=400)
         
         if not shop.pos:
-            return JsonResponse({'message' : 'pos 이용을 먼저해주세요.'},status = 400)
+            return JsonResponse({'message' : _('ERR_POS')}, status = 400)
         
         table_name = request.POST['table_name'].strip()
         count = int(request.POST['count'])
@@ -145,7 +144,7 @@ class ShopTableCreateView(View):
 
             ShopTable.objects.bulk_create(bulk_list)
         except:
-            return JsonResponse({'message' : '생성 오류'},status = 400)
+            return JsonResponse({'message' : _('ERR_CREATE')},status = 400)
         
-        return JsonResponse({'message' : '생성 완료', 'url':reverse('shop_manage:table_manage', kwargs={'shop_id':shop.id})},  status = 201)
+        return JsonResponse({'message' : _('MSG_CREATED'), 'url':reverse('shop_manage:table_manage', kwargs={'shop_id':shop.id})},  status = 201)
 

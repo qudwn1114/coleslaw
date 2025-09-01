@@ -20,31 +20,31 @@
           <div class="card-body">
             <div class="row justify-content-between">
                 <div class="col">
-                    <h5 class="card-title">이용권 수정</h5>
+                    <h5 class="card-title">{% trans "이용권 수정" %}</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{% url 'shop_manage:coupon_manage' shop.id %}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{% url 'shop_manage:coupon_manage' shop.id %}"><i class="bi bi-list"></i> {% trans "목록" %}</a></div>
                 </div>
             </div>
             <form id="data-form" method="post" onsubmit="return false">
                 <div class="row mt-3 mb-3">
-                    <label for="coupon_name" class="col-sm-2 col-form-label">이용권 이름 *</label>
+                    <label for="coupon_name" class="col-sm-2 col-form-label">{% trans "이용권 이름" %} *</label>
                     <div class="col-sm-10">
-                        <input type="text" id="coupon_name" name="coupon_name" class="form-control" placeholder="이름" value="{{shop_coupon.name}}">
+                        <input type="text" id="coupon_name" name="coupon_name" class="form-control" placeholder="{% trans '이름' %}" value="{{shop_coupon.name}}">
                     </div>
                 </div>
                 <div class="row mt-3 mb-3">
-                    <label for="expiration_period" class="col-sm-2 col-form-label">만료기간 (일) *</label>
+                    <label for="expiration_period" class="col-sm-2 col-form-label">{% trans "만료기간 (일)" %}" *</label>
                     <div class="col-sm-10">
                         <input type="number" id="expiration_period" name="expiration_period" class="form-control" value="{{shop_coupon.expiration_period}}">
-                        <small class="form-text text-muted">0 -> 무기한</small>
+                        <small class="form-text text-muted">0 -> {% trans "무기한" %}</small>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-12 text-center">
-                        <a href="{% url 'shop_manage:coupon_detail' shop.id shop_coupon.id %}" class="btn btn-danger">취소</a>
-                        <button type="button" id="btn-submit" class="btn btn-success">저장</button>         
+                        <a href="{% url 'shop_manage:coupon_detail' shop.id shop_coupon.id %}" class="btn btn-danger">{% trans "취소" %}</a>
+                        <button type="button" id="btn-submit" class="btn btn-success">{% trans '저장' %}</button>         
                     </div>
                 </div>
             </form>
@@ -56,6 +56,13 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script src="{% static 'shop/js/coupon_manage/script_coupon_edit.js' %}?v=202504"></script>
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    confirm_edit: "{% trans '수정 하시겠습니까?' %}",
+  };
+</script>
+<script src="{% static 'shop/js/coupon_manage/script_coupon_edit.js' %}?v=202508"></script>
 {% endblock javascripts %}
 

@@ -1,5 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
@@ -24,24 +24,24 @@
                     <h5 class="card-title">Goods {{rank_type}} Rank Manage</h5>
                 </div>
                 <div class="col-auto">
-                    <div class="icon mt-3"><a href="{% url 'shop_manage:goods_manage' shop.id %}"><i class="bi bi-list"></i> 목록</a></div>
+                    <div class="icon mt-3"><a href="{% url 'shop_manage:goods_manage' shop.id %}"><i class="bi bi-list"></i> {% trans '목록' %}</a></div>
                 </div>
             </div>
             <form id="search-form" class="p-2" method="get" action="">
                 <div class="row mb-2">
-                  <label for="category" class="col-sm-2 col-form-label">카테고리 분류</label>
+                  <label for="category" class="col-sm-2 col-form-label">{% trans '카테고리 분류' %}</label>
                   <div class="col-sm-4">
-                      <select  class="selectpicker form-control" id="main_category" name="main_category_id" data-live-search="true" title="대분류 카테고리를 선택해주세요." disabled onchange="selectCategory('main',this.value)">
+                      <select  class="selectpicker form-control" id="main_category" name="main_category_id" data-live-search="true" title="{% trans '대분류 카테고리를 선택해주세요.' %}" disabled onchange="selectCategory('main',this.value)">
                       </select>
                   </div>
                   <div class="col-sm-4">
-                    <select  class="selectpicker form-control" id="sub_category" name="sub_category_id" data-live-search="true" title="소분류 카테고리를 선택해주세요." disabled onchange="selectCategory('sub',this.value)">
+                    <select  class="selectpicker form-control" id="sub_category" name="sub_category_id" data-live-search="true" title="{% trans '소분류 카테고리를 선택해주세요.' %}" disabled onchange="selectCategory('sub',this.value)">
                     </select>
                   </div>
                 </div>        
                 <div class="row mb-3">
                   <div class="text-center">
-                      <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:goods_rank_manage' shop.id %}?rank_type={{rank_type}}">초기화</a>
+                      <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:goods_rank_manage' shop.id %}?rank_type={{rank_type}}">{% trans '초기화' %}</a>
                   </div>
                 </div>
               </form>
@@ -51,11 +51,11 @@
           <div class="card-body">
                 <div class="row justify-content-between">
                     <div class="col-auto">
-                        <h5 class="card-title">{{rank_type}} 상품 목록 순서</h5>
+                        <h5 class="card-title">{{rank_type}} {% trans '상품 순서' %}</h5>
                     </div>
                 </div>
                 <div class="goods-list-container">
-                    <p class="text-center text-muted">소분류 카테고리까지 먼저 선택해주세요.</p>
+                    <p class="text-center text-muted">{% trans '소분류 카테고리까지 먼저 선택해주세요.' %}</p>
                 </div>
             </div>
         </div>

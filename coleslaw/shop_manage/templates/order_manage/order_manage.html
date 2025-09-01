@@ -1,6 +1,5 @@
 {% extends "layouts/shop_base.html" %}
-{% load static %}
-{% load humanize %}
+{% load static humanize i18n %}
 
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -25,26 +24,26 @@
                 <div class="row mb-2">
                   <input type="hidden" name="condition" id="condition" value="true">
                     <input type="hidden" class="btn-check" name="order_date_no" id="order_date_no" value="{{order_date_no}}">
-                    <label for="order_date" class="col-sm-2 col-form-label">기준 날짜</label>
+                    <label for="order_date" class="col-sm-2 col-form-label">{% trans '기준 날짜' %}</label>
                     <div class="col-sm-4">
                     <div class="btn-group mt-2" role="group">
                         <input type="radio" class="btn-check" name="order_date" id="order_date1" {% if order_date_no == '1' %}checked{% endif %}>
-                        <label class="btn btn-sm btn-outline-primary" for="order_date1">오늘</label>
+                        <label class="btn btn-sm btn-outline-primary" for="order_date1">{% trans '오늘' %}</label>
                     
                         <input type="radio" class="btn-check" name="order_date" id="order_date2" {% if order_date_no == '2' %}checked{% endif %}>
-                        <label class="btn btn-sm btn-outline-primary" for="order_date2">일주일</label>
+                        <label class="btn btn-sm btn-outline-primary" for="order_date2">{% trans '일주일' %}</label>
 
                         <input type="radio" class="btn-check" name="order_date" id="order_date3" {% if order_date_no == '3' %}checked{% endif %}>
-                        <label class="btn btn-sm  btn-outline-primary" for="order_date3">1개월</label>
+                        <label class="btn btn-sm  btn-outline-primary" for="order_date3">{% trans '1개월' %}</label>
 
                         <input type="radio" class="btn-check" name="order_date" id="order_date4" {% if order_date_no == '4' %}checked{% endif %}>
-                        <label class="btn btn-sm  btn-outline-primary" for="order_date4">3개월</label>
+                        <label class="btn btn-sm  btn-outline-primary" for="order_date4">{% trans '3개월' %}</label>
 
                         <input type="radio" class="btn-check" name="order_date" id="order_date5" {% if order_date_no == '5' %}checked{% endif %}>
-                        <label class="btn btn-sm  btn-outline-primary" for="order_date5">1년</label>
+                        <label class="btn btn-sm  btn-outline-primary" for="order_date5">{% trans '1년' %}</label>
 
                         <input type="radio" class="btn-check" name="order_date" id="order_date6" {% if order_date_no == '6' %}checked{% endif %}>
-                        <label class="btn btn-sm  btn-outline-primary" for="order_date6">전체</label>
+                        <label class="btn btn-sm  btn-outline-primary" for="order_date6">{% trans '전체' %}</label>
                     </div>
                     </div>
                     <div class="col-sm-4">
@@ -52,18 +51,18 @@
                           <span class="input-group-text">
                           <i class="bi bi-calendar"></i>
                           </span>
-                          <input type="text" name="dates" class="form-control" placeholder="기간을 선택해주세요." readonly value="{{dates}}">
+                          <input type="text" name="dates" class="form-control" placeholder="%{ trans '기간을 선택해주세요.' %}" readonly value="{{dates}}">
                       </div>
                     </div>
                 </div>   
 
               <div class="row mb-2">
-                <label for="item" class="col-sm-2 col-form-label">검색 분류</label>
+                <label for="item" class="col-sm-2 col-form-label">{% trans '검색 분류' %}</label>
                 <div class="col-sm-8">
                     <div class="input-group">                   
                       <select class="form-select" id="search_type" name="search_type">
-                        <option value="order_membername" {% if search_type == 'order_membername' %}selected{% endif %}>주문자</option>
-                        <option value="order_phone" {% if search_type == 'order_phone' %}selected{% endif %}>연락처</option>
+                        <option value="order_membername" {% if search_type == 'order_membername' %}selected{% endif %}>{% trans '주문자' %}</option>
+                        <option value="order_phone" {% if search_type == 'order_phone' %}selected{% endif %}>{% trans '연락처' %}</option>
                       </select>
                     <input class="form-control" type="text" id="search_keyword" name="search_keyword" placeholder="Search Keword" value="{{search_keyword}}" style="width:50%">
                   </div>
@@ -71,8 +70,8 @@
               </div>
               <div class="row mb-3">
                 <div class="text-center">
-                    <button type="submit" id="btn-search" class="btn btn-primary">검색</button>
-                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:order_manage' shop.id %}">초기화</a>
+                    <button type="submit" id="btn-search" class="btn btn-primary">{% trans '검색' %}</button>
+                    <a id="btn-initial" class="btn btn-outline-primary" href="{% url 'shop_manage:order_manage' shop.id %}">{% trans '초기화' %}</a>
                 </div>
               </div>
             </form>
@@ -82,13 +81,13 @@
           <div class="card-body">
             <div class="row justify-content-between">
               <div class="col-auto">
-                <h5 class="card-title">카드결제 : {{total_card_price|intcomma}}₩ | 현금결제 : {{total_cash_price|intcomma}}₩ | 복합결제 : {{total_mixed_price|intcomma}}₩</h5>
+                <h5 class="card-title">{% trans '카드결제' %} : {{total_card_price|intcomma}}{{ CURRENCY_SYMBOL }} | {% trans '현금결제' %} : {{total_cash_price|intcomma}}{{ CURRENCY_SYMBOL }} | {% trans '복합결제' %} : {{total_mixed_price|intcomma}}{{ CURRENCY_SYMBOL }}</h5>
               </div>
               <div class="col-auto">
                 <div class="icon mt-3 me-3">
                   {% if page_obj %}
-                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('aggregate');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> 판매현황</a>
-                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('excel');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> 결제내역</a>
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('aggregate');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> {% trans '판매현황' %}</a>
+                    <a id="btn-excel" href="javascript:;" onclick="xlsxDownload('excel');"><i class="bi bi-file-earmark-spreadsheet-fill"></i> {% trans '결제내역' %}</a>
                   {% endif %}
                 </div>
               </div>
@@ -96,13 +95,13 @@
             <table class='table table-hover'>
               <thead>
                 <tr>
-                  <th>주문번호</th>
-                  <th>주문명</th>
-                  <th>결제금액</th>
-                  <th>주문자</th>
-                  <th>연락처</th>
-                  <th>날짜</th>
-                  <th>처리여부</th>
+                  <th>{% trans '주문번호' %}</th>
+                  <th>{% trans '주문명' %}</th>
+                  <th>{% trans '결제금액' %}</th>
+                  <th>{% trans '주문자' %}</th>
+                  <th>{% trans '연락처' %}</th>
+                  <th>{% trans '날짜' %}</th>
+                  <th>{% trans '처리여부' %}</th>
                 </tr>
               </thead>
               <tbody id="order_tbody">
@@ -118,17 +117,17 @@
                   <td>
                     {% if i.status != '2' %}
                     <select class="form-select" onchange="changeStatus({{i.id}}, this)" {% if i.status == '1' %}style="color:#28A745"{% endif %}>
-                      <option value="1" {% if i.status == '1' %}selected{% endif %}>결제완료</option>
-                      <option value="3" {% if i.status == '3' %}selected{% endif %}>준비중</option>
-                      <option value="4" {% if i.status == '4' %}selected{% endif %}>주문완료</option>
-                      <option value="5" {% if i.status == '5' %}selected{% endif %}>수령완료</option>
+                      <option value="1" {% if i.status == '1' %}selected{% endif %}>{% trans '결제완료' %}</option>
+                      <option value="3" {% if i.status == '3' %}selected{% endif %}>{% trans '준비중' %}</option>
+                      <option value="4" {% if i.status == '4' %}selected{% endif %}>{% trans '주문완료' %}</option>
+                      <option value="5" {% if i.status == '5' %}selected{% endif %}>{% trans '수령완료' %}</option>
                     </select>
                     {% else %}
-                      <span class="text-danger">주문취소</span>
+                      <span class="text-danger">{% trans '주문취소' %}</span>
                     {% endif %}
                     {% if i.status == '4' %}
                       {% if not i.order_complete_sms %}
-                        <button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('{{i.id}}', this);">수령문자요청</button>
+                        <button class="btn btn-outline-primary w-100" onclick="sendOrderComplete('{{i.id}}', this);">{% trans '수령문자요청' %}</button>
                       {% endif %}
                     {% endif %}
                   </td>
@@ -136,7 +135,7 @@
                 {% endfor %}
               {% else %}
                 <tr>
-                    <td colspan='7'>주문내역이 없습니다.</td>
+                    <td colspan='7'>{% trans '주문내역이 없습니다.' %}</td>
                 </tr>
               {% endif %}
               </tbody>
@@ -151,7 +150,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="orderGoodsModalLabel">주문 상품</h1>
+              <h1 class="modal-title fs-5" id="orderGoodsModalLabel">{% trans '주문 상품' %}</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="orderGoodsModalBody">
@@ -171,8 +170,31 @@
 <script>
   const shop_id = {{shop.pk}};
 </script>
+<script>
+  const i18n = {
+    login_required: "{% trans '로그인 해주세요.' %}",
+    no_permission: "{% trans '권한이 없습니다!' %}",
+    paid: "{% trans '결제완료' %}",
+    preparing: "{% trans '준비중' %}",
+    completed: "{% trans '주문완료' %}",
+    received: "{% trans '수령완료' %}",
+    cancelled: "{% trans '주문취소' %}",
+    request_sms: "{% trans '수령문자요청' %}",
+    empty: "{% trans '주문내역이 없습니다.' %}",
+    confirm_update: "{% trans '상태를 수정하시겠습니까?' %}",
+    confirm_send_sms: "{% trans '완료 문자를 보내시겠습니까?' %}",
+    order_no: "{% trans '주문번호' %}",
+    order_date: "{% trans '주문일시' %}",
+    product_name: "{% trans '제품명' %}",
+    option: "{% trans '옵션' %}",
+    quantity: "{% trans '수량' %}",
+    total_price: "{% trans '총 금액' %}",
+    currency: "{{ CURRENCY_SYMBOL }}",
+    save_excel: "{% trans '엑셀저장하시겠습니까?' %}",
+  };
+</script>
 <script src="{% static 'js/script_pagination.js' %}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}?v=2025"></script>
+<script src="{% static 'shop/js/order_manage/script_order_manage.js' %}?v=202508"></script>
 {% endblock javascripts %}
