@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 15:56+0900\n"
+"POT-Creation-Date: 2025-09-10 14:45+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,15 +20,15 @@ msgstr ""
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:34
 msgid "에이전시 선택"
-msgstr ""
+msgstr "代理店選択"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:35
 msgid "관리할 에이전시을 선택해주세요."
-msgstr ""
+msgstr "管理する代理店を選択してください。"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:39
 msgid "에이전시 이름"
-msgstr ""
+msgstr "代理店名前"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:41
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:64
@@ -41,82 +41,82 @@ msgstr ""
 #: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:41
 #: shop_manage/templates/table_manage/table_manage.html:38
 msgid "검색"
-msgstr ""
+msgstr "検索"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_login_select.html:53
 #: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:52
 msgid "권한이 없습니다. 관리자에게 권한을 요청하세요."
-msgstr ""
+msgstr "権限がありません。管理者にご確認ください。"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:24
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:50
 msgid "일별"
-msgstr ""
+msgstr "日付別"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:25
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:51
 msgid "주간별"
-msgstr ""
+msgstr "週別"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:26
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:52
 msgid "월별"
-msgstr ""
+msgstr "月別"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:53
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:31
 #: shop_manage/templates/order_manage/order_manage.html:31
 msgid "오늘"
-msgstr ""
+msgstr "本日"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:54
 msgid "이번달"
-msgstr ""
+msgstr "今月"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:55
 msgid "올해"
-msgstr ""
+msgstr "今年"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:71
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:68
 msgid "일 매출"
-msgstr "日次売上"
+msgstr "1日売上"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:77
 #: shop_manage/templates/order_manage/order_manage.html:84
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:74
 msgid "카드결제"
-msgstr ""
+msgstr "カード決済"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:88
 #: shop_manage/templates/order_manage/order_manage.html:84
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:85
 msgid "현금결제"
-msgstr ""
+msgstr "現金決済"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:99
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:96
 msgid "취소금액"
-msgstr ""
+msgstr "取消金額"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:110
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:107
 msgid "총 매출"
-msgstr ""
+msgstr "総売上"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:113
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:88
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:99
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:110
 msgid "총"
-msgstr ""
+msgstr "総"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:113
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:88
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:99
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:110
 msgid "건"
-msgstr ""
+msgstr "件"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:132
 #: agency_manage/templates/agency_admin_manage/user_password_edit.html:65
@@ -148,7 +148,7 @@ msgstr ""
 #: shop_manage/templates/table_manage/table_create.html:60
 #: shop_manage/templates/table_manage/table_manage.html:96
 msgid "로그인 해주세요."
-msgstr ""
+msgstr "ログインしてください"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:133
 #: agency_manage/templates/agency_admin_manage/user_password_edit.html:66
@@ -180,96 +180,96 @@ msgstr ""
 #: shop_manage/templates/table_manage/table_create.html:61
 #: shop_manage/templates/table_manage/table_manage.html:97
 msgid "권한이 없습니다!"
-msgstr ""
+msgstr "権限がありません。"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:134
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:51
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:132
 msgid "기간을 3개월 이내로만 설정 하실 수 있습니다."
-msgstr ""
+msgstr "設定可能期間は3ヶ月以内です。"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:135
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:133
 #: agency_manage/templates/agency_user_manage/user_manage.html:115
 #: shop_manage/templates/order_manage/order_manage.html:193
 msgid "엑셀저장하시겠습니까?"
-msgstr ""
+msgstr "Excelで保存しますか？"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:137
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:170
 msgid "현장"
-msgstr ""
+msgstr "現場"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:138
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:171
 msgid "온라인"
-msgstr ""
+msgstr "オンライン"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:139
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:172
 msgid "순매출"
-msgstr "日次売上"
+msgstr "純売上"
 
 #: agency_manage/templates/agency_admin_manage/agency_manage_main.html:140
 msgid "가맹점 별 순매출"
-msgstr ""
+msgstr "加盟店別純売上"
 
 #: agency_manage/templates/agency_admin_manage/user_password_edit.html:32
 #: shop_manage/templates/shop_admin_manage/user_password_edit.html:32
 msgid "현재 비밀번호"
-msgstr ""
+msgstr "現在のパスワード"
 
 #: agency_manage/templates/agency_admin_manage/user_password_edit.html:38
 #: shop_manage/templates/shop_admin_manage/user_password_edit.html:38
 msgid "새로운 비밀번호"
-msgstr ""
+msgstr "新しいパスワード"
 
 #: agency_manage/templates/agency_admin_manage/user_password_edit.html:40
 #: shop_manage/templates/shop_admin_manage/user_password_edit.html:40
 msgid "비밀번호 확인"
-msgstr ""
+msgstr "パスワード確認"
 
 #: agency_manage/templates/agency_admin_manage/user_password_edit.html:67
 #: shop_manage/templates/shop_admin_manage/user_password_edit.html:67
 msgid "비밀번호가 일치하지 않습니다."
-msgstr ""
+msgstr "パスワードが一致しません。"
 
 #: agency_manage/templates/agency_admin_manage/user_password_edit.html:68
 #: shop_manage/templates/shop_admin_manage/user_password_edit.html:68
 msgid "비밀번호는 문자 숫자 조합으로 8 ~ 16 자리로 입력해주세요."
-msgstr ""
+msgstr "パスワードは文字、数字組み合わせで8-16桁で入力してください。"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:22
 msgid "일자별 매출 현황"
-msgstr ""
+msgstr "日付別売上データ"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:27
 #: shop_manage/templates/order_manage/order_manage.html:27
 msgid "기준 날짜"
-msgstr ""
+msgstr "基準日付"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:34
 #: shop_manage/templates/order_manage/order_manage.html:34
 msgid "일주일"
-msgstr ""
+msgstr "1週間"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:37
 #: shop_manage/templates/order_manage/order_manage.html:37
 msgid "1개월"
-msgstr ""
+msgstr "1ヶ月"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:40
 #: shop_manage/templates/order_manage/order_manage.html:40
 msgid "3개월"
-msgstr ""
+msgstr "3ヶ月"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:48
 msgid "기간을 선택해주세요."
-msgstr ""
+msgstr "期間を選択してください。"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:49
 msgid "선택"
-msgstr ""
+msgstr "選択"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:65
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:49
@@ -281,21 +281,19 @@ msgstr ""
 #: shop_manage/templates/order_manage/order_manage.html:74
 #: shop_manage/templates/table_manage/table_manage.html:39
 msgid "초기화"
-msgstr ""
+msgstr "初期化"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:75
-#, fuzzy
-#| msgid "일 매출"
 msgid "매출"
-msgstr "日次売上"
+msgstr "売上"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:80
 msgid "Excel 저장"
-msgstr ""
+msgstr "Excel保存"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:88
 msgid "일자별"
-msgstr ""
+msgstr "日付別"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:89
 #: agency_manage/templates/agency_shop_manage/shop_create.html:44
@@ -308,41 +306,41 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:33
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:73
 msgid "가맹점명"
-msgstr ""
+msgstr "加盟店名"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:90
 msgid "카드매출"
-msgstr ""
+msgstr "カード売上"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:91
 msgid "현금매출"
-msgstr ""
+msgstr "現金売上"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:92
 msgid "현금매출(O)"
-msgstr ""
+msgstr "現金売上(O)"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:93
 msgid "현금매출(X)"
-msgstr ""
+msgstr "現金売上(X)"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:94
 msgid "합계"
-msgstr ""
+msgstr "合計"
 
 #: agency_manage/templates/agency_sales_report_manage/sales_report_manage.html:112
 #: shop_manage/templates/goods_manage/goods_detail.html:224
 msgid "데이터가 없습니다."
-msgstr ""
+msgstr "データがありません。"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:24
 msgid "관리자 관리"
-msgstr ""
+msgstr "管理者管理"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:27
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:58
 msgid "가맹점 목록"
-msgstr ""
+msgstr "加盟店リスト"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:32
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:26
@@ -352,7 +350,7 @@ msgstr ""
 #: shop_manage/templates/order_manage/order_manage.html:60
 #: shop_manage/templates/table_manage/table_manage.html:26
 msgid "검색 분류"
-msgstr ""
+msgstr "検索分類"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:37
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:39
@@ -365,12 +363,12 @@ msgstr ""
 #: agency_manage/templates/agency_user_manage/user_manage.html:34
 #: agency_manage/templates/agency_user_manage/user_manage.html:68
 msgid "아이디"
-msgstr ""
+msgstr "ID"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:59
 #: agency_manage/templates/agency_user_manage/user_manage.html:54
 msgid "유저 목록"
-msgstr ""
+msgstr "ユーザーリスト"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:66
 #: agency_manage/templates/agency_shop_manage/shop_create.html:60
@@ -388,29 +386,30 @@ msgstr ""
 #: shop_manage/templates/order_manage/order_manage.html:102
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:23
 msgid "연락처"
-msgstr ""
+msgstr "連絡先"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:67
 #: agency_manage/templates/agency_user_manage/user_manage.html:71
 msgid "가입일"
-msgstr ""
+msgstr "加入日"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:68
 msgid "가맹점 관리자"
-msgstr ""
+msgstr "加盟店管理者"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:85
 #: agency_manage/templates/agency_user_manage/user_manage.html:95
 msgid "유저가 없습니다."
-msgstr ""
+msgstr "ユーザーが存在しません。"
 
 #: agency_manage/templates/agency_shop_manage/shop_admin_manage.html:105
 #: agency_manage/templates/agency_user_manage/user_manage.html:117
 msgid "관리자 지정을 수정하시겠습니까?"
-msgstr ""
+msgstr "管理者指定を編集しますか？"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:28
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:28
+#: agency_manage/templates/agency_shop_manage/shop_edit.html:28
 #: agency_manage/templates/agency_user_manage/user_create.html:28
 #: agency_manage/templates/agency_user_manage/user_detail.html:27
 #: agency_manage/templates/agency_user_manage/user_edit.html:27
@@ -428,18 +427,18 @@ msgstr ""
 #: shop_manage/templates/table_manage/table_create.html:26
 #: shop_manage/templates/table_manage/table_manage.html:52
 msgid "목록"
-msgstr ""
+msgstr "リスト"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:34
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:41
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:42
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:34
 msgid "가맹점 카테고리"
-msgstr ""
+msgstr "加盟店カテゴリ"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:36
 msgid "가맹점 카테고리를 선택해주세요."
-msgstr ""
+msgstr "加盟店カテゴリを選択してください。"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:48
 #: agency_manage/templates/agency_shop_manage/shop_create.html:49
@@ -448,7 +447,7 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:47
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:48
 msgid "가맹점영문명"
-msgstr ""
+msgstr "加盟店英語名"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:52
 #: agency_manage/templates/agency_shop_manage/shop_create.html:53
@@ -457,7 +456,7 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:51
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:52
 msgid "가맹점 설명"
-msgstr ""
+msgstr "加盟店説明"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:56
 #: agency_manage/templates/agency_shop_manage/shop_create.html:57
@@ -466,7 +465,7 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:55
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:56
 msgid "대표자명"
-msgstr ""
+msgstr "代表者名前"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:62
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:61
@@ -477,7 +476,7 @@ msgstr ""
 #: agency_manage/templates/agency_user_manage/user_edit.html:47
 #: agency_manage/templates/agency_user_manage/user_edit.html:48
 msgid "예시"
-msgstr ""
+msgstr "例"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:65
 #: agency_manage/templates/agency_shop_manage/shop_create.html:66
@@ -486,7 +485,7 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:64
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:65
 msgid "사업자번호"
-msgstr ""
+msgstr "事業者番号"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:69
 #: agency_manage/templates/agency_shop_manage/shop_create.html:70
@@ -497,25 +496,25 @@ msgstr ""
 #: agency_manage/templates/agency_user_manage/user_detail.html:55
 #: agency_manage/templates/agency_user_manage/user_edit.html:51
 msgid "주소"
-msgstr ""
+msgstr "住所"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:74
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:73
 #: agency_manage/templates/agency_user_manage/user_create.html:61
 #: agency_manage/templates/agency_user_manage/user_edit.html:56
 msgid "우편번호"
-msgstr ""
+msgstr "郵便番号"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:77
 #: agency_manage/templates/agency_user_manage/user_create.html:64
 msgid "상세주소"
-msgstr ""
+msgstr "詳細住所"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:80
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:79
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:79
 msgid "가맹점 이미지"
-msgstr ""
+msgstr "加盟店イメージ"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:80
 #: agency_manage/templates/agency_shop_manage/shop_create.html:84
@@ -526,12 +525,12 @@ msgstr ""
 #: shop_manage/templates/goods_manage/goods_create.html:75
 #: shop_manage/templates/goods_manage/goods_detail.html:186
 msgid "필수"
-msgstr ""
+msgstr "必須"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:84
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:83
 msgid "가맹점 위치 정보 이미지"
-msgstr ""
+msgstr "加盟店位置情報イメージ"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:88
 #: agency_manage/templates/agency_shop_manage/shop_create.html:89
@@ -540,7 +539,7 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:87
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:88
 msgid "팀 당 입장시간(분)"
-msgstr ""
+msgstr "組あたり入場時間（分）"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:92
 #: agency_manage/templates/agency_shop_manage/shop_create.html:100
@@ -549,7 +548,7 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:105
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:113
 msgid "로고 이미지"
-msgstr ""
+msgstr "ロゴイメージ"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:96
 #: agency_manage/templates/agency_shop_manage/shop_create.html:104
@@ -558,18 +557,18 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:109
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:117
 msgid "입장 이미지"
-msgstr ""
+msgstr "入場イメージ"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:108
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:121
 msgid "테이블 이용시간 (0:무제한)"
-msgstr ""
+msgstr "テーブル利用時間（０：無制限）"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:109
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:152
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:122
 msgid "테이블 이용시간 (분)"
-msgstr ""
+msgstr "テーブル利用時間（分）"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:112
 #: agency_manage/templates/agency_shop_manage/shop_create.html:113
@@ -577,7 +576,7 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:125
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:126
 msgid "추가요금 시간 (분)"
-msgstr ""
+msgstr "追加料金時間（分）"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:117
 #: shop_manage/templates/coupon_manage/coupon_create.html:46
@@ -591,19 +590,19 @@ msgstr ""
 #: shop_manage/templates/table_manage/table_create.html:46
 #: shop_manage/templates/table_manage/table_manage.html:23
 msgid "등록"
-msgstr ""
+msgstr "登録"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:130
 #: agency_manage/templates/agency_user_manage/user_create.html:88
 msgid "가입 하시겠습니까?"
-msgstr ""
+msgstr "加入してよろしいですか？"
 
 #: agency_manage/templates/agency_shop_manage/shop_create.html:131
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:145
 #: agency_manage/templates/agency_user_manage/user_create.html:89
 #: agency_manage/templates/agency_user_manage/user_edit.html:87
 msgid "유효하지 않은 전화번호 형식입니다. (-) 없이 입력 해주세요."
-msgstr ""
+msgstr "有効でない電話番号形式です。（ー）なしで入力してください。"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:31
 #: agency_manage/templates/agency_user_manage/user_detail.html:33
@@ -615,16 +614,16 @@ msgstr ""
 #: shop_manage/templates/pos_manage/pos_manage.html:75
 #: shop_manage/templates/table_manage/table_manage.html:74
 msgid "삭제"
-msgstr ""
+msgstr "削除"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:37
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:71
 msgid "메인 에이전시"
-msgstr ""
+msgstr "メイン代理店"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:38
 msgid "에이전시"
-msgstr ""
+msgstr "代理店"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:84
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:93
@@ -633,23 +632,23 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:138
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:147
 msgid "없음"
-msgstr ""
+msgstr "なし"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:88
 msgid "가맹점 위치정보 이미지"
-msgstr ""
+msgstr "加盟店位置情報イメージ"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:151
 msgid "테이블 이용시간"
-msgstr ""
+msgstr "テーブル利用時間"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:155
 msgid "추가요금 시간"
-msgstr ""
+msgstr "追加料金時間"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:159
 msgid "영수증 내용"
-msgstr ""
+msgstr "領収書内容"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:160
 #: shop_manage/templates/pos_manage/shop_pos_detail.html:41
@@ -657,11 +656,11 @@ msgstr ""
 #: shop_manage/templates/pos_manage/shop_pos_edit.html:37
 #: shop_manage/templates/pos_manage/shop_pos_edit.html:39
 msgid "영수증 하단 내용"
-msgstr ""
+msgstr "領収書下段内容"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:170
 msgid "가맹점용 영수증 발행"
-msgstr ""
+msgstr "加盟店領収書発行"
 
 #: agency_manage/templates/agency_shop_manage/shop_detail.html:189
 #: agency_manage/templates/agency_user_manage/user_detail.html:89
@@ -672,7 +671,7 @@ msgstr ""
 #: shop_manage/templates/pos_manage/pos_manage.html:103
 #: shop_manage/templates/table_manage/table_manage.html:99
 msgid "삭제 하시겠습니까?"
-msgstr ""
+msgstr "削除しますか？"
 
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:79
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:83
@@ -682,7 +681,7 @@ msgstr ""
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:117
 #: shop_manage/templates/goods_manage/goods_edit.html:95
 msgid "이미지 변경 시 에만 첨부"
-msgstr ""
+msgstr "イメージ変更時添付"
 
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:130
 #: agency_manage/templates/agency_user_manage/user_edit.html:72
@@ -691,7 +690,7 @@ msgstr ""
 #: shop_manage/templates/goods_manage/goods_edit.html:168
 #: shop_manage/templates/pos_manage/shop_pos_edit.html:57
 msgid "취소"
-msgstr ""
+msgstr "取消"
 
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:131
 #: shop_manage/templates/coupon_manage/coupon_edit.html:47
@@ -700,7 +699,7 @@ msgstr ""
 #: shop_manage/templates/goods_manage/option_manage.html:119
 #: shop_manage/templates/pos_manage/shop_pos_edit.html:58
 msgid "저장"
-msgstr ""
+msgstr "保存"
 
 #: agency_manage/templates/agency_shop_manage/shop_edit.html:144
 #: agency_manage/templates/agency_user_manage/user_edit.html:86
@@ -711,54 +710,54 @@ msgstr ""
 #: shop_manage/templates/pos_manage/shop_pos_edit.html:74
 #: shop_manage/templates/table_manage/table_manage.html:98
 msgid "수정 하시겠습니까?"
-msgstr ""
+msgstr "修正しますか？"
 
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:23
 msgid "가맹점 등록"
-msgstr ""
+msgstr "加盟店登録"
 
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:36
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:38
 msgid "에이전시명"
-msgstr ""
+msgstr "加盟店名前"
 
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:72
 msgid "상태"
-msgstr ""
+msgstr "状態"
 
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:75
 msgid "등록일"
-msgstr ""
+msgstr "登録日"
 
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:76
 msgid "관리자 설정"
-msgstr ""
+msgstr "管理者設定"
 
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:90
 msgid "설정"
-msgstr ""
+msgstr "設定"
 
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:95
 msgid "가맹점이 없습니다."
-msgstr ""
+msgstr "加盟店がありません。"
 
 #: agency_manage/templates/agency_shop_manage/shop_manage.html:113
 #: shop_manage/templates/order_manage/order_manage.html:184
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:161
 msgid "상태를 수정하시겠습니까?"
-msgstr ""
+msgstr "状態を修正しますか？"
 
 #: agency_manage/templates/agency_user_manage/user_create.html:38
 #: agency_manage/templates/agency_user_manage/user_create.html:39
 msgid "비밀번호"
-msgstr ""
+msgstr "パスワード"
 
 #: agency_manage/templates/agency_user_manage/user_create.html:42
 #: agency_manage/templates/agency_user_manage/user_create.html:43
 #: agency_manage/templates/agency_user_manage/user_detail.html:39
 #: agency_manage/templates/agency_user_manage/user_edit.html:33
 msgid "회원명"
-msgstr ""
+msgstr "会員名"
 
 #: agency_manage/templates/agency_user_manage/user_create.html:43
 #: shop_manage/templates/coupon_manage/coupon_create.html:33
@@ -775,60 +774,60 @@ msgstr ""
 #: shop_manage/templates/table_manage/table_manage.html:58
 #: shop_manage/templates/table_manage/table_manage.html:69
 msgid "이름"
-msgstr ""
+msgstr "名前"
 
 #: agency_manage/templates/agency_user_manage/user_create.html:51
 #: agency_manage/templates/agency_user_manage/user_detail.html:51
 #: agency_manage/templates/agency_user_manage/user_edit.html:46
 msgid "생년월일"
-msgstr ""
+msgstr "生年月日"
 
 #: agency_manage/templates/agency_user_manage/user_create.html:67
 #: agency_manage/templates/agency_user_manage/user_detail.html:65
 #: agency_manage/templates/agency_user_manage/user_edit.html:62
 msgid "성별"
-msgstr ""
+msgstr "性別"
 
 #: agency_manage/templates/agency_user_manage/user_create.html:69
 #: agency_manage/templates/agency_user_manage/user_detail.html:68
 #: agency_manage/templates/agency_user_manage/user_edit.html:65
 msgid "남자"
-msgstr ""
+msgstr "男子"
 
 #: agency_manage/templates/agency_user_manage/user_create.html:70
 #: agency_manage/templates/agency_user_manage/user_detail.html:70
 #: agency_manage/templates/agency_user_manage/user_edit.html:66
 msgid "여자"
-msgstr ""
+msgstr "女子"
 
 #: agency_manage/templates/agency_user_manage/user_create.html:75
 msgid "가입"
-msgstr ""
+msgstr "加入"
 
 #: agency_manage/templates/agency_user_manage/user_detail.html:30
 msgid "비밀번호 초기화"
-msgstr ""
+msgstr "パスワード初期化"
 
 #: agency_manage/templates/agency_user_manage/user_detail.html:90
 msgid "비밀번호를 초기화 하시겠습니까?"
-msgstr ""
+msgstr "パスワードを初期化してよろしいですか？"
 
 #: agency_manage/templates/agency_user_manage/user_manage.html:24
 msgid "회원 등록"
-msgstr ""
+msgstr "会員登録"
 
 #: agency_manage/templates/agency_user_manage/user_manage.html:67
 msgid "활성여부"
-msgstr ""
+msgstr "活性可否"
 
 #: agency_manage/templates/agency_user_manage/user_manage.html:70
 msgid "에이전시 관리자"
-msgstr ""
+msgstr "代理店管理者"
 
 #: agency_manage/templates/agency_user_manage/user_manage.html:116
 #: shop_manage/templates/goods_manage/goods_manage.html:131
 msgid "변경하시겠습니까?"
-msgstr ""
+msgstr "変更しますか？"
 
 #: agency_manage/views/agency_manage_views/auth_views.py:97
 #: shop_manage/views/shop_manage_views/auth_views.py:202
@@ -885,37 +884,37 @@ msgstr "月"
 #: shop_manage/views/shop_manage_views/auth_views.py:317
 #: shop_manage/views/shop_manage_views/auth_views.py:320
 msgid "ERR_LOGIN1"
-msgstr ""
+msgstr "IDまたはパスワードが正しくありません。"
 
 #: agency_manage/views/agency_manage_views/auth_views.py:288
 #: shop_manage/views/shop_manage_views/auth_views.py:322
 msgid "ERR_LOGIN2"
-msgstr ""
+msgstr "脱退済みの会員です。"
 
 #: agency_manage/views/agency_manage_views/auth_views.py:290
 #: shop_manage/views/shop_manage_views/auth_views.py:324
 msgid "ERR_LOGIN3"
-msgstr ""
+msgstr "非活性のアカウントです。"
 
 #: agency_manage/views/agency_manage_views/auth_views.py:301
 #: shop_manage/views/shop_manage_views/auth_views.py:336
 msgid "ERR_LOGIN4"
-msgstr ""
+msgstr "管理者ではありません。"
 
 #: agency_manage/views/agency_manage_views/auth_views.py:316
 #: shop_manage/views/shop_manage_views/auth_views.py:351
 msgid "ERR_AUTH"
-msgstr ""
+msgstr "ログインしてないです。"
 
 #: agency_manage/views/agency_manage_views/auth_views.py:323
 #: shop_manage/views/shop_manage_views/auth_views.py:358
 msgid "ERR_PASSWORD"
-msgstr ""
+msgstr "パスワードが一致しません。"
 
 #: agency_manage/views/agency_manage_views/auth_views.py:325
 #: shop_manage/views/shop_manage_views/auth_views.py:360
 msgid "ERR_NEW_PASSWORD"
-msgstr ""
+msgstr "新しいパスワードが一致しません。"
 
 #: agency_manage/views/agency_manage_views/auth_views.py:331
 #: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:98
@@ -937,7 +936,7 @@ msgstr ""
 #: shop_manage/views/shop_manage_views/auth_views.py:366
 #: shop_manage/views/table_manage_views/table_manage_views.py:86
 msgid "MSG_UPDATED"
-msgstr ""
+msgstr "変更しました。"
 
 #: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:79
 #: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:86
@@ -1031,12 +1030,12 @@ msgstr ""
 #: shop_manage/views/table_manage_views/table_manage_views.py:104
 #: shop_manage/views/table_manage_views/table_manage_views.py:130
 msgid "ERR_DATA_INVALID"
-msgstr ""
+msgstr "データ不具合"
 
 #: agency_manage/views/shop_manage_views/shop_admin_manage_views.py:90
 #: agency_manage/views/user_manage_views/user_manage_views.py:259
 msgid "ERR_USER_INVALID"
-msgstr ""
+msgstr "ユーザ不具合"
 
 #: agency_manage/views/shop_manage_views/shop_manage_views.py:95
 #: agency_manage/views/user_manage_views/user_manage_views.py:102
@@ -1048,17 +1047,17 @@ msgstr ""
 #: shop_manage/views/goods_manage_views/rank_manage_views.py:50
 #: shop_manage/views/goods_manage_views/rank_manage_views.py:73
 msgid "ERR_TYPE_INVALID"
-msgstr ""
+msgstr "タイプ不具合"
 
 #: agency_manage/views/shop_manage_views/shop_manage_views.py:157
 #: agency_manage/views/shop_manage_views/shop_manage_views.py:301
 msgid "DUPLICATED_SHOP_NAME"
-msgstr ""
+msgstr "既に存在する加盟店名です。"
 
 #: agency_manage/views/shop_manage_views/shop_manage_views.py:162
 #: agency_manage/views/shop_manage_views/shop_manage_views.py:303
 msgid "DUPLICATED_SHOP_NAME_EN"
-msgstr ""
+msgstr "既に存在する加盟店英語名です。"
 
 #: agency_manage/views/shop_manage_views/shop_manage_views.py:196
 #: agency_manage/views/user_manage_views/user_manage_views.py:170
@@ -1066,7 +1065,7 @@ msgstr ""
 #: shop_manage/views/goods_manage_views/option_manage_views.py:72
 #: shop_manage/views/table_manage_views/table_manage_views.py:147
 msgid "ERR_CREATE"
-msgstr ""
+msgstr "登録失敗"
 
 #: agency_manage/views/shop_manage_views/shop_manage_views.py:198
 #: agency_manage/views/user_manage_views/user_manage_views.py:173
@@ -1079,7 +1078,7 @@ msgstr ""
 #: shop_manage/views/pos_manage_views/pos_manage_views.py:180
 #: shop_manage/views/table_manage_views/table_manage_views.py:149
 msgid "MSG_CREATED"
-msgstr ""
+msgstr "登録しました。"
 
 #: agency_manage/views/shop_manage_views/shop_manage_views.py:233
 #: agency_manage/views/user_manage_views/user_manage_views.py:228
@@ -1092,7 +1091,7 @@ msgstr ""
 #: shop_manage/views/pos_manage_views/pos_manage_views.py:134
 #: shop_manage/views/table_manage_views/table_manage_views.py:108
 msgid "MSG_DELETED"
-msgstr ""
+msgstr "削除しました。"
 
 #: agency_manage/views/shop_manage_views/shop_manage_views.py:337
 #: shop_manage/views/category_manage_views/category_manage_views.py:194
@@ -1100,96 +1099,96 @@ msgstr ""
 #: shop_manage/views/goods_manage_views/goods_manage_views.py:355
 #: shop_manage/views/goods_manage_views/rank_manage_views.py:95
 msgid "ERR_UPDATE"
-msgstr ""
+msgstr "修正失敗"
 
 #: agency_manage/views/user_manage_views/user_manage_views.py:141
 msgid "DUPLICATED_USERNAME"
-msgstr ""
+msgstr "既に存在するIDです。"
 
 #: agency_manage/views/user_manage_views/user_manage_views.py:212
 msgid "MSG_INITIALIZED"
-msgstr ""
+msgstr "初期化しました。"
 
 #: agency_manage/views/user_manage_views/user_manage_views.py:270
 msgid "ERR_PHONE_INVALID"
-msgstr ""
+msgstr "有効でない電話番号形式です。"
 
 #: agency_manage/views/user_manage_views/user_manage_views.py:273
 msgid "ERR_DATE_INVALID"
-msgstr ""
+msgstr "有効でない日付形式です。例）1900-01-01"
 
 #: shop_manage/templates/category_manage/category_manage.html:30
 msgid "카테고리 관리"
-msgstr ""
+msgstr "カテゴリ管理"
 
 #: shop_manage/templates/category_manage/category_manage.html:31
 msgid "대분류, 소분류 카테고리를 등록하고 선택하여 수정 및 삭제할 수 있습니다."
-msgstr ""
+msgstr "大分類、小分類カテゴリを登録してから変更、削除可能です。"
 
 #: shop_manage/templates/category_manage/category_manage.html:32
 msgid "상품이 등록되어 있는 카테고리는 삭제 불가능합니다."
-msgstr ""
+msgstr "登録している商品のカテゴリは削除できません。"
 
 #: shop_manage/templates/category_manage/category_manage.html:42
 msgid "대분류"
-msgstr ""
+msgstr "大分類"
 
 #: shop_manage/templates/category_manage/category_manage.html:62
 #: shop_manage/templates/category_manage/category_manage.html:137
 msgid "데이터 등록해주세요."
-msgstr ""
+msgstr "データを登録してください"
 
 #: shop_manage/templates/category_manage/category_manage.html:69
 msgid "소분류"
-msgstr ""
+msgstr "小分類"
 
 #: shop_manage/templates/category_manage/category_manage.html:82
 msgid "대분류를 선택해주세요."
-msgstr ""
+msgstr "大分類を選択してください。"
 
 #: shop_manage/templates/category_manage/category_manage.html:104
 msgid "카테고리명"
-msgstr ""
+msgstr "カテゴリ名"
 
 #: shop_manage/templates/category_manage/category_manage.html:105
 #: shop_manage/templates/category_manage/category_manage.html:134
 msgid "카테고리명을 넣어주세요."
-msgstr ""
+msgstr "カテゴリ名を入力してください。"
 
 #: shop_manage/templates/category_manage/category_manage.html:108
 msgid "카테고리명 (영문)"
-msgstr ""
+msgstr "カテゴリ名（英語名）"
 
 #: shop_manage/templates/category_manage/category_manage.html:109
 #: shop_manage/templates/category_manage/category_manage.html:135
 msgid "카테고리 영문명을 넣어주세요."
-msgstr ""
+msgstr "カテゴリの英語名を入力してください"
 
 #: shop_manage/templates/category_manage/category_manage.html:136
 msgid "카테고리 타입이 없습니다."
-msgstr ""
+msgstr "カテゴリタイプがありません。"
 
 #: shop_manage/templates/coupon_manage/coupon_create.html:23
 msgid "이용권 등록"
-msgstr ""
+msgstr "利用券登録"
 
 #: shop_manage/templates/coupon_manage/coupon_create.html:31
 #: shop_manage/templates/coupon_manage/coupon_detail.html:34
 #: shop_manage/templates/coupon_manage/coupon_edit.html:31
 msgid "이용권 이름"
-msgstr ""
+msgstr "利用券名前"
 
 #: shop_manage/templates/coupon_manage/coupon_create.html:37
 #: shop_manage/templates/coupon_manage/coupon_detail.html:40
 #: shop_manage/templates/coupon_manage/coupon_edit.html:37
 msgid "만료기간 (일)"
-msgstr ""
+msgstr "満了期間（日付）"
 
 #: shop_manage/templates/coupon_manage/coupon_create.html:40
 #: shop_manage/templates/coupon_manage/coupon_detail.html:43
 #: shop_manage/templates/coupon_manage/coupon_edit.html:40
 msgid "무기한"
-msgstr ""
+msgstr "無期限"
 
 #: shop_manage/templates/coupon_manage/coupon_create.html:62
 #: shop_manage/templates/goods_manage/goods_create.html:138
@@ -1197,39 +1196,39 @@ msgstr ""
 #: shop_manage/templates/pos_manage/pos_create.html:62
 #: shop_manage/templates/table_manage/table_create.html:62
 msgid "등록 하시겠습니까?"
-msgstr ""
+msgstr "登録しますか？"
 
 #: shop_manage/templates/coupon_manage/coupon_detail.html:23
 msgid "이용권 상세"
-msgstr ""
+msgstr "利用券詳細"
 
 #: shop_manage/templates/coupon_manage/coupon_edit.html:23
 msgid "이용권 수정"
-msgstr ""
+msgstr "利用券修正"
 
 #: shop_manage/templates/coupon_manage/coupon_manage.html:55
 msgid "유효기간"
-msgstr ""
+msgstr "有効期限"
 
 #: shop_manage/templates/coupon_manage/coupon_manage.html:56
 #: shop_manage/templates/goods_manage/goods_manage.html:108
 msgid "생성일"
-msgstr ""
+msgstr "登録日"
 
 #: shop_manage/templates/coupon_manage/coupon_manage.html:68
 msgid "일"
-msgstr ""
+msgstr "日"
 
 #: shop_manage/templates/coupon_manage/coupon_manage.html:77
 #: shop_manage/templates/pos_manage/pos_manage.html:81
 #: shop_manage/templates/table_manage/table_manage.html:80
 msgid "내용이 없습니다."
-msgstr ""
+msgstr "詳細がありません。"
 
 #: shop_manage/templates/goods_manage/goods_create.html:11
 #: shop_manage/templates/goods_manage/goods_create.html:25
 msgid "상품 등록"
-msgstr ""
+msgstr "商品登録"
 
 #: shop_manage/templates/goods_manage/goods_create.html:33
 #: shop_manage/templates/goods_manage/goods_detail.html:35
@@ -1237,21 +1236,21 @@ msgstr ""
 #: shop_manage/templates/goods_manage/goods_manage.html:46
 #: shop_manage/templates/goods_manage/rank_manage.html:32
 msgid "카테고리 분류"
-msgstr ""
+msgstr "カテゴリ分類"
 
 #: shop_manage/templates/goods_manage/goods_create.html:35
 #: shop_manage/templates/goods_manage/goods_edit.html:38
 #: shop_manage/templates/goods_manage/goods_manage.html:48
 #: shop_manage/templates/goods_manage/rank_manage.html:34
 msgid "대분류 카테고리를 선택해주세요."
-msgstr ""
+msgstr "大分類のカテゴリを選択してください。"
 
 #: shop_manage/templates/goods_manage/goods_create.html:39
 #: shop_manage/templates/goods_manage/goods_edit.html:49
 #: shop_manage/templates/goods_manage/goods_manage.html:52
 #: shop_manage/templates/goods_manage/rank_manage.html:38
 msgid "소분류 카테고리를 선택해주세요."
-msgstr ""
+msgstr "小分類のカテゴリを選択してください。"
 
 #: shop_manage/templates/goods_manage/goods_create.html:44
 #: shop_manage/templates/goods_manage/goods_create.html:46
@@ -1262,7 +1261,7 @@ msgstr ""
 #: shop_manage/templates/goods_manage/goods_manage.html:39
 #: shop_manage/templates/goods_manage/goods_manage.html:100
 msgid "상품명"
-msgstr ""
+msgstr "商品名"
 
 #: shop_manage/templates/goods_manage/goods_create.html:50
 #: shop_manage/templates/goods_manage/goods_create.html:52
@@ -1271,7 +1270,7 @@ msgstr ""
 #: shop_manage/templates/goods_manage/goods_edit.html:67
 #: shop_manage/templates/goods_manage/goods_edit.html:69
 msgid "상품영문명"
-msgstr ""
+msgstr "商品英語名"
 
 #: shop_manage/templates/goods_manage/goods_create.html:56
 #: shop_manage/templates/goods_manage/goods_create.html:58
@@ -1280,17 +1279,17 @@ msgstr ""
 #: shop_manage/templates/goods_manage/goods_edit.html:73
 #: shop_manage/templates/goods_manage/goods_edit.html:75
 msgid "상품가격"
-msgstr ""
+msgstr "商品金額"
 
 #: shop_manage/templates/goods_manage/goods_create.html:62
 #: shop_manage/templates/goods_manage/goods_create.html:64
 msgid "핀매가격"
-msgstr ""
+msgstr "販売金額"
 
 #: shop_manage/templates/goods_manage/goods_create.html:65
 #: shop_manage/templates/goods_manage/goods_edit.html:82
 msgid "실제 판매되는 가격"
-msgstr ""
+msgstr "実販売金額"
 
 #: shop_manage/templates/goods_manage/goods_create.html:69
 #: shop_manage/templates/goods_manage/goods_create.html:71
@@ -1300,546 +1299,546 @@ msgstr ""
 #: shop_manage/templates/goods_manage/goods_edit.html:88
 #: shop_manage/templates/goods_manage/goods_manage.html:105
 msgid "재고수량"
-msgstr ""
+msgstr "在庫数量"
 
 #: shop_manage/templates/goods_manage/goods_create.html:75
 #: shop_manage/templates/goods_manage/goods_detail.html:90
 #: shop_manage/templates/goods_manage/goods_edit.html:92
 msgid "상품 이미지"
-msgstr ""
+msgstr "商品イメージ"
 
 #: shop_manage/templates/goods_manage/goods_create.html:78
 #: shop_manage/templates/goods_manage/goods_edit.html:95
 msgid "이미지 권장"
-msgstr ""
+msgstr "おすすめイメージ"
 
 #: shop_manage/templates/goods_manage/goods_create.html:85
 #: shop_manage/templates/goods_manage/goods_detail.html:107
 #: shop_manage/templates/goods_manage/goods_edit.html:106
 msgid "판매 여부"
-msgstr ""
+msgstr "販売可否"
 
 #: shop_manage/templates/goods_manage/goods_create.html:91
 #: shop_manage/templates/goods_manage/goods_detail.html:117
 #: shop_manage/templates/goods_manage/goods_edit.html:116
 msgid "품절 여부"
-msgstr ""
+msgstr "品切れ可否"
 
 #: shop_manage/templates/goods_manage/goods_create.html:97
 #: shop_manage/templates/goods_manage/goods_detail.html:127
 #: shop_manage/templates/goods_manage/goods_edit.html:126
 msgid "키오스크 여부"
-msgstr ""
+msgstr "キオスク可否"
 
 #: shop_manage/templates/goods_manage/goods_create.html:103
 #: shop_manage/templates/goods_manage/goods_detail.html:137
 #: shop_manage/templates/goods_manage/goods_edit.html:136
 msgid "재고 관리 사용 여부"
-msgstr ""
+msgstr "在庫管理使用可否"
 
 #: shop_manage/templates/goods_manage/goods_create.html:139
 #: shop_manage/templates/goods_manage/goods_edit.html:189
 msgid "상품은 소분류까지 분류되어야합니다."
-msgstr ""
+msgstr "商品は小分類まで設定してください。"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:10
 #: shop_manage/templates/goods_manage/goods_detail.html:24
 msgid "상품 상세"
-msgstr ""
+msgstr "商品詳細"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:48
 #: shop_manage/templates/goods_manage/goods_detail.html:50
 msgid "상품"
-msgstr ""
+msgstr "商品"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:54
 #: shop_manage/templates/goods_manage/goods_detail.html:56
 msgid "상품코드"
-msgstr ""
+msgstr "商品コード"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:78
 #: shop_manage/templates/goods_manage/goods_detail.html:80
 #: shop_manage/templates/goods_manage/goods_edit.html:79
 #: shop_manage/templates/goods_manage/goods_edit.html:81
 msgid "판매가격"
-msgstr ""
+msgstr "販売金額"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:95
 msgid "이미지 없음"
-msgstr ""
+msgstr "イメージなし"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:147
 #: shop_manage/templates/goods_manage/goods_edit.html:146
 msgid "옵션 사용 여부"
-msgstr ""
+msgstr "オプション使用可否"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:177
 #: shop_manage/templates/goods_manage/option_manage.html:60
 #: shop_manage/templates/order_manage/order_manage.html:189
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:166
 msgid "옵션"
-msgstr ""
+msgstr "オプション"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:180
 msgid "관리"
-msgstr ""
+msgstr "管理"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:190
 #: shop_manage/templates/goods_manage/option_manage.html:78
 msgid "내용"
-msgstr ""
+msgstr "内容"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:191
 #: shop_manage/templates/goods_manage/option_manage.html:80
 msgid "옵션비용"
-msgstr ""
+msgstr "オプション費用"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:192
 #: shop_manage/templates/goods_manage/option_manage.html:81
 msgid "재고"
-msgstr ""
+msgstr "在庫"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:193
 msgid "품절여부"
-msgstr ""
+msgstr "品切れ可否"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:210
 msgid "재고 관리"
-msgstr ""
+msgstr "在庫管理"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:215
 #: shop_manage/templates/goods_manage/goods_manage.html:104
 #: shop_manage/templates/goods_manage/option_manage.html:82
 msgid "품절"
-msgstr ""
+msgstr "品切れ"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:217
 #: shop_manage/templates/goods_manage/goods_manage.html:65
 msgid "판매중"
-msgstr ""
+msgstr "販売中"
 
 #: shop_manage/templates/goods_manage/goods_detail.html:232
 #: shop_manage/templates/goods_manage/option_manage.html:136
 msgid "옵션을 등록해주세요."
-msgstr ""
+msgstr "オプションを登録してください。"
 
 #: shop_manage/templates/goods_manage/goods_edit.html:11
 #: shop_manage/templates/goods_manage/goods_edit.html:25
 msgid "상품 수정"
-msgstr ""
+msgstr "商品修正"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:30
 msgid "상품등록"
-msgstr ""
+msgstr "商品登録"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:31
 msgid "포스 상품순서"
-msgstr ""
+msgstr "POS商品順番"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:32
 msgid "키오스크 상품순서"
-msgstr ""
+msgstr "キオスク商品順番"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:57
 msgid "판매 상태"
-msgstr ""
+msgstr "販売状況"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:61
 #: shop_manage/templates/order_manage/order_manage.html:46
 msgid "전체"
-msgstr ""
+msgstr "全体"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:69
 msgid "판매중단"
-msgstr ""
+msgstr "販売中断"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:86
 msgid "상품 목록"
-msgstr ""
+msgstr "商品リスト"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:99
 msgid "카테고리"
-msgstr ""
+msgstr "カテゴリ"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:101
 msgid "이미지"
-msgstr ""
+msgstr "イメージ"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:102
 msgid "판매가"
-msgstr ""
+msgstr "販売金額"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:102
 msgid "정가"
-msgstr ""
+msgstr "定価"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:103
 msgid "판매"
-msgstr ""
+msgstr "販売"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:106
 msgid "재고관리"
-msgstr ""
+msgstr "在庫管理"
 
 #: shop_manage/templates/goods_manage/goods_manage.html:107
 msgid "옵션사용"
-msgstr ""
+msgstr "オプション使用"
 
 #: shop_manage/templates/goods_manage/option_manage.html:10
 #: shop_manage/templates/goods_manage/option_manage.html:24
 msgid "상품 옵션 관리"
-msgstr ""
+msgstr "商品オプション管理"
 
 #: shop_manage/templates/goods_manage/option_manage.html:27
 msgid "이전"
-msgstr ""
+msgstr "以前"
 
 #: shop_manage/templates/goods_manage/option_manage.html:31
 msgid ""
 "옵션 내용을 , 로 구분지어 등록해주세요. 옵션은 최대 5개 까지 등록 가능합니"
 "다. 옵션 내용 최대 20개"
-msgstr ""
+msgstr "オプション内容は,カンマ区切りで登録してください。最大5個まで登録可能です。オプション内容は最大20個まで"
 
 #: shop_manage/templates/goods_manage/option_manage.html:33
 #: shop_manage/templates/goods_manage/option_manage.html:35
 #: shop_manage/templates/goods_manage/option_manage.html:91
 msgid "옵션명"
-msgstr ""
+msgstr "オプション名"
 
 #: shop_manage/templates/goods_manage/option_manage.html:39
 #: shop_manage/templates/goods_manage/option_manage.html:41
 #: shop_manage/templates/goods_manage/option_manage.html:94
 msgid "옵션 영문명"
-msgstr ""
+msgstr "オプション英語名"
 
 #: shop_manage/templates/goods_manage/option_manage.html:45
 #: shop_manage/templates/goods_manage/option_manage.html:47
 msgid "옵션 내용"
-msgstr ""
+msgstr "オプション内容"
 
 #: shop_manage/templates/goods_manage/option_manage.html:73
 msgid "옵션선택 필수"
-msgstr ""
+msgstr "オプション選択　必須"
 
 #: shop_manage/templates/goods_manage/option_manage.html:79
 msgid "내용(영문)"
-msgstr ""
+msgstr "内容（英語）"
 
 #: shop_manage/templates/goods_manage/option_manage.html:83
 msgid "추가"
-msgstr ""
+msgstr "追加"
 
 #: shop_manage/templates/goods_manage/option_manage.html:97
 msgid "옵션 가격"
-msgstr ""
+msgstr "オプション金額"
 
 #: shop_manage/templates/goods_manage/option_manage.html:101
 #: shop_manage/templates/goods_manage/option_manage.html:105
 msgid "옵션 재고"
-msgstr ""
+msgstr "オプション在庫"
 
 #: shop_manage/templates/goods_manage/option_manage.html:103
 #: shop_manage/templates/goods_manage/option_manage.html:107
 msgid "옵션 재고관리"
-msgstr ""
+msgstr "オプション在庫管理"
 
 #: shop_manage/templates/goods_manage/option_manage.html:156
 msgid "추가 하시겠습니까?"
-msgstr ""
+msgstr "追加しますか？"
 
 #: shop_manage/templates/goods_manage/option_manage.html:157
 msgid "옵션재고 관리 설정을 변경하시겠습니까?"
-msgstr ""
+msgstr "オプション在庫管理設定を変更しますか？"
 
 #: shop_manage/templates/goods_manage/option_manage.html:158
 msgid "옵션필수 선택을 수정하시겠습니까?"
-msgstr ""
+msgstr "オプション必須選択を変更しますか？"
 
 #: shop_manage/templates/goods_manage/option_manage.html:159
 msgid "품절 상태를 변경하시겠습니까?"
-msgstr ""
+msgstr "品切れの状態を変更しますか？"
 
 #: shop_manage/templates/goods_manage/rank_manage.html:54
 msgid "상품 순서"
-msgstr ""
+msgstr "商品順番"
 
 #: shop_manage/templates/goods_manage/rank_manage.html:58
 msgid "소분류 카테고리까지 먼저 선택해주세요."
-msgstr ""
+msgstr "小分類のカテゴリを先に選択してください。"
 
 #: shop_manage/templates/order_manage/order_manage.html:43
 msgid "1년"
-msgstr ""
+msgstr "1年"
 
 #: shop_manage/templates/order_manage/order_manage.html:64
 #: shop_manage/templates/order_manage/order_manage.html:101
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:22
 msgid "주문자"
-msgstr ""
+msgstr "注文者"
 
 #: shop_manage/templates/order_manage/order_manage.html:84
 msgid "복합결제"
-msgstr ""
+msgstr "複合決済"
 
 #: shop_manage/templates/order_manage/order_manage.html:89
 msgid "판매현황"
-msgstr ""
+msgstr "販売状況"
 
 #: shop_manage/templates/order_manage/order_manage.html:90
 msgid "결제내역"
-msgstr ""
+msgstr "決済内訳"
 
 #: shop_manage/templates/order_manage/order_manage.html:98
 #: shop_manage/templates/order_manage/order_manage.html:186
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:19
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:163
 msgid "주문번호"
-msgstr ""
+msgstr "注文番号"
 
 #: shop_manage/templates/order_manage/order_manage.html:99
 msgid "주문명"
-msgstr ""
+msgstr "注文名"
 
 #: shop_manage/templates/order_manage/order_manage.html:100
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:21
 msgid "결제금액"
-msgstr ""
+msgstr "決済金額"
 
 #: shop_manage/templates/order_manage/order_manage.html:103
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:24
 msgid "날짜"
-msgstr ""
+msgstr "日付"
 
 #: shop_manage/templates/order_manage/order_manage.html:104
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:25
 msgid "처리여부"
-msgstr ""
+msgstr "処理可否"
 
 #: shop_manage/templates/order_manage/order_manage.html:120
 #: shop_manage/templates/order_manage/order_manage.html:177
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:154
 msgid "결제완료"
-msgstr ""
+msgstr "決済完了"
 
 #: shop_manage/templates/order_manage/order_manage.html:121
 #: shop_manage/templates/order_manage/order_manage.html:178
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:155
 msgid "준비중"
-msgstr ""
+msgstr "準備中"
 
 #: shop_manage/templates/order_manage/order_manage.html:122
 #: shop_manage/templates/order_manage/order_manage.html:179
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:156
 msgid "주문완료"
-msgstr ""
+msgstr "注文完了"
 
 #: shop_manage/templates/order_manage/order_manage.html:123
 #: shop_manage/templates/order_manage/order_manage.html:180
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:157
 msgid "수령완료"
-msgstr ""
+msgstr "受領完了"
 
 #: shop_manage/templates/order_manage/order_manage.html:126
 #: shop_manage/templates/order_manage/order_manage.html:181
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:158
 msgid "주문취소"
-msgstr ""
+msgstr "注文取消"
 
 #: shop_manage/templates/order_manage/order_manage.html:130
 #: shop_manage/templates/order_manage/order_manage.html:182
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:159
 msgid "수령문자요청"
-msgstr ""
+msgstr "受領メッセージ要請"
 
 #: shop_manage/templates/order_manage/order_manage.html:138
 #: shop_manage/templates/order_manage/order_manage.html:183
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:160
 msgid "주문내역이 없습니다."
-msgstr ""
+msgstr "注文内訳がありません。"
 
 #: shop_manage/templates/order_manage/order_manage.html:153
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:126
 msgid "주문 상품"
-msgstr ""
+msgstr "注文商品"
 
 #: shop_manage/templates/order_manage/order_manage.html:185
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:162
 msgid "완료 문자를 보내시겠습니까?"
-msgstr ""
+msgstr "完了メッセージお送りしますか？"
 
 #: shop_manage/templates/order_manage/order_manage.html:187
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:164
 msgid "주문일시"
-msgstr ""
+msgstr "注文日付"
 
 #: shop_manage/templates/order_manage/order_manage.html:188
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:165
 msgid "제품명"
-msgstr ""
+msgstr "製品名"
 
 #: shop_manage/templates/order_manage/order_manage.html:190
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:167
 msgid "수량"
-msgstr ""
+msgstr "数量"
 
 #: shop_manage/templates/order_manage/order_manage.html:191
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:168
 msgid "총 금액"
-msgstr ""
+msgstr "総金額"
 
 #: shop_manage/templates/pos_manage/pos_create.html:31
 msgid "포스업체"
-msgstr ""
+msgstr "POS会社"
 
 #: shop_manage/templates/pos_manage/pos_manage.html:23
 msgid "포스 관리"
-msgstr ""
+msgstr "POS管理"
 
 #: shop_manage/templates/pos_manage/pos_manage.html:25
 msgid "포스 분류"
-msgstr ""
+msgstr "POS分類"
 
 #: shop_manage/templates/pos_manage/pos_manage.html:36
 msgid "이용"
-msgstr ""
+msgstr "利用"
 
 #: shop_manage/templates/pos_manage/pos_manage.html:65
 #: shop_manage/templates/pos_manage/pos_manage.html:71
 #: shop_manage/templates/table_manage/table_manage.html:70
 msgid "수정"
-msgstr ""
+msgstr "修正"
 
 #: shop_manage/templates/pos_manage/pos_manage.html:104
 msgid "해당 포스로 이용하시겠습니까?"
-msgstr ""
+msgstr "関連POSに移動しますか？"
 
 #: shop_manage/templates/pos_manage/shop_pos_detail.html:11
 msgid "상세"
-msgstr ""
+msgstr "詳細"
 
 #: shop_manage/templates/pos_manage/shop_pos_detail.html:33
 #: shop_manage/templates/pos_manage/shop_pos_edit.html:33
 msgid "광고 영상"
-msgstr ""
+msgstr "広告動画"
 
 #: shop_manage/templates/pos_manage/shop_pos_detail.html:38
 msgid "비디오 없음"
-msgstr ""
+msgstr "ビデオなし"
 
 #: shop_manage/templates/pos_manage/shop_pos_detail.html:53
 #: shop_manage/templates/pos_manage/shop_pos_edit.html:49
 msgid "영수증 발행"
-msgstr ""
+msgstr "領収書発行"
 
 #: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:34
 msgid "가맹점 선택"
-msgstr ""
+msgstr "加盟店選択"
 
 #: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:35
 msgid "관리할 가맹점을 선택해주세요."
-msgstr ""
+msgstr "管理する加盟店を選択してください。"
 
 #: shop_manage/templates/shop_admin_manage/shop_manage_login_select.html:39
 msgid "가맹점 이름"
-msgstr ""
+msgstr "加盟店名前"
 
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:15
 msgid "최근 주문내역"
-msgstr ""
+msgstr "最近注文内訳"
 
 #: shop_manage/templates/shop_admin_manage/shop_manage_main.html:20
 msgid "주문"
-msgstr ""
+msgstr "注文"
 
 #: shop_manage/templates/table_manage/table_create.html:10
 #: shop_manage/templates/table_manage/table_create.html:23
 msgid "테이블 등록"
-msgstr ""
+msgstr "テーブル登録"
 
 #: shop_manage/templates/table_manage/table_create.html:34
 msgid "'테이블' 입력 시 테이블1, 테이블2, 테이블3 ... 이런식으로 생겨납니다."
-msgstr ""
+msgstr "テーブル登録時、テーブル1，テーブル2，テーブル3順に生成されます。"
 
 #: shop_manage/templates/table_manage/table_create.html:38
 msgid "개수"
-msgstr ""
+msgstr "個数"
 
 #: shop_manage/templates/table_manage/table_manage.html:44
 msgid "포스관리에서 이용하실 포스를 먼저 선택해주세요."
-msgstr ""
+msgstr "POS管理画面からお使いのPOSを先に選択してください。"
 
 #: shop_manage/views/category_manage_views/category_manage_views.py:48
 #: shop_manage/views/category_manage_views/category_manage_views.py:87
 msgid "DUPLICATED_MAIN_CATEGORY"
-msgstr ""
+msgstr "既に大分類あるカテゴリです。"
 
 #: shop_manage/views/category_manage_views/category_manage_views.py:96
 msgid "DUPLICATED_SUB_CATEGORY"
-msgstr ""
+msgstr "既に小分類あるカテゴリです。"
 
 #: shop_manage/views/category_manage_views/category_manage_views.py:116
 #: shop_manage/views/category_manage_views/category_manage_views.py:124
 msgid "ERR_DELETE_CATEGORY"
-msgstr ""
+msgstr "下層にデータがあるため、削除できません。"
 
 #: shop_manage/views/goods_manage_views/goods_manage_views.py:80
 #: shop_manage/views/goods_manage_views/goods_manage_views.py:300
 msgid "ERR_OPTION_FLAG"
-msgstr ""
+msgstr "オプション使用の場合、先にオプション登録が必要です。"
 
 #: shop_manage/views/goods_manage_views/goods_manage_views.py:182
 msgid "ERR_RETRY_LATER"
-msgstr ""
+msgstr "しばらくしてから再度お試しください。"
 
 #: shop_manage/views/goods_manage_views/option_manage_views.py:57
 #: shop_manage/views/goods_manage_views/option_manage_views.py:120
 msgid "ERR_OPTION_DETAIL_LIMIT"
-msgstr ""
+msgstr "オプション内容は20個まで可能です。"
 
 #: shop_manage/views/goods_manage_views/option_manage_views.py:59
 msgid "ERR_OPTION_LIMIT"
-msgstr ""
+msgstr "これ以上オプション登録はできません。"
 
 #: shop_manage/views/pos_manage_views/pos_manage_views.py:228
 msgid "ERR_AD_SIZE"
-msgstr ""
+msgstr "広告動画容量は200MBまでです。"
 
 #: shop_manage/views/table_manage_views/table_manage_views.py:133
 msgid "ERR_POS"
-msgstr ""
+msgstr "先にPOSをお使いください。"
 
 #: templates/includes/agency/sidebar.html:13
 msgid "회원 관리"
-msgstr ""
+msgstr "会員管理"
 
 #: templates/includes/agency/sidebar.html:16
 msgid "가맹점 관리"
-msgstr ""
+msgstr "加盟店管理"
 
 #: templates/includes/agency/sidebar.html:19
 msgid "매출 내역"
-msgstr ""
+msgstr "売上内訳"
 
 #: templates/includes/shop/sidebar.html:13
 msgid "상품 카테고리 관리"
-msgstr ""
+msgstr "商品カテゴリ管理"
 
 #: templates/includes/shop/sidebar.html:16
 msgid "상품 관리"
-msgstr ""
+msgstr "商品管理"
 
 #: templates/includes/shop/sidebar.html:19
 msgid "주문내역 관리"
-msgstr ""
+msgstr "注文内訳管理"
 
 #: templates/includes/shop/sidebar.html:27
 msgid "POS 관리"
-msgstr ""
+msgstr "POS管理"
 
 #: templates/includes/shop/sidebar.html:30
 msgid "테이블 관리"
-msgstr ""
+msgstr "テーブル管理"
 
 #: templates/includes/shop/sidebar.html:34
 msgid "이용권 관리"
-msgstr ""
+msgstr "利用券管理"
