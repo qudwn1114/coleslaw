@@ -207,6 +207,10 @@ class ShopPosOrderDetailView(View):
             )
         ).order_by('id').values(
             'id',
+            'mbrNo',
+            'mbrRefNo',
+            'refNo',
+            'payType',
             'paymentMethod',
             'payment_method',
             'tid',
