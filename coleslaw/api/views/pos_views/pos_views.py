@@ -103,10 +103,10 @@ class ShopTableAddView(View):
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
         
-        if goods.soldout:
-            return_data = {'data': {},'msg': '품절 상품입니다.','resultCd': '0001'}
-            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-            return HttpResponse(return_data, content_type = "application/json")
+        # if goods.soldout:
+        #     return_data = {'data': {},'msg': '품절 상품입니다.','resultCd': '0001'}
+        #     return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        #     return HttpResponse(return_data, content_type = "application/json")
         
         optionName = ''
         optionPrice = 0
@@ -117,10 +117,10 @@ class ShopTableAddView(View):
                 return_data = {'data': {},'msg': 'Goods Option Error','resultCd': '0001'}
                 return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
-            if goods_option_detail.soldout:
-                return_data = {'data': {},'msg': f'옵션 {goods_option_detail.name_kr} 품절','resultCd': '0001'}
-                return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-                return HttpResponse(return_data, content_type = "application/json")
+            # if goods_option_detail.soldout:
+            #     return_data = {'data': {},'msg': f'옵션 {goods_option_detail.name_kr} 품절','resultCd': '0001'}
+            #     return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            #     return HttpResponse(return_data, content_type = "application/json")
             
             optionName += f'{goods_option_detail.name_kr} / '
             optionPrice += goods_option_detail.price
