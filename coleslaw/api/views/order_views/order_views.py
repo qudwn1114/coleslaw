@@ -342,7 +342,7 @@ class ShopOrderCompleteView(View):
             
             #에이전시 행사때만 문자발송!
             if order.agency:
-                message=f'주문완료[{order.order_no}]\n{order.agency.qr_order_message}\n▼주문내역\n{order.agency.qr_link}'
+                message=f'주문완료[{order.order_no}]\n{order.shop.qr_order_message}\n▼주문내역\n{order.shop.qr_link}'
                 sms_response = send_sms(phone=order.order_phone, message=message)
                 SmsLog.objects.create(
                     shop=shop,
