@@ -192,6 +192,13 @@ class ShopGoodsListView(View):
         
         main_category_id = request.GET.get('main_category_id', '') 
         sub_category_id = request.GET.get('sub_category_id', '')
+        device = request.GET.get('device', 'POS') # POS or KIOSK
+        if device == 'POS':
+            order_col_name = 'pos_rank'
+        elif device == "KIOSK":
+            order_col_name =  'kiosk_rank'
+        else:
+            order_col_name = 'pos_rank'
 
         filter_dict ={}
 
@@ -222,7 +229,7 @@ class ShopGoodsListView(View):
                     'option_flag',
                     'soldout',
                     'goodsImageThumbnailUrl'
-                ).order_by('-sale_price', 'name_kr')
+                ).order_by(order_col_name)
 
             return_data = {
                 'data': list(queryset),
