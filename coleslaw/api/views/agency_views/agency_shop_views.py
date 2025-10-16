@@ -146,14 +146,14 @@ class ShopMainCategoryListView(View):
                     'id',
                     'name_kr',
                     'name_en'
-                ).order_by('name_kr')
+                ).order_by('rank')
             
             for i in queryset:
                 i['sub_category'] = list(SubCategory.objects.filter(id__in=shop_sub_category_id_list, main_category_id=i['id'], shop=shop).values(
                     'id',
                     'name_kr',
                     'name_en'
-                ).order_by('name_kr'))
+                ).order_by('rank'))
 
             return_data = {
                 'data': list(queryset),
