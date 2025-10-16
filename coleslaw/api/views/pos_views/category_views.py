@@ -45,7 +45,7 @@ class ShopPosMainCategoryListView(View):
                     'id',
                     'name_kr',
                     'name_en'
-                ).order_by('name_kr')
+                ).order_by('rank')
             
             for i in queryset:
                 i['sub_category'] = list(SubCategory.objects.annotate(fixed=V(False)).filter(id__in=shop_sub_category_id_list, main_category_id=i['id'], shop=shop).values(
@@ -53,7 +53,7 @@ class ShopPosMainCategoryListView(View):
                     'name_kr',
                     'name_en',
                     'fixed'
-                ).order_by('name_kr'))
+                ).order_by('rank'))
 
                 if not fixed:
                     for j in i['sub_category']:
