@@ -42,6 +42,9 @@ function customAlert(message, callback = null) {
 
 
 function customConfirm(message) {
+  if (customConfirm.active) return Promise.resolve(false); // 이미 모달 열려있으면 무시
+  customConfirm.active = true;
+
   return new Promise((resolve) => {
     const body = document.getElementById("confirmModalBody");
     const modalElement = document.getElementById("confirmModal");
@@ -52,7 +55,6 @@ function customConfirm(message) {
     body.innerText = message;
     modal.show();
 
-    // 플래그로 중복 처리 방지
     let handled = false;
 
     const handleOk = () => {
@@ -81,12 +83,10 @@ function customConfirm(message) {
       }
     };
 
-    // 리스너 등록
     okBtn.addEventListener("click", handleOk);
     cancelBtn.addEventListener("click", handleCancel);
     modalElement.addEventListener("keydown", handleEnter);
 
-    // 포커스 이동
     modalElement.addEventListener(
       "shown.bs.modal",
       () => {
@@ -95,14 +95,15 @@ function customConfirm(message) {
       { once: true }
     );
 
-    // 리스너 정리 함수
     function cleanup() {
       okBtn.removeEventListener("click", handleOk);
       cancelBtn.removeEventListener("click", handleCancel);
       modalElement.removeEventListener("keydown", handleEnter);
+      customConfirm.active = false; // 모달 종료 시 플래그 해제
     }
   });
 }
+customConfirm.active = false;
 
   function handleLogout(event) {
     event.preventDefault();  // 기본 href 동작을 막습니다.
