@@ -346,8 +346,25 @@ class ShopTableManageDetailView(View):
                                     shop_table.cart = cart_list
                                     shop_table.total_price += additional_price
                                     shop_table.save()
-                                    cart_list = json.loads(cart_list)       
+                                    cart_list = json.loads(cart_list)  
                                                           
+        
+        data['agencyName'] = shop.agency.name
+        data['shopReceiptFlag'] = shop.shop_receipt_flag
+        data['shopName'] = shop.name_kr
+        data['shopDescription'] = shop.description
+        data['shopRepresentative'] = shop.representative
+        data['shopRegistrationNo'] = shop.registration_no
+        data['shopPhone'] = shop.phone
+        data['shopAddress'] = shop.address
+        data['shopAddressDetail'] = shop.address_detail
+        data['shopZipcode'] = shop.zipcode
+        data['shopReceipt'] = shop.receipt
+        data['printerPort1'] = shop.printer_port1
+        data['printerPort2'] = shop.printer_port2
+        data['printerBaudRate'] = shop.printer_baud_rate
+        data['table_no'] = table_no
+
         data['membername'] = membername
         data['phone'] = phone
         data['exit_color'] = shop_table.exit_color
