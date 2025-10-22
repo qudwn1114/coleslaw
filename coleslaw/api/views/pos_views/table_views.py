@@ -363,7 +363,8 @@ class ShopTableManageDetailView(View):
         data['printerPort1'] = shop.printer_port1
         data['printerPort2'] = shop.printer_port2
         data['printerBaudRate'] = shop.printer_baud_rate
-        data['table_no'] = table_no
+        data['table_no'] = shop_table.table_no
+        data['entry_time'] = shop_table.entry_time.strftime('%Y-%m-%d %H:%M') if shop_table.entry_time else None
 
         data['membername'] = membername
         data['phone'] = phone
