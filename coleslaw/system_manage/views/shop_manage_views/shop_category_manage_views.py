@@ -162,7 +162,7 @@ class ShopCategoryEditView(View):
             shop_category.image = image
         shop_category.save()
 
-        return JsonResponse({'message' : '수정 되었습니다.', 'url':reverse("system_manage:shop_category_detail", kwargs={"pk" : shop_category_name.id})},  status = 202)
+        return JsonResponse({'message' : '수정 되었습니다.', 'url':reverse("system_manage:shop_category_detail", kwargs={"pk" : shop_category.id})},  status = 202)
 
 
 
