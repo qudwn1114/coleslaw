@@ -378,6 +378,7 @@ def portone_payment_webhook(request):
         OrderPayment.objects.filter(order=order, approvalNumber=payment_id).update(status=False, cancelled_at = timezone.now())
     else:
         pass
+    logger.error('@@@@')
     return JsonResponse({"message": "웹훅결제"}, json_dumps_params={"ensure_ascii": False}, status=200)
 
     
