@@ -3,7 +3,7 @@ from api.views.agency_views.agency_views import AgencyDetailView
 from api.views.agency_views.agency_shop_views import AgencyShopCategoryListView, AgencyShopListView, ShopMainCategoryListView, ShopGoodsListView, ShopGoodsDetailView
 from api.views.agency_views.agency_shop_user_views import AgencyShopUserOrderListView, AgencyShopUserOrderDetailView, ShopOrderCancelView
 from api.views.checkout_views.checkout_views import ShopCheckoutView
-from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderCompleteView, ShopOrderStatusView, ShopOrderCompleteSmsView, ShopOrderAlertTestView
+from api.views.order_views.order_views import ShopOrderCreateView, ShopOrderCompleteView, ShopOrderStatusView, ShopOrderCompleteSmsView, ShopOrderAlertTestView, portone_payment_webhook
 from api.views.entry_views.shop_entry_views import ShopDetailView, ShopEntryDetailView, ShopEntryQueueCreateView, ShopEntryQueueListView, ShopEntryQueueDetailView, ShopEntryQueueStatusView, ShopEntryCallView, ShopEntryPaymentView, ShopEntryNowView
 from api.views.pos_views.table_views import ShopTableListView, ShopTableAssignView, ShopTableExitView, ShopTableManageDetailView, ShopTableDetailView, ShopTableLogoutView, ShopMainPosTidView, ShopTableExitColorView
 from api.views.pos_views.pos_views import ShopPosListView, ShopTableAddView, ShopTableUpdateView, ShopTableDeleteView, ShopTableClearView, ShopTableGoodsDiscountView, ShopTableDiscountView, ShopTableDiscountCancelView, ShopTableAdditionalView, ShopTableAdditionalCancelView, ShopTableCheckoutView, ShopPosDetailView
@@ -29,6 +29,7 @@ urlpatterns = [
     path('shop/<int:shop_id>/order-status/<int:order_id>/', ShopOrderStatusView.as_view()),
     path('shop/<int:shop_id>/order-complete-sms/<int:order_id>/', ShopOrderCompleteSmsView.as_view()),
     path('shop/<int:shop_id>/alert-test/', ShopOrderAlertTestView.as_view()),
+    path('portone/webhook/', portone_payment_webhook),
     
 
     path('agency/<int:agency_id>/user-order-list/', AgencyShopUserOrderListView.as_view()),

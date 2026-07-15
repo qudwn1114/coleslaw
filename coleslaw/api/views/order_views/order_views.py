@@ -5,6 +5,7 @@ from django.db import transaction, IntegrityError
 from django.core.serializers.json import DjangoJSONEncoder
 from system_manage.views.system_manage_views.auth_views import validate_phone
 from django.utils import timezone, dateformat
+from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from asgiref.sync import async_to_sync
@@ -12,6 +13,10 @@ from channels.layers import get_channel_layer
 
 from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, SmsLog
 from api.views.sms_views.sms_views import send_sms
+
+import portone_server_sdk as portone
+
+portone_client = portone.PaymentClient(secret=settings.PORTONE_API_SECRET)
 
 import traceback, json, datetime, uuid, logging
 
@@ -204,112 +209,32 @@ class ShopOrderCompleteView(View):
         logger = logging.getLogger('my')
         logger.error(str(dict(request.POST)))
         try:
-            refNo = request.POST.get('refNo', '')
-            mbrNo = request.POST.get('mbrNo', '')
-            mbrRefNo = request.POST.get('mbrRefNo', '')
-            tranDate = request.POST.get('tranDate', '')
-            tranTime = request.POST.get('tranTime', '')
-            goodsName = request.POST.get('goodsName', '')
-            amount = request.POST.get('amount', '')
-            if not amount:
-                amount = 0
-            else:
-                amount = int(amount)
-            taxAmount = request.POST.get('taxAmount', '')
-            if not taxAmount:
-                taxAmount = 0
-            else:
-                taxAmount = int(taxAmount)
-            feeAmount = request.POST.get('feeAmount', '')
-            if not feeAmount:
-                feeAmount = 0
-            else:
-                feeAmount = int(feeAmount)
-            taxFreeAmount = request.POST.get('taxFreeAmount', 0)
-            greenDepositAmount = request.POST.get('greenDepositAmount', '')
-            if not greenDepositAmount:
-                greenDepositAmount = 0
-            else:
-                greenDepositAmount = int(greenDepositAmount)
-            installment = request.POST.get('installment', '0')
-            applNo = request.POST.get('applNo', '')
-            cardNo = request.POST.get('cardNo', '')
-            issueCompanyNo = request.POST.get('issueCompanyNo', '')
-            issueCompanyName = request.POST.get('issueCompanyName', '')
-            issueCardName = request.POST.get('issueCardName', '')
-            acqCompanyNo = request.POST.get('acqCompanyNo', '')
-            acqCompanyName = request.POST.get('acqCompanyName', '')
-            payType = request.POST.get('payType', '')
-            cardAmount = request.POST.get('cardAmount', '')
-            if not cardAmount:
-                cardAmount = 0
-            else:
-                cardAmount = int(cardAmount)
-            pointAmount = request.POST.get('pointAmount', '')
-            if not pointAmount:
-                pointAmount = 0
-            else:
-                pointAmount = int(pointAmount)
-            couponAmount = request.POST.get('couponAmount', '')
-            if not couponAmount:
-                couponAmount = 0
-            else:
-                couponAmount = int(couponAmount)
-            customerName = request.POST.get('customerName', '')
-            customerTelNo = request.POST.get('customerTelNo', '')
-            cardPointAmount = request.POST.get('cardPointAmount', '')
-            if not cardPointAmount:
-                cardPointAmount = 0
-            else:
-                cardPointAmount = int(cardPointAmount)
-            cardPointApplNo = request.POST.get('cardPointApplNo', '')
-            bankCode = request.POST.get('bankCode', None)
-            accountNo = request.POST.get('accountNo', None)
-            accountCloseDate = request.POST.get('accountCloseDate', None)
-            billkey = request.POST.get('billkey', None)
-            
-            try:
-                order = Order.objects.get(pk=order_id, order_code=code)
-            except:
-                return_data = {'data': {},'msg': 'order id/code 오류','resultCd': '0001'}
-                return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-                return HttpResponse(return_data, content_type = "application/json")
+            order = Order.objects.get(pk=order_id, order_code=code)
+        except:
+            return_data = {'data': {},'msg': 'order id/code 오류','resultCd': '0001'}
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        payment_id = request.POST['payment_id']
+        try:
+            payment = portone_client.get_payment(payment_id=payment_id)
+        except Exception:
+            return JsonResponse({'data': {},'msg': '결제 조회 실패','resultCd': '0001'})
         
+        if payment.amount.total != order.final_price:
+            return JsonResponse({'data': {},'msg': '금액 불일치','resultCd': '0001'})
+        
+        tranDate = timezone.now().strftime("%y%m%d")
+        tranTime = timezone.now().strftime('%H%M')
+
+        try:    
             order_payment = OrderPayment.objects.create(
                 order = order,
                 status=True,
                 payment_method='0', #카드
-                refNo = refNo,
-                mbrNo = mbrNo,
-                mbrRefNo = mbrRefNo,
                 tranDate = tranDate,
                 tranTime = tranTime,
-                goodsName = goodsName,
-                amount = amount,
-                taxAmount = taxAmount,
-                feeAmount = feeAmount,
-                taxFreeAmount = taxFreeAmount,
-                greenDepositAmount = greenDepositAmount,
-                installment = installment,
-                customerName = customerName,
-                customerTelNo = customerTelNo,
-                applNo = applNo,
-                cardNo = cardNo,
-                issueCompanyNo = issueCompanyNo,
-                issueCompanyName = issueCompanyName,
-                issueCardName = issueCardName,
-                acqCompanyNo = acqCompanyNo,
-                acqCompanyName = acqCompanyName,
-                payType = payType,
-                cardAmount = cardAmount,
-                pointAmount = pointAmount,
-                couponAmount = couponAmount,
-                cardPointAmount = cardPointAmount,
-                cardPointApplNo = cardPointApplNo,
-                bankCode = bankCode,
-                accountNo = accountNo,
-                accountCloseDate = accountCloseDate,
-                billkey = billkey
+                amount = order.final_price,
+                approvalNumber = payment_id
             )
             order.payment_method = '0'
             order.payment_price = order.final_price
@@ -398,6 +323,59 @@ class ShopOrderCompleteView(View):
 
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+
+@csrf_exempt
+def portone_payment_webhook(request):
+    body = request.body.decode("utf-8")
+    try:
+        webhook = portone.webhook.verify(settings.PORTONE_WEBHOOK_SECRET, body, request.headers)
+    except Exception:
+        return JsonResponse({"message": "웹훅 실패"}, status=400)
+    payment_id = webhook.data.payment_id
+    if webhook.type == "Transaction.Paid":
+        if not OrderPayment.objects.filter(approvalNumber=payment_id).exists():
+            try:
+                payment = portone_client.get_payment(payment_id=payment_id)
+            except portone.payment.GetPaymentError:
+                return JsonResponse({"message": "결제정보 오류"}, status=400)
+            if payment.amount.total != order.final_price:
+                return JsonResponse({"message":"금액 불일치"}, status=400)
+            try:
+                order_id = int(payment_id.replace('order_', ''))
+            except (AttributeError, ValueError):
+                return JsonResponse({"message": "payment_id 오류"}, status=400)
+            try:
+                order = Order.objects.get(pk=order_id)
+            except:
+                return JsonResponse({"message": "order_id 오류"}, status=400)
+            tranDate = timezone.now().strftime("%y%m%d")
+            tranTime = timezone.now().strftime('%H%M')
+            order_payment = OrderPayment.objects.create(
+                order = order,
+                status=True,
+                payment_method='0', #카드
+                tranDate = tranDate,
+                tranTime = tranTime,
+                amount = order.final_price,
+                approvalNumber = payment_id
+            )
+            order.payment_method = '0'
+            order.payment_price = order.final_price
+            order.status = '1'
+            order.save()
+
+    elif webhook.type == "Transaction.Cancelled":
+        order_id = json.loads(payment.custom_data)["order_id"]
+        try:
+            order = Order.objects.get(pk=order_id)
+        except:
+            return JsonResponse({"message": "order_id 오류"}, status=400)
+        order.status = '2'
+        order.save()
+        OrderPayment.objects.filter(order=order, approvalNumber=payment_id).update(status=False, cancelled_at = timezone.now())
+    else:
+        pass
+    return JsonResponse({"message": "웹훅결제"}, status=200)
 
     
 class ShopOrderStatusView(View):

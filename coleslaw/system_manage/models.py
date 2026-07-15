@@ -526,42 +526,23 @@ class OrderPayment(models.Model):
 
     status = models.BooleanField(default=True, verbose_name='결제여부')
     payment_method = models.CharField(max_length=10, verbose_name='결제수단', default='0') #CARD : 0, #CASH: 1
+    #pg
 
-    refNo = models.CharField(max_length=20, default='')
-    mbrNo = models.CharField(max_length=20, default='')
-    mbrRefNo = models.CharField(max_length=100, default='')
-    tranDate = models.CharField(max_length=20, default='')
-    tranTime = models.CharField(max_length=20, default='')
-    goodsName = models.CharField(max_length=100, default='')
+    #pos
+    tid = models.CharField(max_length=20, default='')
+    installment = models.CharField(max_length=20, default='')
     amount = models.IntegerField(default=0)
     taxAmount = models.IntegerField(default=0)
-    feeAmount = models.IntegerField(default=0)
-    taxFreeAmount = models.IntegerField(default=0)
-    greenDepositAmount = models.IntegerField(default=0)
-    installment = models.CharField(max_length=20, default='')
-    customerName = models.CharField(max_length=50, default='')
-    customerTelNo = models.CharField(max_length=20, default='')
-    applNo = models.CharField(max_length=20, default='')
+    approvalNumber = models.CharField(max_length=64, null=True)
+    
     cardNo = models.CharField(max_length=50, default='')
     issueCompanyNo = models.CharField(max_length=10, default='')
     issueCompanyName = models.CharField(max_length=20, default='')
     issueCardName = models.CharField(max_length=20, default='')
     acqCompanyNo = models.CharField(max_length=20, default='')
     acqCompanyName = models.CharField(max_length=20, default='')
-    payType = models.CharField(max_length=10, default='')
-    cardAmount = models.IntegerField(default=0)
-    pointAmount = models.IntegerField(default=0)
-    couponAmount = models.IntegerField(default=0)
-    cardPointAmount = models.IntegerField(default=0)
-    cardPointApplNo = models.CharField(max_length=20, default='')
-    bankCode = models.CharField(max_length=20, null=True)
-    accountNo = models.CharField(max_length=20, null=True)
-    accountCloseDate = models.CharField(max_length=20, null=True)
-    billkey = models.CharField(max_length=20, null=True)
-
-    #pos
-    tid = models.CharField(max_length=20, default='')
-    approvalNumber = models.CharField(max_length=20, null=True)
+    tranDate = models.CharField(max_length=20, default='')
+    tranTime = models.CharField(max_length=20, default='')
     additionalInfo = models.CharField(max_length=300, null=True)
     posEntryMode = models.CharField(max_length=10, default='')
 
