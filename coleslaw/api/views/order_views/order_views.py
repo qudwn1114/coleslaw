@@ -333,20 +333,20 @@ def portone_payment_webhook(request):
     except Exception:
         logger = logging.getLogger('my')
         logger.error(traceback.format_exc())
-        return JsonResponse({"message": "웹훅 실패"}, status=400)
+        return JsonResponse({"message": "웹훅 실패"}, json_dumps_params={"ensure_ascii": False}, status=400)
     payment_id = webhook.data.payment_id
     if webhook.type == "Transaction.Paid":
         if not OrderPayment.objects.filter(approvalNumber=payment_id).exists():
             try:
                 payment = portone_client.get_payment(payment_id=payment_id)
             except portone.payment.GetPaymentError:
-                return JsonResponse({"message": "결제정보 오류"}, status=400)
+                return JsonResponse({"message": "결제정보 오류"}, json_dumps_params={"ensure_ascii": False}, status=400)
             if payment.amount.total != order.final_price:
-                return JsonResponse({"message":"금액 불일치"}, status=400)
+                return JsonResponse({"message":"금액 불일치"}, json_dumps_params={"ensure_ascii": False}, status=400)
             try:
                 order_id = int(payment_id.replace('order_', ''))
             except (AttributeError, ValueError):
-                return JsonResponse({"message": "payment_id 오류"}, status=400)
+                return JsonResponse({"message": "payment_id 오류"}, json_dumps_params={"ensure_ascii": False}, status=400)
             try:
                 order = Order.objects.get(pk=order_id)
             except:
@@ -372,13 +372,13 @@ def portone_payment_webhook(request):
         try:
             order = Order.objects.get(pk=order_id)
         except:
-            return JsonResponse({"message": "order_id 오류"}, status=400)
+            return JsonResponse({"message": "order_id 오류"}, json_dumps_params={"ensure_ascii": False}, status=400)
         order.status = '2'
         order.save()
         OrderPayment.objects.filter(order=order, approvalNumber=payment_id).update(status=False, cancelled_at = timezone.now())
     else:
         pass
-    return JsonResponse({"message": "웹훅결제"}, status=200)
+    return JsonResponse({"message": "웹훅결제"}, json_dumps_params={"ensure_ascii": False}, status=200)
 
     
 class ShopOrderStatusView(View):
