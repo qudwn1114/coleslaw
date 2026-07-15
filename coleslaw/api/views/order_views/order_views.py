@@ -327,11 +327,11 @@ class ShopOrderCompleteView(View):
 
 @csrf_exempt
 def portone_payment_webhook(request):
+    logger = logging.getLogger('my')
     body = request.body.decode("utf-8")
     try:
         webhook = portone.webhook.verify(settings.PORTONE_WEBHOOK_SECRET, body, request.headers)
     except Exception:
-        logger = logging.getLogger('my')
         logger.error(traceback.format_exc())
         return JsonResponse({"message": "웹훅 실패"}, json_dumps_params={"ensure_ascii": False}, status=400)
     logger.error(webhook)
