@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, ShopMember, ShopTable, Goods
+from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, ShopMember, ShopTable, Goods, OrderSequence
 
 import traceback, json, datetime, uuid, logging
 
@@ -296,7 +296,7 @@ class ShopPosOrderCreateView(View):
         total_quantity = checkout.checkout_detail.all().aggregate(sum=Sum('quantity')).get('sum')
         try:
             order_code = uuid.uuid4().hex
-            order_no = Order.objects.filter(shop=shop ,date=timezone.now().date()).count() + 1
+            order_no = issue_order_no(shop, timezone.now().date())
             with transaction.atomic():
                 try:
                     order = Order.objects.create(
@@ -848,3 +848,17 @@ class ShopPosOrderPaymentCashReceiptCancelView(View):
         },'msg': '현금영수증 취소되었습니다.','resultCd': '0000'}
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
         return HttpResponse(return_data, content_type = "application/json")
+    
+
+def issue_order_no(shop, date):
+    seq, _ = (
+        OrderSequence.objects
+        .select_for_update()
+        .get_or_create(
+            shop=shop,
+            date=date
+        )
+    )
+    seq.last_no += 1
+    seq.save()
+    return seq.last_no

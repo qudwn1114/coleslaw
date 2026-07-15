@@ -7,6 +7,7 @@ from system_manage.views.system_manage_views.auth_views import validate_phone
 from django.utils import timezone, dateformat
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from api.views.pos_views.order_views import issue_order_no
 
 from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption
 
@@ -48,7 +49,7 @@ class ShopKioskOrderCreateView(View):
         total_quantity = checkout.checkout_detail.all().aggregate(sum=Sum('quantity')).get('sum')
         try:
             order_code = uuid.uuid4().hex
-            order_no = Order.objects.filter(shop=shop ,date=timezone.now().date()).count() + 1
+            order_no = issue_order_no(shop, timezone.now().date())
             with transaction.atomic():
                 try:
                     order = Order.objects.create(

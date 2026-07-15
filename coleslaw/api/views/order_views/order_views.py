@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from api.views.pos_views.order_views import issue_order_no
 
 from system_manage.models import Shop,Checkout, CheckoutDetail, Order, OrderGoods, OrderGoodsOption, OrderPayment, SmsLog
 from api.views.sms_views.sms_views import send_sms
@@ -63,7 +64,7 @@ class ShopOrderCreateView(View):
         total_quantity = checkout.checkout_detail.all().aggregate(sum=Sum('quantity')).get('sum')
         try:
             order_code = uuid.uuid4().hex
-            order_no = Order.objects.filter(shop=shop ,date=timezone.now().date()).count() + 1
+            order_no = issue_order_no(shop, timezone.now().date())
             with transaction.atomic():
                 try:
                     order = Order.objects.create(

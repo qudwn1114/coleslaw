@@ -454,6 +454,17 @@ class CheckoutDetailOption(models.Model):
     class Meta:
         db_table='checkout_detail_option'
 
+class OrderSequence(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    date = models.DateField()
+    last_no = models.IntegerField(default=0)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['shop', 'date'], name='shop_date_unique'),
+        ]
+        db_table='order_sequence'
+
 #주문
 class Order(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.PROTECT, null=True)
