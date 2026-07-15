@@ -334,9 +334,8 @@ def portone_payment_webhook(request):
     except Exception:
         logger.error(traceback.format_exc())
         return JsonResponse({"message": "웹훅 실패"}, json_dumps_params={"ensure_ascii": False}, status=400)
-    logger.error(webhook)
-    logger.error(webhook.data)
     payment_id = webhook.data.payment_id
+    logger.error(body)
     
     # if webhook.type == "Transaction.Paid":
     #     if not OrderPayment.objects.filter(approvalNumber=payment_id).exists():
