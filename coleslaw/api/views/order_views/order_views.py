@@ -330,9 +330,9 @@ def portone_payment_webhook(request):
     body = request.body.decode("utf-8")
     try:
         webhook = portone.webhook.verify(settings.PORTONE_WEBHOOK_SECRET, body, request.headers)
-    except Exception as e:
+    except Exception:
         logger = logging.getLogger('my')
-        logger.error(e)
+        logger.error(traceback.format_exc())
         return JsonResponse({"message": "웹훅 실패"}, status=400)
     payment_id = webhook.data.payment_id
     if webhook.type == "Transaction.Paid":
