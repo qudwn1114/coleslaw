@@ -294,11 +294,11 @@ class ShopPosOrderCreateView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         total_quantity = checkout.checkout_detail.all().aggregate(sum=Sum('quantity')).get('sum')
-        try:
-            order_code = uuid.uuid4().hex
-            order_no = issue_order_no(shop, timezone.now().date())
+        try:        
             with transaction.atomic():
                 try:
+                    order_code = uuid.uuid4().hex
+                    order_no = issue_order_no(shop, timezone.now().date())
                     order = Order.objects.create(
                         agency=checkout.agency,
                         shop=shop,

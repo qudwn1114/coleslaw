@@ -48,10 +48,10 @@ class ShopKioskOrderCreateView(View):
         
         total_quantity = checkout.checkout_detail.all().aggregate(sum=Sum('quantity')).get('sum')
         try:
-            order_code = uuid.uuid4().hex
-            order_no = issue_order_no(shop, timezone.now().date())
             with transaction.atomic():
                 try:
+                    order_code = uuid.uuid4().hex
+                    order_no = issue_order_no(shop, timezone.now().date())
                     order = Order.objects.create(
                         agency=checkout.agency,
                         shop=shop,
