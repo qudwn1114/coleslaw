@@ -96,6 +96,7 @@ class AgencyShopUserOrderDetailView(View):
             data['order_code'] = order.order_code
             data['order_no'] = order.order_no
             data['status'] = order.status
+            data['approvalNumber'] = order.approvalNumber
             data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
 
             data['tranDate'] = order_payment.tranDate
@@ -141,6 +142,7 @@ class ShopOrderCancelView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         order_id = kwargs.get('order_id')
+        payment_id = kwargs.get('payment_id')
         try:
             shop = Shop.objects.get(pk=shop_id)
         except:
@@ -163,6 +165,9 @@ class ShopOrderCancelView(View):
             }
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
+        if payment_id != order_payment.approvalNumber:
+            return JsonResponse({'data': {}, 'msg': '데이터 오류','resultCd': '0001',})
         
         if order.status != '1':
             return JsonResponse({'data': {}, 'msg': '결제완료 상태인 경우에만 취소 가능합니다.','resultCd': '0001',})

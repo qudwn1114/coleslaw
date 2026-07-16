@@ -34,7 +34,7 @@ urlpatterns = [
 
     path('agency/<int:agency_id>/user-order-list/', AgencyShopUserOrderListView.as_view()),
     path('agency/<int:agency_id>/user-order/<int:order_id>/', AgencyShopUserOrderDetailView.as_view()),
-    path('shop/<int:shop_id>/order-cancel/<int:order_id>/', ShopOrderCancelView.as_view()),
+    path('shop/<int:shop_id>/order-cancel/<int:order_id>/<str:payment_id>/', ShopOrderCancelView.as_view()),
 
     # 입장처리
     path('shop/<int:shop_id>/', ShopDetailView.as_view()),
