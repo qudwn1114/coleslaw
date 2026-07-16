@@ -188,6 +188,7 @@ class ShopOrderCancelView(View):
             return JsonResponse({'data': {}, 'msg': '이미 취소된 결제입니다.','resultCd': '0001',})
         
         try:
+            logger = logging.getLogger("my")
             # PortOne 결제 취소
             response = requests.post(
                 f"https://api.portone.io/payments/{order_payment.approvalNumber}/cancel",
@@ -207,7 +208,6 @@ class ShopOrderCancelView(View):
                     msg = "이미 취소된 결제입니다."
                 else:
                     msg = error.get("type", "포트원 오류")
-
             except Exception:
                 msg = "포트원 결제 취소 오류"
             logger.exception(msg)
@@ -221,7 +221,6 @@ class ShopOrderCancelView(View):
                 content_type="application/json",
             )
         except requests.RequestException:
-            logger = logging.getLogger("my")
             logger.exception("포트원 결제 취소 실패")
             return_data = {
                 "data": {},
