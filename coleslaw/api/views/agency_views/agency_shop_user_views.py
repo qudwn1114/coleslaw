@@ -191,9 +191,9 @@ class ShopOrderCancelView(View):
             # PortOne 결제 취소
             response = requests.post(
                 f"https://api.portone.io/payments/{order_payment.approvalNumber}/cancel",
-                json={"reason": "주문 취소"},
+                json={"reason": "사용자 주문 취소"},
                 headers={
-                    "Authorization": f"Bearer {settings.PORTONE_API_SECRET}",
+                    "Authorization": f"PortOne {settings.PORTONE_API_SECRET}",
                     "Content-Type": "application/json",
                 },
                 timeout=10,
