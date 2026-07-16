@@ -200,17 +200,38 @@ class ShopOrderCancelView(View):
             )
             response.raise_for_status()
 
+        except requests.HTTPError as e:
+            try:
+                error = e.response.json()
+                if error.get("type") == "PAYMENT_ALREADY_CANCELLED":
+                    msg = "이미 취소된 결제입니다."
+                else:
+                    msg = error.get("type", "포트원 오류")
+
+            except Exception:
+                msg = "포트원 결제 취소 오류"
+            logger.exception(msg)
+            return_data = {
+                "data": {},
+                "msg": msg,
+                "resultCd": "0001",
+            }
+            return HttpResponse(
+                json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder),
+                content_type="application/json",
+            )
         except requests.RequestException:
             logger = logging.getLogger("my")
             logger.exception("포트원 결제 취소 실패")
-
             return_data = {
-                'data': {},
-                'msg': '포트원 결제 취소 오류',
-                'resultCd': '0001',
+                "data": {},
+                "msg": "포트원 결제 취소 오류",
+                "resultCd": "0001",
             }
-            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-            return HttpResponse(return_data, content_type = "application/json")
+            return HttpResponse(
+                json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder),
+                content_type="application/json",
+            )
         
         order.status = '2'
         order.save()
