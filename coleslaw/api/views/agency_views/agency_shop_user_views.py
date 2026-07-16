@@ -103,7 +103,18 @@ class AgencyShopUserOrderDetailView(View):
             data['amount'] = order_payment.amount
             data['approvalNumber'] = order_payment.approvalNumber
 
-            order_goods = order.order_goods.all().values( 
+            order_goods = order.order_goods.annotate(
+                goodsImageThumbnailUrl=Case(
+                    When(goods__image_thumbnail='', then=None),
+                    When(goods__image_thumbnail=None, then=None),
+                    default=Concat(
+                        V(settings.SITE_URL),
+                        V(settings.MEDIA_URL),
+                        'goods__image_thumbnail',
+                        output_field=CharField()
+                    )
+                )
+            ).values( 
                 'name_kr',
                 'name_en',
                 'price',
@@ -111,7 +122,8 @@ class AgencyShopUserOrderDetailView(View):
                 'option_en',
                 'option_price',
                 'quantity',
-                'total_price'
+                'total_price',
+                'goodsImageThumbnailUrl',
             ).order_by('id')
             data['order_goods'] = list(order_goods)
 
