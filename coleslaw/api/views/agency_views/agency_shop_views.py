@@ -7,6 +7,7 @@ from django.db.models.functions import Concat
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
 from django.core.serializers.json import DjangoJSONEncoder
 
+from collections import defaultdict
 import traceback, json, datetime
 
 class AgencyShopCategoryListView(View):
@@ -16,31 +17,41 @@ class AgencyShopCategoryListView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         agency_id = kwargs.get('agency_id')
         try:
-            agency = Agency.objects.get(pk=agency_id)
-            shop_category = AgencyShop.objects.filter(agency=agency, status=True).values('shop__shop_category').distinct()
-            shop_category_id_list = list(shop_category.values_list('shop__shop_category', flat=True))
-            
+            shop_category_ids = AgencyShop.objects.filter(
+                agency_id=agency_id,
+                status=True,
+            ).values('shop__shop_category').distinct()
 
-            queryset = ShopCategory.objects.filter(id__in=shop_category_id_list).annotate(
+            queryset = (
+                ShopCategory.objects.filter(id__in=shop_category_ids)
+                .annotate(
                     categoryImageUrl=Case(
                         When(image='', then=None),
-                        When(image=None, then=None),
-                        default=Concat(V(settings.SITE_URL), V(settings.MEDIA_URL), 'image', output_field=CharField())
+                        When(image__isnull=True, then=None),
+                        default=Concat(
+                            V(settings.SITE_URL),
+                            V(settings.MEDIA_URL),
+                            'image',
+                            output_field=CharField()
+                        )
                     )
-                ).values(
+                )
+                .values(
                     'id',
                     'name_kr',
                     'name_en',
                     'description',
                     'categoryImageUrl',
-                ).order_by('id')
+                )
+                .order_by('id')
+            )
+            data = list(queryset)
 
             return_data = {
-                # 'data': list(queryset[startnum:endnum]),
-                'data': list(queryset),
+                'data': data,
                 'resultCd': '0000',
                 'msg': '에이전시 가맹점 카테고리 리스트',
-                'totalCnt' : queryset.count()
+                'totalCnt': len(data),
             }
         except:
             print(traceback.format_exc())
@@ -129,37 +140,60 @@ class ShopMainCategoryListView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         shop_id = kwargs.get('shop_id')
         try:
-            shop = Shop.objects.get(pk=shop_id)
-        except:
-            return_data = {
-                'data': [],
-                'msg': 'shop id 오류',
-                'resultCd': '0001',
-            }
-            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
-            return HttpResponse(return_data, content_type = "application/json")
-        try:
-            shop_sub_category = Goods.objects.filter(shop=shop, delete_flag=False, status=True, kiosk_display=True).values('sub_category').distinct()
-            shop_sub_category_id_list = list(shop_sub_category.values_list('sub_category', flat=True))
-            shop_main_category_id_list = list(shop_sub_category.values_list('sub_category__main_category', flat=True))
-            queryset = MainCategory.objects.filter(id__in=shop_main_category_id_list, shop=shop).values(
+            # 판매중인 상품의 서브카테고리
+            goods_sub_categories = Goods.objects.filter(
+                shop_id=shop_id,
+                delete_flag=False,
+                status=True,
+                kiosk_display=True,
+            ).values('sub_category').distinct()
+
+            # 메인카테고리
+            main_categories = list(
+                MainCategory.objects.filter(
+                    shop_id=shop_id,
+                    id__in=SubCategory.objects.filter(
+                        id__in=goods_sub_categories
+                    ).values('main_category_id')
+                )
+                .values(
                     'id',
                     'name_kr',
-                    'name_en'
-                ).order_by('rank')
-            
-            for i in queryset:
-                i['sub_category'] = list(SubCategory.objects.filter(id__in=shop_sub_category_id_list, main_category_id=i['id'], shop=shop).values(
+                    'name_en',
+                )
+                .order_by('rank')
+            )
+
+            # 서브카테고리(한 번만 조회)
+            sub_categories = list(
+                SubCategory.objects.filter(
+                    shop_id=shop_id,
+                    id__in=goods_sub_categories,
+                )
+                .values(
                     'id',
                     'name_kr',
-                    'name_en'
-                ).order_by('rank'))
+                    'name_en',
+                    'main_category_id',
+                )
+                .order_by('rank')
+            )
+
+            # 메인카테고리별로 그룹핑
+            sub_category_map = defaultdict(list)
+
+            for sub in sub_categories:
+                main_category_id = sub.pop('main_category_id')
+                sub_category_map[main_category_id].append(sub)
+
+            for main in main_categories:
+                main['sub_category'] = sub_category_map.get(main['id'], [])
 
             return_data = {
-                'data': list(queryset),
+                'data': main_categories,
                 'resultCd': '0000',
                 'msg': '가맹점 카테고리 리스트',
-                'totalCnt' : queryset.count()
+                'totalCnt': len(main_categories),
             }
         except:
             print(traceback.format_exc())
@@ -267,24 +301,58 @@ class ShopGoodsDetailView(View):
             return HttpResponse(return_data, content_type = "application/json")
 
         try:
-            data = {}
-            data['id'] = goods.pk
-            data['name_kr'] = goods.name_kr
-            data['name_en'] = goods.name_en
-            data['sale_price'] = goods.sale_price
-            data['price'] = goods.price
-            if goods.image:
-                data['goodsImageThumbnailUrl'] = settings.SITE_URL + goods.image.url
-            else:
-                data['goodsImageThumbnailUrl'] = None
-            data['status'] = goods.status
-            data['soldout'] = goods.soldout
-            data['option_flag'] =goods.option_flag
-            if goods.option_flag and goods.option.all().exists():
-                option_queryset = goods.option.all().values('id', 'required', 'name_kr', 'name_en').order_by('id')
-                for i in option_queryset:
-                    i['option_detail'] = list(GoodsOptionDetail.objects.filter(goods_option_id=i['id']).values('id', 'name_kr', 'name_en', 'price', 'stock', 'stock_flag', 'soldout').order_by('id'))
-                data['option'] = list(option_queryset)
+            data = {
+                'id': goods.pk,
+                'name_kr': goods.name_kr,
+                'name_en': goods.name_en,
+                'sale_price': goods.sale_price,
+                'price': goods.price,
+                'goodsImageThumbnailUrl': settings.SITE_URL + goods.image.url if goods.image else None,
+                'status': goods.status,
+                'soldout': goods.soldout,
+                'option_flag': goods.option_flag,
+            }
+            if goods.option_flag:
+
+                options = list(
+                    goods.option.values(
+                        'id',
+                        'required',
+                        'name_kr',
+                        'name_en',
+                    ).order_by('id')
+                )
+
+                if options:
+                    option_ids = [o['id'] for o in options]
+
+                    option_details = list(
+                        GoodsOptionDetail.objects.filter(
+                            goods_option_id__in=option_ids
+                        ).values(
+                            'id',
+                            'goods_option_id',
+                            'name_kr',
+                            'name_en',
+                            'price',
+                            'stock',
+                            'stock_flag',
+                            'soldout',
+                        ).order_by('id')
+                    )
+
+                    detail_map = defaultdict(list)
+
+                    for detail in option_details:
+                        goods_option_id = detail.pop('goods_option_id')
+                        detail_map[goods_option_id].append(detail)
+
+                    for option in options:
+                        option['option_detail'] = detail_map.get(option['id'], [])
+
+                    data['option'] = options
+                else:
+                    data['option'] = []
             else:
                 data['option'] = None
 
