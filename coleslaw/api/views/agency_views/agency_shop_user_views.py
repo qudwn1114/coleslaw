@@ -13,7 +13,7 @@ from channels.layers import get_channel_layer
 
 from system_manage.models import Agency, Order, Shop, OrderPayment
 
-import traceback, json, datetime
+import traceback, json, datetime, requests, logging
 
 class AgencyShopUserOrderListView(View):
     '''
@@ -155,10 +155,41 @@ class ShopOrderCancelView(View):
         try:
             order = Order.objects.get(pk=order_id, shop=shop)
             order_payment = OrderPayment.objects.get(order=order)
-        except:
+        except (Order.DoesNotExist, OrderPayment.DoesNotExist):
             return_data = {
                 'data': {},
                 'msg': 'order 오류',
+                'resultCd': '0001',
+            }
+            return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+            return HttpResponse(return_data, content_type = "application/json")
+        
+        if order.status != '1':
+            return JsonResponse({'data': {}, 'msg': '결제완료 상태인 경우에만 취소 가능합니다.','resultCd': '0001',})
+        
+        if not order_payment.status:
+            return JsonResponse({'data': {}, 'msg': '이미 취소된 결제입니다.','resultCd': '0001',})
+        
+        try:
+            # PortOne 결제 취소
+            response = requests.post(
+                f"https://api.portone.io/payments/{order_payment.approvalNumber}/cancel",
+                json={"reason": "주문 취소"},
+                headers={
+                    "Authorization": f"Bearer {settings.PORTONE_API_SECRET}",
+                    "Content-Type": "application/json",
+                },
+                timeout=10,
+            )
+            response.raise_for_status()
+
+        except requests.RequestException:
+            logger = logging.getLogger("my")
+            logger.exception("포트원 결제 취소 실패")
+
+            return_data = {
+                'data': {},
+                'msg': '포트원 결제 취소 오류',
                 'resultCd': '0001',
             }
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
@@ -200,10 +231,9 @@ class ShopOrderCancelView(View):
         except:
             pass
 
-
         return_data = {
             'data': {},
-            'msg': '취소 상태변경 완료',
+            'msg': '취소 완료',
             'resultCd': '0000',
         }
         return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
