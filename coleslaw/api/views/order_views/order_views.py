@@ -229,20 +229,27 @@ class ShopOrderCompleteView(View):
         tranDate = timezone.now().strftime("%y%m%d")
         tranTime = timezone.now().strftime('%H%M')
 
+        if OrderPayment.objects.filter(order=order, approvalNumber=payment_id).exists():
+            return JsonResponse({'data': {}, 'msg': '이미 처리된 결제', 'resultCd': '0000'})
+
+
         try:    
-            order_payment = OrderPayment.objects.create(
-                order = order,
-                status=True,
-                payment_method='0', #카드
-                tranDate = tranDate,
-                tranTime = tranTime,
-                amount = order.final_price,
-                approvalNumber = payment_id
-            )
-            order.payment_method = '0'
-            order.payment_price = order.final_price
-            order.status = '3'
-            order.save()
+            try:
+                order_payment = OrderPayment.objects.create(
+                    order = order,
+                    status=True,
+                    payment_method='0', #카드
+                    tranDate = tranDate,
+                    tranTime = tranTime,
+                    amount = order.final_price,
+                    approvalNumber = payment_id
+                )
+                order.payment_method = '0'
+                order.payment_price = order.final_price
+                order.status = '3'
+                order.save()
+            except IntegrityError:
+                return JsonResponse({'data': {}, 'msg': '이미 처리된 결제', 'resultCd': '0000'})
 
             # 재고관리
             for i in order.order_goods.all():
@@ -344,28 +351,32 @@ def portone_payment_webhook(request):
     order_id = json.loads(payment.custom_data)["order_id"]
 
     if isinstance(webhook, WebhookTransactionPaid):
-        if not OrderPayment.objects.filter(approvalNumber=payment_id).exists():
-            if payment.amount.total != order.final_price:
-                return JsonResponse({"message":"금액 불일치"}, json_dumps_params={"ensure_ascii": False}, status=400)
+        if not OrderPayment.objects.filter(order_id=order_id, approvalNumber=payment_id).exists():
             try:
                 order = Order.objects.get(pk=order_id)
             except:
                 return JsonResponse({"message": "order_id 오류"}, status=400)
+            if payment.amount.total != order.final_price:
+                return JsonResponse({"message":"금액 불일치"}, json_dumps_params={"ensure_ascii": False}, status=400)
+            
             tranDate = timezone.now().strftime("%y%m%d")
             tranTime = timezone.now().strftime('%H%M')
-            order_payment = OrderPayment.objects.create(
-                order = order,
-                status=True,
-                payment_method='0', #카드
-                tranDate = tranDate,
-                tranTime = tranTime,
-                amount = order.final_price,
-                approvalNumber = payment_id
-            )
-            order.payment_method = '0'
-            order.payment_price = order.final_price
-            order.status = '1'
-            order.save()
+            try:
+                order_payment = OrderPayment.objects.create(
+                    order = order,
+                    status=True,
+                    payment_method='0', #카드
+                    tranDate = tranDate,
+                    tranTime = tranTime,
+                    amount = order.final_price,
+                    approvalNumber = payment_id
+                )
+                order.payment_method = '0'
+                order.payment_price = order.final_price
+                order.status = '1'
+                order.save()
+            except IntegrityError:
+                return JsonResponse({"message":"이미 처리된 결제 Webhook"}, json_dumps_params={"ensure_ascii": False}, status=400)
 
     if isinstance(webhook, WebhookTransactionCancelled):
         try:

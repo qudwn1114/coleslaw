@@ -96,28 +96,9 @@ class AgencyShopUserOrderDetailView(View):
             data['order_code'] = order.order_code
             data['order_no'] = order.order_no
             data['status'] = order.status
-
-            if order_payment.payType in ['I', 'V', 'K']:
-                data['order_payment_type'] = '신용카드'
-            elif order_payment.payType == 'A':
-                data['order_payment_type'] = '카카오페이'
-            elif order_payment.payType == 'P':
-                data['order_payment_type'] = '페이코'
-            elif order_payment.payType == 'N1':
-                data['order_payment_type'] = '네이버페이'
-            elif order_payment.payType == 'N2':
-                data['order_payment_type'] = '네이버페이포인트'
-            elif order_payment.payType == 'U':
-                data['order_payment_type'] = '유니온페이'
-            else:
-                data['order_payment_type'] = '신용카드'
             data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
 
-            data['mbrNo'] = order_payment.mbrNo
-            data['mbrRefNo'] = order_payment.mbrRefNo
-            data['refNo'] = order_payment.refNo
             data['tranDate'] = order_payment.tranDate
-            data['payType'] = order_payment.payType
             data['paymethod'] = order.payment_method
             data['amount'] = order_payment.amount
 

@@ -203,7 +203,6 @@ class OrderManageView(View):
                 'order_id',
                 'mbrRefNo',
                 'refNo',
-                'applNo',
                 'approvalNumber',
                 'tranDate',
                 'tranTime',

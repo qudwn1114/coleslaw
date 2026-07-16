@@ -220,7 +220,7 @@ class OrderPaymentManageView(View):
             context['search_type'] = search_type
             context['search_keyword'] = search_keyword
             if search_type == 'approval_no':
-                q.add(Q(applNo=search_keyword)|Q(approvalNumber=search_keyword), q.AND)
+                q.add(Q(approvalNumber=search_keyword), q.AND)
             else:
                 filter_dict[search_type] = search_keyword
                 q.add(Q(**filter_dict), q.AND)
@@ -249,7 +249,6 @@ class OrderPaymentManageView(View):
             'order__order_no',
             'amount',
             'cardNo',
-            'applNo',
             'approvalNumber',
             'issueCompanyName',
             'issueCardName',

@@ -567,6 +567,9 @@ class OrderPayment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['order', 'approvalNumber'], name='order_approvalNumber_unique'),
+        ]
         db_table='order_payment'
 
 

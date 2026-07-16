@@ -558,7 +558,7 @@ class ShopPosOrderCompleteView(View):
             else:
                 taxAmount = int(taxAmount)
 
-            approvalNumber = request.POST.get('approvalNumber', '')
+            approvalNumber = request.POST.get('approvalNumber') or None
             approvalDate = request.POST.get('approvalDate', '')
             if approvalDate:
                 tranDate = approvalDate[:6]
@@ -794,7 +794,7 @@ class ShopPosOrderPaymentCashReceiptCompleteView(View):
             return HttpResponse(return_data, content_type = "application/json")
         
         installment = request.POST.get('installment', '0')
-        approvalNumber = request.POST.get('approvalNumber', '')
+        approvalNumber = request.POST.get('approvalNumber') or None
         approvalDate = request.POST.get('approvalDate', '')
         if approvalDate:
             tranDate = approvalDate[:6]
