@@ -96,12 +96,12 @@ class AgencyShopUserOrderDetailView(View):
             data['order_code'] = order.order_code
             data['order_no'] = order.order_no
             data['status'] = order.status
-            data['approvalNumber'] = order.approvalNumber
             data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
 
             data['tranDate'] = order_payment.tranDate
             data['paymethod'] = order.payment_method
             data['amount'] = order_payment.amount
+            data['approvalNumber'] = order_payment.approvalNumber
 
             order_goods = order.order_goods.all().values( 
                 'name_kr',
