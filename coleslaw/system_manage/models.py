@@ -467,6 +467,10 @@ class OrderSequence(models.Model):
 
 #주문
 class Order(models.Model):
+    RECEIVE_TYPE = (
+        ("0", "매장"),
+        ("1", "픽업"),
+    )
     agency = models.ForeignKey(Agency, on_delete=models.PROTECT, null=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     
@@ -475,6 +479,7 @@ class Order(models.Model):
     shop_member = models.ForeignKey(ShopMember, on_delete=models.SET_NULL, null=True)
 
     order_type = models.CharField(max_length=10, verbose_name='주문방식', default='0') # 0: pos, 1: QR, 2: 키오스크
+    receive_type = models.CharField(max_length=10, choices=RECEIVE_TYPE, default="0")
     order_name_kr = models.CharField(max_length=255, verbose_name='주문한글명', null=True)
     order_name_en = models.CharField(max_length=255, verbose_name='주문영문명', null=True)
     order_code = models.CharField(max_length=50, verbose_name='주문코드')

@@ -57,11 +57,15 @@ class ShopOrderCreateView(View):
 
         membername = request.POST['membername'].strip()
         phone = request.POST['phone']
+        receive_type = request.POST['receive_type']
 
         if not validate_phone(phone):
             return_data = {'data': {},'msg': '유효하지 않은 전화번호 형식입니다.','resultCd': '0001'}
             return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
             return HttpResponse(return_data, content_type = "application/json")
+        
+        if receive_type not in ['0', '1']:
+            return JsonResponse({'data': {}, 'msg': 'receive type error', 'resultCd': '0000'})
         
         total_quantity = checkout.checkout_detail.all().aggregate(sum=Sum('quantity')).get('sum')
         try:
@@ -73,6 +77,7 @@ class ShopOrderCreateView(View):
                         agency=checkout.agency,
                         shop=shop,
                         order_type='1',
+                        receive_type=receive_type,
                         order_membername=membername,
                         order_phone=phone, 
                         status='0', 
