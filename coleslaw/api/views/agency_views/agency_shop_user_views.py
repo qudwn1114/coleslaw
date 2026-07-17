@@ -95,6 +95,7 @@ class AgencyShopUserOrderDetailView(View):
             data['order_name_en'] = order.order_name_en
             data['order_code'] = order.order_code
             data['order_no'] = order.order_no
+            data['receive_type'] = order.receive_type
             data['status'] = order.status
             data['createdAt'] = order.created_at.strftime('%Y년 %m월 %d일 %H:%M')
 
