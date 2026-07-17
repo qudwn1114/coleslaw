@@ -78,6 +78,7 @@ class ShopOrderCreateView(View):
                         shop=shop,
                         order_type='1',
                         receive_type=receive_type,
+                        table_no=checkout.table_no,
                         order_membername=membername,
                         order_phone=phone, 
                         status='0', 

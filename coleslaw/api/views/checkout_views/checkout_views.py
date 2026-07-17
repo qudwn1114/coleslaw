@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.urls import reverse
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from system_manage.models import Shop, Goods, GoodsOption, GoodsOptionDetail, Checkout, CheckoutDetail, AgencyShop, CheckoutDetailOption
+from system_manage.models import Shop, Goods, GoodsOptionDetail, Checkout, CheckoutDetail, AgencyShop, CheckoutDetailOption, ShopTable
 from django.db.models.functions import Concat
 from django.db.models import CharField, F, Value as V, Func, Case, When, Prefetch
 from django.db import transaction
@@ -35,12 +35,20 @@ class ShopCheckoutView(View):
 
         try:
             agencyId = request.POST.get('agencyId')
+            table_no = request.POST.get('table_no') or None
             checkoutList = request.POST['checkoutList']
             checkoutList = json.loads(checkoutList)
             finalPrice  = int(request.POST['finalPrice'])
 
             if not agencyId:
                 return_data = json.dumps({'data': {},'msg': f'Agency ID를 넣어주세요.','resultCd': '0001',}, ensure_ascii=False, cls=DjangoJSONEncoder)
+                return HttpResponse(return_data, content_type = "application/json")
+            
+            try:
+                shop_table = ShopTable.objects.get(table_no=table_no, shop=shop, pos=shop.pos)
+            except:
+                return_data = {'data': {},'msg': '존재하지 않는 테이블 입니다.','resultCd': '0001'}
+                return_data = json.dumps(return_data, ensure_ascii=False, cls=DjangoJSONEncoder)
                 return HttpResponse(return_data, content_type = "application/json")
 
             try:
@@ -58,7 +66,7 @@ class ShopCheckoutView(View):
                     agency = agency,
                     shop = shop,
                     code = code,
-                    table_no = None,
+                    table_no = table_no,
                     shop_member = None,
                     final_additional=0,
                     final_discount=0
